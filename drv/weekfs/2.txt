@@ -1,0 +1,257 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "weekfs.h"
+#include <string.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <errno.h>
+#include <libgen.h>
+#include "dentry.h"
+
+hblock temp_header;
+dentry temp_dentry;
+
+len_t we_block_read(sblock* sb, bnum_t bnum, void* data, len_t len, len_t off)
+{
+    len_t size = (len <= sb->params.bsize - off)? len : sb->params.bsize - off;
+	sb->cache_seek(sizeof(sblock) + sizeof(hblock) * sb->params.bcount + sb->params.bsize *  bnum + off);
+	len_t readed = sb->cache_read(data, size);
+    return readed;
+}
+
+len_t we_block_write(sblock* sb, bnum_t bnum, const void* data, len_t len, len_t off)
+{
+	len_t size = (len <= sb->params.bsize - off)? len : sb->params.bsize - off;
+	sb->cache_seek(sizeof(sblock) + sizeof(hblock) * sb->params.bcount + sb->params.bsize *  bnum + off);
+	len_t writed = sb->cache_write(data, size);
+    return writed;
+}
+
+void we_superblock_init(sblock* sb, seek_func _seek, read_func _read, write_func _write)
+{
+	sb->cache_seek = _seek;
+	sb->cache_read = _read;
+	sb->cache_write =_write;
+}
+
+sblock* we_superblock_load(sblock* sb)
+{
+    sb->cache_seek(0);
+    sb->cache_read(&sb->params, sizeof(sbparams));
+    return sb;
+}
+
+void we_superblock_save(sblock* sb)
+{
+    sb->cache_seek(0);
+    sb->cache_write(&sb->params, sizeof(sbparams));
+}
+
+hblock* we_header_load(sblock* sb, hblock* header, bnum_t ind)
+{
+    sb->cache_seek(sizeof(sblock) + sizeof(hblock) * ind);
+    sb->cache_read(header, sizeof(hblock));
+    return header;
+}
+
+void we_header_save(sblock* sb, hblock* header, bnum_t ind)
+{
+    sb->cache_seek(sizeof(sblock) + sizeof(hblock) * ind);
+    sb->cache_write(header, sizeof(hblock));
+}
+
+bnum_t we_block_new(sblock* sb)
+{
+    for (bnum_t i = sb->alloc_start; i < sb->params.bcount; i++)
+    {
+		hblock* header = &temp_header;
+		we_header_load(sb, header, i);
+		if (header->type == TINY_FREE) return i;
+	}
+    return TINY_BAD_BNUM;
+}
+
+int_t path_total_parts(const char* path)
+{
+	int_t ind = 0;
+	int_t count = 0;
+	while (path[ind] != '\0')
+	{
+		if (path[ind] == '/') count++;
+		ind++;
+	}
+	return count;
+}
+
+int_t path_cmp(const char* path, const char* part, int_t partnum)
+{
+	int_t pathind = 0;
+	int_t partind = 0;
+	int_t count = 0;
+	int_t equal = 0;
+	while (path[pathind] != '\0')
+	{
+		if (path[pathind] == '/')
+		{
+			count++;
+			pathind++;
+			continue;
+		}
+		if (count == partnum)
+		{
+			if (path[pathind] != part[partind])
+				equal = -1;
+			if (part[partind] == '\0')
+				break;
+			partind++;
+		}
+		pathind++;
+	}
+	return equal;
+}
+
+bnum_t we_dentry_find(sblock* sb, const char* path, bnum_t* parent)
+{
+	*parent = 0;
+	dentry* dent = &temp_dentry;
+	int_t partcount = path_total_parts(path);
+	int_t parent_partind = 0;
+	for (int_t partind = 0; partind <= partcount; partind++)
+	{
+		int_t partfound = 0;
+		for (bnum_t bnum = 0; bnum < sb->params.bcount; bnum++)
+		{
+			hblock* header = &temp_header;
+			we_header_load(sb, header, bnum);
+			if (header->type == TINY_DENTRY && header->parent == *parent)
+			{
+				we_block_read(sb, bnum, dent, sizeof(dentry), 0);
+				if (path_cmp(path, dent->d_dirent.d_name, partind) == 0)
+				{
+					partfound = 1;
+					if (partind == partcount)
+						return bnum;
+					*parent = bnum;
+					parent_partind = partind;
+					break;	
+				}
+			}
+		}
+		if (!partfound)
+			break;
+	}
+	if (parent_partind != partcount - 1)
+			*parent = TINY_BAD_BNUM;
+    return TINY_BAD_BNUM;
+}
+
+errno_t we_dentry_create(sblock* sb, const char* path, void* data)
+{
+    bnum_t parent;
+    bnum_t self = we_dentry_find(sb, path, &parent);
+    if (parent == TINY_BAD_BNUM)
+		return -ENOENT;
+    if (self != TINY_BAD_BNUM)
+		return -EEXIST;
+    bnum_t i = we_block_new(sb);
+    if (i == TINY_BAD_BNUM)
+		return -ENOMEM;
+    hblock* header = &temp_header;
+    we_header_load(sb, header, i);
+    header->type = TINY_DENTRY;
+    header->parent = parent;
+    header->next = 0;
+    we_header_save(sb, header, i);
+    char* name = strrchr(path, '/');
+    name = (name[0] == '\0') ? name : name + 1;
+    strcpy(((dentry*)data)->d_dirent.d_name, name);
+    we_block_write(sb, i, data, sizeof(dentry), 0);
+    return 0;
+}
+
+len_t we_file_allocate(sblock* sb, bnum_t ndentry, len_t len)
+{
+	len_t allocated = 0;
+	hblock* header = &temp_header;
+	bnum_t prev = ndentry;
+	
+	while(allocated < len)
+	{
+		bnum_t next;
+		we_header_load(sb, header, prev);
+		if ((next = header->next) == 0)
+		{
+			next = we_block_new(sb);
+			if (next == TINY_BAD_BNUM)
+				break;
+			header->next = next;
+			we_header_save(sb, header, prev);
+		}
+		we_header_load(sb, header, next);
+		if (header->type = TINY_FREE)
+		{
+			header->type = TINY_DATA;
+			header->parent = TINY_BAD_BNUM;
+			header->next = 0;
+			we_header_save(sb, header, next);
+		}
+		allocated += sb->params.bsize;
+		prev = next;
+	}
+	return allocated;
+}
+
+len_t we_calcspace(sblock* sb, bnum_t ndentry)
+{
+	len_t space = 0;
+	hblock* header = &temp_header;
+	we_header_load(sb, header, ndentry);
+	bnum_t next;
+	while ((next = header->next) != 0)
+	{
+		we_header_load(sb, header, next);
+		space += sb->params.bsize;
+	}
+	return space;
+}
+
+errno_t we_unlink(sblock* sb, bnum_t ndentry)
+{
+	hblock* header = &temp_header;
+	we_header_load(sb, header, ndentry);
+	bnum_t cur = ndentry;
+	while (1)
+	{	
+		header->type = TINY_FREE;
+		we_header_save(sb, header, cur);
+		if ((cur = header->next) == 0) break;
+		we_header_load(sb, header, cur);
+	}
+	return 0;
+}
+
+len_t we_file_write(sblock* sb, bnum_t ndentry, const void* data, len_t len, len_t off)
+{
+	len_t alloc = we_file_allocate(sb, ndentry, len + off);
+	len_t newlen = alloc - off;
+	len_t writed = 0;
+	if (newlen < 0) return 0;
+
+	hblock* header = &temp_header;
+	we_header_load(sb, header, ndentry);
+	bnum_t cur;
+	len_t size = 0;
+	while ((cur = header->next) != 0 && writed < newlen)
+	{
+		we_header_load(sb, header, cur);
+		size += sb->params.bsize;
+		len_t block_off = off - (size - sb->params.bsize);
+		len_t block_len = size - (off + writed);
+		printf("write off=%d len=%d\n", block_off, block_len);
+		if (block_len <= sb->params.bsize)
+			writed += block_len;
+//			writed = +we_block_write(sb, cur, data + writed, block_len, block_off);
+		
+	}
+	return writed;
+}

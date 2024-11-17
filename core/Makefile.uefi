@@ -1,0 +1,17 @@
+# define which architecture you're targeting
+ARCH = x86_64
+# define your target file here
+TARGET = tinysys.efi
+#define your sources here
+SRCS = $(wildcard  libdl/*.c ../drv/tty/*.c syscalls/*.c ../drv/blk/*.c ../drv/fbgop/*.c ../drv/loop/*.c ./libdl/x86_64/*.c ../drv/weekfs/src/*.c ../drv/uefifs/*.c *.c )
+# define your default compiler flags
+CFLAGS = -Wall -Wextra --ansi -O2 -DUEFI=1 -DELF64 -Wno-unused-parameter -fomit-frame-pointer -I./include -I/usr/include/x86_64-linux-gnu/
+#-I/usr/include/x86_64-linux-gnu/
+# define your default linker flags
+#LDFLAGS =
+# define your additional libraries here
+#LIBS = -lm
+# leave the hard work and all the rest to posix-uefi
+# set this if you want GNU gcc + ld + objcopy instead of LLVM Clang + Lld
+#USE_GCC = 1
+include uefi/Makefile

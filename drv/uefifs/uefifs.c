@@ -1,0 +1,166 @@
+#include "../../core/uefi/uefi.h"
+#include "uefifs.h"
+
+char tmp[PATH_MAX];
+
+char* calcpath(const char* path)
+{
+    memset(tmp, 0x0, PATH_MAX);
+    strcpy(tmp, path);
+    errno_t i;
+    for (i = 0; tmp[i] != '\0'; i++)
+	if (tmp[i] == '/') tmp[i] = '\\';
+    return tmp;
+}
+
+errno_t uefifs_mknod(void* sbfs, const char *pathname, uid_t uid, gid_t gid, mode_t mode)
+{
+	return 0;
+}
+
+errno_t uefifs_modnod(void* sbfs, const char* pathname, uid_t uid, gid_t gid, mode_t mode)
+{
+	return 0;
+}
+
+errno_t uefifs_rmnod(void* sbfs, const char *pathname, uid_t curuid, gid_t curgid)
+{
+	return 0;
+}
+
+errno_t uefifs_truncate(void* sb, const char *pathname, len_t len)
+{
+	return 0;
+}
+
+errno_t uefifs_link(void* sb, const char* src, const char* dst, bool_t move, uid_t uid, gid_t gid)
+{
+	return 0;
+}
+
+len_t uefifs_fread(void* sbfs, const char* path, void* ptr, len_t size, len_t off)
+{
+	FILE* f = fopen(calcpath(path), "r");
+	if (!f)
+		return 0;
+	fseek(f, off, SEEK_SET);
+	len_t ret = fread(ptr, size, 1, f);
+	fclose(f);
+	return ret * size;
+}
+
+len_t uefifs_fwrite(void* sbfs, const char* path, const void* ptr, len_t size, len_t off)
+{
+	FILE* f = fopen(calcpath(path), "w");
+	if (!f)
+		return 0;
+	fseek(f, off, SEEK_SET);
+	len_t ret = fwrite(ptr, size, 1, f);
+	fclose(f);
+	return ret * size;
+}
+
+errno_t uefifs_stat(void* sbfs, const char* path, void* statbuf)
+{
+	struct stat st;
+	struct tinystat* tst = statbuf;
+	char* pathname = calcpath(path);
+	errno_t ret = stat(pathname, &st);
+	tst->st_mode = st.st_mode;
+	tst->st_size = st.st_size;
+	if (strcmp(pathname, "\\dev\\tty") == 0)
+	{
+		tst->st_mode = (tst->st_mode & ~S_IFMT) | S_IFCHR;
+		tst->st_major = 0;
+		tst->st_minor = 5;
+	}
+	if (strcmp(pathname, "\\dev\\sda") == 0)
+	{
+		tst->st_mode = (tst->st_mode & ~S_IFMT) | S_IFBLK;
+		tst->st_major = 8;
+		tst->st_minor = 0;
+	}
+	if (strcmp(pathname, "\\dev\\fb0") == 0)
+	{
+		tst->st_mode = (tst->st_mode & ~S_IFMT) | S_IFCHR;
+		tst->st_major = 29;
+		tst->st_minor = 0;
+	}
+#ifndef UEFI
+	tst->st_uid = st.st_uid;
+	tst->st_gid = st.st_gid;
+#endif
+	return ret;
+}
+
+struct tinydirent uefi_tinydent;
+void* uefifs_readdir(void* sbfs, const char* path, int ndx)
+{
+	char* pathname = calcpath(path);
+        DIR* dir = opendir(pathname);
+        if (!dir)
+                return NULL;
+        counter_t i;
+        struct dirent* dent;
+        for (i = 0; i <= (counter_t)ndx; i++)
+        {
+                dent = readdir(dir);
+                if (dent && i == (counter_t)ndx)
+                {
+                        strncpy(uefi_tinydent.d_name, dent->d_name, MAX_PATH_PART);
+                        closedir(dir);
+                        return &uefi_tinydent;
+                }
+        }
+        closedir(dir);
+        return NULL;
+}
+
+bool_t uefifs_can_read(void* sbfs, const char* path, uid_t uid, gid_t gid)
+{
+	return 1;
+}
+
+bool_t uefifs_can_write(void* sbfs, const char* path, uid_t uid, gid_t gid)
+{
+	return 1;
+}
+
+bool_t uefifs_can_execute(void* sbfs, const char* path, uid_t uid, gid_t gid)
+{
+	return 1;
+}
+
+errno_t  uefifs_mount(device* dev, mountpoint* mount, const char* options)
+{
+	mount->sbfs = NULL;
+	mount->mount_mknod = &uefifs_mknod;
+	mount->mount_modnod = &uefifs_modnod;
+	mount->mount_rmnod = &uefifs_rmnod;
+	mount->mount_link = &uefifs_link;
+	mount->mount_truncate = &uefifs_truncate;
+	mount->mount_stat =  &uefifs_stat;
+	mount->mount_fread = &uefifs_fread;
+	mount->mount_fwrite = &uefifs_fwrite;
+	mount->mount_readdir = &uefifs_readdir;
+	mount->mount_can_read = &uefifs_can_read;
+	mount->mount_can_write = &uefifs_can_write;
+	mount->mount_can_execute = &uefifs_can_execute;
+	return 0;
+}
+
+mode_t uefifs2tiny_fmode(mode_t mode)
+{
+    return mode;
+}
+
+
+mode_t tiny2uefifs_fmode(mode_t mode)
+{
+    return mode;
+}
+
+
+
+
+
