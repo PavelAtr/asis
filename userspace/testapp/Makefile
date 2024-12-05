@@ -20,10 +20,10 @@ all:
 	$(CC) $(CFLAGS) -fPIC passdb.c $(LDFLAGS) $(PREFIX)/lib/libpwd.so -o passdb
 
 
-#	$(CC) -DMAXSTRING=4096 -I./ -fPIC -g test.c ../tinylibc/alien/vsnprintf.c  ../tinylibc/alien/cvtdeps.c ../tinylibc/alien/modf.c ../tinylibc/stdio/snprintf.c  ../tinylibc/stdio/vfprintf.c -o test
+	$(CC) -DMAXSTRING=4096 -g ../tinylibc/alien/scanf.c  ../tinylibc/alien/input.c test.c -o test
 
 clean:
-	rm -f shell hello test touch wallpaper ls stat unlink id mkdir chown chmod testfork segfault *-static test-*
+	rm -f shell hello test touch wallpaper ls stat unlink id mkdir chown chmod testfork segfault test
 
 install:
 	mkdir -p $(DESTDIR)$(PREFIX)/bin

@@ -1,11 +1,15 @@
-#include <stdlib.h>
 #include <stdio.h>
+#include <pwd.h>
+
 
 int main(int argc, char** argv)
 {
-	char s[1024];
-	size_t size = snprintf(s, 100 ,"Hello world s=%s d=%d f=%f\n", "string", 1000, 1.0156);
-	puts(s);
+	struct passwd p;
+	FILE* dbpasswd = fopen("/etc/passwd", "r");
+	fscanf(dbpasswd, "%s:%s:%d:%d:%s:%s:%s", p.pw_name, p.pw_passwd,
+	        &p.pw_uid, &p.pw_gid, p.pw_gecos, p.pw_dir, p.pw_shell);
+	size_t size = fprintf(stdout, "%s:%s:%d:%d:%s:%s:%s", p.pw_name, p.pw_passwd,
+	    p.pw_uid, p.pw_gid, p.pw_gecos, p.pw_dir, p.pw_shell);
 
 	return size;
 }

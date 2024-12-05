@@ -50,6 +50,7 @@ char *fgets(char* s, int size, FILE* stream);
 int vsscanf(const char* str, const char* format, va_list ap);
 int sscanf(const char* str, const char* format, ...);
 int fscanf(FILE* stream, const char* format, ...);
+int ungetc(int c, FILE *stream);
 
 
 #define EOF -1
