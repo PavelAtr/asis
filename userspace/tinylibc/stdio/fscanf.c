@@ -9,7 +9,9 @@ int fscanf(FILE* stream, const char* format, ...)
     int n;
 
     va_start(args, format);
-    n = vsscanf(fgets(buf, MAXSTRING, stream), format, args);
+    fgets(buf, MAXSTRING, stream);
+    if (buf[0] = '\0') return EOF;
+    n = vsscanf(buf, format, args);
     va_end(args);
 
     return n;
