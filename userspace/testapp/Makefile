@@ -17,9 +17,10 @@ all:
 	$(CC) $(CFLAGS) -fPIC chown.c $(LDFLAGS) -o chown
 	$(CC) $(CFLAGS) -fPIC testfork.c $(LDFLAGS) -o testfork
 	$(CC) $(CFLAGS) -fPIC segfault.c $(LDFLAGS) -o segfault
+	$(CC) $(CFLAGS) -fPIC passdb.c $(LDFLAGS) $(PREFIX)/lib/libpwd.so -o passdb
 
 
-	$(CC) -DMAXSTRING=4096 -I./ -fPIC -g test.c ../tinylibc/alien/vsnprintf.c  ../tinylibc/alien/cvtdeps.c ../tinylibc/alien/modf.c ../tinylibc/stdio/snprintf.c  ../tinylibc/stdio/vfprintf.c -o test
+#	$(CC) -DMAXSTRING=4096 -I./ -fPIC -g test.c ../tinylibc/alien/vsnprintf.c  ../tinylibc/alien/cvtdeps.c ../tinylibc/alien/modf.c ../tinylibc/stdio/snprintf.c  ../tinylibc/stdio/vfprintf.c -o test
 
 clean:
 	rm -f shell hello test touch wallpaper ls stat unlink id mkdir chown chmod testfork segfault *-static test-*
@@ -40,6 +41,7 @@ install:
 	install chown $(DESTDIR)$(PREFIX)/bin/chown
 	install testfork $(DESTDIR)$(PREFIX)/bin/testfork
 	install segfault $(DESTDIR)$(PREFIX)/bin/segfault
+	install passdb $(DESTDIR)$(PREFIX)/bin/passdb
 
 
 

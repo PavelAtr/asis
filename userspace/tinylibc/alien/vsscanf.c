@@ -37,6 +37,8 @@
 #include <stdarg.h>
 #include <ctype.h>
 #include <sys/types.h>
+#include "cvt.h"
+#include <stdint.h>
 
 #define GETCH()           (++charcount, inc(stream))
 #define UNGETCH(ch)       (--charcount, uninc(ch, stream))
@@ -54,15 +56,15 @@ static int hextodec(int ch) {
   return isdigit(ch) ? ch : (ch & ~('a' - 'A')) - 'A' + 10 + '0';
 }
 
-static int inc(FILE *stream) {
-  return getc(stream);
+static int inc(const char* stream) {
+  return (char) *stream++;
 }
 
-static void uninc(int ch, FILE *stream) {
-  if (ch != EOF) ungetc(ch, stream);
+static void uninc(int ch, const char* stream) {
+  stream--;
 }
 
-static int skipws(int *counter, FILE *stream) {
+static int skipws(int *counter, const char* stream) {
   int ch;
 
   while (1) {
@@ -72,11 +74,11 @@ static int skipws(int *counter, FILE *stream) {
   }
 }
 
-int _input(FILE *stream, const unsigned char *format, va_list arglist) {
+int vsscanf(const char* stream, const char *format, va_list arglist) {
   char table[RANGESETSIZE];           // Which chars allowed for %[], %s
   char fltbuf[CVTBUFSIZE + 1];        // ASCII buffer for floats
   unsigned long number;               // Temp hold-value
-  unsigned __int64 num64;             // Temp for 64-bit integers
+  uint64_t num64;             // Temp for 64-bit integers
   void *pointer;                      // Points to user data receptacle
   void *start;                        // Indicate non-empty string
 
@@ -119,7 +121,7 @@ int _input(FILE *stream, const unsigned char *format, va_list arglist) {
     if (isspace(*format)) {
       UNGETCH(SKIPWS()); // Put first non-space char back
 
-      while ((isspace)(*++format));
+      while (isspace(*++format));
       // Careful: isspace macro may evaluate argument more than once!
     }
 
@@ -174,7 +176,7 @@ default_label:
       }
 
       if (!suppress) {
-        arglistsave = arglist;
+        va_copy(arglistsave, arglist);
         pointer = va_arg(arglist, void *);
       }
 
@@ -396,7 +398,7 @@ getnum:
                 }
               }
 
-              if (negative) num64 = (unsigned __int64 ) (-(__int64) num64);
+              if (negative) num64 = (uint64_t) -((uint64_t) num64);
             } else {
               while (!done_flag) {
                 if (comchr == 'x' || comchr == 'p') {
@@ -445,7 +447,7 @@ getnum:
                 ++count;
 assign_num:
                 if (integer64) {
-                  *(__int64 *) pointer = (unsigned __int64) num64;
+                  *(uint64_t *) pointer = (uint64_t) num64;
                 } else if (longone) {
                   *(long *) pointer = (unsigned long) number;
                 } else {
