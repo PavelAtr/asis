@@ -20,7 +20,7 @@ extern FILE* stdin;
 extern FILE* stdout;
 extern FILE* stderr;
 
-#define MAXSTRING (short)-1
+#define MAXSTRING (unsigned short)-1
 
 FILE* fopen(const char* pathname, const char* mode);
 FILE *fdopen(int fd, const char *mode);
@@ -47,6 +47,11 @@ int ferror(FILE *stream);
 int vfprintf(FILE* stream, const char* format, va_list ap);
 int vsprintf(char* str, const char* format, va_list ap);
 char *fgets(char* s, int size, FILE* stream);
+int vsscanf(const char* str, const char* format, va_list ap);
+int sscanf(const char* str, const char* format, ...);
+int fscanf(FILE* stream, const char* format, ...);
+
+
 #define EOF -1
 
 #endif
