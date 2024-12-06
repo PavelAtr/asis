@@ -8,9 +8,9 @@ char *fgets(char* s, int size, FILE* stream)
     {
 	c = getc(stream);
 	if (feof(stream))
-	    break;
-	if (c == '\n') break;
+	    return NULL;
 	s[i] = c;
+	if (c == '\n') break;
     }
     s[i] = '\0';
     return s;

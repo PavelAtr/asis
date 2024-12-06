@@ -31,10 +31,10 @@
 // SUCH DAMAGE.
 // 
 
+#include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <stdarg.h>
 #include <ctype.h>
 #include <sys/types.h>
 #include "cvt.h"
@@ -274,6 +274,7 @@ scanit2:
 
             while (!widthset || width--) {
               ch = GETCH();
+              if (ch == EOF) goto error_return;
               if (((table[ch >> 3] ^ reject) & (1 << (ch & 7)))) {
                 if (!suppress) {
                   *(char *) pointer = (char) ch;
@@ -580,13 +581,15 @@ f_incwidth2:
     }
 
     if ((ch == EOF) && ((*format != '%') || (*(format + 1) != 'n')))  break;
+//    if (ch == EOF)  break;
   }
 
 error_return:
 
   if (ch == EOF) {
     // If any fields were matched or assigned, return count
-    return (count || match) ? count : EOF;
+//    return (count || match) ? count : EOF;
+    return EOF;
   } else {
     return count;
   }

@@ -19,11 +19,12 @@ all:
 	$(CC) $(CFLAGS) -fPIC segfault.c $(LDFLAGS) -o segfault
 	$(CC) $(CFLAGS) -fPIC passdb.c $(LDFLAGS) $(PREFIX)/lib/libpwd.so -o passdb
 
-
-	$(CC) -DMAXSTRING=4096 -g ../tinylibc/alien/scanf.c  ../tinylibc/alien/input.c test.c -o test
+#	$(CC) -g -E ../tinylibc/alien/input.c | less
+	$(CC) -g ../tinylibc/alien/scanf.c  ../tinylibc/alien/input.c test.c -o test
+#	$(CC) -g test.c -o test
 
 clean:
-	rm -f shell hello test touch wallpaper ls stat unlink id mkdir chown chmod testfork segfault test
+	rm -f shell hello test touch wallpaper ls stat unlink id mkdir chown chmod testfork segfault passdb
 
 install:
 	mkdir -p $(DESTDIR)$(PREFIX)/bin

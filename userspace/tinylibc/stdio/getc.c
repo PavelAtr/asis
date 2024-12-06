@@ -4,6 +4,7 @@
 int getc(FILE* stream)
 {
     int ret;
-    fread(&ret, 1, 1, stream);
+    ret = fread(&ret, 1, 1, stream);
+    if (ret == 0) return EOF;
     return ret;
 }
