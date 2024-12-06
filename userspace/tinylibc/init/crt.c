@@ -37,7 +37,7 @@ void _start(int argc, char** argv, char** envp)
 
     const char* mask = getenv("UMASK");
     if (mask)
-        umask(atoi(8, mask));
+        umask(atoi(mask));
 
     int ret = main(argc, argv);
     atexit(ret);

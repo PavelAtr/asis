@@ -8,10 +8,12 @@
 
 len_t tty_read(void* devsb, void* ptr, len_t size)
 {
-    int ch = getchar();
-    *((int*)ptr) = ch;
+//    int ch = getchar();
+//    printf("%c", ch);
+//    *((int*)ptr) = ch;
 
-    return 1;
+//    return 1;
+	return fread(ptr, 1, 1, stdin);
 }
 
 len_t tty_write(void* devsb, const void* ptr, len_t size)

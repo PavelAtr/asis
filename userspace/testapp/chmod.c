@@ -13,7 +13,7 @@ int main(int argc, char** argv)
         return -1;
     }
 
-    mode_t mode = atoi(8, argv[1]);
+    mode_t mode = atoi(argv[1]);
 
     if (chmod(argv[2], mode))
     {

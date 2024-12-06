@@ -2,7 +2,7 @@
 
 char* digits = "0123456789abcdef";
 
-long degr(short base, unsigned int degree)
+long long degr(short base, unsigned int degree)
 {
     long ret = 1;
     int i;
@@ -20,17 +20,35 @@ short c2i(char digit)
     return 0;
 }
 
-long atoi(short base, const char* str)
+long long atoll(const char* str)
 {
+    short base = 10;
+    char neg = 0;
+    if (str[0] == '-')
+    {
+		str++;
+		neg = 1;
+    }
+    if (str[0] == '0' && str[1] == 'x')
+    {
+		str++;
+		str++;
+		base = 16;
+    }
+    if (str[0] == '0')
+    {
+		str++;
+		base = 8;
+    }
     int len = strlen(str);
     int degree;
     int ind;
-    long ret = 0;
+    long long ret = 0;
     for (ind = len - 1, degree = 0; ind >= 0; ind--, degree++)
-    {
-	if (str[ind] == '-')
+        ret += c2i(str[ind]) * degr(base, degree);
+
+    if (neg)
 	    return -ret;
-	ret += c2i(str[ind]) * degr(base, degree);
-    }
+
     return ret;
 }

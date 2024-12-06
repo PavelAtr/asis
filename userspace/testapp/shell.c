@@ -8,13 +8,6 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 
-#ifdef UEFI_KERNEL
-#define CR '\r'
-#else
-#define CR '\n'
-#endif
-
-
 char command[256];
 
 int echo = 0;
@@ -22,7 +15,8 @@ char ech[2] = {'\0', '\0'};
 
 char* getcommand()
 {
-    fgets(command, 255, stdin);
+    fgets(command, 256, stdin);
+//    command[strlen(command) - 1] = '\0';
     return command;
 }
 
@@ -48,7 +42,7 @@ int runcommand(char* cmd)
     if (strstr(cmd, cmd4) == cmd)
     {
 	char* param = &cmd[strlen(cmd4)];
-	int mask = atoi(8, param);
+	int mask = atoi(param);
         setenv("UMASK", param, 0);
 	return umask(mask);
     }
@@ -57,7 +51,7 @@ int runcommand(char* cmd)
     if (strstr(cmd, cmd5) == cmd)
     {
 	char* param = &cmd[strlen(cmd5)];
-	if (setuid(atoi(10, param)) == -1)
+	if (setuid(atoi(param)) == -1)
 	{
 	    puts(strerror(errno));
 	    puts("\n");
@@ -69,7 +63,7 @@ int runcommand(char* cmd)
     if (strstr(cmd, cmd6) == cmd)
     {
 	char* param = &cmd[strlen(cmd6)];
-	if (setgid(atoi(10, param)) == -1)
+	if (setgid(atoi(param)) == -1)
 	{
 	    puts(strerror(errno));
 	    puts("\n");
@@ -128,6 +122,7 @@ int main(int argc, char** argv)
     {
 	puts("> ");
 	char* cmd = getcommand();
+	fprintf(stdout, cmd);
 	if (strcmp(cmd, "exit") == 0) break;
 	runcommand(cmd);
     }

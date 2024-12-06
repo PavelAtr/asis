@@ -12,8 +12,8 @@ int main(int argc, char** argv)
         return -1;
     }
 
-    uid_t owner = atoi(10, argv[1]);
-    uid_t group = atoi(10, argv[2]);
+    uid_t owner = atoi(argv[1]);
+    uid_t group = atoi(argv[2]);
 
     if (chown(argv[3], owner, group))
     {

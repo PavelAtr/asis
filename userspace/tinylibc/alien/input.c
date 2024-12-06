@@ -581,15 +581,13 @@ f_incwidth2:
     }
 
     if ((ch == EOF) && ((*format != '%') || (*(format + 1) != 'n')))  break;
-//    if (ch == EOF)  break;
   }
 
 error_return:
 
   if (ch == EOF) {
     // If any fields were matched or assigned, return count
-//    return (count || match) ? count : EOF;
-    return EOF;
+    return (count || match) ? count : EOF;
   } else {
     return count;
   }

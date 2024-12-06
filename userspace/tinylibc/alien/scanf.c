@@ -72,8 +72,8 @@ int sscanf(const char *buffer, const char *fmt, ...) {
   FILE str;
 
   va_start(args, fmt);
-//  str.strbuf = (char *) buffer;
-//  str.size = strlen(buffer);
+  str.strbuf = (char *) buffer;
+  str.size = strlen(buffer);
   rc = _input(&str, fmt, args);
 
   return rc;
@@ -83,8 +83,8 @@ int vsscanf(const char *buffer, const char *fmt, va_list args) {
   int rc;
   FILE str;
 
-//  str.strbuf = (char *) buffer;
-//  str.size = strlen(buffer);
+  str.strbuf = (char *) buffer;
+  str.size = strlen(buffer);
   rc = _input(&str, fmt, args);
 
   return rc;

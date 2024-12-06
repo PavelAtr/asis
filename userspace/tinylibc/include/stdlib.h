@@ -10,7 +10,11 @@ void printenv(void);
 const char *getenv(const char *name);
 int setenv(const char *name, const char *value, int overwrite);
 int unsetenv(const char *name);
-long atoi(short base, const char* str);
+
+long long atoll(const char *str);
+#define atol(s) (long)atoll(s)
+#define atoi(s) (int)atoll(s)
+
 #define exit(s) _exit(s);
 double strtod(const char* nptr, char** endptr);
 
