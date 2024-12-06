@@ -10,6 +10,7 @@ typedef struct {
     size_t size;
     size_t pos;
     unsigned char flags;
+    char* strbuf;
 } FILE;
 
 #define FILE_EOF 0x01
