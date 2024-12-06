@@ -33,6 +33,7 @@
 
 #include <stdio.h>
 #include <stdarg.h>
+#include <string.h>
 
 int _input(FILE *stream, const unsigned char *format, va_list arglist);
 
@@ -72,10 +73,8 @@ int sscanf(const char *buffer, const char *fmt, ...) {
   FILE str;
 
   va_start(args, fmt);
-
-//  str.flag = _IORD | _IOSTR | _IOOWNBUF;
-//  str.ptr = str.base = (char *) buffer;
-//  str.cnt = strlen(buffer);
+  str.strbuf = (char *) buffer;
+  str.size = strlen(buffer);
   rc = _input(&str, fmt, args);
 
   return rc;
@@ -85,9 +84,8 @@ int vsscanf(const char *buffer, const char *fmt, va_list args) {
   int rc;
   FILE str;
 
-//  str.flag = _IORD | _IOSTR | _IOOWNBUF;
-//  str.ptr = str.base = (char *) buffer;
-//  str.cnt = strlen(buffer);
+  str.strbuf = (char *) buffer;
+  str.size = strlen(buffer);
   rc = _input(&str, fmt, args);
 
   return rc;
