@@ -19,8 +19,6 @@ all:
 	$(CC) $(CFLAGS) -fPIC segfault.c $(LDFLAGS) -o segfault
 	$(CC) $(CFLAGS) -fPIC passdb.c $(LDFLAGS) $(PREFIX)/lib/libpwd.so -o passdb
 
-#	$(CC) -g -E ../tinylibc/alien/input.c | less
-#	$(CC) -g ../tinylibc/alien/scanf.c  ../tinylibc/alien/input.c test.c -o test
 #	$(CC) -g test.c -o test
 	$(CC) -g ../libpwd/src/fgetpwent_r.c ../tinylibc/string/strtok.c test.c -o test
 

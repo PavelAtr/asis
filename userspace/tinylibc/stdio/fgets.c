@@ -13,6 +13,6 @@ char *fgets(char* s, int size, FILE* stream)
 		if (c == '\n')
 			break;
     }
-    s[i] = '\0';
+    s[i + 1] = '\0';
     return s;
 }

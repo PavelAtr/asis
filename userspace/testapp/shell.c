@@ -16,7 +16,7 @@ char ech[2] = {'\0', '\0'};
 char* getcommand()
 {
     fgets(command, 256, stdin);
-//    command[strlen(command) - 1] = '\0';
+    command[strlen(command) - 1] = '\0';
     return command;
 }
 
@@ -122,7 +122,6 @@ int main(int argc, char** argv)
     {
 	puts("> ");
 	char* cmd = getcommand();
-	fprintf(stdout, cmd);
 	if (strcmp(cmd, "exit") == 0) break;
 	runcommand(cmd);
     }
