@@ -24,8 +24,8 @@ size_t fread(void* ptr, size_t size, size_t nmemb, FILE* stream)
 
     ret = syscall(SYS_FREAD, stream->file, ptr, size * nmemb, stream->pos);
     stream->pos += ret;
-    if (stream->pos > stream->size)
-	stream->flags |= FILE_EOF;
+    if (stream->pos >= stream->size)
+		stream->flags |= FILE_EOF;
 end:
 //    if (!ret) usleep(1);
     return ret;

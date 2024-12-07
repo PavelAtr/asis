@@ -16,8 +16,10 @@ int fgetpwent_r(FILE * stream, struct passwd * pwbuf,
 	buf[strlen(buf) - 1] = '\0';	
 	pwbuf->pw_name = strtok(buf, ":");
 	pwbuf->pw_passwd = strtok(NULL, ":");
-	pwbuf->pw_uid = atoi(strtok(NULL, ":"));
-	pwbuf->pw_gid = atoi(strtok(NULL, ":"));
+	pwbuf->pw_uid = 0;  //= atoi(strtok(NULL, ":"));
+	pwbuf->pw_gid = 0; //= atoi(strtok(NULL, ":"));
+	strtok(NULL, ":");
+	strtok(NULL, ":");
 	pwbuf->pw_gecos = strtok(NULL, ":");
 	pwbuf->pw_dir = strtok(NULL, ":");
 	pwbuf->pw_shell = strtok(NULL, ":");

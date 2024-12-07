@@ -4,7 +4,7 @@
 
 int main(int argc, char** argv)
 {
-	FILE* passwd = fopen("/etc/passwd", "r");
+	FILE* passwd = fopen("/tinysys/testpasswd", "r");
 	char buf[1024];
 	struct passwd* p;
 	struct passwd in;
