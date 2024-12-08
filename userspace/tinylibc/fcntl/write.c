@@ -6,11 +6,9 @@
 
 ssize_t write(int f, const void* buf, size_t count)
 {
-    if (!fd_is_valid(f))
-    {
+  if (!fd_is_valid(f)) {
     set_errno(BADFD);
     return -1;
-    }
-
-    return fwrite(buf, count, 1, fds[f].stream);
+  }
+  return fwrite(buf, count, 1, fds[f].stream);
 }

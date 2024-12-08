@@ -17,35 +17,35 @@ void init_memory(void* base, size_t size)
 void *sys_mmap(void* addr, size_t size, int prot, int flags, int f, off_t offset)
 {
 #ifdef UEFI
-    return malloc(size);
+  return malloc(size);
 #else
-	return mmap(addr, size, prot, flags, f, offset);
+  return mmap(addr, size, prot, flags, f, offset);
 #endif
 }
 
 int sys_munmap(void* addr, size_t length)
 {
 #ifdef UEFI
-    free(addr);
-    return 0;
+  free(addr);
+  return 0;
 #else
-	return munmap(addr, length);
+  return munmap(addr, length);
 #endif
 }
 
 
 void* sys_malloc(size_t size)
 {
-	return malloc(size); 
+  return malloc(size);
 }
 
 void sys_free(void *ptr)
 {
-	free(ptr);
+  free(ptr);
 }
 
 size_t free_memory(void)
 {
-	return 0;
+  return 0;
 }
 

@@ -4,8 +4,8 @@
 
 int fclose(FILE *stream)
 {
-    free(stream->file);
-    free(stream);
-    stream = NULL;
-    return 0;
+  free(stream->file);
+  free(stream);
+  stream = NULL;
+  return 0;
 }

@@ -2,5 +2,5 @@
 
 inline long ftell(FILE* stream)
 {
-	return stream->pos;
+  return stream->pos;
 }

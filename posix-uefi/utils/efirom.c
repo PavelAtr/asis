@@ -42,10 +42,11 @@
  *
  * @v program_name	Program name
  */
-static void print_help ( const char *program_name ) {
-	eprintf ( "POSIX-UEFI utils - efirom by Michael Brown GPL\r\n\r\n" );
-	eprintf ( "%s [--vendor=VVVV] [--device=DDDD] "
-		  "infile outfile\n", program_name );
+static void print_help ( const char *program_name )
+{
+  eprintf ( "POSIX-UEFI utils - efirom by Michael Brown GPL\r\n\r\n" );
+  eprintf ( "%s [--vendor=VVVV] [--device=DDDD] "
+            "infile outfile\n", program_name );
 }
 
 #define EFI_SIGNATURE_16(A,B)             ((A) | (B<<8))
@@ -55,9 +56,9 @@ typedef uint64_t    UINTN;
 typedef UINTN       EFI_TPL;
 
 typedef struct _EFI_DEVICE_PATH_PROTOCOL {
-        uint8_t                           Type;
-        uint8_t                           SubType;
-        uint8_t                           Length[2];
+  uint8_t                           Type;
+  uint8_t                           SubType;
+  uint8_t                           Length[2];
 } EFI_DEVICE_PATH_PROTOCOL;
 
 typedef struct _EFI_DEVICE_PATH_PROTOCOL _EFI_DEVICE_PATH;
@@ -91,8 +92,8 @@ Revision History
 //
 
 typedef struct _LIST_ENTRY {
-    struct _LIST_ENTRY  *Flink;
-    struct _LIST_ENTRY  *Blink;
+  struct _LIST_ENTRY  *Flink;
+  struct _LIST_ENTRY  *Blink;
 } LIST_ENTRY;
 
 #endif
@@ -135,12 +136,12 @@ typedef struct _LIST_ENTRY {
         }
 
 #if EFI_DEBUG
-    #define RemoveEntryList(Entry)                      \
+#define RemoveEntryList(Entry)                      \
         _RemoveEntryList(Entry);                        \
         (Entry)->Flink = (LIST_ENTRY *) BAD_POINTER;    \
         (Entry)->Blink = (LIST_ENTRY *) BAD_POINTER;
 #else
-    #define RemoveEntryList(Entry)      \
+#define RemoveEntryList(Entry)      \
         _RemoveEntryList(Entry);
 #endif
 
@@ -218,12 +219,12 @@ typedef struct _LIST_ENTRY {
     ((TYPE *) ( (CHAR8 *)(Record) - (CHAR8 *) &(((TYPE *) 0)->Field)))
 
 #if EFI_DEBUG
-    #define CR(Record, TYPE, Field, Sig)     \
+#define CR(Record, TYPE, Field, Sig)     \
         _CR(Record, TYPE, Field)->Signature != Sig ?        \
             (TYPE *) ASSERT_STRUCT(_CR(Record, TYPE, Field), Record) : \
             _CR(Record, TYPE, Field)
 #else
-    #define CR(Record, TYPE, Field, Signature)   \
+#define CR(Record, TYPE, Field, Signature)   \
         _CR(Record, TYPE, Field)
 #endif
 
@@ -233,9 +234,9 @@ typedef struct _LIST_ENTRY {
 //
 
 typedef struct _FLOCK {
-    EFI_TPL     Tpl;
-    EFI_TPL     OwnerTpl;
-    UINTN       Lock;
+  EFI_TPL     Tpl;
+  EFI_TPL     OwnerTpl;
+  UINTN       Lock;
 } FLOCK;
 
 #endif
@@ -254,72 +255,72 @@ typedef struct _FLOCK {
 
 
 typedef struct _IMAGE_DOS_HEADER {      // DOS .EXE header
-    uint16_t   e_magic;                     // Magic number
-    uint16_t   e_cblp;                      // Bytes on last page of file
-    uint16_t   e_cp;                        // Pages in file
-    uint16_t   e_crlc;                      // Relocations
-    uint16_t   e_cparhdr;                   // Size of header in paragraphs
-    uint16_t   e_minalloc;                  // Minimum extra paragraphs needed
-    uint16_t   e_maxalloc;                  // Maximum extra paragraphs needed
-    uint16_t   e_ss;                        // Initial (relative) SS value
-    uint16_t   e_sp;                        // Initial SP value
-    uint16_t   e_csum;                      // Checksum
-    uint16_t   e_ip;                        // Initial IP value
-    uint16_t   e_cs;                        // Initial (relative) CS value
-    uint16_t   e_lfarlc;                    // File address of relocation table
-    uint16_t   e_ovno;                      // Overlay number
-    uint16_t   e_res[4];                    // Reserved words
-    uint16_t   e_oemid;                     // OEM identifier (for e_oeminfo)
-    uint16_t   e_oeminfo;                   // OEM information; e_oemid specific
-    uint16_t   e_res2[10];                  // Reserved words
-    uint32_t   e_lfanew;                    // File address of new exe header
-  } IMAGE_DOS_HEADER, *PIMAGE_DOS_HEADER;
+  uint16_t   e_magic;                     // Magic number
+  uint16_t   e_cblp;                      // Bytes on last page of file
+  uint16_t   e_cp;                        // Pages in file
+  uint16_t   e_crlc;                      // Relocations
+  uint16_t   e_cparhdr;                   // Size of header in paragraphs
+  uint16_t   e_minalloc;                  // Minimum extra paragraphs needed
+  uint16_t   e_maxalloc;                  // Maximum extra paragraphs needed
+  uint16_t   e_ss;                        // Initial (relative) SS value
+  uint16_t   e_sp;                        // Initial SP value
+  uint16_t   e_csum;                      // Checksum
+  uint16_t   e_ip;                        // Initial IP value
+  uint16_t   e_cs;                        // Initial (relative) CS value
+  uint16_t   e_lfarlc;                    // File address of relocation table
+  uint16_t   e_ovno;                      // Overlay number
+  uint16_t   e_res[4];                    // Reserved words
+  uint16_t   e_oemid;                     // OEM identifier (for e_oeminfo)
+  uint16_t   e_oeminfo;                   // OEM information; e_oemid specific
+  uint16_t   e_res2[10];                  // Reserved words
+  uint32_t   e_lfanew;                    // File address of new exe header
+} IMAGE_DOS_HEADER, *PIMAGE_DOS_HEADER;
 
 typedef struct _IMAGE_OS2_HEADER {      // OS/2 .EXE header
-    uint16_t   ne_magic;                    // Magic number
-    uint8_t    ne_ver;                      // Version number
-    uint8_t    ne_rev;                      // Revision number
-    uint16_t   ne_enttab;                   // Offset of Entry Table
-    uint16_t   ne_cbenttab;                 // Number of bytes in Entry Table
-    uint32_t   ne_crc;                      // Checksum of whole file
-    uint16_t   ne_flags;                    // Flag uint16_t
-    uint16_t   ne_autodata;                 // Automatic data segment number
-    uint16_t   ne_heap;                     // Initial heap allocation
-    uint16_t   ne_stack;                    // Initial stack allocation
-    uint32_t   ne_csip;                     // Initial CS:IP setting
-    uint32_t   ne_sssp;                     // Initial SS:SP setting
-    uint16_t   ne_cseg;                     // Count of file segments
-    uint16_t   ne_cmod;                     // Entries in Module Reference Table
-    uint16_t   ne_cbnrestab;                // Size of non-resident name table
-    uint16_t   ne_segtab;                   // Offset of Segment Table
-    uint16_t   ne_rsrctab;                  // Offset of Resource Table
-    uint16_t   ne_restab;                   // Offset of resident name table
-    uint16_t   ne_modtab;                   // Offset of Module Reference Table
-    uint16_t   ne_imptab;                   // Offset of Imported Names Table
-    uint32_t   ne_nrestab;                  // Offset of Non-resident Names Table
-    uint16_t   ne_cmovent;                  // Count of movable entries
-    uint16_t   ne_align;                    // Segment alignment shift count
-    uint16_t   ne_cres;                     // Count of resource segments
-    uint8_t    ne_exetyp;                   // Target Operating system
-    uint8_t    ne_flagsothers;              // Other .EXE flags
-    uint16_t   ne_pretthunks;               // offset to return thunks
-    uint16_t   ne_psegrefbytes;             // offset to segment ref. bytes
-    uint16_t   ne_swaparea;                 // Minimum code swap area size
-    uint16_t   ne_expver;                   // Expected Windows version number
-  } IMAGE_OS2_HEADER, *PIMAGE_OS2_HEADER;
+  uint16_t   ne_magic;                    // Magic number
+  uint8_t    ne_ver;                      // Version number
+  uint8_t    ne_rev;                      // Revision number
+  uint16_t   ne_enttab;                   // Offset of Entry Table
+  uint16_t   ne_cbenttab;                 // Number of bytes in Entry Table
+  uint32_t   ne_crc;                      // Checksum of whole file
+  uint16_t   ne_flags;                    // Flag uint16_t
+  uint16_t   ne_autodata;                 // Automatic data segment number
+  uint16_t   ne_heap;                     // Initial heap allocation
+  uint16_t   ne_stack;                    // Initial stack allocation
+  uint32_t   ne_csip;                     // Initial CS:IP setting
+  uint32_t   ne_sssp;                     // Initial SS:SP setting
+  uint16_t   ne_cseg;                     // Count of file segments
+  uint16_t   ne_cmod;                     // Entries in Module Reference Table
+  uint16_t   ne_cbnrestab;                // Size of non-resident name table
+  uint16_t   ne_segtab;                   // Offset of Segment Table
+  uint16_t   ne_rsrctab;                  // Offset of Resource Table
+  uint16_t   ne_restab;                   // Offset of resident name table
+  uint16_t   ne_modtab;                   // Offset of Module Reference Table
+  uint16_t   ne_imptab;                   // Offset of Imported Names Table
+  uint32_t   ne_nrestab;                  // Offset of Non-resident Names Table
+  uint16_t   ne_cmovent;                  // Count of movable entries
+  uint16_t   ne_align;                    // Segment alignment shift count
+  uint16_t   ne_cres;                     // Count of resource segments
+  uint8_t    ne_exetyp;                   // Target Operating system
+  uint8_t    ne_flagsothers;              // Other .EXE flags
+  uint16_t   ne_pretthunks;               // offset to return thunks
+  uint16_t   ne_psegrefbytes;             // offset to segment ref. bytes
+  uint16_t   ne_swaparea;                 // Minimum code swap area size
+  uint16_t   ne_expver;                   // Expected Windows version number
+} IMAGE_OS2_HEADER, *PIMAGE_OS2_HEADER;
 
 //
 // File header format.
 //
 
 typedef struct _IMAGE_FILE_HEADER {
-    uint16_t   Machine;
-    uint16_t   NumberOfSections;
-    uint32_t   TimeDateStamp;
-    uint32_t   PointerToSymbolTable;
-    uint32_t   NumberOfSymbols;
-    uint16_t   SizeOfOptionalHeader;
-    uint16_t   Characteristics;
+  uint16_t   Machine;
+  uint16_t   NumberOfSections;
+  uint32_t   TimeDateStamp;
+  uint32_t   PointerToSymbolTable;
+  uint32_t   NumberOfSymbols;
+  uint16_t   SizeOfOptionalHeader;
+  uint16_t   Characteristics;
 } IMAGE_FILE_HEADER, *PIMAGE_FILE_HEADER;
 
 #define IMAGE_SIZEOF_FILE_HEADER             20
@@ -351,8 +352,8 @@ typedef struct _IMAGE_FILE_HEADER {
 //
 
 typedef struct _IMAGE_DATA_DIRECTORY {
-    uint32_t   VirtualAddress;
-    uint32_t   Size;
+  uint32_t   VirtualAddress;
+  uint32_t   Size;
 } IMAGE_DATA_DIRECTORY, *PIMAGE_DATA_DIRECTORY;
 
 #define IMAGE_NUMBEROF_DIRECTORY_ENTRIES    16
@@ -362,62 +363,62 @@ typedef struct _IMAGE_DATA_DIRECTORY {
 //
 
 typedef struct _IMAGE_OPTIONAL_HEADER {
-    //
-    // Standard fields.
-    //
+  //
+  // Standard fields.
+  //
 
-    uint16_t    Magic;
-    uint8_t     MajorLinkerVersion;
-    uint8_t     MinorLinkerVersion;
-    uint32_t    SizeOfCode;
-    uint32_t    SizeOfInitializedData;
-    uint32_t    SizeOfUninitializedData;
-    uint32_t    AddressOfEntryPoint;
-    uint32_t    BaseOfCode;
-    uint32_t    BaseOfData;
+  uint16_t    Magic;
+  uint8_t     MajorLinkerVersion;
+  uint8_t     MinorLinkerVersion;
+  uint32_t    SizeOfCode;
+  uint32_t    SizeOfInitializedData;
+  uint32_t    SizeOfUninitializedData;
+  uint32_t    AddressOfEntryPoint;
+  uint32_t    BaseOfCode;
+  uint32_t    BaseOfData;
 
-    //
-    // NT additional fields.
-    //
+  //
+  // NT additional fields.
+  //
 
-    uint32_t   ImageBase;
-    uint32_t   SectionAlignment;
-    uint32_t   FileAlignment;
-    uint16_t   MajorOperatingSystemVersion;
-    uint16_t   MinorOperatingSystemVersion;
-    uint16_t   MajorImageVersion;
-    uint16_t   MinorImageVersion;
-    uint16_t   MajorSubsystemVersion;
-    uint16_t   MinorSubsystemVersion;
-    uint32_t   Reserved1;
-    uint32_t   SizeOfImage;
-    uint32_t   SizeOfHeaders;
-    uint32_t   CheckSum;
-    uint16_t   Subsystem;
-    uint16_t   DllCharacteristics;
-    uint32_t   SizeOfStackReserve;
-    uint32_t   SizeOfStackCommit;
-    uint32_t   SizeOfHeapReserve;
-    uint32_t   SizeOfHeapCommit;
-    uint32_t   LoaderFlags;
-    uint32_t   NumberOfRvaAndSizes;
-    IMAGE_DATA_DIRECTORY DataDirectory[IMAGE_NUMBEROF_DIRECTORY_ENTRIES];
+  uint32_t   ImageBase;
+  uint32_t   SectionAlignment;
+  uint32_t   FileAlignment;
+  uint16_t   MajorOperatingSystemVersion;
+  uint16_t   MinorOperatingSystemVersion;
+  uint16_t   MajorImageVersion;
+  uint16_t   MinorImageVersion;
+  uint16_t   MajorSubsystemVersion;
+  uint16_t   MinorSubsystemVersion;
+  uint32_t   Reserved1;
+  uint32_t   SizeOfImage;
+  uint32_t   SizeOfHeaders;
+  uint32_t   CheckSum;
+  uint16_t   Subsystem;
+  uint16_t   DllCharacteristics;
+  uint32_t   SizeOfStackReserve;
+  uint32_t   SizeOfStackCommit;
+  uint32_t   SizeOfHeapReserve;
+  uint32_t   SizeOfHeapCommit;
+  uint32_t   LoaderFlags;
+  uint32_t   NumberOfRvaAndSizes;
+  IMAGE_DATA_DIRECTORY DataDirectory[IMAGE_NUMBEROF_DIRECTORY_ENTRIES];
 } IMAGE_OPTIONAL_HEADER, *PIMAGE_OPTIONAL_HEADER;
 
 typedef struct _IMAGE_ROM_OPTIONAL_HEADER {
-    uint16_t  Magic;
-    uint8_t   MajorLinkerVersion;
-    uint8_t   MinorLinkerVersion;
-    uint32_t  SizeOfCode;
-    uint32_t  SizeOfInitializedData;
-    uint32_t  SizeOfUninitializedData;
-    uint32_t  AddressOfEntryPoint;
-    uint32_t  BaseOfCode;
-    uint32_t  BaseOfData;
-    uint32_t  BaseOfBss;
-    uint32_t  GprMask;
-    uint32_t  CprMask[4];
-    uint32_t  GpValue;
+  uint16_t  Magic;
+  uint8_t   MajorLinkerVersion;
+  uint8_t   MinorLinkerVersion;
+  uint32_t  SizeOfCode;
+  uint32_t  SizeOfInitializedData;
+  uint32_t  SizeOfUninitializedData;
+  uint32_t  AddressOfEntryPoint;
+  uint32_t  BaseOfCode;
+  uint32_t  BaseOfData;
+  uint32_t  BaseOfBss;
+  uint32_t  GprMask;
+  uint32_t  CprMask[4];
+  uint32_t  GpValue;
 } IMAGE_ROM_OPTIONAL_HEADER, *PIMAGE_ROM_OPTIONAL_HEADER;
 
 #define IMAGE_SIZEOF_ROM_OPTIONAL_HEADER      56
@@ -428,14 +429,14 @@ typedef struct _IMAGE_ROM_OPTIONAL_HEADER {
 #define IMAGE_ROM_OPTIONAL_HDR_MAGIC       0x107
 
 typedef struct _IMAGE_NT_HEADERS {
-    uint32_t Signature;
-    IMAGE_FILE_HEADER FileHeader;
-    IMAGE_OPTIONAL_HEADER OptionalHeader;
+  uint32_t Signature;
+  IMAGE_FILE_HEADER FileHeader;
+  IMAGE_OPTIONAL_HEADER OptionalHeader;
 } IMAGE_NT_HEADERS, *PIMAGE_NT_HEADERS;
 
 typedef struct _IMAGE_ROM_HEADERS {
-    IMAGE_FILE_HEADER FileHeader;
-    IMAGE_ROM_OPTIONAL_HEADER OptionalHeader;
+  IMAGE_FILE_HEADER FileHeader;
+  IMAGE_ROM_OPTIONAL_HEADER OptionalHeader;
 } IMAGE_ROM_HEADERS, *PIMAGE_ROM_HEADERS;
 
 #define IMAGE_FIRST_SECTION( ntheader ) ((PIMAGE_SECTION_HEADER)        \
@@ -476,19 +477,19 @@ typedef struct _IMAGE_ROM_HEADERS {
 #define IMAGE_SIZEOF_SHORT_NAME              8
 
 typedef struct _IMAGE_SECTION_HEADER {
-    uint8_t   Name[IMAGE_SIZEOF_SHORT_NAME];
-    union {
-            uint32_t   PhysicalAddress;
-            uint32_t   VirtualSize;
-    } Misc;
-    uint32_t   VirtualAddress;
-    uint32_t   SizeOfRawData;
-    uint32_t   PointerToRawData;
-    uint32_t   PointerToRelocations;
-    uint32_t   PointerToLinenumbers;
-    uint16_t   NumberOfRelocations;
-    uint16_t   NumberOfLinenumbers;
-    uint32_t   Characteristics;
+  uint8_t   Name[IMAGE_SIZEOF_SHORT_NAME];
+  union {
+    uint32_t   PhysicalAddress;
+    uint32_t   VirtualSize;
+  } Misc;
+  uint32_t   VirtualAddress;
+  uint32_t   SizeOfRawData;
+  uint32_t   PointerToRawData;
+  uint32_t   PointerToRelocations;
+  uint32_t   PointerToLinenumbers;
+  uint16_t   NumberOfRelocations;
+  uint16_t   NumberOfLinenumbers;
+  uint32_t   Characteristics;
 } IMAGE_SECTION_HEADER, *PIMAGE_SECTION_HEADER;
 
 #define IMAGE_SIZEOF_SECTION_HEADER          40
@@ -631,9 +632,9 @@ typedef struct _IMAGE_SECTION_HEADER {
 //
 
 typedef struct _IMAGE_RELOCATION {
-    uint32_t   VirtualAddress;
-    uint32_t   SymbolTableIndex;
-    uint16_t    Type;
+  uint32_t   VirtualAddress;
+  uint32_t   SymbolTableIndex;
+  uint16_t    Type;
 } IMAGE_RELOCATION;
 
 #define IMAGE_SIZEOF_RELOCATION              10
@@ -726,8 +727,8 @@ typedef struct _IMAGE_RELOCATION {
 //
 
 typedef struct _IMAGE_BASE_RELOCATION {
-    uint32_t   VirtualAddress;
-    uint32_t   SizeOfBlock;
+  uint32_t   VirtualAddress;
+  uint32_t   SizeOfBlock;
 //  uint16_t    TypeOffset[1];
 } IMAGE_BASE_RELOCATION, *PIMAGE_BASE_RELOCATION;
 
@@ -751,11 +752,11 @@ typedef struct _IMAGE_BASE_RELOCATION {
 //
 
 typedef struct _IMAGE_LINENUMBER {
-    union {
-        uint32_t   SymbolTableIndex;               // Symbol table index of function name if Linenumber is 0.
-        uint32_t   VirtualAddress;                 // Virtual address of line number.
-    } Type;
-    uint16_t    Linenumber;                         // Line number.
+  union {
+    uint32_t   SymbolTableIndex;               // Symbol table index of function name if Linenumber is 0.
+    uint32_t   VirtualAddress;                 // Virtual address of line number.
+  } Type;
+  uint16_t    Linenumber;                         // Line number.
 } IMAGE_LINENUMBER;
 
 #define IMAGE_SIZEOF_LINENUMBER              6
@@ -772,13 +773,13 @@ typedef struct _IMAGE_LINENUMBER {
 #define IMAGE_ARCHIVE_LONGNAMES_MEMBER       "//              "
 
 typedef struct _IMAGE_ARCHIVE_MEMBER_HEADER {
-    uint8_t     Name[16];                          // File member name - `/' terminated.
-    uint8_t     Date[12];                          // File member date - decimal.
-    uint8_t     UserID[6];                         // File member user id - decimal.
-    uint8_t     GroupID[6];                        // File member group id - decimal.
-    uint8_t     Mode[8];                           // File member mode - octal.
-    uint8_t     Size[10];                          // File member size - decimal.
-    uint8_t     EndHeader[2];                      // String to end header.
+  uint8_t     Name[16];                          // File member name - `/' terminated.
+  uint8_t     Date[12];                          // File member date - decimal.
+  uint8_t     UserID[6];                         // File member user id - decimal.
+  uint8_t     GroupID[6];                        // File member group id - decimal.
+  uint8_t     Mode[8];                           // File member mode - octal.
+  uint8_t     Size[10];                          // File member size - decimal.
+  uint8_t     EndHeader[2];                      // String to end header.
 } IMAGE_ARCHIVE_MEMBER_HEADER, *PIMAGE_ARCHIVE_MEMBER_HEADER;
 
 #define IMAGE_SIZEOF_ARCHIVE_MEMBER_HDR      60
@@ -792,17 +793,17 @@ typedef struct _IMAGE_ARCHIVE_MEMBER_HEADER {
 //
 
 typedef struct _IMAGE_EXPORT_DIRECTORY {
-    uint32_t   Characteristics;
-    uint32_t   TimeDateStamp;
-    uint16_t   MajorVersion;
-    uint16_t   MinorVersion;
-    uint32_t   Name;
-    uint32_t   Base;
-    uint32_t   NumberOfFunctions;
-    uint32_t   NumberOfNames;
-    uint32_t   *AddressOfFunctions;
-    uint32_t   *AddressOfNames;
-    uint32_t   *AddressOfNameOrdinals;
+  uint32_t   Characteristics;
+  uint32_t   TimeDateStamp;
+  uint16_t   MajorVersion;
+  uint16_t   MinorVersion;
+  uint32_t   Name;
+  uint32_t   Base;
+  uint32_t   NumberOfFunctions;
+  uint32_t   NumberOfNames;
+  uint32_t   *AddressOfFunctions;
+  uint32_t   *AddressOfNames;
+  uint32_t   *AddressOfNameOrdinals;
 } IMAGE_EXPORT_DIRECTORY, *PIMAGE_EXPORT_DIRECTORY;
 
 //
@@ -810,16 +811,16 @@ typedef struct _IMAGE_EXPORT_DIRECTORY {
 //
 
 typedef struct _IMAGE_IMPORT_BY_NAME {
-    uint16_t    Hint;
-    uint8_t     Name[1];
+  uint16_t    Hint;
+  uint8_t     Name[1];
 } IMAGE_IMPORT_BY_NAME, *PIMAGE_IMPORT_BY_NAME;
 
 typedef struct _IMAGE_THUNK_DATA {
-    union {
-        uint32_t Function;
-        uint32_t Ordinal;
-        PIMAGE_IMPORT_BY_NAME AddressOfData;
-    } u1;
+  union {
+    uint32_t Function;
+    uint32_t Ordinal;
+    PIMAGE_IMPORT_BY_NAME AddressOfData;
+  } u1;
 } IMAGE_THUNK_DATA, *PIMAGE_THUNK_DATA;
 
 #define IMAGE_ORDINAL_FLAG 0x80000000
@@ -827,11 +828,11 @@ typedef struct _IMAGE_THUNK_DATA {
 #define IMAGE_ORDINAL(Ordinal) (Ordinal & 0xffff)
 
 typedef struct _IMAGE_IMPORT_DESCRIPTOR {
-    uint32_t   Characteristics;
-    uint32_t   TimeDateStamp;
-    uint32_t   ForwarderChain;
-    uint32_t   Name;
-    PIMAGE_THUNK_DATA FirstThunk;
+  uint32_t   Characteristics;
+  uint32_t   TimeDateStamp;
+  uint32_t   ForwarderChain;
+  uint32_t   Name;
+  PIMAGE_THUNK_DATA FirstThunk;
 } IMAGE_IMPORT_DESCRIPTOR, *PIMAGE_IMPORT_DESCRIPTOR;
 
 #endif
@@ -873,58 +874,58 @@ Revision History
 
 #pragma pack(1)
 typedef struct {
-    uint16_t      VendorId;
-    uint16_t      DeviceId;
-    uint16_t      Command;
-    uint16_t      Status;
-    uint8_t       RevisionID;
-    uint8_t       ClassCode[3];
-    uint8_t       CacheLineSize;
-    uint8_t       LaytencyTimer;
-    uint8_t       HeaderType;
-    uint8_t       BIST;
+  uint16_t      VendorId;
+  uint16_t      DeviceId;
+  uint16_t      Command;
+  uint16_t      Status;
+  uint8_t       RevisionID;
+  uint8_t       ClassCode[3];
+  uint8_t       CacheLineSize;
+  uint8_t       LaytencyTimer;
+  uint8_t       HeaderType;
+  uint8_t       BIST;
 } PCI_DEVICE_INDEPENDENT_REGION;
 
 typedef struct {
-    uint32_t      Bar[6];
-    uint32_t      CISPtr;
-    uint16_t      SubsystemVendorID;
-    uint16_t      SubsystemID;
-    uint32_t      ExpansionRomBar;
-    uint32_t      Reserved[2];
-    uint8_t       InterruptLine;
-    uint8_t       InterruptPin;
-    uint8_t       MinGnt;
-    uint8_t       MaxLat;
+  uint32_t      Bar[6];
+  uint32_t      CISPtr;
+  uint16_t      SubsystemVendorID;
+  uint16_t      SubsystemID;
+  uint32_t      ExpansionRomBar;
+  uint32_t      Reserved[2];
+  uint8_t       InterruptLine;
+  uint8_t       InterruptPin;
+  uint8_t       MinGnt;
+  uint8_t       MaxLat;
 } PCI_DEVICE_HEADER_TYPE_REGION;
 
 typedef struct {
-    PCI_DEVICE_INDEPENDENT_REGION   Hdr;
-    PCI_DEVICE_HEADER_TYPE_REGION   Device;
+  PCI_DEVICE_INDEPENDENT_REGION   Hdr;
+  PCI_DEVICE_HEADER_TYPE_REGION   Device;
 } PCI_TYPE00;
 
 typedef struct {
-    uint32_t      Bar[2];
-    uint8_t       PrimaryBus;
-    uint8_t       SecondaryBus;
-    uint8_t       SubordinateBus;
-    uint8_t       SecondaryLatencyTimer;
-    uint8_t       IoBase;
-    uint8_t       IoLimit;
-    uint16_t      SecondaryStatus;
-    uint16_t      MemoryBase;
-    uint16_t      MemoryLimit;
-    uint16_t      PrefetchableMemoryBase;
-    uint16_t      PrefetchableMemoryLimit;
-    uint32_t      PrefetchableBaseUpper32;
-    uint32_t      PrefetchableLimitUpper32;
-    uint16_t      IoBaseUpper16;
-    uint16_t      IoLimitUpper16;
-    uint32_t      Reserved;
-    uint32_t      ExpansionRomBAR;
-    uint8_t       InterruptLine;
-    uint8_t       InterruptPin;
-    uint16_t      BridgeControl;
+  uint32_t      Bar[2];
+  uint8_t       PrimaryBus;
+  uint8_t       SecondaryBus;
+  uint8_t       SubordinateBus;
+  uint8_t       SecondaryLatencyTimer;
+  uint8_t       IoBase;
+  uint8_t       IoLimit;
+  uint16_t      SecondaryStatus;
+  uint16_t      MemoryBase;
+  uint16_t      MemoryLimit;
+  uint16_t      PrefetchableMemoryBase;
+  uint16_t      PrefetchableMemoryLimit;
+  uint32_t      PrefetchableBaseUpper32;
+  uint32_t      PrefetchableLimitUpper32;
+  uint16_t      IoBaseUpper16;
+  uint16_t      IoLimitUpper16;
+  uint32_t      Reserved;
+  uint32_t      ExpansionRomBAR;
+  uint8_t       InterruptLine;
+  uint8_t       InterruptPin;
+  uint16_t      BridgeControl;
 } PCI_BRIDGE_CONTROL_REGISTER;
 
 #define PCI_CLASS_DISPLAY_CTRL          0x03
@@ -946,40 +947,40 @@ typedef struct {
 #define IS_PCI_MULTI_FUNC(_p)   (((_p)->Hdr.HeaderType) & HEADER_TYPE_MULTI_FUNCTION)
 
 typedef struct {
-    PCI_DEVICE_INDEPENDENT_REGION   Hdr;
-    PCI_BRIDGE_CONTROL_REGISTER     Bridge;
+  PCI_DEVICE_INDEPENDENT_REGION   Hdr;
+  PCI_BRIDGE_CONTROL_REGISTER     Bridge;
 } PCI_TYPE01;
 
 typedef struct {
-    uint8_t   Register;
-    uint8_t   Function;
-    uint8_t   Device;
-    uint8_t   Bus;
-    uint8_t   Reserved[4];
+  uint8_t   Register;
+  uint8_t   Function;
+  uint8_t   Device;
+  uint8_t   Bus;
+  uint8_t   Reserved[4];
 } DEFIO_PCI_ADDR;
 
 typedef struct {
-    uint32_t  Reg     : 8;
-    uint32_t  Func    : 3;
-    uint32_t  Dev     : 5;
-    uint32_t  Bus     : 8;
-    uint32_t  Reserved: 7;
-    uint32_t  Enable  : 1;
+  uint32_t  Reg     : 8;
+  uint32_t  Func    : 3;
+  uint32_t  Dev     : 5;
+  uint32_t  Bus     : 8;
+  uint32_t  Reserved: 7;
+  uint32_t  Enable  : 1;
 } PCI_CONFIG_ACCESS_CF8;
 
 #pragma pack()
 
 #define EFI_ROOT_BRIDGE_LIST    'eprb'
 typedef struct {
-    UINTN           Signature;
+  UINTN           Signature;
 
-    uint16_t          BridgeNumber;
-    uint16_t          PrimaryBus;
-    uint16_t          SubordinateBus;
+  uint16_t          BridgeNumber;
+  uint16_t          PrimaryBus;
+  uint16_t          SubordinateBus;
 
-    EFI_DEVICE_PATH *DevicePath;
+  EFI_DEVICE_PATH *DevicePath;
 
-    LIST_ENTRY      Link;
+  LIST_ENTRY      Link;
 } PCI_ROOT_BRIDGE_ENTRY;
 
 
@@ -989,36 +990,36 @@ typedef struct {
 
 #pragma pack(1)
 typedef struct {
-    uint16_t          Signature;              // 0xaa55
-    uint8_t           Reserved[0x16];
-    uint16_t          PcirOffset;
+  uint16_t          Signature;              // 0xaa55
+  uint8_t           Reserved[0x16];
+  uint16_t          PcirOffset;
 } PCI_EXPANSION_ROM_HEADER;
 
 
 typedef struct {
-    uint16_t          Signature;              // 0xaa55
-    uint16_t          InitializationSize;
-    uint16_t          EfiSignature;           // 0x0EF1
-    uint16_t          EfiSubsystem;
-    uint16_t          EfiMachineType;
-    uint8_t           Reserved[0x0A];
-    uint16_t          EfiImageHeaderOffset;
-    uint16_t          PcirOffset;
+  uint16_t          Signature;              // 0xaa55
+  uint16_t          InitializationSize;
+  uint16_t          EfiSignature;           // 0x0EF1
+  uint16_t          EfiSubsystem;
+  uint16_t          EfiMachineType;
+  uint8_t           Reserved[0x0A];
+  uint16_t          EfiImageHeaderOffset;
+  uint16_t          PcirOffset;
 } EFI_PCI_EXPANSION_ROM_HEADER;
 
 typedef struct {
-    uint32_t          Signature;              // "PCIR"
-    uint16_t          VendorId;
-    uint16_t          DeviceId;
-    uint16_t          Reserved0;
-    uint16_t          Length;
-    uint8_t           Revision;
-    uint8_t           ClassCode[3];
-    uint16_t          ImageLength;
-    uint16_t          CodeRevision;
-    uint8_t           CodeType;
-    uint8_t           Indicator;
-    uint16_t          Reserved1;
+  uint32_t          Signature;              // "PCIR"
+  uint16_t          VendorId;
+  uint16_t          DeviceId;
+  uint16_t          Reserved0;
+  uint16_t          Length;
+  uint8_t           Revision;
+  uint8_t           ClassCode[3];
+  uint16_t          ImageLength;
+  uint16_t          CodeRevision;
+  uint8_t           CodeType;
+  uint8_t           Indicator;
+  uint16_t          Reserved1;
 } PCI_DATA_STRUCTURE;
 #pragma pack()
 
@@ -1027,8 +1028,8 @@ typedef struct {
 
 /** Command-line options */
 struct options {
-	uint16_t vendor;
-	uint16_t device;
+  uint16_t vendor;
+  uint16_t device;
 };
 
 /**
@@ -1037,16 +1038,15 @@ struct options {
  * @v len		Length of memory to allocate
  * @ret ptr		Pointer to allocated memory
  */
-static void * xmalloc ( size_t len ) {
-	void *ptr;
-
-	ptr = malloc ( len );
-	if ( ! ptr ) {
-		eprintf ( "Could not allocate %zd bytes\n", len );
-		exit ( 1 );
-	}
-
-	return ptr;
+static void * xmalloc ( size_t len )
+{
+  void *ptr;
+  ptr = malloc ( len );
+  if ( ! ptr ) {
+    eprintf ( "Could not allocate %zd bytes\n", len );
+    exit ( 1 );
+  }
+  return ptr;
 }
 
 /**
@@ -1070,24 +1070,22 @@ static size_t file_size ( FILE *file ) {
  * @ret subsystem	EFI subsystem
  */
 static void read_pe_info ( void *pe, uint16_t *machine,
-			   uint16_t *subsystem ) {
-	IMAGE_DOS_HEADER *dos;
-	union {
-		IMAGE_NT_HEADERS nt64;
-	} *nt;
-
-	/* Locate NT header */
-	dos = pe;
-	nt = ( pe + dos->e_lfanew );
-
-	/* issue 4: TianoCore demands subsystem 10, so we must use EFI_APPLICATION
-	 * in the PE header. Therefore we force EFI_ROM subsystem in this code here. */
-	if(nt->nt64.OptionalHeader.Subsystem == 10)
-		nt->nt64.OptionalHeader.Subsystem = 13;
-
-	/* Parse out PE information */
-	*machine = nt->nt64.FileHeader.Machine;
-	*subsystem = nt->nt64.OptionalHeader.Subsystem;
+                           uint16_t *subsystem )
+{
+  IMAGE_DOS_HEADER *dos;
+  union {
+    IMAGE_NT_HEADERS nt64;
+  } *nt;
+  /* Locate NT header */
+  dos = pe;
+  nt = ( pe + dos->e_lfanew );
+  /* issue 4: TianoCore demands subsystem 10, so we must use EFI_APPLICATION
+   * in the PE header. Therefore we force EFI_ROM subsystem in this code here. */
+  if(nt->nt64.OptionalHeader.Subsystem == 10)
+    nt->nt64.OptionalHeader.Subsystem = 13;
+  /* Parse out PE information */
+  *machine = nt->nt64.FileHeader.Machine;
+  *subsystem = nt->nt64.OptionalHeader.Subsystem;
 }
 
 /**
@@ -1096,71 +1094,66 @@ static void read_pe_info ( void *pe, uint16_t *machine,
  * @v pe		EFI file
  * @v rom		ROM file
  */
-static void make_efi_rom ( FILE *pe, FILE *rom, struct options *opts ) {
-	struct {
-		EFI_PCI_EXPANSION_ROM_HEADER rom;
-		PCI_DATA_STRUCTURE pci __attribute__ (( aligned ( 4 ) ));
-		uint8_t checksum;
-	} *headers;
-	struct stat pe_stat;
-	size_t pe_size;
-	size_t rom_size;
-	void *buf;
-	void *payload;
-	unsigned int i;
-	uint8_t checksum;
-
-	/* Determine PE file size */
-	if ( fstat ( fileno ( pe ), &pe_stat ) != 0 ) {
-		eprintf ( "Could not stat PE file: %s\n",
-			  strerror ( errno ) );
-		exit ( 1 );
-	}
-	pe_size = pe_stat.st_size;
-
-	/* Determine ROM file size */
-	rom_size = ( ( pe_size + sizeof ( *headers ) + 511 ) & ~511 );
-
-	/* Allocate ROM buffer and read in PE file */
-	buf = xmalloc ( rom_size );
-	memset ( buf, 0, rom_size );
-	headers = buf;
-	payload = ( buf + sizeof ( *headers ) );
-	if ( fread ( payload, pe_size, 1, pe ) != 1 ) {
-		eprintf ( "Could not read PE file: %s\n",
-			  strerror ( errno ) );
-		exit ( 1 );
-	}
-
-	/* Construct ROM header */
-	headers->rom.Signature = PCI_EXPANSION_ROM_HEADER_SIGNATURE;
-	headers->rom.InitializationSize = ( rom_size / 512 );
-	headers->rom.EfiSignature = EFI_PCI_EXPANSION_ROM_HEADER_EFISIGNATURE;
-	read_pe_info ( payload, &headers->rom.EfiMachineType,
-		       &headers->rom.EfiSubsystem );
-	headers->rom.EfiImageHeaderOffset = sizeof ( *headers );
-	headers->rom.PcirOffset =
-		offsetof ( typeof ( *headers ), pci );
-	headers->pci.Signature = PCI_DATA_STRUCTURE_SIGNATURE;
-	headers->pci.VendorId = opts->vendor ? opts->vendor : 0x8086;
-	headers->pci.DeviceId = opts->device ? opts->device : 0x100E;
-	headers->pci.Length = sizeof ( headers->pci );
-	headers->pci.ClassCode[0] = PCI_CLASS_NETWORK;
-	headers->pci.ImageLength = ( rom_size / 512 );
-	headers->pci.CodeType = 0x03; /* No constant in EFI headers? */
-	headers->pci.Indicator = 0x80; /* No constant in EFI headers? */
-
-	/* Fix image checksum */
-	for ( i = 0, checksum = 0 ; i < rom_size ; i++ )
-		checksum += *( ( uint8_t * ) buf + i );
-	headers->checksum -= checksum;
-
-	/* Write out ROM */
-	if ( fwrite ( buf, rom_size, 1, rom ) != 1 ) {
-		eprintf ( "Could not write ROM file: %s\n",
-			  strerror ( errno ) );
-		exit ( 1 );
-	}
+static void make_efi_rom ( FILE *pe, FILE *rom, struct options *opts )
+{
+  struct {
+    EFI_PCI_EXPANSION_ROM_HEADER rom;
+    PCI_DATA_STRUCTURE pci __attribute__ (( aligned ( 4 ) ));
+    uint8_t checksum;
+  } *headers;
+  struct stat pe_stat;
+  size_t pe_size;
+  size_t rom_size;
+  void *buf;
+  void *payload;
+  unsigned int i;
+  uint8_t checksum;
+  /* Determine PE file size */
+  if ( fstat ( fileno ( pe ), &pe_stat ) != 0 ) {
+    eprintf ( "Could not stat PE file: %s\n",
+              strerror ( errno ) );
+    exit ( 1 );
+  }
+  pe_size = pe_stat.st_size;
+  /* Determine ROM file size */
+  rom_size = ( ( pe_size + sizeof ( *headers ) + 511 ) & ~511 );
+  /* Allocate ROM buffer and read in PE file */
+  buf = xmalloc ( rom_size );
+  memset ( buf, 0, rom_size );
+  headers = buf;
+  payload = ( buf + sizeof ( *headers ) );
+  if ( fread ( payload, pe_size, 1, pe ) != 1 ) {
+    eprintf ( "Could not read PE file: %s\n",
+              strerror ( errno ) );
+    exit ( 1 );
+  }
+  /* Construct ROM header */
+  headers->rom.Signature = PCI_EXPANSION_ROM_HEADER_SIGNATURE;
+  headers->rom.InitializationSize = ( rom_size / 512 );
+  headers->rom.EfiSignature = EFI_PCI_EXPANSION_ROM_HEADER_EFISIGNATURE;
+  read_pe_info ( payload, &headers->rom.EfiMachineType,
+                 &headers->rom.EfiSubsystem );
+  headers->rom.EfiImageHeaderOffset = sizeof ( *headers );
+  headers->rom.PcirOffset =
+    offsetof ( typeof ( *headers ), pci );
+  headers->pci.Signature = PCI_DATA_STRUCTURE_SIGNATURE;
+  headers->pci.VendorId = opts->vendor ? opts->vendor : 0x8086;
+  headers->pci.DeviceId = opts->device ? opts->device : 0x100E;
+  headers->pci.Length = sizeof ( headers->pci );
+  headers->pci.ClassCode[0] = PCI_CLASS_NETWORK;
+  headers->pci.ImageLength = ( rom_size / 512 );
+  headers->pci.CodeType = 0x03; /* No constant in EFI headers? */
+  headers->pci.Indicator = 0x80; /* No constant in EFI headers? */
+  /* Fix image checksum */
+  for ( i = 0, checksum = 0 ; i < rom_size ; i++ )
+    checksum += *( ( uint8_t * ) buf + i );
+  headers->checksum -= checksum;
+  /* Write out ROM */
+  if ( fwrite ( buf, rom_size, 1, rom ) != 1 ) {
+    eprintf ( "Could not write ROM file: %s\n",
+              strerror ( errno ) );
+    exit ( 1 );
+  }
 }
 
 /**
@@ -1171,88 +1164,82 @@ static void make_efi_rom ( FILE *pe, FILE *rom, struct options *opts ) {
  * @v opts		Options structure to populate
  */
 static int parse_options ( const int argc, char **argv,
-			   struct options *opts ) {
-	char *end;
-	int c;
-
-	while (1) {
-		int option_index = 0;
-		static struct option long_options[] = {
-			{ "vendor", required_argument, NULL, 'v' },
-			{ "device", required_argument, NULL, 'd' },
-			{ "help", 0, NULL, 'h' },
-			{ 0, 0, 0, 0 }
-		};
-
-		if ( ( c = getopt_long ( argc, argv, "v:d:h",
-					 long_options,
-					 &option_index ) ) == -1 ) {
-			break;
-		}
-
-		switch ( c ) {
-		case 'v':
-			opts->vendor = strtoul ( optarg, &end, 16 );
-			if ( *end ) {
-				eprintf ( "Invalid vendor \"%s\"\n", optarg );
-				exit ( 2 );
-			}
-			break;
-		case 'd':
-			opts->device = strtoul ( optarg, &end, 16 );
-			if ( *end ) {
-				eprintf ( "Invalid device \"%s\"\n", optarg );
-				exit ( 2 );
-			}
-			break;
-		case 'h':
-			print_help ( argv[0] );
-			exit ( 0 );
-		case '?':
-		default:
-			exit ( 2 );
-		}
-	}
-	return optind;
+                           struct options *opts )
+{
+  char *end;
+  int c;
+  while (1) {
+    int option_index = 0;
+    static struct option long_options[] = {
+      { "vendor", required_argument, NULL, 'v' },
+      { "device", required_argument, NULL, 'd' },
+      { "help", 0, NULL, 'h' },
+      { 0, 0, 0, 0 }
+    };
+    if ( ( c = getopt_long ( argc, argv, "v:d:h",
+                             long_options,
+                             &option_index ) ) == -1 ) {
+      break;
+    }
+    switch ( c ) {
+    case 'v':
+      opts->vendor = strtoul ( optarg, &end, 16 );
+      if ( *end ) {
+        eprintf ( "Invalid vendor \"%s\"\n", optarg );
+        exit ( 2 );
+      }
+      break;
+    case 'd':
+      opts->device = strtoul ( optarg, &end, 16 );
+      if ( *end ) {
+        eprintf ( "Invalid device \"%s\"\n", optarg );
+        exit ( 2 );
+      }
+      break;
+    case 'h':
+      print_help ( argv[0] );
+      exit ( 0 );
+    case '?':
+    default:
+      exit ( 2 );
+    }
+  }
+  return optind;
 }
 
-int main ( int argc, char **argv ) {
-	struct options opts = {
-	};
-	unsigned int infile_index;
-	const char *infile_name;
-	const char *outfile_name;
-	FILE *infile;
-	FILE *outfile;
-
-	/* Parse command-line arguments */
-	infile_index = parse_options ( argc, argv, &opts );
-	if ( argc != ( infile_index + 2 ) ) {
-		print_help ( argv[0] );
-		exit ( 2 );
-	}
-	infile_name = argv[infile_index];
-	outfile_name = argv[infile_index + 1];
-
-	/* Open input and output files */
-	infile = fopen ( infile_name, "r" );
-	if ( ! infile ) {
-		eprintf ( "Could not open %s for reading: %s\n",
-			  infile_name, strerror ( errno ) );
-		exit ( 1 );
-	}
-	outfile = fopen ( outfile_name, "w" );
-	if ( ! outfile ) {
-		eprintf ( "Could not open %s for writing: %s\n",
-			  outfile_name, strerror ( errno ) );
-		exit ( 1 );
-	}
-
-	/* Convert file */
-	make_efi_rom ( infile, outfile, &opts );
-
-	fclose ( outfile );
-	fclose ( infile );
-
-	return 0;
+int main ( int argc, char **argv )
+{
+  struct options opts = {
+  };
+  unsigned int infile_index;
+  const char *infile_name;
+  const char *outfile_name;
+  FILE *infile;
+  FILE *outfile;
+  /* Parse command-line arguments */
+  infile_index = parse_options ( argc, argv, &opts );
+  if ( argc != ( infile_index + 2 ) ) {
+    print_help ( argv[0] );
+    exit ( 2 );
+  }
+  infile_name = argv[infile_index];
+  outfile_name = argv[infile_index + 1];
+  /* Open input and output files */
+  infile = fopen ( infile_name, "r" );
+  if ( ! infile ) {
+    eprintf ( "Could not open %s for reading: %s\n",
+              infile_name, strerror ( errno ) );
+    exit ( 1 );
+  }
+  outfile = fopen ( outfile_name, "w" );
+  if ( ! outfile ) {
+    eprintf ( "Could not open %s for writing: %s\n",
+              outfile_name, strerror ( errno ) );
+    exit ( 1 );
+  }
+  /* Convert file */
+  make_efi_rom ( infile, outfile, &opts );
+  fclose ( outfile );
+  fclose ( infile );
+  return 0;
 }

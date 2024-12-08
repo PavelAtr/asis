@@ -2,5 +2,5 @@
 
 inline void rewind(FILE* stream)
 {
-	stream->pos = 0;
+  stream->pos = 0;
 }

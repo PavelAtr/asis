@@ -15,18 +15,18 @@
 #define MAXPIPE 512
 
 typedef struct {
-    char buf[MAXPIPE];
-    unsigned short size;
-    unsigned short nlink;
-    unsigned short writepos;
-    unsigned short readpos;
+  char buf[MAXPIPE];
+  unsigned short size;
+  unsigned short nlink;
+  unsigned short writepos;
+  unsigned short readpos;
 } pipebuf;
 
 typedef struct {
-    FILE* stream;
-    int flags;
-    pipebuf* wpipe;
-    pipebuf* rpipe;
+  FILE* stream;
+  int flags;
+  pipebuf* wpipe;
+  pipebuf* rpipe;
 } fdesc;
 
 #define MAXFD syscall(SYS_GETMAXFD)

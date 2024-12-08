@@ -6,11 +6,11 @@
 
 int stat(const char* path, struct stat* statbuf)
 {
-    return syscall(SYS_FSTAT, path, statbuf);
+  return syscall(SYS_FSTAT, path, statbuf);
 }
 
 int lstat(const char* pathname, struct stat* statbuf)
 {
-    return stat(pathname, statbuf);
+  return stat(pathname, statbuf);
 }
 

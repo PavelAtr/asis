@@ -4,10 +4,10 @@
 
 pid_t waitpid(pid_t pid, int* wstatus, int options)
 {
-    return syscall(SYS_WAITPID, pid, wstatus, options);
+  return syscall(SYS_WAITPID, pid, wstatus, options);
 }
 
 pid_t wait(int* wstatus)
 {
-    return waitpid(-1, wstatus, 0);
+  return waitpid(-1, wstatus, 0);
 }

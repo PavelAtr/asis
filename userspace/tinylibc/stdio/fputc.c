@@ -2,5 +2,5 @@
 
 int fputc(int c, FILE *stream)
 {
-    return fwrite(&c, 1, 1, stream);
+  return fwrite(&c, 1, 1, stream);
 }

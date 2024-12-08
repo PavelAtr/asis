@@ -2,5 +2,5 @@
 
 char *strcat(char* dst, const char* src)
 {
-    return strcpy(dst + strlen(dst), src);
+  return strcpy(dst + strlen(dst), src);
 }

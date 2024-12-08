@@ -33,17 +33,17 @@
 #define S_ISLNK(mode) (mode & S_IFLNK)
 
 struct stat {
-    mode_t	st_mode;     /* File type and mode */
-    uid_t	st_uid;      /* User ID of owner */
-    gid_t	st_gid;      /* Group ID of owner */
-    size_t	st_size;
-    short	st_major;
-    short	st_minor;
-    dev_t	st_dev;
-    long	st_ino;
-    time_t      st_atime;
-    time_t      st_mtime;
-    time_t      st_ctime;
+  mode_t	st_mode;     /* File type and mode */
+  uid_t	st_uid;      /* User ID of owner */
+  gid_t	st_gid;      /* Group ID of owner */
+  size_t	st_size;
+  short	st_major;
+  short	st_minor;
+  dev_t	st_dev;
+  long	st_ino;
+  time_t      st_atime;
+  time_t      st_mtime;
+  time_t      st_ctime;
 };
 
 int stat(const char* path, struct stat* statbuf);

@@ -6,11 +6,11 @@
 #include <sys/types.h>
 
 typedef struct {
-    char* file;
-    size_t size;
-    size_t pos;
-    unsigned char flags;
-    char* strbuf;
+  char* file;
+  size_t size;
+  size_t pos;
+  unsigned char flags;
+  char* strbuf;
 } FILE;
 
 #define FILE_ERROR 0x01

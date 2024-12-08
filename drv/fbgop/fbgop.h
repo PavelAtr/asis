@@ -4,8 +4,8 @@
 #define MAXMODE 1920 * 1080
 
 typedef struct {
-    void* gop;
-    unsigned int ramsize;
+  void* gop;
+  unsigned int ramsize;
 } fbgop;
 
 int_t fbgop_init(fbgop* devparam);

@@ -31,25 +31,24 @@ typedef uint64_t counter_t;
 #endif
 
 struct weekfs_inode {
-	unsigned int		i_mode;
-	unsigned short		i_opflags;
-	uid_t			i_uid;
-	gid_t			i_gid;
-	unsigned int		i_flags;
+  unsigned int		i_mode;
+  unsigned short		i_opflags;
+  uid_t			i_uid;
+  gid_t			i_gid;
+  unsigned int		i_flags;
 };
 
 struct weekfs_dirent {
-    bnum_t         d_ino;       /* Inode number */
-    len_t 			d_size;		/* Size of file */
-    short  d_major;
-    short  d_minor;                   
-    char           d_name[256]; /* Null-terminated filename */
+  bnum_t         d_ino;       /* Inode number */
+  len_t 			d_size;		/* Size of file */
+  short  d_major;
+  short  d_minor;
+  char           d_name[256]; /* Null-terminated filename */
 };
 
-typedef struct
-{
-    struct weekfs_inode d_inode;
-    struct weekfs_dirent d_dirent;
+typedef struct {
+  struct weekfs_inode d_inode;
+  struct weekfs_dirent d_dirent;
 } weekfs_dentry;
 
 
@@ -69,22 +68,20 @@ extern write_func cache_write;
 
 #define TINY_LABEL_MAX 128
 
-typedef struct
-{
-	char type[16];
-    char label[TINY_LABEL_MAX];
-    bnum_t bcount;
-    bsize_t bsize;
+typedef struct {
+  char type[16];
+  char label[TINY_LABEL_MAX];
+  bnum_t bcount;
+  bsize_t bsize;
 } sbparams;
 
-typedef struct
-{
-	sbparams params;
-	void* devparam;
-	seek_func cache_seek;
-	read_func cache_read;
-	write_func cache_write;
-	bnum_t alloc_start;
+typedef struct {
+  sbparams params;
+  void* devparam;
+  seek_func cache_seek;
+  read_func cache_read;
+  write_func cache_write;
+  bnum_t alloc_start;
 } sblock;
 
 #define WEEK_FREE 0
@@ -96,15 +93,14 @@ typedef struct
 #define WEEK_ROOT_UID 0
 #define WEEK_ROOT_GID 0
 
-typedef struct
-{
-    unsigned char type;
-    bnum_t parent;
-    bnum_t next;
+typedef struct {
+  unsigned char type;
+  bnum_t parent;
+  bnum_t next;
 } hblock;
 
 void we_superblock_init(sblock* sb, seek_func _seek,
-	read_func _read, write_func _write);
+                        read_func _read, write_func _write);
 sblock* we_calc_fs(sblock* sb, len_t sizefs, bsize_t bsize);
 void we_format(sblock* sb);
 sblock* we_superblock_load(sblock* sb);

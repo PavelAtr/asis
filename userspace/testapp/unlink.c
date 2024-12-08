@@ -7,18 +7,14 @@
 
 int main(int argc, char** argv)
 {
-    if (argc < 2)
-    {
-	puts("Usage: unlink <path>\n");
-	return -1;
-    }
-
-    if (unlink(argv[1]))
-    {
-	puts(strerror(errno));
-	puts("\n");
-	return -1;
-    }
-
-    return 0;
+  if (argc < 2) {
+    puts("Usage: unlink <path>\n");
+    return -1;
+  }
+  if (unlink(argv[1])) {
+    puts(strerror(errno));
+    puts("\n");
+    return -1;
+  }
+  return 0;
 }

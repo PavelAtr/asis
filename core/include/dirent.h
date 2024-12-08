@@ -5,12 +5,12 @@
 #define MAX_PATH_PART 256
 
 struct dirent {
-   char           d_name[MAX_PATH_PART];
+  char           d_name[MAX_PATH_PART];
 };
 
 typedef struct {
-    const char* dir;
-    int ndx;
+  const char* dir;
+  int ndx;
 } DIR;
 
 DIR *opendir(const char *name);

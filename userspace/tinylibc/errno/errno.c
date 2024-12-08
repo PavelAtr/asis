@@ -3,10 +3,10 @@
 
 int get_errno()
 {
-    return syscall(SYS_GETERRNO);
+  return syscall(SYS_GETERRNO);
 }
 
 int set_errno(int err)
 {
-    return syscall(SYS_SETERRNO, err);
+  return syscall(SYS_SETERRNO, err);
 }

@@ -47,13 +47,13 @@ int sys_usleep(long_t usecs);
 #define MAXDEV 5
 
 typedef struct {
-	const char* file;
-	void* devparams;
-	int_t type;
-	void (*dev_seek)(void* devsb, len_t offset);
-	len_t (*dev_write)(void* devsb, const void* buffer, len_t size);
-	len_t (*dev_read)(void* devsb, void* buffer, len_t size);
-	errno_t (*dev_ioctl)(void* devsb, ulong_t request, ...);
+  const char* file;
+  void* devparams;
+  int_t type;
+  void (*dev_seek)(void* devsb, len_t offset);
+  len_t (*dev_write)(void* devsb, const void* buffer, len_t size);
+  len_t (*dev_read)(void* devsb, void* buffer, len_t size);
+  errno_t (*dev_ioctl)(void* devsb, ulong_t request, ...);
 } device;
 
 extern device devices[MAXDEV];
@@ -62,20 +62,20 @@ device* sys_get_device_byname(const char* path, mode_t devtype);
 #define MAXMOUNT 5
 
 typedef struct {
-	const char* path;
-	void* sbfs;
-	errno_t (*mount_mknod)(void* sbfs, const char *pathname, uid_t uid, gid_t gid, mode_t mode);
-	errno_t (*mount_modnod)(void* sbfs, const char* pathname, uid_t uid, gid_t gid, mode_t mode);
-	errno_t (*mount_rmnod)(void* sbfs, const char *pathname, uid_t curuid, gid_t curgid);
-	errno_t (*mount_link)(void* sb, const char* src, const char* dst, bool_t move, uid_t uid, gid_t gid);
-	errno_t (*mount_truncate)(void* sb, const char *pathname, len_t len);
-	errno_t (*mount_stat)(void* sbfs, const char* pathname, void* statbuf);
-	len_t (*mount_fread)(void* sbfs, const char* path, void* ptr, len_t size, len_t off);
-	len_t(*mount_fwrite)(void* sbfs, const char* path, const void* ptr, len_t size, len_t off);
-	void* (*mount_readdir)(void* sbfs, const char* path, int ndx);
-	bool_t (*mount_can_read)(void* sbfs, const char* path, uid_t uid, gid_t gid);
-	bool_t (*mount_can_write)(void* sbfs, const char* path, uid_t uid, gid_t gid);
-	bool_t (*mount_can_execute)(void* sbfs, const char* path, uid_t uid, gid_t gid);
+  const char* path;
+  void* sbfs;
+  errno_t (*mount_mknod)(void* sbfs, const char *pathname, uid_t uid, gid_t gid, mode_t mode);
+  errno_t (*mount_modnod)(void* sbfs, const char* pathname, uid_t uid, gid_t gid, mode_t mode);
+  errno_t (*mount_rmnod)(void* sbfs, const char *pathname, uid_t curuid, gid_t curgid);
+  errno_t (*mount_link)(void* sb, const char* src, const char* dst, bool_t move, uid_t uid, gid_t gid);
+  errno_t (*mount_truncate)(void* sb, const char *pathname, len_t len);
+  errno_t (*mount_stat)(void* sbfs, const char* pathname, void* statbuf);
+  len_t (*mount_fread)(void* sbfs, const char* path, void* ptr, len_t size, len_t off);
+  len_t(*mount_fwrite)(void* sbfs, const char* path, const void* ptr, len_t size, len_t off);
+  void* (*mount_readdir)(void* sbfs, const char* path, int ndx);
+  bool_t (*mount_can_read)(void* sbfs, const char* path, uid_t uid, gid_t gid);
+  bool_t (*mount_can_write)(void* sbfs, const char* path, uid_t uid, gid_t gid);
+  bool_t (*mount_can_execute)(void* sbfs, const char* path, uid_t uid, gid_t gid);
 } mountpoint;
 
 extern mountpoint mountpoints[MAXMOUNT];
@@ -89,25 +89,25 @@ int sys_printf(const char* format, ...);
 #define SYS_ERROR "error: "
 
 typedef struct {
-	void* stack;
-	void* sp;
+  void* stack;
+  void* sp;
 } context;
 
 typedef struct {
-	int_t flags;
-	void* parent;
-	pid_t parentpid;
-	int argc;
-	char** argv;
-	char** envp;
-	errno_t sys_errno;
-	uid_t uid;
-	gid_t gid;
-	void* fds;
-	void* dlhandle;
-	context ctx;
-	int_t ret;
-	pid_t forkret;
+  int_t flags;
+  void* parent;
+  pid_t parentpid;
+  int argc;
+  char** argv;
+  char** envp;
+  errno_t sys_errno;
+  uid_t uid;
+  gid_t gid;
+  void* fds;
+  void* dlhandle;
+  context ctx;
+  int_t ret;
+  pid_t forkret;
 } proc;
 
 #define PROC_RUNNING 0x01
@@ -124,23 +124,23 @@ char** copyenv(char*const* e);
 void freeenv(char*const* envp);
 
 struct tinystat {
-   mode_t	st_mode;     /* File type and mode */
-   uid_t	st_uid;      /* User ID of owner */
-   gid_t	st_gid;      /* Group ID of owner */
-   size_t	st_size;
-   short	st_major;
-   short	st_minor;
+  mode_t	st_mode;     /* File type and mode */
+  uid_t	st_uid;      /* User ID of owner */
+  gid_t	st_gid;      /* Group ID of owner */
+  size_t	st_size;
+  short	st_major;
+  short	st_minor;
 };
 
 #define MAX_PATH_PART 256
 
 struct tinydirent {
-   char           d_name[MAX_PATH_PART];
+  char           d_name[MAX_PATH_PART];
 };
 
 typedef struct {
-	bool_t (*capable)(int_t cap);
-	bool_t (*in_group)(gid_t gid);
+  bool_t (*capable)(int_t cap);
+  bool_t (*in_group)(gid_t gid);
 } secmodel;
 
 extern secmodel* security;

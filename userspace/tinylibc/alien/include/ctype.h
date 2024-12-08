@@ -3,7 +3,7 @@
 
 static __inline int __isspace(int _c)
 {
-	return _c == ' ' || (unsigned)_c-'\t' < 5;
+  return _c == ' ' || (unsigned)_c-'\t' < 5;
 }
 
 #define isalpha(a) ((((unsigned)(a)|32)-'a') < 26)

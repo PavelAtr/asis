@@ -3,9 +3,9 @@
 #include "../../core/include/tinysys.h"
 
 typedef struct {
-	const char* filename;
-	len_t offset;
-	len_t pos;
+  const char* filename;
+  len_t offset;
+  len_t pos;
 } loop;
 
 len_t loop_read(void* devparam, void* ptr, len_t size);
