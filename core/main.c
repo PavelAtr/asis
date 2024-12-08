@@ -76,12 +76,16 @@ int main(int argc, char** argv)
 
 #ifndef UEFI
 	init_hosttrap();
+	sys_umount("/week");
 #endif
-
 
 	sys_printf("End init\n");
 
-	return sys_runinit();
+	int ret = sys_runinit();
 
-	return 0;
+#ifndef UEFI
+	hostfs_cleanup();
+#endif
+
+	return ret;
 }

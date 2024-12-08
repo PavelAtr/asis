@@ -89,8 +89,9 @@ int_t sys_exec(const char* file, char* const argv[])
 	sys_printf(SYS_INFO "freememory=%ld\n", free_memory());
 	start(argc, argv, current->envp);
 	switch_context;
+	/* Never reach here */
 	sys_printf("EXEC END\n");
-/* Never reach here */
+	freeproc(current->forkret);
 	return  0;
 }
 
@@ -122,7 +123,7 @@ pid_t sys_fork()
 	cpu[current->forkret]->forkret = 0;
 	cpu[current->forkret]->ret = -1;
 	switch_context;
-	sys_printf("forkret=%d\n", current->forkret);
+	sys_printf("forkret=%d\n", (int)current->forkret);
 	return current->forkret;
 }
 

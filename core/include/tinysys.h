@@ -20,8 +20,6 @@
 
 #define INIT "/tinysys/bin/shell"
 
-//#define PATH_MAX 512
-
 int_t sys_exec(const char* file, char* const argv[]);
 int_t sys_runinit();
 
@@ -84,11 +82,11 @@ extern mountpoint mountpoints[MAXMOUNT];
 mountpoint* sys_get_mountpoint(const char* file);
 const char* sys_calcpath(mountpoint* mount, const char* file);
 int sys_mount(const char* blk, const char* mount, const char* fstype, const char* options);
+int sys_umount(const char* dir);
 
 int sys_printf(const char* format, ...);
 #define SYS_INFO "info: "
 #define SYS_ERROR "error: "
-
 
 typedef struct {
 	void* stack;
@@ -195,6 +193,5 @@ void trap_segfault();
 
 void init_memory(void* base, size_t size);
 size_t free_memory(void);
-
 
 #endif

@@ -12,7 +12,7 @@ char* execpath(const char* path, const char* file)
         system_path = strdup(path);
 	pathlen = strlen(system_path);
     }
-    char* rezult = malloc(pathlen + strlen(file) + 1);
+    char* rezult = malloc(pathlen + strlen(file) + 2);
 
     if (file[0] == '/' || !system_path)
     {

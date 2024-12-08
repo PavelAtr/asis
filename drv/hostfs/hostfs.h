@@ -17,6 +17,7 @@ bool_t hostfs_can_read(void* sbfs, const char* path, uid_t uid, gid_t gid);
 bool_t hostfs_can_write(void* sbfs, const char* path, uid_t uid, gid_t gid);
 bool_t hostfs_can_execute(void* sbfs, const char* path, uid_t uid, gid_t gid);
 errno_t  hostfs_mount(device* dev, mountpoint* mount, const char* options);
+void hostfs_cleanup(void);
 
 
 #endif

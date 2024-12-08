@@ -9,6 +9,7 @@
 
 const char* filename = "";
 FILE* f;
+char fmode = '\0';
 
 errno_t hostfs_mknod(void* sbfs, const char *pathname, uid_t uid, gid_t gid, mode_t mode)
 {
@@ -38,11 +39,12 @@ errno_t hostfs_link(void* sb, const char* src, const char* dst, bool_t move, uid
 len_t hostfs_fread(void* sbfs, const char* path, void* ptr, len_t size, len_t off)
 {
     len_t ret = 0;
-    if (strcmp(path, filename) != 0)
+    if (strcmp(path, filename) != 0 || fmode !='r')
     {
         if (f) fclose(f);
-	f = fopen(path, "r+");
+	f = fopen(path, "r");
 	filename = path;
+	fmode = 'r';
 	if (!f)
 		return 0;
     }
@@ -54,17 +56,23 @@ len_t hostfs_fread(void* sbfs, const char* path, void* ptr, len_t size, len_t of
 len_t hostfs_fwrite(void* sbfs, const char* path, const void* ptr, len_t size, len_t off)
 {
     len_t ret = 0;
-    if (strcmp(path, filename) != 0)
+    if (strcmp(path, filename) != 0 || fmode != 'w')
     {
         if (f) fclose(f);
 	f = fopen(path, "r+");
 	filename = path;
+	fmode = 'w';
 	if (!f)
 		return 0;
     }
     fseek(f, off, SEEK_SET);
     ret = fwrite(ptr, size, 1, f);
     return ret * size;
+}
+
+void hostfs_cleanup(void)
+{
+	if (f) fclose(f);
 }
 
 errno_t hostfs_stat(void* sbfs, const char* pathname, void* statbuf)

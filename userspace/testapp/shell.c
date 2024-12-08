@@ -116,7 +116,7 @@ int main(int argc, char** argv)
     chdir("/tinysys");
     setenv("CWD", "/tinysys", 0);
     umask(0002);
-    setenv("UMASK", "002", 0);
+    setenv("UMASK", "0002", 0);
 
     while (1)
     {

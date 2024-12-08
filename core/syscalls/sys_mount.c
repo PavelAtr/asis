@@ -93,3 +93,13 @@ mount:
 	mount->path = dir;
 	return _sys_mount(dev, mount, fstype, options);
 }
+
+int sys_umount(const char* dir)
+{
+	mountpoint* mount = sys_get_mountpoint(dir);
+	sys_free(mount->sbfs);
+	mount->sbfs = NULL;
+	mount->path = NULL;
+}
+
+

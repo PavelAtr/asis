@@ -149,6 +149,7 @@ int dlclose(void *hndl)
 	{
 		next = s->next;
 		elf_free(s->dl_elf);
+		sys_free(s->dl_elf);
 		sys_free(s);
 		s = next;
 	}
