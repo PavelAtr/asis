@@ -5,7 +5,6 @@
 int main(int argc, char** argv)
 {
    FILE* passdb = fopen("/tinysys/passwd", "r");
-   fprintf(stdout, "size=%d\n", passdb->size);
    char buf[4096];
    struct passwd* p;
    struct passwd in;

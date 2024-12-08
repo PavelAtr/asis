@@ -6,18 +6,16 @@ char *fgets(char* s, int size, FILE* stream)
    int c;
    for (i = 0; i < size - 1; i++) {
       c = getc(stream);
-      if (feof(stream)) {
-         fprintf(stdout, "FEOF pos=%d\n", stream->pos);
-         return NULL;
+      if (c != EOF) {
+         s[i] = c;
       }
-      s[i] = c;
-      fprintf(stdout, "%c", c);
       if (c == '\n') {
-         fprintf(stdout, "CR\n");
          break;
+      }
+      if (feof(stream)) {
+         return NULL;
       }
    }
    s[i + 1] = '\0';
-   fprintf(stdout, "%s", s);
    return s;
 }

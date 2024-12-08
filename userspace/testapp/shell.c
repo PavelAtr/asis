@@ -10,9 +10,6 @@
 
 char command[256];
 
-int echo = 0;
-char ech[2] = {'\0', '\0'};
-
 char* getcommand()
 {
    fgets(command, 256, stdin);
@@ -78,11 +75,6 @@ int runcommand(char* cmd)
 
 int main(int argc, char** argv)
 {
-#ifdef UEFI_KERNEL
-   echo = 1;
-#else
-   echo = 0;
-#endif
    int fd;
    if ((fd = open("/dev/tty", O_RDONLY)) == -1) {
       return -1;
