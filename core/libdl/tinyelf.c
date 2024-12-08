@@ -114,7 +114,7 @@ void* elf_load_table(const char* path, Elf_Ehdr* hdr, Elf_Shdr* shdr)
    return buf;;
 }
 
-const char* elf_load_strings(const char* path, Elf_Ehdr* hdr, Elf_Shdr* shdrs,
+char* elf_load_strings(const char* path, Elf_Ehdr* hdr, Elf_Shdr* shdrs,
    Elf_Shdr* tab)
 {
    if (!hdr || !shdrs || !tab) {

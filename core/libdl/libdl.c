@@ -19,24 +19,30 @@ void elf_free(elf* e)
    if (e->shdrs) {
       sys_free(e->shdrs);
    }
-//   if (e->relatab1) {
-//      sys_free(e->relatab1);
-//   }
-//   if (e->relatab2) {
-//      sys_free(e->relatab2);
-//   }
-//   if (e->symtab) {
-//      sys_free(e->symtab);
-//   }
-//   if (e->symstr) {
-//      sys_free((void*)e->symstr);
-//   }
-//   if (e->dynsymtab) {
-//      sys_free(e->dynsymtab);
-//   }
-//   if (e->dynsymstr) {
-//      sys_free((void*)e->dynsymstr);
-//   }
+   int_t ndx;
+   for (ndx = 0; e->rela[ndx]; ndx++) {
+      if (e->rela[ndx]) {
+         if (e->rela[ndx]->relas) {
+            sys_free(e->rela[ndx]->relas);
+         }
+         sys_free(e->rela[ndx]);
+      }
+   }
+   if (e->rela)
+      sys_free(e->rela);
+   for (ndx = 0; e->sym[ndx]; ndx++) {
+      if (e->sym[ndx]) {
+         if (e->sym[ndx]->syms) {
+            sys_free(e->sym[ndx]->syms);
+         }
+         if (e->sym[ndx]->symstr) {
+            sys_free(e->sym[ndx]->symstr);
+         }
+         sys_free(e->sym[ndx]);
+      }
+   }
+   if (e->sym)
+      sys_free(e->sym);
    if (e->dyntab) {
       sys_free(e->dyntab);
    }
