@@ -90,12 +90,14 @@ static uint64_t __year_to_secs(uint64_t year, int *is_leap)
       }
    }
    leaps += 97*cycles + 24*centuries - *is_leap;
-   return (uint64_t)(year-100) * 31536000ULL + (uint64_t)leaps * 86400ULL + 946684800ULL + 86400ULL;
+   return (uint64_t)(year-100) * 31536000ULL + (uint64_t)leaps * 86400ULL +
+      946684800ULL + 86400ULL;
 }
 
 time_t __mktime_efi(efi_time_t *t)
 {
-   __tm.tm_year = t->Year + (/* workaround some buggy firmware*/ t->Year > 2000 ? -1900 : 98);
+   __tm.tm_year = t->Year + (/* workaround some buggy firmware*/ t->Year > 2000 ?
+         -1900 : 98);
    __tm.tm_mon = t->Month - 1;
    __tm.tm_mday = t->Day;
    __tm.tm_hour = t->Hour;

@@ -38,16 +38,19 @@ int main(int argc, char **argv)
       fprintf(stderr, "unable to allocate memory\n");
       return 1;
    }
-   status = BS->GetMemoryMap(&memory_map_size, memory_map, &map_key, &desc_size, NULL);
+   status = BS->GetMemoryMap(&memory_map_size, memory_map, &map_key, &desc_size,
+         NULL);
    if(EFI_ERROR(status)) {
 err:
       fprintf(stderr, "Unable to get memory map\n");
       return 0;
    }
    printf("Address              Size Type\n");
-   for(mement = memory_map; (uint8_t*)mement < (uint8_t*)memory_map + memory_map_size;
+   for(mement = memory_map;
+      (uint8_t*)mement < (uint8_t*)memory_map + memory_map_size;
       mement = NextMemoryDescriptor(mement, desc_size)) {
-      printf("%016x %8d %02x %s\n", mement->PhysicalStart, mement->NumberOfPages, mement->Type, types[mement->Type]);
+      printf("%016x %8d %02x %s\n", mement->PhysicalStart, mement->NumberOfPages,
+         mement->Type, types[mement->Type]);
    }
    free(memory_map);
    return 0;

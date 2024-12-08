@@ -47,7 +47,8 @@ typedef struct {
 void usage(char *cmd)
 {
    printf("POSIX-UEFI utils - efiffs by bztsrc@gitlab MIT\r\n\r\n");
-   printf("%s [-g <guid>] [-n <name>] [-v <ver>] [-t <type>] [-p <type>] infile [outfile]\r\n\r\n", cmd);
+   printf("%s [-g <guid>] [-n <name>] [-v <ver>] [-t <type>] [-p <type>] infile [outfile]\r\n\r\n",
+      cmd);
    printf("  -g <guid>   specify the GUID (defaults to random)\r\n");
    printf("  -n <name>   specify the driver's name (eg 'FAT')\r\n");
    printf("  -v <ver>    specify the driver's version (eg '1.0')\r\n");
@@ -249,7 +250,8 @@ int main(int argc, char **argv)
    fseek(f, 0L, SEEK_END);
    size = (int)ftell(f);
    fseek(f, 0L, SEEK_SET);
-   len = 24 + 12 + 4 + size + (name ? 6 + 2 * strlen(name) : 0) + (ver ? 6 + 2 * strlen(ver) : 0);
+   len = 24 + 12 + 4 + size + (name ? 6 + 2 * strlen(name) : 0) +
+      (ver ? 6 + 2 * strlen(ver) : 0);
    buff = (uint8_t*)malloc(len);
    if(!buff) {
       fprintf(stderr, "efiffs: unable to allocate memory\r\n");

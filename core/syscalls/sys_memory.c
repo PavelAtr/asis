@@ -14,7 +14,8 @@ void init_memory(void* base, size_t size)
 }
 
 
-void *sys_mmap(void* addr, size_t size, int prot, int flags, int f, off_t offset)
+void *sys_mmap(void* addr, size_t size, int prot, int flags, int f,
+   off_t offset)
 {
 #ifdef UEFI
    return malloc(size);

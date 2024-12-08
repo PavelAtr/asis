@@ -87,10 +87,12 @@ int main(int argc, char **argv)
          i < elf->e_phnum;
          i++, phdr = (Elf64_Phdr *)((uint8_t *)phdr + elf->e_phentsize)) {
          if(phdr->p_type == PT_LOAD) {
-            printf("ELF segment %p %d bytes (bss %d bytes)\n", phdr->p_vaddr, phdr->p_filesz,
+            printf("ELF segment %p %d bytes (bss %d bytes)\n", phdr->p_vaddr,
+               phdr->p_filesz,
                phdr->p_memsz - phdr->p_filesz);
             memcpy((void*)phdr->p_vaddr, buff + phdr->p_offset, phdr->p_filesz);
-            memset((void*)(phdr->p_vaddr + phdr->p_filesz), 0, phdr->p_memsz - phdr->p_filesz);
+            memset((void*)(phdr->p_vaddr + phdr->p_filesz), 0,
+               phdr->p_memsz - phdr->p_filesz);
          }
       }
       entry = elf->e_entry;

@@ -70,9 +70,11 @@ int main(int argc, char **argv)
       return 0;
    }
    /* select typeface to use */
-   ssfn_select(&ctx, SSFN_FAMILY_ANY, NULL, SSFN_STYLE_REGULAR | SSFN_STYLE_NOCACHE, 40);
+   ssfn_select(&ctx, SSFN_FAMILY_ANY, NULL,
+      SSFN_STYLE_REGULAR | SSFN_STYLE_NOCACHE, 40);
    /* display multilingual text */
-   printString(10, ctx.size, "Hello!  Здравствуйте!  Καλως ηρθες!");
+   printString(10, ctx.size,
+      "Hello!  Здравствуйте!  Καλως ηρθες!");
    /* free resources exit */
    ssfn_free(&ctx);
    free(font);

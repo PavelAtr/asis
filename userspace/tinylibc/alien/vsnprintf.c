@@ -68,7 +68,8 @@ static int skip_atoi(const char **s)
    return i;
 }
 
-static char *number(char *str, char* buf, long num, int base, int size, int precision, int type)
+static char *number(char *str, char* buf, long num, int base, int size,
+   int precision, int type)
 {
    char c, sign, tmp[66];
    char *dig = digits;
@@ -158,7 +159,8 @@ static char *number(char *str, char* buf, long num, int base, int size, int prec
    return str;
 }
 
-static char *eaddr(char *str, char* buf, unsigned char *addr, int size, int precision, int type)
+static char *eaddr(char *str, char* buf, unsigned char *addr, int size,
+   int precision, int type)
 {
    char tmp[24];
    char *dig = digits;
@@ -192,7 +194,8 @@ static char *eaddr(char *str, char* buf, unsigned char *addr, int size, int prec
    return str;
 }
 
-static char *iaddr(char *str, char* buf, unsigned char *addr, int size, int precision, int type)
+static char *iaddr(char *str, char* buf, unsigned char *addr, int size,
+   int precision, int type)
 {
    char tmp[24];
    int i, n, len;
@@ -377,7 +380,8 @@ static void cropzeros(char *buffer)
    }
 }
 
-static char *flt(char *str, char* buf, double num, int size, int precision, char fmt, int flags)
+static char *flt(char *str, char* buf, double num, int size, int precision,
+   char fmt, int flags)
 {
    char cvtbuf[CVTBUFSIZE];
    char c, sign;
@@ -451,7 +455,8 @@ static char *flt(char *str, char* buf, double num, int size, int precision, char
 
 #endif
 
-static char *string(char *str, char* buf, char* s, int field_width, int precision, int flags)
+static char *string(char *str, char* buf, char* s, int field_width,
+   int precision, int flags)
 {
    int len = strnlen(s, precision);
    if (!(flags & LEFT)) while (len < field_width--) if(buf) {
@@ -603,13 +608,15 @@ repeat:
          }
          if (buf) {
             tempstr = str;
-            str = number(str, NULL, (unsigned long) va_arg(args, void *), 16, field_width, precision, flags);
+            str = number(str, NULL, (unsigned long) va_arg(args, void *), 16, field_width,
+                  precision, flags);
             if (str - buf >= size) {
                break;
             }
             str = tempstr;
          }
-         str = number(str, buf, (unsigned long) va_arg(args, void *), 16, field_width, precision, flags);
+         str = number(str, buf, (unsigned long) va_arg(args, void *), 16, field_width,
+               precision, flags);
          continue;
       case 'n':
          if (qualifier == 'l') {

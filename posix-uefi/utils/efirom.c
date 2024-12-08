@@ -753,7 +753,8 @@ typedef struct _IMAGE_BASE_RELOCATION {
 
 typedef struct _IMAGE_LINENUMBER {
    union {
-      uint32_t   SymbolTableIndex;               // Symbol table index of function name if Linenumber is 0.
+      uint32_t
+      SymbolTableIndex;               // Symbol table index of function name if Linenumber is 0.
       uint32_t   VirtualAddress;                 // Virtual address of line number.
    } Type;
    uint16_t    Linenumber;                         // Line number.
@@ -773,10 +774,12 @@ typedef struct _IMAGE_LINENUMBER {
 #define IMAGE_ARCHIVE_LONGNAMES_MEMBER       "//              "
 
 typedef struct _IMAGE_ARCHIVE_MEMBER_HEADER {
-   uint8_t     Name[16];                          // File member name - `/' terminated.
+   uint8_t
+   Name[16];                          // File member name - `/' terminated.
    uint8_t     Date[12];                          // File member date - decimal.
    uint8_t     UserID[6];                         // File member user id - decimal.
-   uint8_t     GroupID[6];                        // File member group id - decimal.
+   uint8_t
+   GroupID[6];                        // File member group id - decimal.
    uint8_t     Mode[8];                           // File member mode - octal.
    uint8_t     Size[10];                          // File member size - decimal.
    uint8_t     EndHeader[2];                      // String to end header.

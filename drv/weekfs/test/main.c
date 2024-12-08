@@ -26,7 +26,8 @@ int main(int argc, char** argv)
          stat(BLOCK_DEV, &st);
          we_calc_fs(sb, st.st_size, 512);
          we_format(sb);
-         printf("bs=%d, bcount=%d type=%s\n", sb->params.bsize, sb->params.bcount, sb->params.type);
+         printf("bs=%d, bcount=%d type=%s\n", sb->params.bsize, sb->params.bcount,
+            sb->params.type);
          return 0;
       }
       if (strcmp(argv[1], "-t") == 0) {
@@ -38,7 +39,8 @@ int main(int argc, char** argv)
          if (strcmp(sb->params.type, WEEK_TYPE) != 0) {
             printf("ERROR! fstype=%s != compile=%s\n", sb->params.type, WEEK_TYPE);
          } else {
-            printf("bs=%d, bcount=%d type=%s\n", sb->params.bsize, sb->params.bcount, sb->params.type);
+            printf("bs=%d, bcount=%d type=%s\n", sb->params.bsize, sb->params.bcount,
+               sb->params.type);
          }
          char buf[1000];
          int a;

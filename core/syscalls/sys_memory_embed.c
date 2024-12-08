@@ -85,7 +85,8 @@ void sys_free(void *ptr)
 
 
 
-void* sys_mmap(void* addr, size_t size, int prot, int flags, int f, off_t offset)
+void* sys_mmap(void* addr, size_t size, int prot, int flags, int f,
+   off_t offset)
 {
    return sys_malloc(size);
 }

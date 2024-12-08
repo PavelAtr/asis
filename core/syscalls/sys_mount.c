@@ -45,7 +45,8 @@ mountpoint* _get_free_mountpoint()
    return NULL;
 }
 
-int  _sys_mount(device* dev, mountpoint* mount, const char* fstype, const char* options)
+int  _sys_mount(device* dev, mountpoint* mount, const char* fstype,
+   const char* options)
 {
 #ifndef UEFI
    if (strcmp(fstype, "hostfs") == 0) {
@@ -63,7 +64,8 @@ int  _sys_mount(device* dev, mountpoint* mount, const char* fstype, const char* 
    return -1;
 }
 
-int sys_mount(const char* blk, const char* dir, const char* fstype, const char* options)
+int sys_mount(const char* blk, const char* dir, const char* fstype,
+   const char* options)
 {
    sys_printf("Mounting %s on %s type %s\n", blk, dir, fstype);
    mountpoint* mount = _get_free_mountpoint();

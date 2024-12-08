@@ -15,17 +15,20 @@ char* calcpath(const char* path)
    return tmp;
 }
 
-errno_t uefifs_mknod(void* sbfs, const char *pathname, uid_t uid, gid_t gid, mode_t mode)
+errno_t uefifs_mknod(void* sbfs, const char *pathname, uid_t uid, gid_t gid,
+   mode_t mode)
 {
    return 0;
 }
 
-errno_t uefifs_modnod(void* sbfs, const char* pathname, uid_t uid, gid_t gid, mode_t mode)
+errno_t uefifs_modnod(void* sbfs, const char* pathname, uid_t uid, gid_t gid,
+   mode_t mode)
 {
    return 0;
 }
 
-errno_t uefifs_rmnod(void* sbfs, const char *pathname, uid_t curuid, gid_t curgid)
+errno_t uefifs_rmnod(void* sbfs, const char *pathname, uid_t curuid,
+   gid_t curgid)
 {
    return 0;
 }
@@ -35,12 +38,14 @@ errno_t uefifs_truncate(void* sb, const char *pathname, len_t len)
    return 0;
 }
 
-errno_t uefifs_link(void* sb, const char* src, const char* dst, bool_t move, uid_t uid, gid_t gid)
+errno_t uefifs_link(void* sb, const char* src, const char* dst, bool_t move,
+   uid_t uid, gid_t gid)
 {
    return 0;
 }
 
-len_t uefifs_fread(void* sbfs, const char* path, void* ptr, len_t size, len_t off)
+len_t uefifs_fread(void* sbfs, const char* path, void* ptr, len_t size,
+   len_t off)
 {
    FILE* f = fopen(calcpath(path), "r");
    if (!f) {
@@ -52,7 +57,8 @@ len_t uefifs_fread(void* sbfs, const char* path, void* ptr, len_t size, len_t of
    return ret * size;
 }
 
-len_t uefifs_fwrite(void* sbfs, const char* path, const void* ptr, len_t size, len_t off)
+len_t uefifs_fwrite(void* sbfs, const char* path, const void* ptr, len_t size,
+   len_t off)
 {
    FILE* f = fopen(calcpath(path), "w");
    if (!f) {

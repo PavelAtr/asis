@@ -63,10 +63,12 @@ void runcommand(char* cmd)
       weekfs_dentry temp_dentry;
       weekfs_getdntry(sb, param, &temp_dentry);
       we_header_load(sb, &temp, temp_dentry.d_dirent.d_ino);
-      printf("info bnum=%d type=%d parent=%d next=%d\n", temp_dentry.d_dirent.d_ino, temp.type, temp.parent, temp.next);
+      printf("info bnum=%d type=%d parent=%d next=%d\n", temp_dentry.d_dirent.d_ino,
+         temp.type, temp.parent, temp.next);
    }
    if (strstr(cmd, "mknod ") == cmd) {
-      printf("mknod %s = %s \n", param, strerror(weekfs_mknod(sb, param, 0, 0, S_IRWXU)));
+      printf("mknod %s = %s \n", param, strerror(weekfs_mknod(sb, param, 0, 0,
+               S_IRWXU)));
    }
    if (strstr(cmd, "write ") == cmd) {
       if (originfd == -1) {

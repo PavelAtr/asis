@@ -59,14 +59,18 @@ int main(int argc, char **argv)
       return 0;
    }
    /* png is RGBA, but UEFI needs BGRA */
-   if(gop->Mode->Information->PixelFormat == PixelBlueGreenRedReserved8BitPerColor ||
-      (gop->Mode->Information->PixelFormat == PixelBitMask && gop->Mode->Information->PixelInformation.BlueMask != 0xff0000)) {
+   if(gop->Mode->Information->PixelFormat == PixelBlueGreenRedReserved8BitPerColor
+      ||
+      (gop->Mode->Information->PixelFormat == PixelBitMask
+         && gop->Mode->Information->PixelInformation.BlueMask != 0xff0000)) {
       for(l = 0; l < w * h; l++) {
-         data[l] = ((data[l] & 0xff) << 16) | (data[l] & 0xff00) | ((data[l] >> 16) & 0xff);
+         data[l] = ((data[l] & 0xff) << 16) | (data[l] & 0xff00) | ((
+                  data[l] >> 16) & 0xff);
       }
    }
    /* display image */
-   gop->Blt(gop, data, EfiBltBufferToVideo, 0, 0, (gop->Mode->Information->HorizontalResolution - w) / 2,
+   gop->Blt(gop, data, EfiBltBufferToVideo, 0, 0,
+      (gop->Mode->Information->HorizontalResolution - w) / 2,
       (gop->Mode->Information->VerticalResolution - h) / 2, w, h, 0);
    /* free resources exit */
    free(data);

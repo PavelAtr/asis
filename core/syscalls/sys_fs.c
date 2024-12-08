@@ -111,7 +111,8 @@ int_t sys_stat(const char* pathname, void* statbuf)
       current->sys_errno = ENOENT;
       return -1;
    }
-   errno_t err = mount->mount_stat(mount->sbfs, sys_calcpath(mount, pathname), statbuf);
+   errno_t err = mount->mount_stat(mount->sbfs, sys_calcpath(mount, pathname),
+         statbuf);
    if (err) {
       current->sys_errno = err;
       return -1;
@@ -126,7 +127,8 @@ int_t sys_mknod(const char* pathname, mode_t mode)
       current->sys_errno = ENOENT;
       return -1;
    }
-   errno_t err = mount->mount_mknod(mount->sbfs, sys_calcpath(mount, pathname), current->uid, current->gid, mode);
+   errno_t err = mount->mount_mknod(mount->sbfs, sys_calcpath(mount, pathname),
+         current->uid, current->gid, mode);
    if (err) {
       current->sys_errno = err;
       return -1;
@@ -193,7 +195,8 @@ int_t sys_unlink(const char *pathname)
       current->sys_errno = ENOENT;
       return -1;
    }
-   errno_t err = mount->mount_rmnod(mount->sbfs, sys_calcpath(mount, pathname), current->uid, current->gid);
+   errno_t err = mount->mount_rmnod(mount->sbfs, sys_calcpath(mount, pathname),
+         current->uid, current->gid);
    if (err) {
       current->sys_errno = err;
       return -1;
@@ -209,7 +212,8 @@ int_t sys_link(const char *oldpath, const char *newpath, bool_t move)
       current->sys_errno = ENOTSUP;
       return -1;
    }
-   errno_t err = mount1->mount_link(mount1->sbfs, sys_calcpath(mount1, oldpath), sys_calcpath(mount2, newpath), move, current->uid, current->gid);
+   errno_t err = mount1->mount_link(mount1->sbfs, sys_calcpath(mount1, oldpath),
+         sys_calcpath(mount2, newpath), move, current->uid, current->gid);
    if (err) {
       current->sys_errno = err;
       return -1;
@@ -239,7 +243,8 @@ int_t sys_truncate(const char *pathname, size_t length)
       current->sys_errno = ENOENT;
       return -1;
    }
-   errno_t err = mount->mount_truncate(mount->sbfs, sys_calcpath(mount, pathname), length);
+   errno_t err = mount->mount_truncate(mount->sbfs, sys_calcpath(mount, pathname),
+         length);
    if (err) {
       current->sys_errno = err;
       return -1;

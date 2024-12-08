@@ -43,7 +43,8 @@ int main(int argc, char **argv)
          }
          printf(" %c%3d. %4d x%4d (pitch %4d fmt %d r:%06x g:%06x b:%06x)\n",
             i == currentMode ? '*' : ' ', i,
-            info->HorizontalResolution, info->VerticalResolution, info->PixelsPerScanLine, info->PixelFormat,
+            info->HorizontalResolution, info->VerticalResolution, info->PixelsPerScanLine,
+            info->PixelFormat,
             info->PixelFormat==PixelRedGreenBlueReserved8BitPerColor?0xff:(
                info->PixelFormat==PixelBlueGreenRedReserved8BitPerColor?0xff0000:(
                   info->PixelFormat==PixelBitMask?info->PixelInformation.RedMask:0)),

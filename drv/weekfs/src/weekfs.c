@@ -17,7 +17,8 @@ sblock* we_calc_fs(sblock* sb, len_t sizefs, bsize_t bsize)
    sb->params.bsize = bsize;
    sb->params.bcount = (sizefs - sizeof(sblock)) / (bsize + sizeof(hblock));
    if (sizeof(weekfs_dentry) > bsize) {
-      printf("WARNING! Dentry size=%ld less than bsize=%d!\n", sizeof(weekfs_dentry), bsize);
+      printf("WARNING! Dentry size=%ld less than bsize=%d!\n", sizeof(weekfs_dentry),
+         bsize);
    }
    return sb;
 }
@@ -51,20 +52,26 @@ void we_format(sblock* sb)
 len_t we_block_read(sblock* sb, bnum_t bnum, void* data, len_t len, len_t off)
 {
    len_t size = (len <= sb->params.bsize - off)? len : sb->params.bsize - off;
-   sb->cache_seek(sb->devparam, sizeof(sblock) + sizeof(hblock) * sb->params.bcount + sb->params.bsize *  bnum + off);
+   sb->cache_seek(sb->devparam,
+      sizeof(sblock) + sizeof(hblock) * sb->params.bcount + sb->params.bsize *  bnum +
+      off);
    len_t readed = sb->cache_read(sb->devparam, data, size);
    return readed;
 }
 
-len_t we_block_write(sblock* sb, bnum_t bnum, const void* data, len_t len, len_t off)
+len_t we_block_write(sblock* sb, bnum_t bnum, const void* data, len_t len,
+   len_t off)
 {
    len_t size = (len <= sb->params.bsize - off)? len : sb->params.bsize - off;
-   sb->cache_seek(sb->devparam, sizeof(sblock) + sizeof(hblock) * sb->params.bcount + sb->params.bsize *  bnum + off);
+   sb->cache_seek(sb->devparam,
+      sizeof(sblock) + sizeof(hblock) * sb->params.bcount + sb->params.bsize *  bnum +
+      off);
    len_t writed = sb->cache_write(sb->devparam, data, size);
    return writed;
 }
 
-void we_superblock_init(sblock* sb, seek_func _seek, read_func _read, write_func _write)
+void we_superblock_init(sblock* sb, seek_func _seek, read_func _read,
+   write_func _write)
 {
    sb->cache_seek = _seek;
    sb->cache_read = _read;
@@ -183,7 +190,8 @@ bnum_t we_dentry_find(sblock* sb, const char* path, bnum_t* parent)
    return bnum;
 }
 
-errno_t we_dentry_create(sblock* sb, const char* path, bnum_t copydata, void* dntry)
+errno_t we_dentry_create(sblock* sb, const char* path, bnum_t copydata,
+   void* dntry)
 {
    bnum_t parent;
    bnum_t self = we_dentry_find(sb, path, &parent);
@@ -321,7 +329,8 @@ errno_t we_unlink(sblock* sb, bnum_t ndentry, bool_t keepdata)
    return 0;
 }
 
-len_t we_file_write(sblock* sb, bnum_t ndentry, const void* data, len_t len, len_t off)
+len_t we_file_write(sblock* sb, bnum_t ndentry, const void* data, len_t len,
+   len_t off)
 {
    we_allocate(sb, ndentry, len + off);
    len_t writed = 0;
@@ -340,7 +349,8 @@ len_t we_file_write(sblock* sb, bnum_t ndentry, const void* data, len_t len, len
       }
       size += sb->params.bsize;
       len_t block_off = off + writed - (size - sb->params.bsize);
-      len_t block_len = (len + off > size)? size - (off + writed) : sb->params.bsize -(size - (len + off));
+      len_t block_len = (len + off > size)? size - (off + writed) : sb->params.bsize
+         -(size - (len + off));
       if (block_off >= 0 && block_off <= sb->params.bsize) {
          writed += we_block_write(sb, cur, data + writed, block_len, block_off);
       }
@@ -377,7 +387,8 @@ len_t we_file_read(sblock* sb, bnum_t ndentry, void* data, len_t len, len_t off)
       }
       size += sb->params.bsize;
       len_t block_off = off + readed - (size - sb->params.bsize);
-      len_t block_len = (newlen + off > size)? size - (off + readed) : sb->params.bsize - (size - (newlen + off));
+      len_t block_len = (newlen + off > size)? size - (off + readed) :
+         sb->params.bsize - (size - (newlen + off));
       if (block_off >= 0 && block_off <= sb->params.bsize) {
          readed += we_block_read(sb, cur, data + readed, block_len, block_off);
       }

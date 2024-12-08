@@ -67,8 +67,10 @@ int dl_load(dl* buf, const char* file)
    buf->dl_elf = sys_malloc(sizeof(elf));
    buf->dl_elf->hdr = elf_load_hdr(file);
    buf->dl_elf->phdrs = elf_load_phdrs(file, buf->dl_elf->hdr);
-   buf->dl_elf->exec_size = elf_load_exec(file, buf->dl_elf->hdr, buf->dl_elf->phdrs, NULL);
-   buf->dl_elf->exec = sys_mmap(NULL, buf->dl_elf->exec_size, PROT_READ | PROT_WRITE | PROT_EXEC,
+   buf->dl_elf->exec_size = elf_load_exec(file, buf->dl_elf->hdr,
+         buf->dl_elf->phdrs, NULL);
+   buf->dl_elf->exec = sys_mmap(NULL, buf->dl_elf->exec_size,
+         PROT_READ | PROT_WRITE | PROT_EXEC,
          MAP_ANONYMOUS|MAP_SHARED, -1, 0);
    memset(buf->dl_elf->exec, 0x0, buf->dl_elf->exec_size);
    elf_load_exec(file, buf->dl_elf->hdr, buf->dl_elf->phdrs, buf->dl_elf->exec);
@@ -82,37 +84,49 @@ int dl_load(dl* buf, const char* file)
    buf->dl_elf->rela = sys_malloc((relacnt + 1) * sizeof(elfrelas*));
    for (i = 0; i < relacnt; i++) {
       buf->dl_elf->rela[i] = sys_malloc(sizeof(elfrelas));
-      buf->dl_elf->rela[i]->head = elf_find_table(buf->dl_elf->hdr, buf->dl_elf->shdrs, &start_ndx, SHT_RELA);
-      buf->dl_elf->rela[i]->relas = elf_load_table(file, buf->dl_elf->hdr, buf->dl_elf->rela[i]->head);
+      buf->dl_elf->rela[i]->head = elf_find_table(buf->dl_elf->hdr,
+            buf->dl_elf->shdrs, &start_ndx, SHT_RELA);
+      buf->dl_elf->rela[i]->relas = elf_load_table(file, buf->dl_elf->hdr,
+            buf->dl_elf->rela[i]->head);
       start_ndx++;
    }
    buf->dl_elf->rela[i] = NULL;
-   int_t symcnt = elf_count_table(buf->dl_elf->hdr, buf->dl_elf->shdrs, SHT_SYMTAB);
-   int_t dyncnt = elf_count_table(buf->dl_elf->hdr, buf->dl_elf->shdrs, SHT_DYNSYM);
+   int_t symcnt = elf_count_table(buf->dl_elf->hdr, buf->dl_elf->shdrs,
+         SHT_SYMTAB);
+   int_t dyncnt = elf_count_table(buf->dl_elf->hdr, buf->dl_elf->shdrs,
+         SHT_DYNSYM);
    buf->dl_elf->sym = sys_malloc((symcnt + dyncnt + 1) * sizeof(elfsyms*));
    start_ndx = 0;
    for (i = 0; i < symcnt; i++) {
       buf->dl_elf->sym[i] = sys_malloc(sizeof(elfsyms));
-      buf->dl_elf->sym[i]->head = elf_find_table(buf->dl_elf->hdr, buf->dl_elf->shdrs, &start_ndx, SHT_SYMTAB);
-      buf->dl_elf->sym[i]->syms = elf_load_table(file, buf->dl_elf->hdr, buf->dl_elf->sym[i]->head);
-      buf->dl_elf->sym[i]->symstr = elf_load_strings(file, buf->dl_elf->hdr, buf->dl_elf->shdrs, buf->dl_elf->sym[i]->head);
+      buf->dl_elf->sym[i]->head = elf_find_table(buf->dl_elf->hdr, buf->dl_elf->shdrs,
+            &start_ndx, SHT_SYMTAB);
+      buf->dl_elf->sym[i]->syms = elf_load_table(file, buf->dl_elf->hdr,
+            buf->dl_elf->sym[i]->head);
+      buf->dl_elf->sym[i]->symstr = elf_load_strings(file, buf->dl_elf->hdr,
+            buf->dl_elf->shdrs, buf->dl_elf->sym[i]->head);
       buf->dl_elf->sym[i]->dynamic = 0;
       start_ndx++;
    }
    start_ndx = 0;
    for (i = i; i < symcnt + dyncnt; i++) {
       buf->dl_elf->sym[i] = sys_malloc(sizeof(elfsyms));
-      buf->dl_elf->sym[i]->head = elf_find_table(buf->dl_elf->hdr, buf->dl_elf->shdrs, &start_ndx, SHT_DYNSYM);
-      buf->dl_elf->sym[i]->syms = elf_load_table(file, buf->dl_elf->hdr, buf->dl_elf->sym[i]->head);
-      buf->dl_elf->sym[i]->symstr = elf_load_strings(file, buf->dl_elf->hdr, buf->dl_elf->shdrs, buf->dl_elf->sym[i]->head);
+      buf->dl_elf->sym[i]->head = elf_find_table(buf->dl_elf->hdr, buf->dl_elf->shdrs,
+            &start_ndx, SHT_DYNSYM);
+      buf->dl_elf->sym[i]->syms = elf_load_table(file, buf->dl_elf->hdr,
+            buf->dl_elf->sym[i]->head);
+      buf->dl_elf->sym[i]->symstr = elf_load_strings(file, buf->dl_elf->hdr,
+            buf->dl_elf->shdrs, buf->dl_elf->sym[i]->head);
       buf->dl_elf->sym[i]->dynamic = 1;
       start_ndx++;
    }
    buf->dl_elf->sym[i] = NULL;
    start_ndx = 0;
-   buf->dl_elf->dyns = elf_find_table(buf->dl_elf->hdr, buf->dl_elf->shdrs, &start_ndx, SHT_DYNAMIC);
+   buf->dl_elf->dyns = elf_find_table(buf->dl_elf->hdr, buf->dl_elf->shdrs,
+         &start_ndx, SHT_DYNAMIC);
    buf->dl_elf->dyntab = elf_load_table(file, buf->dl_elf->hdr, buf->dl_elf->dyns);
-   buf->dl_elf->dynstr = elf_load_strings(file, buf->dl_elf->hdr, buf->dl_elf->shdrs, buf->dl_elf->dyns);
+   buf->dl_elf->dynstr = elf_load_strings(file, buf->dl_elf->hdr,
+         buf->dl_elf->shdrs, buf->dl_elf->dyns);
    sys_printf(SYS_INFO "OK\n");
    return 0;
 fail:
@@ -137,7 +151,8 @@ void *dlopen(const char* filename, int flags)
    while (1) {
       const char* path;
       dtneed_ndx = 0;
-      while ((path = elf_dtneed(prog->dl_elf->dyns, prog->dl_elf->dyntab, prog->dl_elf->dynstr)) != NULL) {
+      while ((path = elf_dtneed(prog->dl_elf->dyns, prog->dl_elf->dyntab,
+                  prog->dl_elf->dynstr)) != NULL) {
          if (dl_find(prog, path) != NULL) {
             continue;
          }

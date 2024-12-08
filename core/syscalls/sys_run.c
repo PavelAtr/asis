@@ -62,7 +62,8 @@ int_t sys_exec(const char* file, char* const argv[])
    addr_t* syscall = dlsym(current->dlhandle, "syscall");
    addr_t* fds = dlsym(current->dlhandle, "fds");
    addr_t* atexit = dlsym(current->dlhandle, "atexit");
-   void __attribute__((sysv_abi)) (*start)(int argc, char* const* argv, char* const* envp)
+   void __attribute__((sysv_abi)) (*start)(int argc, char* const* argv,
+      char* const* envp)
       = dlsym(current->dlhandle, "_start");
    if (!syscall || !start || !fds || !atexit) {
       current->sys_errno = ENOMEM;

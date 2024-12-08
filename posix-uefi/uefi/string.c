@@ -260,7 +260,8 @@ char_t *strrchr(const char_t *s, int c)
 
 char_t *strstr(const char_t *haystack, const char_t *needle)
 {
-   return memmem(haystack, strlen(haystack) * sizeof(char_t), needle, strlen(needle) * sizeof(char_t));
+   return memmem(haystack, strlen(haystack) * sizeof(char_t), needle,
+         strlen(needle) * sizeof(char_t));
 }
 
 static char_t *_strtok_r(char_t *s, const char_t *d, char_t **p)

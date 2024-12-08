@@ -74,7 +74,8 @@ int64_t strtol (const char_t *s, char_t **__endptr, int __base)
       sign = -1;
       s++;
    }
-   while(!(*s < CL('0') || (__base < 10 && *s >= __base + CL('0')) || (__base >= 10 && ((*s > CL('9') && *s < CL('A')) ||
+   while(!(*s < CL('0') || (__base < 10 && *s >= __base + CL('0'))
+         || (__base >= 10 && ((*s > CL('9') && *s < CL('A')) ||
                (*s > CL('F') && *s < CL('a')) || *s > CL('f'))))) {
       v *= __base;
       if(*s >= CL('0') && *s <= (__base < 10 ? __base + CL('0') : CL('9'))) {
@@ -101,7 +102,8 @@ void *malloc (size_t __size)
    for(i = 0; i < __stdlib_numallocs && __stdlib_allocs[i] != 0; i += 2);
    if(i == __stdlib_numallocs) {
       /* no free slots found, (re)allocate the housekeeping array */
-      status = BS->AllocatePool(LIP ? LIP->ImageDataType : EfiLoaderData, (__stdlib_numallocs + 2) * sizeof(uintptr_t), &ret);
+      status = BS->AllocatePool(LIP ? LIP->ImageDataType : EfiLoaderData,
+            (__stdlib_numallocs + 2) * sizeof(uintptr_t), &ret);
       if(EFI_ERROR(status) || !ret) {
          errno = ENOMEM;
          return NULL;
@@ -115,7 +117,8 @@ void *malloc (size_t __size)
       ret = NULL;
    }
 #endif
-   status = BS->AllocatePool(LIP ? LIP->ImageDataType : EfiLoaderData, __size, &ret);
+   status = BS->AllocatePool(LIP ? LIP->ImageDataType : EfiLoaderData, __size,
+         &ret);
    if(EFI_ERROR(status) || !ret) {
       errno = ENOMEM;
       ret = NULL;
@@ -152,20 +155,24 @@ void *realloc (void *__ptr, size_t __size)
    }
 #ifndef UEFI_NO_TRACK_ALLOC
    /* get the slot which stores the old size for this buffer */
-   for(i = 0; i < __stdlib_numallocs && __stdlib_allocs[i] != (uintptr_t)__ptr; i += 2);
+   for(i = 0; i < __stdlib_numallocs
+      && __stdlib_allocs[i] != (uintptr_t)__ptr; i += 2);
    if(i == __stdlib_numallocs) {
       errno = ENOMEM;
       return NULL;
    }
    /* allocate a new buffer and copy data from old buffer */
-   status = BS->AllocatePool(LIP ? LIP->ImageDataType : EfiLoaderData, __size, &ret);
+   status = BS->AllocatePool(LIP ? LIP->ImageDataType : EfiLoaderData, __size,
+         &ret);
    if(EFI_ERROR(status) || !ret) {
       errno = ENOMEM;
       ret = NULL;
    } else {
-      memcpy(ret, (void*)__stdlib_allocs[i], __stdlib_allocs[i + 1] < __size ? __stdlib_allocs[i + 1] : __size);
+      memcpy(ret, (void*)__stdlib_allocs[i],
+         __stdlib_allocs[i + 1] < __size ? __stdlib_allocs[i + 1] : __size);
       if(__size > __stdlib_allocs[i + 1]) {
-         memset((uint8_t*)ret + __stdlib_allocs[i + 1], 0, __size - __stdlib_allocs[i + 1]);
+         memset((uint8_t*)ret + __stdlib_allocs[i + 1], 0,
+            __size - __stdlib_allocs[i + 1]);
       }
       /* free old buffer and store new buffer in slot */
       BS->FreePool((void*)__stdlib_allocs[i]);
@@ -173,7 +180,8 @@ void *realloc (void *__ptr, size_t __size)
       __stdlib_allocs[i + 1] = (uintptr_t)__size;
    }
 #else
-   status = BS->AllocatePool(LIP ? LIP->ImageDataType : EfiLoaderData, __size, &ret);
+   status = BS->AllocatePool(LIP ? LIP->ImageDataType : EfiLoaderData, __size,
+         &ret);
    if(EFI_ERROR(status) || !ret) {
       errno = ENOMEM;
       return NULL;
@@ -197,7 +205,8 @@ void free (void *__ptr)
    }
 #ifndef UEFI_NO_TRACK_ALLOC
    /* find and clear the slot */
-   for(i = 0; i < __stdlib_numallocs && __stdlib_allocs[i] != (uintptr_t)__ptr; i += 2);
+   for(i = 0; i < __stdlib_numallocs
+      && __stdlib_allocs[i] != (uintptr_t)__ptr; i += 2);
    if(i == __stdlib_numallocs) {
       errno = ENOMEM;
       return;
@@ -241,7 +250,8 @@ void exit (int __status)
    __stdlib_numallocs = 0;
 #endif
    __stdio_cleanup();
-   BS->Exit(IM, !__status ? 0 : (__status < 0 ? EFIERR(-__status) : EFIERR(__status)), 0, NULL);
+   BS->Exit(IM, !__status ? 0 : (__status < 0 ? EFIERR(-__status) : EFIERR(
+            __status)), 0, NULL);
 }
 
 int exit_bs()
@@ -258,7 +268,8 @@ int exit_bs()
 #endif
    __stdio_cleanup();
    while(cnt--) {
-      status = BS->GetMemoryMap(&memory_map_size, memory_map, &map_key, &desc_size, NULL);
+      status = BS->GetMemoryMap(&memory_map_size, memory_map, &map_key, &desc_size,
+            NULL);
       if (status!=EFI_BUFFER_TOO_SMALL) {
          break;
       }
@@ -270,7 +281,8 @@ int exit_bs()
    return (int)(status & 0xffff);
 }
 
-void *bsearch(const void *key, const void *base, size_t nmemb, size_t size, __compar_fn_t cmp)
+void *bsearch(const void *key, const void *base, size_t nmemb, size_t size,
+   __compar_fn_t cmp)
 {
    uint64_t s=0, e=nmemb, m;
    int ret;
@@ -326,7 +338,8 @@ int mbtowc (wchar_t * __pwc, const char *s, size_t n)
          arg = ((*s & 0xF)<<12)|((*(s+1) & 0x3F)<<6)|(*(s+2) & 0x3F);
          ret = 3;
       } else if((*s & 8) == 0 && n > 2) {
-         arg = ((*s & 0x7)<<18)|((*(s+1) & 0x3F)<<12)|((*(s+2) & 0x3F)<<6)|(*(s+3) & 0x3F);
+         arg = ((*s & 0x7)<<18)|((*(s+1) & 0x3F)<<12)|((*(s+2) & 0x3F)<<6)|(*
+               (s+3) & 0x3F);
          ret = 4;
       } else {
          return -1;

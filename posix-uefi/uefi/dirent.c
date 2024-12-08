@@ -59,7 +59,8 @@ struct dirent *readdir (DIR *__dirp)
    }
    __dirent.d_type = info.Attribute & EFI_FILE_DIRECTORY ? DT_DIR : DT_REG;
 #ifndef UEFI_NO_UTF8
-   __dirent.d_reclen = (unsigned short int)wcstombs(__dirent.d_name, info.FileName, FILENAME_MAX - 1);
+   __dirent.d_reclen = (unsigned short int)wcstombs(__dirent.d_name, info.FileName,
+         FILENAME_MAX - 1);
 #else
    __dirent.d_reclen = strlen(info.FileName);
    strncpy(__dirent.d_name, info.FileName, FILENAME_MAX - 1);

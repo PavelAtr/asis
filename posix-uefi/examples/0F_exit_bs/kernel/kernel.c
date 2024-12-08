@@ -58,7 +58,8 @@ void printString(int x, int y, char *s)
          y += font->height;
          continue;
       }
-      for(ptr = (unsigned char*)font + font->characters_offs, chr = 0, i = 0; i < 0x110000; i++) {
+      for(ptr = (unsigned char*)font + font->characters_offs, chr = 0, i = 0;
+         i < 0x110000; i++) {
          if(ptr[0] == 0xFF) {
             i += 65535;
             ptr++;
@@ -87,7 +88,8 @@ void printString(int x, int y, char *s)
          if(ptr[0] == 255 && ptr[1] == 255) {
             continue;
          }
-         frg = (unsigned char*)font + (chr[0] & 0x40 ? ((ptr[5] << 24) | (ptr[4] << 16) | (ptr[3] << 8) | ptr[2]) :
+         frg = (unsigned char*)font + (chr[0] & 0x40 ? ((ptr[5] << 24) |
+                  (ptr[4] << 16) | (ptr[3] << 8) | ptr[2]) :
                ((ptr[4] << 16) | (ptr[3] << 8) | ptr[2]));
          if((frg[0] & 0xE0) != 0x80) {
             continue;

@@ -197,8 +197,10 @@ efi_status_t uefi_init (
       "	mov %rax, %cr4\n"
    );
    /* failsafes, should never happen */
-   if(!image || !systab || !systab->BootServices || !systab->BootServices->HandleProtocol ||
-      !systab->BootServices->OpenProtocol || !systab->BootServices->AllocatePool || !systab->BootServices->FreePool) {
+   if(!image || !systab || !systab->BootServices
+      || !systab->BootServices->HandleProtocol ||
+      !systab->BootServices->OpenProtocol || !systab->BootServices->AllocatePool
+      || !systab->BootServices->FreePool) {
       return EFI_UNSUPPORTED;
    }
    /* save EFI pointers and loaded image into globals */
@@ -208,13 +210,15 @@ efi_status_t uefi_init (
    RT = systab->RuntimeServices;
    BS->HandleProtocol(image, &lipGuid, (void **)&LIP);
    /* get command line arguments */
-   status = BS->OpenProtocol(image, &shpGuid, (void **)&shp, image, NULL, EFI_OPEN_PROTOCOL_GET_PROTOCOL);
+   status = BS->OpenProtocol(image, &shpGuid, (void **)&shp, image, NULL,
+         EFI_OPEN_PROTOCOL_GET_PROTOCOL);
    if(!EFI_ERROR(status) && shp) {
       argc = (int)shp->Argc;
       argv = shp->Argv;
    } else {
       /* if shell 2.0 failed, fallback to shell 1.0 interface */
-      status = BS->OpenProtocol(image, &shiGuid, (void **)&shi, image, NULL, EFI_OPEN_PROTOCOL_GET_PROTOCOL);
+      status = BS->OpenProtocol(image, &shiGuid, (void **)&shi, image, NULL,
+            EFI_OPEN_PROTOCOL_GET_PROTOCOL);
       if(!EFI_ERROR(status) && shi) {
          argc = (int)shi->Argc;
          argv = shi->Argv;
@@ -228,7 +232,8 @@ efi_status_t uefi_init (
          for(j = 0; argv[i] && argv[i][j]; j++) {
             ret += argv[i][j] < 0x80 ? 1 : (argv[i][j] < 0x800 ? 2 : 3);
          }
-      status = BS->AllocatePool(LIP ? LIP->ImageDataType : EfiLoaderData, (uintn_t)ret, (void **)&__argvutf8);
+      status = BS->AllocatePool(LIP ? LIP->ImageDataType : EfiLoaderData,
+            (uintn_t)ret, (void **)&__argvutf8);
       if(EFI_ERROR(status) || !__argvutf8) {
          argc = 0;
          __argvutf8 = NULL;

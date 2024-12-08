@@ -42,7 +42,8 @@
 // from GNU libc-4.6.27
 //
 
-static char *cvt(double arg, int ndigits, int *decpt, int *sign, char *buf, int eflag)
+static char *cvt(double arg, int ndigits, int *decpt, int *sign, char *buf,
+   int eflag)
 {
    int r2;
    double fi, fj;

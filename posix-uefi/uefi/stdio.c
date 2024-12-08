@@ -104,7 +104,8 @@ int fstat (FILE *__f, struct stat *__buf)
    for(i = 0; i < __blk_ndevs; i++)
       if(__f == (FILE*)__blk_devs[i].bio) {
          __buf->st_mode = S_IREAD | S_IWRITE | S_IFBLK;
-         __buf->st_size = (off_t)__blk_devs[i].bio->Media->BlockSize * ((off_t)__blk_devs[i].bio->Media->LastBlock + 1);
+         __buf->st_size = (off_t)__blk_devs[i].bio->Media->BlockSize * ((
+                  off_t)__blk_devs[i].bio->Media->LastBlock + 1);
          __buf->st_blocks = __blk_devs[i].bio->Media->LastBlock + 1;
          return 0;
       }
@@ -132,7 +133,8 @@ int fclose (FILE *__stream)
       errno = EINVAL;
       return 0;
    }
-   if(__stream == stdin || __stream == stdout || __stream == stderr || (__ser && __stream == (FILE*)__ser)) {
+   if(__stream == stdin || __stream == stdout || __stream == stderr || (__ser
+         && __stream == (FILE*)__ser)) {
       return 1;
    }
    for(i = 0; i < __blk_ndevs; i++)
@@ -152,7 +154,8 @@ int fflush (FILE *__stream)
       errno = EINVAL;
       return 0;
    }
-   if(__stream == stdin || __stream == stdout || __stream == stderr || (__ser && __stream == (FILE*)__ser)) {
+   if(__stream == stdin || __stream == stdout || __stream == stderr || (__ser
+         && __stream == (FILE*)__ser)) {
       return 1;
    }
    for(i = 0; i < __blk_ndevs; i++)
@@ -174,7 +177,8 @@ int __remove (const char_t *__filename, int isdir)
    if(errno) {
       return 1;
    }
-   if(!f || f == stdin || f == stdout || f == stderr || (__ser && f == (FILE*)__ser)) {
+   if(!f || f == stdin || f == stdout || f == stderr || (__ser
+         && f == (FILE*)__ser)) {
       errno = EBADF;
       return 1;
    }
@@ -229,8 +233,10 @@ FILE *fopen (const char_t *__filename, const char_t *__modes)
    wchar_t wcname[BUFSIZ];
 #endif
    errno = 0;
-   if(!__filename || !*__filename || !__modes || (__modes[0] != CL('r') && __modes[0] != CL('w') && __modes[0] != CL('a') &&
-         __modes[0] != CL('*')) || (__modes[1] != 0 && __modes[1] != CL('d') && __modes[1] != CL('+'))) {
+   if(!__filename || !*__filename || !__modes || (__modes[0] != CL('r')
+         && __modes[0] != CL('w') && __modes[0] != CL('a') &&
+         __modes[0] != CL('*')) || (__modes[1] != 0 && __modes[1] != CL('d')
+         && __modes[1] != CL('+'))) {
       errno = EINVAL;
       return NULL;
    }
@@ -266,7 +272,8 @@ FILE *fopen (const char_t *__filename, const char_t *__modes)
             return NULL;
          }
       }
-      __ser->SetAttributes(__ser, par > 9600 ? par : 115200, 0, 1000, NoParity, 8, OneStopBit);
+      __ser->SetAttributes(__ser, par > 9600 ? par : 115200, 0, 1000, NoParity, 8,
+         OneStopBit);
       return (FILE*)__ser;
    }
    if(!memcmp(__filename, CL("/dev/disk"), 9 * sizeof(char_t))) {
@@ -275,7 +282,8 @@ FILE *fopen (const char_t *__filename, const char_t *__modes)
          efi_guid_t bioGuid = EFI_BLOCK_IO_PROTOCOL_GUID;
          efi_handle_t handles[128];
          uintn_t handle_size = sizeof(handles);
-         status = BS->LocateHandle(ByProtocol, &bioGuid, NULL, &handle_size, (efi_handle_t*)&handles);
+         status = BS->LocateHandle(ByProtocol, &bioGuid, NULL, &handle_size,
+               (efi_handle_t*)&handles);
          if(!EFI_ERROR(status)) {
             handle_size /= (uintn_t)sizeof(efi_handle_t);
             /* workaround a bug in TianoCore, it reports zero size even though the data is in the buffer */
@@ -286,7 +294,9 @@ FILE *fopen (const char_t *__filename, const char_t *__modes)
             if(__blk_devs) {
                memset(__blk_devs, 0, handle_size * sizeof(block_file_t));
                for(i = __blk_ndevs = 0; i < handle_size; i++)
-                  if(handles[i] && !EFI_ERROR(BS->HandleProtocol(handles[i], &bioGuid, (void **) &__blk_devs[__blk_ndevs].bio)) &&
+                  if(handles[i]
+                     && !EFI_ERROR(BS->HandleProtocol(handles[i], &bioGuid,
+                           (void **) &__blk_devs[__blk_ndevs].bio)) &&
                      __blk_devs[__blk_ndevs].bio && __blk_devs[__blk_ndevs].bio->Media &&
                      __blk_devs[__blk_ndevs].bio->Media->BlockSize > 0) {
                      __blk_ndevs++;
@@ -325,8 +335,11 @@ FILE *fopen (const char_t *__filename, const char_t *__modes)
 #else
    status = __root_dir->Open(__root_dir, &ret, (wchar_t*)__filename,
 #endif
-         __modes[0] == CL('w') || __modes[0] == CL('a') ? (EFI_FILE_MODE_WRITE | EFI_FILE_MODE_READ | EFI_FILE_MODE_CREATE) :
-         EFI_FILE_MODE_READ | (__modes[0] == CL('*') || __modes[1] == CL('+') ? EFI_FILE_MODE_WRITE : 0),
+         __modes[0] == CL('w')
+         || __modes[0] == CL('a') ? (EFI_FILE_MODE_WRITE | EFI_FILE_MODE_READ |
+            EFI_FILE_MODE_CREATE) :
+         EFI_FILE_MODE_READ | (__modes[0] == CL('*')
+            || __modes[1] == CL('+') ? EFI_FILE_MODE_WRITE : 0),
          __modes[1] == CL('d') ? EFI_FILE_DIRECTORY : 0);
    if(EFI_ERROR(status)) {
 err:
@@ -378,8 +391,10 @@ size_t fread (void *__ptr, size_t __size, size_t __n, FILE *__stream)
       for(i = 0; i < __blk_ndevs; i++)
          if(__stream == (FILE*)__blk_devs[i].bio) {
             n = __blk_devs[i].offset / __blk_devs[i].bio->Media->BlockSize;
-            bs = (bs / __blk_devs[i].bio->Media->BlockSize) * __blk_devs[i].bio->Media->BlockSize;
-            status = __blk_devs[i].bio->ReadBlocks(__blk_devs[i].bio, __blk_devs[i].bio->Media->MediaId, n, bs, __ptr);
+            bs = (bs / __blk_devs[i].bio->Media->BlockSize) *
+               __blk_devs[i].bio->Media->BlockSize;
+            status = __blk_devs[i].bio->ReadBlocks(__blk_devs[i].bio,
+                  __blk_devs[i].bio->Media->MediaId, n, bs, __ptr);
             if(EFI_ERROR(status)) {
                __stdio_seterrno(status);
                return 0;
@@ -414,8 +429,10 @@ size_t fwrite (const void *__ptr, size_t __size, size_t __n, FILE *__stream)
       for(i = 0; i < __blk_ndevs; i++)
          if(__stream == (FILE*)__blk_devs[i].bio) {
             n = __blk_devs[i].offset / __blk_devs[i].bio->Media->BlockSize;
-            bs = (bs / __blk_devs[i].bio->Media->BlockSize) * __blk_devs[i].bio->Media->BlockSize;
-            status = __blk_devs[i].bio->WriteBlocks(__blk_devs[i].bio, __blk_devs[i].bio->Media->MediaId, n, bs, (void*)__ptr);
+            bs = (bs / __blk_devs[i].bio->Media->BlockSize) *
+               __blk_devs[i].bio->Media->BlockSize;
+            status = __blk_devs[i].bio->WriteBlocks(__blk_devs[i].bio,
+                  __blk_devs[i].bio->Media->MediaId, n, bs, (void*)__ptr);
             if(EFI_ERROR(status)) {
                __stdio_seterrno(status);
                return 0;
@@ -439,7 +456,8 @@ int fseek (FILE *__stream, long int __off, int __whence)
    efi_guid_t infoGuid = EFI_FILE_INFO_GUID;
    efi_file_info_t info;
    uintn_t fsiz = sizeof(efi_file_info_t), i;
-   if(!__stream || (__whence != SEEK_SET && __whence != SEEK_CUR && __whence != SEEK_END)) {
+   if(!__stream || (__whence != SEEK_SET && __whence != SEEK_CUR
+         && __whence != SEEK_END)) {
       errno = EINVAL;
       return -1;
    }
@@ -453,7 +471,8 @@ int fseek (FILE *__stream, long int __off, int __whence)
    }
    for(i = 0; i < __blk_ndevs; i++)
       if(__stream == (FILE*)__blk_devs[i].bio) {
-         off = (uint64_t)__blk_devs[i].bio->Media->BlockSize * (uint64_t)__blk_devs[i].bio->Media->LastBlock;
+         off = (uint64_t)__blk_devs[i].bio->Media->BlockSize * (uint64_t)
+            __blk_devs[i].bio->Media->LastBlock;
          switch(__whence) {
          case SEEK_END:
             __blk_devs[i].offset = off + __off;
@@ -471,7 +490,8 @@ int fseek (FILE *__stream, long int __off, int __whence)
          if(__blk_devs[i].offset > off) {
             __blk_devs[i].offset = off;
          }
-         __blk_devs[i].offset = (__blk_devs[i].offset / __blk_devs[i].bio->Media->BlockSize) *
+         __blk_devs[i].offset = (__blk_devs[i].offset /
+               __blk_devs[i].bio->Media->BlockSize) *
             __blk_devs[i].bio->Media->BlockSize;
          return 0;
       }
@@ -544,7 +564,8 @@ int feof (FILE *__stream)
    for(i = 0; i < __blk_ndevs; i++)
       if(__stream == (FILE*)__blk_devs[i].bio) {
          errno = EBADF;
-         return __blk_devs[i].offset == (off_t)__blk_devs[i].bio->Media->BlockSize * (off_t)__blk_devs[i].bio->Media->LastBlock;
+         return __blk_devs[i].offset == (off_t)__blk_devs[i].bio->Media->BlockSize *
+            (off_t)__blk_devs[i].bio->Media->LastBlock;
       }
    status = __stream->GetPosition(__stream, &off);
    if(EFI_ERROR(status)) {
@@ -560,7 +581,8 @@ err:
    return info.FileSize == off;
 }
 
-int vsnprintf(char_t *dst, size_t maxlen, const char_t *fmt, __builtin_va_list args)
+int vsnprintf(char_t *dst, size_t maxlen, const char_t *fmt,
+   __builtin_va_list args)
 {
 #define needsescape(a) (a==CL('\"') || a==CL('\\') || a==CL('\a') || a==CL('\b') || a==CL('\033') || a==CL('\f') || \
     a==CL('\r') || a==CL('\n') || a==CL('\t') || a==CL('\v'))
@@ -725,7 +747,8 @@ copystring:
                         arg = ((*c & 0xF)<<12)|((*(c+1) & 0x3F)<<6)|(*(c+2) & 0x3F);
                         c += 2;
                      } else if((*c & 8) == 0 ) {
-                        arg = ((*c & 0x7)<<18)|((*(c+1) & 0x3F)<<12)|((*(c+2) & 0x3F)<<6)|(*(c+3) & 0x3F);
+                        arg = ((*c & 0x7)<<18)|((*(c+1) & 0x3F)<<12)|((*(c+2) & 0x3F)<<6)|(*
+                              (c+3) & 0x3F);
                         c += 3;
                      } else {
                         arg = L'?';
@@ -961,6 +984,7 @@ int putchar (int __c)
    wchar_t tmp[2];
    tmp[0] = (wchar_t)__c;
    tmp[1] = 0;
-   ST->ConOut->OutputString(ST->ConOut, (__c == L'\n' ? (wchar_t*)L"\r\n" : (wchar_t*)&tmp));
+   ST->ConOut->OutputString(ST->ConOut,
+      (__c == L'\n' ? (wchar_t*)L"\r\n" : (wchar_t*)&tmp));
    return (int)tmp[0];
 }

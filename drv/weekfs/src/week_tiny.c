@@ -63,7 +63,8 @@ bool_t _can_exec(uid_t i_uid, gid_t i_gid, mode_t i_mode, uid_t uid, gid_t gid)
    return 0;
 }
 
-errno_t weekfs_mknod(void* sb, const char *pathname, uid_t uid, gid_t gid, mode_t mode)
+errno_t weekfs_mknod(void* sb, const char *pathname, uid_t uid, gid_t gid,
+   mode_t mode)
 {
    bnum_t parent;
    we_dentry_find(sb, pathname, &parent);
@@ -74,7 +75,8 @@ errno_t weekfs_mknod(void* sb, const char *pathname, uid_t uid, gid_t gid, mode_
    if (!(data.d_inode.i_mode & S_IFDIR)) {
       return ENOTDIR;
    }
-   if (!(_can_write(data.d_inode.i_uid, data.d_inode.i_gid, data.d_inode.i_mode, uid, gid)
+   if (!(_can_write(data.d_inode.i_uid, data.d_inode.i_gid, data.d_inode.i_mode,
+            uid, gid)
          || security->capable(CAP_DAC_OVERRIDE))) {
       return EPERM;
    }
@@ -85,7 +87,8 @@ errno_t weekfs_mknod(void* sb, const char *pathname, uid_t uid, gid_t gid, mode_
    return we_dentry_create(sb, pathname, 0, &data);
 }
 
-errno_t weekfs_modnod(void* sb, const char* pathname, uid_t uid, gid_t gid, mode_t mode)
+errno_t weekfs_modnod(void* sb, const char* pathname, uid_t uid, gid_t gid,
+   mode_t mode)
 {
    bnum_t parent;
    bnum_t curdntr = we_dentry_find(sb, pathname, &parent);
@@ -100,7 +103,8 @@ errno_t weekfs_modnod(void* sb, const char* pathname, uid_t uid, gid_t gid, mode
    return 0;
 }
 
-errno_t weekfs_link(void* sb, const char* src, const char* dst, bool_t move, uid_t uid, gid_t gid)
+errno_t weekfs_link(void* sb, const char* src, const char* dst, bool_t move,
+   uid_t uid, gid_t gid)
 {
    bnum_t parent;
    bnum_t curdntr = we_dentry_find(sb, src, &parent);
@@ -117,12 +121,14 @@ errno_t weekfs_link(void* sb, const char* src, const char* dst, bool_t move, uid
    if (!(data2.d_inode.i_mode & S_IFDIR)) {
       return ENOTDIR;
    }
-   if (!(_can_write(data2.d_inode.i_uid, data2.d_inode.i_gid, data2.d_inode.i_mode, uid, gid)
+   if (!(_can_write(data2.d_inode.i_uid, data2.d_inode.i_gid, data2.d_inode.i_mode,
+            uid, gid)
          || security->capable(CAP_DAC_OVERRIDE))) {
       return EPERM;
    }
    if (data.d_inode.i_mode & S_IFDIR) {
-      if (!(_can_write(data.d_inode.i_uid, data.d_inode.i_gid, data.d_inode.i_mode, uid, gid)
+      if (!(_can_write(data.d_inode.i_uid, data.d_inode.i_gid, data.d_inode.i_mode,
+               uid, gid)
             || security->capable(CAP_DAC_OVERRIDE))) {
          return EPERM;
       }
@@ -157,7 +163,8 @@ errno_t weekfs_rmnod(void* sb, const char *pathname, uid_t uid, gid_t gid)
    if (!(data.d_inode.i_mode & S_IFDIR)) {
       return ENOTDIR;
    }
-   if (!(_can_write(data.d_inode.i_uid, data.d_inode.i_gid, data.d_inode.i_mode, uid, gid)
+   if (!(_can_write(data.d_inode.i_uid, data.d_inode.i_gid, data.d_inode.i_mode,
+            uid, gid)
          || security->capable(CAP_DAC_OVERRIDE))) {
       return EPERM;
    }
@@ -175,7 +182,8 @@ errno_t weekfs_truncate(void* sb, const char *pathname, len_t len)
    return 0;
 }
 
-len_t weekfs_read(void* sb, const char* path, void* buf, len_t size, len_t offset)
+len_t weekfs_read(void* sb, const char* path, void* buf, len_t size,
+   len_t offset)
 {
    bnum_t parent;
    bnum_t ndentry = we_dentry_find(sb, path, &parent);
@@ -185,7 +193,8 @@ len_t weekfs_read(void* sb, const char* path, void* buf, len_t size, len_t offse
    return we_file_read(sb, ndentry, buf, size, offset);
 }
 
-len_t weekfs_write(void* sb, const char* path,const void* buf, len_t size, len_t offset)
+len_t weekfs_write(void* sb, const char* path,const void* buf, len_t size,
+   len_t offset)
 {
    bnum_t parent;
    bnum_t ndentry = we_dentry_find(sb, path, &parent);
@@ -198,19 +207,22 @@ len_t weekfs_write(void* sb, const char* path,const void* buf, len_t size, len_t
 bool_t weekfs_can_read(void* sb, const char* path, uid_t uid, gid_t gid)
 {
    weekfs_getdntry(sb, path, &data);
-   return _can_read(data.d_inode.i_uid, data.d_inode.i_gid, data.d_inode.i_mode, uid, gid);
+   return _can_read(data.d_inode.i_uid, data.d_inode.i_gid, data.d_inode.i_mode,
+         uid, gid);
 }
 
 bool_t weekfs_can_write(void* sb, const char* path, uid_t uid, gid_t gid)
 {
    weekfs_getdntry(sb, path, &data);
-   return _can_write(data.d_inode.i_uid, data.d_inode.i_gid, data.d_inode.i_mode, uid, gid);
+   return _can_write(data.d_inode.i_uid, data.d_inode.i_gid, data.d_inode.i_mode,
+         uid, gid);
 }
 
 bool_t weekfs_can_execute(void* sb, const char* path, uid_t uid, gid_t gid)
 {
    weekfs_getdntry(sb, path, &data);
-   return _can_exec(data.d_inode.i_uid, data.d_inode.i_gid, data.d_inode.i_mode, uid, gid);
+   return _can_exec(data.d_inode.i_uid, data.d_inode.i_gid, data.d_inode.i_mode,
+         uid, gid);
 }
 
 errno_t weekfs_stat(void* sb, const char* pathname, void* buf)
@@ -274,7 +286,8 @@ errno_t  weekfs_mount(device* dev, mountpoint* mount, const char* options)
    if (strcmp(sb->params.type, WEEK_TYPE) != 0) {
       sys_printf("ERROR! fstype=%s != compile=%s\n", sb->params.type, WEEK_TYPE);
    } else {
-      sys_printf("weekfs: bs=%d, bcount=%d type=%s\n", sb->params.bsize, sb->params.bcount, sb->params.type);
+      sys_printf("weekfs: bs=%d, bcount=%d type=%s\n", sb->params.bsize,
+         sb->params.bcount, sb->params.type);
    }
    mount->sbfs = sb;
    mount->mount_mknod = &weekfs_mknod;

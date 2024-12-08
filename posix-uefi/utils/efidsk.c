@@ -63,7 +63,8 @@ void usage(char *cmd)
 #define FIRST_PARTITION     2048
 
 struct tm *fat_ts;
-int fs_len = 0, skipbytes = 0, fat_nextcluster, fat_bpc, fat_spf, fat_lfncnt, fat_numclu = 67584;
+int fs_len = 0, skipbytes = 0, fat_nextcluster, fat_bpc, fat_spf, fat_lfncnt,
+    fat_numclu = 67584;
 unsigned char *fs_base = NULL;
 unsigned char *fat_rootdir, *fat_data, fat_lfn[769];
 uint32_t *fat_fat32_1, *fat_fat32_2;
@@ -74,7 +75,8 @@ uint32_t *fat_fat32_1, *fat_fat32_2;
 unsigned char *fat_newclu(int parent)
 {
    int clu;
-   while(parent != fat_nextcluster && fat_fat32_1[parent] && fat_fat32_1[parent] != 0xFFFFFFF) {
+   while(parent != fat_nextcluster && fat_fat32_1[parent]
+      && fat_fat32_1[parent] != 0xFFFFFFF) {
       parent = fat_fat32_1[parent];
    }
    fat_fat32_1[parent] = fat_fat32_2[parent] = fat_nextcluster;
@@ -163,7 +165,8 @@ unsigned char *fat_readlfn(unsigned char *dir, int *clu, int *size, int parent)
 /**
  * Write file name
  */
-unsigned char *fat_writelfn(unsigned char *dir, char *name, int type, int size, int parent, int clu)
+unsigned char *fat_writelfn(unsigned char *dir, char *name, int type, int size,
+   int parent, int clu)
 {
    uint16_t uc2[256], *u;
    unsigned char *s, c = 0, sfn[12];
@@ -237,7 +240,8 @@ unsigned char *fat_writelfn(unsigned char *dir, char *name, int type, int size, 
    i = (fat_ts->tm_hour << 11) | (fat_ts->tm_min << 5) | (fat_ts->tm_sec/2);
    dir[0xE] = dir[0x16] = i & 0xFF;
    dir[0xF] = dir[0x17] = (i >> 8) & 0xFF;
-   i = ((fat_ts->tm_year+1900-1980) << 9) | ((fat_ts->tm_mon+1) << 5) | (fat_ts->tm_mday);
+   i = ((fat_ts->tm_year+1900-1980) << 9) | ((fat_ts->tm_mon+1) << 5) |
+      (fat_ts->tm_mday);
    return dir + 32;
 }
 
@@ -354,7 +358,8 @@ void fat_add(struct stat *st, char *name, unsigned char *content, int size)
          exit(1);
       }
       memcpy(fat_data + fat_nextcluster * fat_bpc, content, size);
-      for(i = 0; i < ((size + fat_bpc-1) & ~(fat_bpc-1)); i += fat_bpc, fat_nextcluster++) {
+      for(i = 0; i < ((size + fat_bpc-1) & ~(fat_bpc-1));
+         i += fat_bpc, fat_nextcluster++) {
          fat_fat32_1[fat_nextcluster] = fat_fat32_2[fat_nextcluster] = fat_nextcluster+1;
       }
       fat_fat32_1[fat_nextcluster-1] = fat_fat32_2[fat_nextcluster-1] = 0xFFFFFFF;
@@ -371,7 +376,8 @@ void fat_close()
       return;
    }
    fat_nextcluster -= 2;
-   i = ((fs_len - (fat_spf*fs_base[0x10]+fs_base[0xE]) * 512)/fat_bpc) - fat_nextcluster;
+   i = ((fs_len - (fat_spf*fs_base[0x10]+fs_base[0xE]) * 512)/fat_bpc) -
+      fat_nextcluster;
    fs_base[0x3E8] = i & 0xFF;
    fs_base[0x3E9] = (i >> 8) & 0xFF;
    fs_base[0x3EA] = (i >> 16) & 0xFF;
@@ -601,7 +607,8 @@ void writeetbc(FILE *f)
    t = time(NULL);
    fat_ts = gmtime(&t);
    sprintf((char*)&isodate, "%04d%02d%02d%02d%02d%02d00",
-      fat_ts->tm_year+1900,fat_ts->tm_mon+1,fat_ts->tm_mday,fat_ts->tm_hour,fat_ts->tm_min,fat_ts->tm_sec);
+      fat_ts->tm_year+1900,fat_ts->tm_mon+1,fat_ts->tm_mday,fat_ts->tm_hour,
+      fat_ts->tm_min,fat_ts->tm_sec);
    iso = gpt + 16*2048;
    /* 16th sector: Primary Volume Descriptor */
    iso[0]=1;   /* Header ID */
