@@ -5,7 +5,7 @@
 
 int chown(const char *pathname, uid_t owner, gid_t group)
 {
-  struct stat st;
-  stat(pathname, &st);
-  return syscall(SYS_MODNOD, pathname, NULL, owner, group, st.st_mode);
+   struct stat st;
+   stat(pathname, &st);
+   return syscall(SYS_MODNOD, pathname, NULL, owner, group, st.st_mode);
 }

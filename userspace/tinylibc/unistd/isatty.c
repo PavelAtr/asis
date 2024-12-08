@@ -1,5 +1,5 @@
 int isatty(int fd)
 {
-  /* notrealized */
-  return 1;
+   /* notrealized */
+   return 1;
 }

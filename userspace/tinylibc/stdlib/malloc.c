@@ -3,5 +3,5 @@
 
 void* malloc(size_t size)
 {
-  return (void*)syscall(SYS_MALLOC, size);
+   return (void*)syscall(SYS_MALLOC, size);
 }

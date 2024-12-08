@@ -2,5 +2,5 @@
 
 void clearerr(FILE *stream)
 {
-  stream->flags &= ~FILE_ERROR;
+   stream->flags &= ~FILE_ERROR;
 }

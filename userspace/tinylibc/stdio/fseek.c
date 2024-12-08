@@ -3,16 +3,16 @@
 
 int fseek(FILE* stream, long offset, int whence)
 {
-  switch (whence) {
-  case SEEK_SET:
-    stream->pos = offset;
-    break;
-  case SEEK_CUR:
-    stream->pos += offset;
-    break;
-  case SEEK_END:
-    stream->pos = stream->size - offset;
-    break;
-  }
-  return 0;
+   switch (whence) {
+   case SEEK_SET:
+      stream->pos = offset;
+      break;
+   case SEEK_CUR:
+      stream->pos += offset;
+      break;
+   case SEEK_END:
+      stream->pos = stream->size - offset;
+      break;
+   }
+   return 0;
 }

@@ -5,5 +5,5 @@
 
 int mkdir(const char* pathname, mode_t mode)
 {
-  return syscall(SYS_MKNOD, pathname, S_IFDIR |  mode & ~global_mask);
+   return syscall(SYS_MKNOD, pathname, S_IFDIR |  mode & ~global_mask);
 }

@@ -3,10 +3,10 @@
 
 int fputs(const char* s, FILE* stream)
 {
-  return fwrite(s, strlen(s), 1, stream);
+   return fwrite(s, strlen(s), 1, stream);
 }
 
 int puts(const char* s)
 {
-  return fputs(s, stdout);
+   return fputs(s, stdout);
 }

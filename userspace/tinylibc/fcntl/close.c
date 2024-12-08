@@ -6,19 +6,22 @@
 
 int close(int fd)
 {
-  if (!fd_is_valid(fd))
-    return -1;
-  fclose(fds[fd].stream);
-  fds[fd].stream = NULL;
-  if (fds[fd].rpipe) {
-    fds[fd].rpipe->nlink--;
-    if (fds[fd].rpipe->nlink == 0)
-      free(fds[fd].rpipe);
-  }
-  if (fds[fd].wpipe) {
-    fds[fd].wpipe->nlink--;
-    if (fds[fd].wpipe->nlink == 0)
-      free(fds[fd].wpipe);
-  }
-  return 0;
+   if (!fd_is_valid(fd)) {
+      return -1;
+   }
+   fclose(fds[fd].stream);
+   fds[fd].stream = NULL;
+   if (fds[fd].rpipe) {
+      fds[fd].rpipe->nlink--;
+      if (fds[fd].rpipe->nlink == 0) {
+         free(fds[fd].rpipe);
+      }
+   }
+   if (fds[fd].wpipe) {
+      fds[fd].wpipe->nlink--;
+      if (fds[fd].wpipe->nlink == 0) {
+         free(fds[fd].wpipe);
+      }
+   }
+   return 0;
 }

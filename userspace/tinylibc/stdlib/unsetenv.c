@@ -11,11 +11,11 @@ int envnewid();
 
 int unsetenv(const char *name)
 {
-  int i = envid(name);
-  if (i == -1) {
-    set_errno(ENOENT);
-    return -1;
-  }
-  environ[i] = "";
-  return 0;
+   int i = envid(name);
+   if (i == -1) {
+      set_errno(ENOENT);
+      return -1;
+   }
+   environ[i] = "";
+   return 0;
 }

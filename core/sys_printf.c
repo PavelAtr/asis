@@ -11,13 +11,13 @@ char tinylog[MAXLOG];
 
 int sys_printf(const char* format, ...)
 {
-  va_list vl;
-  va_start(vl, format);
-  int ret = vsnprintf(tinylog, MAXLOG, format, vl);
+   va_list vl;
+   va_start(vl, format);
+   int ret = vsnprintf(tinylog, MAXLOG, format, vl);
 #ifndef UEFI
-  fprintf(stderr, "%s", tinylog);
+   fprintf(stderr, "%s", tinylog);
 #else
-  printf("%s", tinylog);
+   printf("%s", tinylog);
 #endif
-  return ret;
+   return ret;
 }
