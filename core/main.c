@@ -7,6 +7,7 @@
 #else
 #include "../drv/hosttrap/hosttrap.h"
 #include "sys/mman.h"
+#include "../drv/hostfs/hostfs.h"
 #endif
 #include <stddef.h>
 #include <sys/stat.h>

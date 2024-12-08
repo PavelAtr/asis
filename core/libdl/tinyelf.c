@@ -48,8 +48,6 @@ len_t elf_load_exec(const char* path, Elf_Ehdr* hdr, Elf_Phdr* phdrs, char* exec
    return size;
 }
 
-
-
 Elf_Shdr* elf_load_shdrs(const char* path, Elf_Ehdr* hdr)
 {
    if (!hdr) {
@@ -65,9 +63,23 @@ Elf_Shdr* elf_load_shdrs(const char* path, Elf_Ehdr* hdr)
    return buf;;
 }
 
-int_t table_ndx = 0;
+int_t elf_count_table(Elf_Ehdr* hdr, Elf_Shdr* shdrs, unsigned int sh_type)
+{
+   if (!hdr || !shdrs) {
+      sys_printf(SYS_INFO "elf_load_shdrs: hdrs is NULL\n");
+      return 0;
+   }
+   int_t i;
+   int_t ret = 0;
+   for (i = 0; i < hdr->e_shnum; i++) {
+      if (shdrs[i].sh_type == sh_type) {
+         ret ++;
+      }
+   }
+   return ret;
+}
 
-Elf_Shdr* elf_find_table(Elf_Ehdr* hdr, Elf_Shdr* shdrs, unsigned int sh_type)
+Elf_Shdr* elf_find_table(Elf_Ehdr* hdr, Elf_Shdr* shdrs, int_t* start_ndx, unsigned int sh_type)
 {
    if (!hdr || !shdrs) {
       sys_printf(SYS_INFO "elf_load_shdrs: hdrs is NULL\n");
@@ -75,8 +87,8 @@ Elf_Shdr* elf_find_table(Elf_Ehdr* hdr, Elf_Shdr* shdrs, unsigned int sh_type)
    }
    int_t i;
    for (i = 0; i < hdr->e_shnum; i++) {
-      if (shdrs[i].sh_type == sh_type && i > table_ndx) {
-         table_ndx = i;
+      if (shdrs[i].sh_type == sh_type && i >= *start_ndx) {
+         *start_ndx = i;
          return  &shdrs[i];
       }
    }

@@ -19,24 +19,24 @@ void elf_free(elf* e)
    if (e->shdrs) {
       sys_free(e->shdrs);
    }
-   if (e->relatab1) {
-      sys_free(e->relatab1);
-   }
-   if (e->relatab2) {
-      sys_free(e->relatab2);
-   }
-   if (e->symtab) {
-      sys_free(e->symtab);
-   }
-   if (e->symstr) {
-      sys_free((void*)e->symstr);
-   }
-   if (e->dynsymtab) {
-      sys_free(e->dynsymtab);
-   }
-   if (e->dynsymstr) {
-      sys_free((void*)e->dynsymstr);
-   }
+//   if (e->relatab1) {
+//      sys_free(e->relatab1);
+//   }
+//   if (e->relatab2) {
+//      sys_free(e->relatab2);
+//   }
+//   if (e->symtab) {
+//      sys_free(e->symtab);
+//   }
+//   if (e->symstr) {
+//      sys_free((void*)e->symstr);
+//   }
+//   if (e->dynsymtab) {
+//      sys_free(e->dynsymtab);
+//   }
+//   if (e->dynsymstr) {
+//      sys_free((void*)e->dynsymstr);
+//   }
    if (e->dyntab) {
       sys_free(e->dyntab);
    }
@@ -73,25 +73,44 @@ int dl_load(dl* buf, const char* file)
    memset(buf->dl_elf->exec, 0x0, buf->dl_elf->exec_size);
    elf_load_exec(file, buf->dl_elf->hdr, buf->dl_elf->phdrs, buf->dl_elf->exec);
    buf->dl_elf->shdrs = elf_load_shdrs(file, buf->dl_elf->hdr);
-   table_ndx = 0;
-   buf->dl_elf->rela1 = elf_find_table(buf->dl_elf->hdr, buf->dl_elf->shdrs, SHT_RELA);
-   buf->dl_elf->relatab1 = elf_load_table(file, buf->dl_elf->hdr, buf->dl_elf->rela1);
-   buf->dl_elf->rela2 = elf_find_table(buf->dl_elf->hdr, buf->dl_elf->shdrs, SHT_RELA);
-   buf->dl_elf->relatab2 = elf_load_table(file, buf->dl_elf->hdr, buf->dl_elf->rela2);
    if (!buf->dl_elf->hdr || !buf->dl_elf->phdrs || !buf->dl_elf->shdrs) {
       goto fail;
    }
-   table_ndx = 0;
-   table_ndx = 0;
-   buf->dl_elf->syms = elf_find_table(buf->dl_elf->hdr, buf->dl_elf->shdrs, SHT_SYMTAB);
-   buf->dl_elf->symtab = elf_load_table(file, buf->dl_elf->hdr, buf->dl_elf->syms);
-   buf->dl_elf->symstr = elf_load_strings(file, buf->dl_elf->hdr, buf->dl_elf->shdrs, buf->dl_elf->syms);
-   table_ndx = 0;
-   buf->dl_elf->dynsyms = elf_find_table(buf->dl_elf->hdr, buf->dl_elf->shdrs, SHT_DYNSYM);
-   buf->dl_elf->dynsymtab = elf_load_table(file, buf->dl_elf->hdr, buf->dl_elf->dynsyms);
-   buf->dl_elf->dynsymstr = elf_load_strings(file, buf->dl_elf->hdr, buf->dl_elf->shdrs, buf->dl_elf->dynsyms);
-   table_ndx = 0;
-   buf->dl_elf->dyns = elf_find_table(buf->dl_elf->hdr, buf->dl_elf->shdrs, SHT_DYNAMIC);
+   int_t start_ndx = 0;
+   int_t i;
+   int_t relacnt = elf_count_table(buf->dl_elf->hdr, buf->dl_elf->shdrs, SHT_RELA);
+   buf->dl_elf->rela = sys_malloc((relacnt + 1) * sizeof(elfrelas*));
+   for (i = 0; i < relacnt; i++) {
+      buf->dl_elf->rela[i] = sys_malloc(sizeof(elfrelas));
+      buf->dl_elf->rela[i]->head = elf_find_table(buf->dl_elf->hdr, buf->dl_elf->shdrs, &start_ndx, SHT_RELA);
+      buf->dl_elf->rela[i]->relas = elf_load_table(file, buf->dl_elf->hdr, buf->dl_elf->rela[i]->head);
+      start_ndx++;
+   }
+   buf->dl_elf->rela[i] = NULL;
+   int_t symcnt = elf_count_table(buf->dl_elf->hdr, buf->dl_elf->shdrs, SHT_SYMTAB);
+   int_t dyncnt = elf_count_table(buf->dl_elf->hdr, buf->dl_elf->shdrs, SHT_DYNSYM);
+   buf->dl_elf->sym = sys_malloc((symcnt + dyncnt + 1) * sizeof(elfsyms*));
+   start_ndx = 0;
+   for (i = 0; i < symcnt; i++) {
+      buf->dl_elf->sym[i] = sys_malloc(sizeof(elfsyms));
+      buf->dl_elf->sym[i]->head = elf_find_table(buf->dl_elf->hdr, buf->dl_elf->shdrs, &start_ndx, SHT_SYMTAB);
+      buf->dl_elf->sym[i]->syms = elf_load_table(file, buf->dl_elf->hdr, buf->dl_elf->sym[i]->head);
+      buf->dl_elf->sym[i]->symstr = elf_load_strings(file, buf->dl_elf->hdr, buf->dl_elf->shdrs, buf->dl_elf->sym[i]->head);
+      buf->dl_elf->sym[i]->dynamic = 0;
+      start_ndx++;
+   }
+   start_ndx = 0;
+   for (i = i; i < symcnt + dyncnt; i++) {
+      buf->dl_elf->sym[i] = sys_malloc(sizeof(elfsyms));
+      buf->dl_elf->sym[i]->head = elf_find_table(buf->dl_elf->hdr, buf->dl_elf->shdrs, &start_ndx, SHT_DYNSYM);
+      buf->dl_elf->sym[i]->syms = elf_load_table(file, buf->dl_elf->hdr, buf->dl_elf->sym[i]->head);
+      buf->dl_elf->sym[i]->symstr = elf_load_strings(file, buf->dl_elf->hdr, buf->dl_elf->shdrs, buf->dl_elf->sym[i]->head);
+      buf->dl_elf->sym[i]->dynamic = 1;
+      start_ndx++;
+   }
+   buf->dl_elf->sym[i] = NULL;
+   start_ndx = 0;
+   buf->dl_elf->dyns = elf_find_table(buf->dl_elf->hdr, buf->dl_elf->shdrs, &start_ndx, SHT_DYNAMIC);
    buf->dl_elf->dyntab = elf_load_table(file, buf->dl_elf->hdr, buf->dl_elf->dyns);
    buf->dl_elf->dynstr = elf_load_strings(file, buf->dl_elf->hdr, buf->dl_elf->shdrs, buf->dl_elf->dyns);
    sys_printf(SYS_INFO "OK\n");
@@ -137,8 +156,16 @@ void *dlopen(const char* filename, int flags)
    scope = prog;
    for (s = prog; s != NULL; s = s->next) {
       sys_printf(SYS_INFO "Relocate %s\n", s->path);
-      elf_relocate(s->dl_elf->hdr, s->dl_elf->rela1, s->dl_elf->relatab1, s->dl_elf->dynsymtab, s->dl_elf->dynsymstr, 0, s->dl_elf->exec, &resolve);
-      elf_relocate(s->dl_elf->hdr, s->dl_elf->rela2, s->dl_elf->relatab2, s->dl_elf->dynsymtab, s->dl_elf->dynsymstr, 0, s->dl_elf->exec, &resolve);
+      int_t sym_ndx;
+      for (sym_ndx = 0; s->dl_elf->sym[sym_ndx]; sym_ndx++)
+         if (s->dl_elf->sym[sym_ndx]->dynamic) {
+            break;
+         }
+      int_t rela_ndx;
+      for (rela_ndx = 0; s->dl_elf->rela[rela_ndx]; rela_ndx++)
+         elf_relocate(s->dl_elf->hdr, s->dl_elf->rela[rela_ndx]->head,
+            s->dl_elf->rela[rela_ndx]->relas, s->dl_elf->sym[sym_ndx]->syms,
+            s->dl_elf->sym[sym_ndx]->symstr, 0, s->dl_elf->exec, &resolve);
    }
    return prog;
 fail:
@@ -151,9 +178,14 @@ void *dlsym(void* hndl, const char* symbol)
    dl* s;
    void* sym;
    for (s = hndl; s != NULL; s = s->next) {
-      sym = elf_symbol(s->dl_elf->syms, s->dl_elf->symtab, s->dl_elf->symstr, s->dl_elf->exec, symbol);
-      if (sym) {
-         return sym;
+      int_t sym_ndx;
+      for (sym_ndx = 0; s->dl_elf->sym[sym_ndx]; sym_ndx++) {
+         sym = elf_symbol(s->dl_elf->sym[sym_ndx]->head,
+               s->dl_elf->sym[sym_ndx]->syms, s->dl_elf->sym[sym_ndx]->symstr,
+               s->dl_elf->exec, symbol);
+         if (sym) {
+            return sym;
+         }
       }
    }
    return NULL;
@@ -179,4 +211,3 @@ int dlclose(void *hndl)
    }
    return 0;
 }
-
