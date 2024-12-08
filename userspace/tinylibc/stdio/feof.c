@@ -4,7 +4,7 @@ int feof(FILE *stream)
 {
     if (stream->flags & FILE_INFINITY)
 		return 0;
-    if (stream->flags & FILE_EOF)
+	if (stream->pos >= stream->size)
 		return 1;
     return 0;
 }

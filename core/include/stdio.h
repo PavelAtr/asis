@@ -13,9 +13,8 @@ typedef struct {
     char* strbuf;
 } FILE;
 
-#define FILE_EOF 0x01
-#define FILE_ERROR 0x02
-#define FILE_INFINITY 0x04
+#define FILE_ERROR 0x01
+#define FILE_INFINITY 0x02
 
 extern FILE* stdin;
 extern FILE* stdout;

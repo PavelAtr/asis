@@ -8,9 +8,9 @@ int fgetpwent_r(FILE * stream, struct passwd * pwbuf,
                       char * buf, size_t buflen,
                       struct passwd ** pwbufp)
 {
-	if (fgets(buf, buflen, stream) == NULL)
+	if (!fgets(buf, buflen, stream))
 	{
-		pwbufp = NULL;
+		*pwbufp = NULL;
 		return ERANGE;
 	}
 	buf[strlen(buf) - 1] = '\0';	
