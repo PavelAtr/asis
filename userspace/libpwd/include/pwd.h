@@ -19,6 +19,8 @@ struct passwd {
 
 extern char buf[MAXPWDLINE];
 extern FILE* dbpasswd;
+extern struct passwd pass;
+extern struct passwd* p;
 
 struct passwd *getpwent(void);
 int getpwent_r(struct passwd * pwbuf,
@@ -29,5 +31,14 @@ int fgetpwent_r(FILE * stream, struct passwd * pwbuf,
                 struct passwd ** pwbufp);
 void setpwent(void);
 void endpwent(void);
+struct passwd *getpwent(void);
+int getpwnam_r(const char* name, struct passwd* pwd,
+               char* buf, size_t buflen,
+               struct passwd** result);
+int getpwuid_r(uid_t uid, struct passwd* pwd,
+                char* buf, size_t buflen,
+                struct passwd** result);
+struct passwd *getpwnam(const char *name);
+struct passwd *getpwuid(uid_t uid);
 
 #endif

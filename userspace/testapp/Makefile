@@ -1,5 +1,6 @@
 PREFIX?=/tinysys
-CFLAGS?=-fPIC -I$(PREFIX)/usr/include -fomit-frame-pointer
+#CFLAGS?=-fPIC -I$(PREFIX)/usr/include -fomit-frame-pointer
+CFLAGS?=-fPIC --sysroot=$(PREFIX) -fomit-frame-pointer
 LDFLAGS=-nostdlib $(PREFIX)/lib/crt.o $(PREFIX)/lib/libc.so
 #LDFLAGS=-nostdlib -Wl,-Ttinysys.ld $(PREFIX)/lib/libc.a
 
@@ -20,7 +21,7 @@ all:
 	$(CC) $(CFLAGS) -fPIC passdb.c $(LDFLAGS) $(PREFIX)/lib/libpwd.so -o passdb
 
 #	$(CC) -g test.c -o test
-	$(CC) -g ../libpwd/src/fgetpwent_r.c ../tinylibc/string/strtok.c test.c -o test
+	$(CC) -g -include ../libpwd/include/pwd.h ../libpwd/src/*.c ../tinylibc/string/strtok.c test.c -o test
 
 clean:
 	rm -f shell hello test touch wallpaper ls stat unlink id mkdir chown chmod testfork segfault passdb
