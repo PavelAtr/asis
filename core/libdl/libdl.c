@@ -47,7 +47,7 @@ void elf_free(elf* e)
       sys_free(e->dyntab);
    }
    if (e->dynstr) {
-      sys_free((void*)e->dynstr);
+      sys_free(e->dynstr);
    }
    if (e->exec) {
       sys_munmap(e->exec, e->exec_size);
@@ -225,7 +225,7 @@ int dlclose(void *hndl)
    dl* next = s;
    while (next) {
       next = s->next;
-      elf_free(s->dl_elf);
+	  elf_free(s->dl_elf);
       sys_free(s->dl_elf);
       sys_free(s);
       s = next;

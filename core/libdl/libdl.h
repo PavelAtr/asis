@@ -14,7 +14,7 @@ typedef struct {
 
    Elf_Shdr* dyns;
    Elf_Dyn* dyntab;
-   const char* dynstr;
+   char* dynstr;
    len_t exec_size;
    char* exec;
 } elf;

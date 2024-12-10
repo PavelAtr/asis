@@ -25,13 +25,13 @@ int runcommand(char* cmd)
       puts("\n");
       return 0;
    }
-   const char * cmd3 = "CWD ";
+   const char * cmd3 = "cwd ";
    if (strstr(cmd, cmd3) == cmd) {
       char* param = &cmd[strlen(cmd3)];
       setenv("CWD", param, 0);
       return chdir(param);
    }
-   const char * cmd4 = "UMASK=";
+   const char * cmd4 = "umask=";
    if (strstr(cmd, cmd4) == cmd) {
       char* param = &cmd[strlen(cmd4)];
       int mask = atoi(param);
