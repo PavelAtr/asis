@@ -1,0 +1,3 @@
+[submodule "userspace/freebsd-src"]
+	path = userspace/freebsd-src
+	url = https://git.freebsd.org/src.git
