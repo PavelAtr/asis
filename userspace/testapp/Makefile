@@ -21,7 +21,8 @@ all:
 	$(CC) $(CFLAGS) -fPIC passdb.c $(LDFLAGS) $(PREFIX)/lib/libpwd.so -o passdb
 
 #	$(CC) -g test.c -o test
-	$(CC) -g -include ../libpwd/include/pwd.h ../tinylibc/stdio/fgets.c  ../tinylibc/stdio/getc.c ../libpwd/src/*.c ../tinylibc/string/strtok.c test.c -o test
+	$(CC) -g -include ../libpwd/include/pwd.h  -include ../libpwd/include/grp.h ../tinylibc/stdio/fgets.c  ../tinylibc/stdio/getc.c ../libpwd/src/*.c ../tinylibc/string/strtok.c test.c -o test
+	$(CC) -g -include ../libpwd/include/pwd.h  -include ../libpwd/include/grp.h ../tinylibc/stdio/fgets.c  ../tinylibc/stdio/getc.c ../libpwd/src/*.c ../tinylibc/string/strtok.c test2.c -o test2
 
 clean:
 	rm -f shell hello test touch wallpaper ls stat unlink id mkdir chown chmod testfork segfault passdb

@@ -1,5 +1,5 @@
-#ifndef _PWD_H
-#define _PWD_H
+#ifndef _GRP_H
+#define _GRP_H
 
 #include <sys/types.h>
 #include <stdio.h>
@@ -19,4 +19,9 @@ extern char buf[MAXPWDLINE];
 extern FILE* dbgroup;
 extern struct group grp;
 
+void setgrent(void);
+void endgrent(void);
+int fgetgrent_r(FILE* stream, struct group* gbuf,
+                 char* buf, size_t buflen,
+                 struct group** gbufp);
 #endif

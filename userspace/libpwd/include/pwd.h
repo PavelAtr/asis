@@ -40,5 +40,6 @@ int getpwuid_r(uid_t uid, struct passwd* pwd,
                 struct passwd** result);
 struct passwd *getpwnam(const char *name);
 struct passwd *getpwuid(uid_t uid);
+int setpassent (int stayopen);
 
 #endif

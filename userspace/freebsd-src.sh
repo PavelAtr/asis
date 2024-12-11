@@ -11,5 +11,5 @@ cd freebsd-src
 
 CWD=$(pwd)
 
-bmake -m ${CWD}/share/mk -C bin/sh
+bmake -m ${CWD}/share/mk -B -C bin/sh
 

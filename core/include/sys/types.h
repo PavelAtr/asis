@@ -5,6 +5,8 @@ typedef unsigned int uid_t;
 typedef unsigned int gid_t;
 typedef unsigned int mode_t;
 
+typedef unsigned int u_int;
+
 #ifdef UEFI
 typedef unsigned long long size_t;
 typedef unsigned long long off_t;
