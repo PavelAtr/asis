@@ -10,7 +10,6 @@ int fgetpwent_r(FILE * stream, struct passwd * pwbuf,
 {
    if (!fgets(buf, buflen, stream)) {
       *pwbufp = NULL;
-      fprintf(stdout, "N %s", buf);
       return ERANGE;
    }
    buf[strlen(buf) - 1] = '\0';
