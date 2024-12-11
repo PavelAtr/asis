@@ -26,7 +26,10 @@ int fgetgrent_r(FILE* stream, struct group* gbuf,
    gbuf->gr_mem = malloc(sizeof(char*) * (numtok + 1));
    i = 0;
    gbuf->gr_mem[i++] = strtok(temp, ",");
-   while ((gbuf->gr_mem[i++] = strtok(NULL, ",")))
+   char* tok;
+   while ((tok = strtok(NULL, ","))) {
+      gbuf->gr_mem[i++] = tok;
+   }
    gbuf->gr_mem[i] = NULL;
    *gbufp = gbuf;
    return 0;
