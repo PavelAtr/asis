@@ -15,4 +15,9 @@ static __inline int __isspace(int _c)
 #define isgraph(a) (((unsigned)(a)-0x21) < 0x5e)
 #define isspace(a) __isspace(a)
 
+#define toupper(c) c
+#define tolower(c) c
+
+
+
 #endif

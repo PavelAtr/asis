@@ -16,5 +16,6 @@ extern int errno;
 #define ERANGE 10
 #define BADFD 11
 #define ENOSPC 12
+#define EINVAL 13
 
 #endif

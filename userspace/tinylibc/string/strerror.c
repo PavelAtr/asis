@@ -15,6 +15,7 @@ char* errors[20] = {
    "Result too large",
    "Bad file descriptor",
    "Not enought space",
+   "Invalid value",
 };
 
 char* strerror(int errnum)
