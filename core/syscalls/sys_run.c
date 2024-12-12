@@ -29,19 +29,19 @@ int_t sys_exec(const char* file, char* const argv[])
    for (argc = 0; argv[argc]; argc++);
    mountpoint* mount = sys_get_mountpoint(file);
    if (!mount) {
-      current->sys_errno = ENOENT;
+      *current->sys_errno = ENOENT;
       return -1;
    }
    const char* path = sys_calcpath(mount, file);
    if (!mount->mount_can_execute(mount->sbfs, path, current->uid, current->gid)) {
-      current->sys_errno = EPERM;
+      *current->sys_errno = EPERM;
       return -1;
    }
    current->argc = argc;
    current->argv = argv;
    struct tinystat st;
    if (sys_stat(file, &st) == -1) {
-      current->sys_errno = ENOENT;
+      *current->sys_errno = ENOENT;
       return -1;
    }
    if (st.st_mode & S_ISUID) {
@@ -56,17 +56,18 @@ int_t sys_exec(const char* file, char* const argv[])
    }
    current->dlhandle = dlopen(file, 0);
    if (!current->dlhandle) {
-      current->sys_errno = ENOENT;
+      *current->sys_errno = ENOENT;
       return -1;
    }
    addr_t* syscall = dlsym(current->dlhandle, "syscall");
    addr_t* fds = dlsym(current->dlhandle, "fds");
    addr_t* atexit = dlsym(current->dlhandle, "atexit");
+   current->sys_errno = dlsym(current->dlhandle, "errno");
    void __attribute__((sysv_abi)) (*start)(int argc, char* const* argv,
       char* const* envp)
       = dlsym(current->dlhandle, "_start");
-   if (!syscall || !start || !fds || !atexit) {
-      current->sys_errno = ENOMEM;
+   if (!syscall || !start || !fds || !atexit || !current->sys_errno) {
+      *current->sys_errno = ENOMEM;
       return -1;
    }
    *syscall = (addr_t)&sys_syscall;
@@ -107,7 +108,7 @@ pid_t sys_fork()
    current->forkret = sys_clone();
    sys_printf("FORK in %s child=%d\n", current->argv[0], current->forkret);
    if (current->forkret == -1) {
-      current->sys_errno = ENOMEM;
+      *current->sys_errno = ENOMEM;
       return -1;
    }
    cpu[current->forkret]->forkret = 0;

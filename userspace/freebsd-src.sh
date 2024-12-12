@@ -1,6 +1,7 @@
 #!/bin/sh
 
 export CC=clang
+export HOST_CC=clang
 export PREFIX="/tinysys"
 export CFLAGS="-g -fPIC -fomit-frame-pointer -Wno-format -D__OFF_T_MATCHES_OFF64_T -I${PREFIX}/usr/include"
 export LDFLAGS="-nostdlib ${PREFIX}/lib/crt.o ${PREFIX}/lib/libc.so"

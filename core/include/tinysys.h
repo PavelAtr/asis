@@ -100,7 +100,7 @@ typedef struct {
   int argc;
   char** argv;
   char** envp;
-  errno_t sys_errno;
+  errno_t* sys_errno;
   uid_t uid;
   gid_t gid;
   void* fds;
@@ -109,6 +109,7 @@ typedef struct {
   int_t ret;
   pid_t forkret;
 } proc;
+
 
 #define PROC_RUNNING 0x01
 #define PROC_NEW 0x02

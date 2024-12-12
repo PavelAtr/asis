@@ -22,6 +22,7 @@ void (*atexit)(int ret);
 char cwd[PATHMAX] = {'/', '\0'};
 fdesc* fds = NULL;
 char** environ = NULL;
+int errno;
 
 void _start(int argc, char** argv, char** envp)
 {

@@ -13,7 +13,7 @@ int setenv(const char *name, const char *value, int overwrite)
    if (i == -1) {
       i = envnewid();
       if (i == -1) {
-         set_errno(ENOMEM);
+         errno = ENOMEM;
          return -1;
       }
    } else {

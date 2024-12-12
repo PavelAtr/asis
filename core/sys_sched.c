@@ -16,7 +16,7 @@ pid_t newproc()
          memset(cpu[i], 0x0, sizeof(proc));
          return i;
       }
-   current->sys_errno = ENOMEM;
+   *current->sys_errno = ENOMEM;
    return -1;
 }
 

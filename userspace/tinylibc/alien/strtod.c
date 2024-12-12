@@ -83,7 +83,7 @@ double strtod(const char *str, char **endptr)
       exponent -= num_decimals;
    }
    if (num_digits == 0) {
-      set_errno(ERANGE);
+      errno = ERANGE;
       return 0.0;
    }
    // Correct for sign
@@ -113,7 +113,7 @@ double strtod(const char *str, char **endptr)
       }
    }
    if (exponent < DBL_MIN_EXP  || exponent > DBL_MAX_EXP) {
-      set_errno(ERANGE);
+      errno = ERANGE;
       return HUGE_VAL;
    }
    // Scale the result
@@ -134,7 +134,7 @@ double strtod(const char *str, char **endptr)
       p10 *= p10;
    }
    if (number == HUGE_VAL) {
-      set_errno(ERANGE);
+      errno = ERANGE;
    }
    if (endptr) {
       *endptr = p;

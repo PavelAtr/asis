@@ -10,11 +10,11 @@ DIR *opendir(const char *dirname)
    char* name = fullpath(cwd, dirname);
    struct stat st;
    if (stat(name, &st)) {
-      set_errno(ENOENT);
+      errno = ENOENT;
       return NULL;
    }
    if (!(st.st_mode & S_IFDIR)) {
-      set_errno(ENOTDIR);
+      errno = ENOTDIR;
       return NULL;
    }
    DIR* d = malloc(sizeof(DIR));

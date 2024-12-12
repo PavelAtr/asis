@@ -13,7 +13,7 @@ int unsetenv(const char *name)
 {
    int i = envid(name);
    if (i == -1) {
-      set_errno(ENOENT);
+      errno = ENOENT;
       return -1;
    }
    environ[i] = "";

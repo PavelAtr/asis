@@ -1,10 +1,7 @@
 #ifndef _ERRNO_H
 #define _ERRNO_H
 
-int get_errno(void);
-int set_errno(int err);
-
-#define errno get_errno()
+extern int errno;
 
 #define ESUCCESS 0
 #define EPERM 1

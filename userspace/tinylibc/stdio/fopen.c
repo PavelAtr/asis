@@ -11,7 +11,7 @@ FILE* fopen(const char* path, const char* mode)
 {
    struct stat st;
    if (stat(path, &st)) {
-      set_errno(ENOENT);
+      errno = ENOENT;
       return NULL;
    }
    FILE* ret = malloc(sizeof(FILE));

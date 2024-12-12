@@ -92,14 +92,6 @@ long_t sys_syscall(long_t number, ...)
       int2 = va_arg(vl, int);
       va_end(vl);
       return (long_t)sys_readdir(char1, int2);
-   case SYS_SETERRNO:
-      int1 = va_arg(vl, int);
-      va_end(vl);
-      current->sys_errno = int1;
-      return 0;
-   case SYS_GETERRNO:
-      va_end(vl);
-      return current->sys_errno;
    case SYS_MKNOD:
       char1 = va_arg(vl, char*);
       mode1 = va_arg(vl, mode_t);

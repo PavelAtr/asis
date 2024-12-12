@@ -20,5 +20,6 @@ double strtod(const char* nptr, char** endptr);
 
 #define EXIT_FAILURE    1       /* Failing exit status.  */
 #define EXIT_SUCCESS    0       /* Successful exit status.  */
+void *calloc(size_t nmemb, size_t size);
 
 #endif

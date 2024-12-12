@@ -21,12 +21,12 @@ int open(const char *pathname, int flags, ...)
    }
    int fd = get_free_fd();
    if (fd == -1) {
-      set_errno(ENOMEM);
+      errno = ENOMEM;
       return -1;
    }
    FILE* f = fopen(pathname,  "r+");
    if (!f) {
-      set_errno(ENOENT);
+      errno = ENOENT;
       return -1;
    }
    fds[fd].stream = f;
