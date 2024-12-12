@@ -14,6 +14,7 @@ char* errors[20] = {
    "Invalid seek",
    "Result too large",
    "Bad file descriptor",
+   "Not enought space",
 };
 
 char* strerror(int errnum)

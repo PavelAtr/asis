@@ -34,5 +34,6 @@ typedef unsigned char bool_t;
 typedef unsigned int u_int32_t;
 typedef int int32_t;
 
+#define SIZE_MAX (size_t)-1
 
 #endif
