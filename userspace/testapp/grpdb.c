@@ -1,6 +1,7 @@
 #include <grp.h>
 #include <stdio.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 int main(int argc, char** argv)
 {
@@ -16,6 +17,7 @@ int main(int argc, char** argv)
       } else {
          fprintf(stdout, "\n");
       }
+      free(p->gr_mem);
    }
    fprintf(stdout, "ONCEMORE\n");
    setgrent();
@@ -27,6 +29,7 @@ int main(int argc, char** argv)
       } else {
          fprintf(stdout, "\n");
       }
+      free(p->gr_mem);
    }
    endgrent();
    fprintf(stdout, "GID=1000\n");
@@ -39,6 +42,7 @@ int main(int argc, char** argv)
    } else {
       fprintf(stdout, "\n");
    }
+   free(p->gr_mem);
    endgrent();
    fprintf(stdout, "NAME=bin\n");
    setgrent();
@@ -50,6 +54,7 @@ int main(int argc, char** argv)
    } else {
       fprintf(stdout, "\n");
    }
+   free(p->gr_mem); 
    endgrent();
    fprintf(stdout, "ONCEMORE\n");
    fprintf(stdout, "GID=1000\n");
@@ -62,6 +67,7 @@ int main(int argc, char** argv)
    } else {
       fprintf(stdout, "\n");
    }
+   free(p->gr_mem);
    endgrent();
    fprintf(stdout, "NAME=bin\n");
    setgrent();
@@ -73,6 +79,7 @@ int main(int argc, char** argv)
    } else {
       fprintf(stdout, "\n");
    }
+   free(p->gr_mem);
    endgrent();
    return 0;
 }
