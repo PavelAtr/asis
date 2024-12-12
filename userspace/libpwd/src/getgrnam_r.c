@@ -11,6 +11,7 @@ int getgrnam_r(const char* name, struct group* grp,
       if (strcmp((*result)->gr_name, name) == 0) {
          return 0;
       }
+      free((*result)->gr_mem);
    }
    *result = NULL;
    return ENOENT;

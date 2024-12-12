@@ -11,6 +11,7 @@ int getgrgid_r(gid_t gid, struct group* grp,
       if ((*result)->gr_gid == gid) {
          return 0;
       }
+      free((*result)->gr_mem);
    }
    *result = NULL;
    return ENOENT;
