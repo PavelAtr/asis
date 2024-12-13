@@ -17,7 +17,7 @@ char* strtok(char* str, const char* delim)
    if (!rez) {
       return NULL;
    }
-   temp = strstr(temp, delim);
+   temp = (char*) strstr(temp, delim);
    if (temp) {
       copy[temp - copy] = '\0';
       temp = temp + strlen(delim);
