@@ -13,6 +13,8 @@ char* fullpath(const char* dir, const char* path)
    size_t cwdlen = strlen(dir);
    char* ret = malloc(cwdlen + strlen(path) + 2);
    strcpy(ret, dir);
+   if (path == NULL)
+      return ret;
    strcpy(ret + cwdlen, "/");
    strcpy(ret + cwdlen + 1, path);
    return ret;

@@ -1,4 +1,5 @@
 #include <sys/types.h>
+#include <time.h>
 
 #ifndef _STAT_H
 #define _STAT_H
@@ -44,6 +45,10 @@ struct stat {
   time_t      st_atime;
   time_t      st_mtime;
   time_t      st_ctime;
+  struct  timespec st_atim;       /* time of last access */
+  struct  timespec st_mtim;       /* time of last data modification */
+  struct  timespec st_ctim;       /* time of last file status change */
+  struct  timespec st_birthtim;   /* time of file creation */
 };
 
 int stat(const char* path, struct stat* statbuf);
@@ -53,5 +58,8 @@ mode_t umask(mode_t mask);
 int mknod(const char *pathname, mode_t mode, dev_t dev);
 int mkdir(const char *pathname, mode_t mode);
 int chmod(const char *pathname, mode_t mode);
+int fstat(int fd, struct stat *statbuf);
+int fstatat(int dirfd, const char* pathname,
+                struct stat* statbuf, int flags);
 
 #endif

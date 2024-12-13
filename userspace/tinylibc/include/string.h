@@ -19,6 +19,5 @@ char *strrchr(const char *s, int c);
 #define memmove(dest, src, size) __builtin_memmove(dest, src, size)
 char *stpcpy(char* dst, const char* src);
 char *strchr(const char *s, int c);
-#define bzero(s, n) memset(s, 0x0, n)
 
 #endif

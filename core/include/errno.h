@@ -17,5 +17,6 @@ extern int errno;
 #define BADFD 11
 #define ENOSPC 12
 #define EINVAL 13
+#define ENOSYS 14
 
 #endif

@@ -38,4 +38,13 @@ int open(const char *pathname, int flags, ... /* mode */);
 int fcntl(int fd, int cmd, ... /* arg */ );
 #define F_GETFL 1
 
+#define AT_FDCWD                0x01
+#define AT_EACCESS              0x02  /* Check access using effective user
+#define AT_SYMLINK_NOFOLLOW     0x04  /* Do not follow symbolic links */
+#define AT_SYMLINK_FOLLOW       0x08  /* Follow symbolic link */
+#define AT_REMOVEDIR            0x10  /* Remove directory instead of file */
+#define AT_EMPTY_PATH		0x20
+#define AT_NO_AUTOMOUNT		0x40
+#define AT_SYMLINK_NOFOLLOW	0x80
+
 #endif
