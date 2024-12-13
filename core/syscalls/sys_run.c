@@ -22,7 +22,7 @@ int_t sys_runinit()
    return 0;
 }
 
-int_t sys_exec(const char* file, char* const argv[])
+int_t sys_exec(const char* file, char** argv)
 {
    dlclose(current->dlhandle);
    int argc;

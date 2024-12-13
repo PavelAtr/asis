@@ -28,7 +28,6 @@ int runcommand(char* cmd)
    const char * cmd3 = "cwd ";
    if (strstr(cmd, cmd3) == cmd) {
       char* param = &cmd[strlen(cmd3)];
-      setenv("CWD", param, 0);
       return chdir(param);
    }
    const char * cmd4 = "umask=";

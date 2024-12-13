@@ -20,7 +20,7 @@
 
 #define INIT "/tinysys/bin/shell"
 
-int_t sys_exec(const char* file, char* const argv[]);
+int_t sys_exec(const char* file, char** argv);
 int_t sys_runinit();
 
 int_t sys_stat(const char* pathname, void* statbuf);
@@ -98,7 +98,7 @@ typedef struct {
   void* parent;
   pid_t parentpid;
   int argc;
-  char** argv;
+  char**  argv;
   char** envp;
   errno_t* sys_errno;
   uid_t uid;

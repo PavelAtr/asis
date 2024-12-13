@@ -1,5 +1,6 @@
 #include <unistd.h>
 #include <string.h>
+#include <stdlib.h>
 
 int chdir(const char *path)
 {
@@ -8,6 +9,7 @@ int chdir(const char *path)
       return 0;
    }
    strcpy(cwd + strlen(cwd), path);
+   setenv("CWD", cwd, 0);
    return 0;
 }
 
