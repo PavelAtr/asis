@@ -9,14 +9,19 @@
 int fstatat(int f, const char* pathname,
                 struct stat* statbuf, int flags)
 {
-   if (!fd_is_valid(f)) {
+   if (!fd_is_valid(f) || !fds[f].stream->file) {
       errno = BADFD;
       return -1;
    }
-   char* file = pathname;
+   char* dir = fds[f].stream->file;
+   const char* file = pathname;
    if (pathname == NULL || flags & AT_EMPTY_PATH)
    {
       file = NULL;
    }
-   return syscall(SYS_FSTAT, fullpath(fds[f].stream->file, file), statbuf);
+   if (flags & AT_FDCWD)
+   {
+      dir = get_current_dir_name();
+   }
+   return syscall(SYS_FSTAT, fullpath(dir, file), statbuf);
 }
