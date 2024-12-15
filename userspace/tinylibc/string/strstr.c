@@ -1,6 +1,6 @@
 #include <string.h>
 
-const char *strstr(const char *haystack, const char *needle)
+char *strstr(const char *haystack, const char *needle)
 {
    int i = 0;
    int j = 0;
@@ -26,7 +26,7 @@ const char *strstr(const char *haystack, const char *needle)
       i++;
    }
    if (found) {
-      return &haystack[ret];
+      return (char*)&haystack[ret];
    } else {
       return NULL;
    }

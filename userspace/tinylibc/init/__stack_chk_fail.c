@@ -1,6 +1,4 @@
-void
-__attribute__ ((noreturn))
-__stack_chk_fail (void)
+void __stack_chk_fail (void)
 {
    /* notrealized */
 }

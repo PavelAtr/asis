@@ -51,7 +51,8 @@ int vsscanf(const char* str, const char* format, va_list ap);
 int sscanf(const char* str, const char* format, ...);
 int fscanf(FILE* stream, const char* format, ...);
 int ungetc(int c, FILE *stream);
-
+size_t fstrread(void* ptr, size_t size, size_t nmemb, FILE* stream);
+size_t fstrwrite(const void* ptr, size_t size, size_t nmemb, FILE* stream);
 
 #define EOF -1
 

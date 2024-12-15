@@ -50,4 +50,9 @@ void _exit(int status);
 
 int isatty(int fd);
 
+int fsync(int fd);
+#define fdatasync(fd) fsync(fd)
+ssize_t pread(int fd, void* buf, size_t count, off_t offset);
+ssize_t pwrite(int fd, const void* buf, size_t count, off_t offset);
+
 #endif

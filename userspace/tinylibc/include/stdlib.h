@@ -7,7 +7,7 @@ void* malloc(size_t size);
 void free(void *ptr);
 
 void printenv(void);
-const char *getenv(const char *name);
+char *getenv(const char *name);
 #define secure_getenv(name) getenv(name)
 int setenv(const char *name, const char *value, int overwrite);
 int unsetenv(const char *name);

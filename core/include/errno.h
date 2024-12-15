@@ -20,5 +20,6 @@ extern int errno;
 #define ENOSYS 14
 #define EFTYPE 15
 #define ENAMETOOLONG 16
+#define EFBIG 17
 
 #endif

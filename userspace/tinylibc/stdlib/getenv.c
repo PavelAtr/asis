@@ -7,12 +7,12 @@ extern char** environ;
 int envid(const char *name);
 int envnewid();
 
-const char *getenv(const char *name)
+char *getenv(const char *name)
 {
    int i = envid(name);
    if (i == -1) {
       return NULL;
    }
-   return &(environ[i])[strlen(name) + 1];
+   return (char*)&(environ[i])[strlen(name) + 1];
 }
 
