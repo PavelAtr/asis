@@ -42,6 +42,7 @@ struct stat {
   short	st_minor;
   dev_t	st_dev;
   long	st_ino;
+  long st_blksize;
   time_t      st_atime;
   time_t      st_mtime;
   time_t      st_ctime;

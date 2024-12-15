@@ -24,6 +24,7 @@ all:
 #	$(CC) -g test.c -o test
 	$(CC) -g -include ../libpwd/include/pwd.h  -include ../libpwd/include/grp.h ../tinylibc/stdio/fgets.c  ../tinylibc/stdio/getc.c ../libpwd/src/*.c ../tinylibc/string/strtok.c test.c -o test
 	$(CC) -g -include ../libpwd/include/pwd.h  -include ../libpwd/include/grp.h ../tinylibc/stdio/fgets.c  ../tinylibc/stdio/getc.c ../libpwd/src/*.c ../tinylibc/string/strtok.c test2.c -o test2
+	$(CC) -g ../tinylibc/stdlib/mkostemps.c test3.c -o test3
 
 clean:
 	rm -f shell hello test touch wallpaper ls stat unlink id mkdir chown chmod testfork segfault passdb grpdb

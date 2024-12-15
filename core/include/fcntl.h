@@ -11,6 +11,7 @@
 #define O_TRUNC 0x20
 #define O_APPEND 0x40
 #define O_EXCL 0x80
+#define O_ACCMODE 0x100
 
 #define MAXPIPE 512
 

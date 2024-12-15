@@ -19,5 +19,6 @@ struct spacectl_range {
 
 typedef unsigned int uint32_t;
 typedef unsigned short uint16_t;
+typedef unsigned short u_int16_t;
 
 #endif

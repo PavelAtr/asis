@@ -17,6 +17,8 @@ char* errors[20] = {
    "Not enought space",
    "Invalid value",
    "Function not implemented",
+   "Inappropriate file type or format",
+   "File name too long",
 };
 
 char* strerror(int errnum)

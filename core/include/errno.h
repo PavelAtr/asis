@@ -18,5 +18,7 @@ extern int errno;
 #define ENOSPC 12
 #define EINVAL 13
 #define ENOSYS 14
+#define EFTYPE 15
+#define ENAMETOOLONG 16
 
 #endif
