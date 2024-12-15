@@ -152,6 +152,11 @@ long_t sys_syscall(long_t number, ...)
       int1 = va_arg(vl, int);
       va_end(vl);
       return sys_waitpid(pid1, intptr1, int1);
+   case SYS_REALLOC:
+      ptr1 = va_arg(vl, void*);
+      size1 = va_arg(vl, size_t);
+      va_end(vl);
+      return (addr_t)sys_realloc(ptr1, size1);
    default:
       va_end(vl);
       sys_printf(SYS_INFO "Unsupported syscall %d\n", number);

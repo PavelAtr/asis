@@ -16,7 +16,7 @@ long long atoll(const char *str);
 #define atol(s) (long)atoll(s)
 #define atoi(s) (int)atoll(s)
 
-#define exit(s) _exit(s);
+#define Exit(s) _exit(s);
 double strtod(const char* nptr, char** endptr);
 
 #define EXIT_FAILURE    1       /* Failing exit status.  */
@@ -27,5 +27,10 @@ int mkostemps(char *template, int suffixlen, int flags);
 #define mkstemp(template) mkostemps(template, 0, O_RDWR)
 #define mkostemp(template, flags) mkostemps(template, 0, flags)
 #define mkstemps(template, suffixlen) mkostemps(template, suffixlen, O_RDWR)
+
+void abort(void);
+
+void *realloc(void *ptr, size_t size);
+#define reallocf(ptr, size) realloc(ptr, size)
 
 #endif

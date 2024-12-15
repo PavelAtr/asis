@@ -40,6 +40,11 @@ void* sys_malloc(size_t size)
    return malloc(size);
 }
 
+void* sys_realloc(void* ptr, size_t size)
+{
+	return realloc(ptr, size);
+}
+
 void sys_free(void *ptr)
 {
    free(ptr);

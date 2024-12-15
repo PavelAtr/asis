@@ -194,5 +194,6 @@ void trap_segfault();
 
 void init_memory(void* base, size_t size);
 size_t free_memory(void);
+void* sys_realloc(void* ptr, size_t size);
 
 #endif
