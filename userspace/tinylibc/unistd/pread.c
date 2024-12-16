@@ -8,7 +8,7 @@
 ssize_t pread(int f, void* buf, size_t count, off_t offset)
 {
    if (!fd_is_valid(f)) {
-      errno = BADFD;
+      errno = EBADFD;
       return -1;
    }
    size_t ret;

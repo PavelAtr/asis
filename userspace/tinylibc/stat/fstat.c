@@ -9,7 +9,7 @@
 int fstat(int f, struct stat *statbuf)
 {
    if (!fd_is_valid(f)) {
-      errno = BADFD;
+      errno = EBADFD;
       return -1;
    }
    return syscall(SYS_FSTAT, fds[f].stream->file, statbuf);

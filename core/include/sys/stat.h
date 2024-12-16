@@ -28,6 +28,7 @@
 #define S_ISUID  04000
 #define S_ISGID  02000
 #define S_ISVTX  01000
+#define S_ISTXT  01000 
 
 #define S_ISREG(mode) (mode & S_IFREG)
 #define S_ISDIR(mode) (mode & S_IFDIR)

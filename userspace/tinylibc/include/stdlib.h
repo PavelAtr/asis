@@ -17,6 +17,7 @@ long long atoll(const char *str);
 #define atoi(s) (int)atoll(s)
 
 #define Exit(s) _exit(s);
+#define exit(s) _exit(s);
 double strtod(const char* nptr, char** endptr);
 
 #define EXIT_FAILURE    1       /* Failing exit status.  */
@@ -32,5 +33,22 @@ void abort(void);
 
 void *realloc(void *ptr, size_t size);
 #define reallocf(ptr, size) realloc(ptr, size)
+#define reallocarray(ptr, nmemb, size) realloc(ptr, nmemb*size)
+const char * getprogname (void);
+
+int cgetent (char **buf, char **db_array, const char *name);
+int cgetset (const char *ent);
+int cgetmatch (const char *buf, const char *name);
+char * cgetcap (char *buf, const char *cap, int type);
+int cgetnum (char *buf, const char *cap, long *num);
+int cgetstr (char *buf, const char *cap, char **str);
+int cgetustr (char *buf, const char *cap, char **str);
+int cgetfirst (char **buf, char **db_array);
+int cgetnext (char **buf, char **db_array);
+int cgetclose (void);
+
+long strtol(const char* nptr, char** endptr, int base);
+long long strtoll(const char* nptr, char** endptr, int base);
+
 
 #endif

@@ -11,6 +11,6 @@ export LDFLAGS="-nostdlib ${PREFIX}/lib/crt.o ${PREFIX}/lib/libc.so"
 export TARGET="amd64"
 export MK_DIRDEPS_BUILD="yes"
 
-
+bmake -m ${CWD}/share/mk -B -C bin/sh clean
 bmake -m ${CWD}/share/mk -B -C bin/sh
 

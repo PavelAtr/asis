@@ -10,7 +10,7 @@ int fstatat(int f, const char* pathname,
                 struct stat* statbuf, int flags)
 {
    if (!fd_is_valid(f) || !fds[f].stream->file) {
-      errno = BADFD;
+      errno = EBADFD;
       return -1;
    }
    char* dir = fds[f].stream->file;

@@ -23,6 +23,7 @@ char cwd[PATHMAX] = {'/', '\0'};
 fdesc* fds = NULL;
 char** environ = NULL;
 int errno;
+char* progname;
 
 void _start(int argc, char** argv, char** envp)
 {
@@ -38,6 +39,7 @@ void _start(int argc, char** argv, char** envp)
    if (mask) {
       umask(atoi(mask));
    }
+   progname = argv[0];
    int ret = main(argc, argv);
    atexit(ret);
 }
