@@ -53,10 +53,12 @@ int fscanf(FILE* stream, const char* format, ...);
 int ungetc(int c, FILE *stream);
 size_t fstrread(void* ptr, size_t size, size_t nmemb, FILE* stream);
 size_t fstrwrite(const void* ptr, size_t size, size_t nmemb, FILE* stream);
-char * fgetln (FILE *stream, size_t *len);
 void flockfile(FILE *filehandle);
 int ftrylockfile(FILE *filehandle);
 void funlockfile(FILE *filehandle);
+extern char s[MAXSTRING];
+char * fgetln (FILE *stream, size_t *len);
+ssize_t getline(char** lineptr, size_t* n, FILE* stream);
 
 #define EOF -1
 

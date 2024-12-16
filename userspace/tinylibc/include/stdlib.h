@@ -49,6 +49,6 @@ int cgetclose (void);
 
 long strtol(const char* nptr, char** endptr, int base);
 long long strtoll(const char* nptr, char** endptr, int base);
-
+#define strtonum(nptr, minval, maxval, errstr) atoll(nptr)
 
 #endif
