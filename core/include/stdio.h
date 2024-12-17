@@ -59,6 +59,8 @@ void funlockfile(FILE *filehandle);
 extern char s[MAXSTRING];
 char * fgetln (FILE *stream, size_t *len);
 ssize_t getline(char** lineptr, size_t* n, FILE* stream);
+int printf(const char* format, ...);
+int sprintf(char* str, const char* format, ...);
 
 #define EOF -1
 
