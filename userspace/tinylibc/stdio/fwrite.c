@@ -27,6 +27,6 @@ size_t fwrite(const void* ptr, size_t size, size_t nmemb, FILE* stream)
       stream->size = stream->pos;
    }
 end:
-//    if (!ret) usleep(1);
+   if (!ret) usleep(1);
    return ret;
 }

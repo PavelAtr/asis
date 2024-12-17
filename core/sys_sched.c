@@ -73,12 +73,12 @@ void switch_task()
       prevpid, curpid, current->parentpid, current->flags);
    if (current->flags & PROC_NEW) {
       current->flags &= ~PROC_NEW;
-//    memcpy(current->ctx.stack, ((proc*)current->parent)->ctx.stack, MAXSTACK);
+    memcpy(current->ctx.stack, ((proc*)current->parent)->ctx.stack, MAXSTACK);
       size_t stackoff = (char*)((proc*)current->parent)->ctx.stack
          + MAXSTACK - (char*)((proc*)current->parent)->ctx.sp;
       current->ctx.sp = (char*)current->ctx.stack + MAXSTACK - stackoff;
       sys_printf("initcontext %d newstack=%p newsp=%p depth=%ld\n",
          curpid, current->ctx.stack, current->ctx.sp, stackoff);
    }
-//	setsp(current->ctx.sp);
+	setsp(current->ctx.sp);
 }
