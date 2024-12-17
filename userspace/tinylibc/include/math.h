@@ -3,5 +3,6 @@
 
 double modf(double x, double *iptr);
 #define sin(x) __builtin_sin(x)
+#define fabs(x)  ((x < 0)? -x: x)
 
 #endif

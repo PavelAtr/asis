@@ -63,5 +63,6 @@ int chmod(const char *pathname, mode_t mode);
 int fstat(int fd, struct stat *statbuf);
 int fstatat(int dirfd, const char* pathname,
                 struct stat* statbuf, int flags);
+int mkdirat(int dirfd, const char *pathname, mode_t mode);
 
 #endif

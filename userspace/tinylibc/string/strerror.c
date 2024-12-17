@@ -20,6 +20,7 @@ char* errors[20] = {
    "Inappropriate file type or format",
    "File name too long",
    "File too large",
+   "Broken pipe",
 };
 
 char* strerror(int errnum)

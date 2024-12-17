@@ -21,6 +21,7 @@ char *stpcpy(char* dst, const char* src);
 char *strchr(const char *s, int c);
 int memcmp(const void* s1, const void* s2, size_t n);
 int strncmp(const char* s1, const char* s2, size_t n);
+#define strncasecmp(s1,s2, n) strncmp(s1, s2, n)
 void bcopy(const void* src, void* dest, size_t n);
 
 #endif

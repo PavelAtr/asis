@@ -50,5 +50,6 @@ int fcntl(int fd, int cmd, ... /* arg */ );
 #define AT_EMPTY_PATH		0x20
 #define AT_NO_AUTOMOUNT		0x40
 #define AT_SYMLINK_NOFOLLOW	0x80
+int openat(int dirfd, const char *pathname, int flags, ... /* mode */);
 
 #endif

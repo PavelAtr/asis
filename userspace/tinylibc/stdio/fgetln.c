@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-char s[MAXSTRING];
+char s[MAXGETLINE];
 
 char * fgetln (FILE *stream, size_t *len)
 {

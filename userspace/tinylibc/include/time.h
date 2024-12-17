@@ -19,4 +19,6 @@ struct itimerval {
         struct timeval it_value;        /* current value */
 };
 
+int nanosleep(const struct timespec *req, struct timespec* rem);
+
 #endif

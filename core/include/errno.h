@@ -21,5 +21,6 @@ extern int errno;
 #define EFTYPE 15
 #define ENAMETOOLONG 16
 #define EFBIG 17
+#define EPIPE 18
 
 #endif
