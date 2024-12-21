@@ -41,6 +41,9 @@ int get_free_fd(void);
 int open(const char *pathname, int flags, ... /* mode */);
 int fcntl(int fd, int cmd, ... /* arg */ );
 #define F_GETFL 1
+#define F_SETFD 2
+
+#define FD_CLOEXEC 1
 
 #define AT_FDCWD                0x01
 #define AT_EACCESS              0x02  /* Check access using effective user

@@ -33,6 +33,10 @@
 #define S_ISREG(mode) (mode & S_IFREG)
 #define S_ISDIR(mode) (mode & S_IFDIR)
 #define S_ISLNK(mode) (mode & S_IFLNK)
+#define S_ISBLK(mode) (mode & S_IFBLK)
+#define S_ISCHR(mode) (mode & S_IFCHR)
+#define S_ISFIFO(mode) (mode & S_IFIFO)
+#define S_ISSOCK(mode) (mode & S_IFSOCK)
 
 struct stat {
   mode_t	st_mode;     /* File type and mode */
@@ -64,5 +68,8 @@ int fstat(int fd, struct stat *statbuf);
 int fstatat(int dirfd, const char* pathname,
                 struct stat* statbuf, int flags);
 int mkdirat(int dirfd, const char *pathname, mode_t mode);
+int fchmodat(int dirfd, const char *pathname, mode_t mode, int flags);
+int fchmod(int fd, mode_t mode);
+int fchown(int fd, uid_t owner, gid_t group);
 
 #endif

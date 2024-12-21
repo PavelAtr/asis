@@ -40,5 +40,6 @@ typedef struct {
 DIR *opendir(const char *name);
 struct dirent* readdir(DIR *dirp);
 DIR *fdopendir(int fd);
+int closedir(DIR *dirp);
 
 #endif

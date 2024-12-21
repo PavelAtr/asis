@@ -3,10 +3,12 @@
 #include <stddef.h>
 #include <syscall.h>
 #include <stdlib.h>
+#include <errno.h>
 
 int close(int fd)
 {
    if (!fd_is_valid(fd)) {
+      errno = EBADFD;
       return -1;
    }
    fclose(fds[fd].stream);
