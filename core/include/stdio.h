@@ -65,6 +65,7 @@ ssize_t getline(char** lineptr, size_t* n, FILE* stream);
 ssize_t getdelim(char** lineptr, size_t* n, int delim, FILE* stream);
 int printf(const char* format, ...);
 int sprintf(char* str, const char* format, ...);
+int dprintf(int fd, const char* format, ...);
 int fflush(FILE *stream);
 
 #define EOF -1

@@ -105,4 +105,6 @@ struct sigaction {
   void     (*sa_restorer)(void);
 };
 
+int sigaction(int signum, const struct sigaction* act, struct sigaction* oldact);
+
 #endif
