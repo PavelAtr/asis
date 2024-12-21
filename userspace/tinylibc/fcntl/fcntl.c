@@ -13,7 +13,7 @@ int fcntl(int fd, int cmd, ... /* arg */ )
    va_start(vl, cmd);
    switch (cmd) {
       case F_GETFL:
-         /* notrealized */
+         /* NOT REALIZED */
          return O_RDWR;
       case F_SETFD:
          int flags = va_arg(vl, int);
@@ -25,6 +25,9 @@ int fcntl(int fd, int cmd, ... /* arg */ )
             default:
                break;
          }
+         return 0;
+      case F_SETLK:
+         /* NOT REALIZED */
          return 0;
       default:
          break;

@@ -67,6 +67,8 @@ int printf(const char* format, ...);
 int sprintf(char* str, const char* format, ...);
 int dprintf(int fd, const char* format, ...);
 int fflush(FILE *stream);
+int fileno(FILE *stream);
+int rename(const char *oldpath, const char *newpath);
 
 #define EOF -1
 

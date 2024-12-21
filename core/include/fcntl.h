@@ -42,6 +42,7 @@ int open(const char *pathname, int flags, ... /* mode */);
 int fcntl(int fd, int cmd, ... /* arg */ );
 #define F_GETFL 1
 #define F_SETFD 2
+#define F_SETLK 3
 
 #define FD_CLOEXEC 1
 
@@ -54,5 +55,24 @@ int fcntl(int fd, int cmd, ... /* arg */ );
 #define AT_NO_AUTOMOUNT		0x40
 #define AT_SYMLINK_NOFOLLOW	0x80
 int openat(int dirfd, const char *pathname, int flags, ... /* mode */);
+
+struct flock
+  {
+    short int l_type;   /* Type of lock: F_RDLCK, F_WRLCK, or F_UNLCK.  */
+    short int l_whence; /* Where `l_start' is relative to (like `lseek').  */
+#ifndef __USE_FILE_OFFSET64
+    off_t l_start;    /* Offset where the lock begins.  */
+    off_t l_len;      /* Size of the locked area; zero means until EOF.  */
+#else
+    off64_t l_start;  /* Offset where the lock begins.  */
+    off64_t l_len;    /* Size of the locked area; zero means until EOF.  */
+#endif
+    pid_t l_pid;      /* Process holding the lock.  */
+  };
+
+#define F_RDLCK         0
+#define F_WRLCK         1
+#define F_UNLCK         2
+
 
 #endif

@@ -11,12 +11,14 @@ typedef unsigned long ino_t;
 #ifdef UEFI
 typedef unsigned long long size_t;
 typedef unsigned long long off_t;
+typedef unsigned long long off64_t;
 typedef long long ssize_t;
 typedef unsigned long long time_t;
 typedef long long suseconds_t;
 #else
 typedef unsigned long size_t;
 typedef long  off_t;
+typedef long  off64_t;
 typedef long ssize_t;
 typedef long time_t;
 typedef long suseconds_t;
