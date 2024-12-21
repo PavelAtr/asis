@@ -7,6 +7,8 @@ typedef unsigned int mode_t;
 typedef int clockid_t;
 typedef void* timer_t;
 typedef unsigned long ino_t;
+typedef unsigned long fsblkcnt_t;
+typedef unsigned long fsfilcnt_t; 
 
 #ifdef UEFI
 typedef unsigned long long size_t;
