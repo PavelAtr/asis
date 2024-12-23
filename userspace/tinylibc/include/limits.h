@@ -5,6 +5,8 @@
 #define INT_MAX 0x7FFFFFFF
 #define LONG_MAX  0x7FFFFFFFFFFFFFFF
 #define LONG_MIN 0x8000000000000000
-
+#define CHAR_MIN 0x80
+#define CHAR_MAX 0x7F
+#define CHAR_BIT 8
 
 #endif

@@ -1,3 +1,5 @@
+#ifndef _SYS_STATFS_H
+#define _SYS_STATFS_H
 
            struct statfs {
                unsigned long f_type;    /* Type of filesystem (see below) */
@@ -16,3 +18,5 @@
                unsigned long f_spare[4];
                                /* Padding bytes reserved for future use */
            };
+
+#endif
