@@ -23,5 +23,6 @@ extern int errno;
 #define EFBIG 17
 #define EPIPE 18
 #define EINTR 19
+#define EAGAIN 20
 
 #endif

@@ -2,7 +2,8 @@
 #include <stddef.h>
 #include <string.h>
 
-#define cellid(addr)  ((unsigned char)((addr & 0x3F) | 0x80))
+#typedef unsigned char cell;
+#define cellid(addr)  ((cell)((addr & 0x3F) | 0x80))
 
 unsigned char* memory;
 size_t memsize;

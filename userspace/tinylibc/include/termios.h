@@ -5,6 +5,13 @@ typedef unsigned char	cc_t;
 typedef unsigned int	speed_t;
 typedef unsigned int	tcflag_t;
 
+struct winsize {
+        unsigned short ws_row;
+        unsigned short ws_col;
+        unsigned short ws_xpixel;
+        unsigned short ws_ypixel;
+};
+
 #define NCCS 32
 struct termios
   {

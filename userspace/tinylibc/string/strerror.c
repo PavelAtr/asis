@@ -1,7 +1,7 @@
 #include <string.h>
 #include <errno.h>
 
-char* errors[20] = {
+char* errors[30] = {
    "Successfully",
    "Insufficient privileges",
    "Access denied",
@@ -22,6 +22,7 @@ char* errors[20] = {
    "File too large",
    "Broken pipe",
    "Interrupted function call",
+   "Resource temporarily unavailable",
 };
 
 char* strerror(int errnum)

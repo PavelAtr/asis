@@ -5,8 +5,8 @@ LDFLAGS=-nostdlib $(PREFIX)/lib/crt.o $(PREFIX)/lib/libc.so
 #LDFLAGS=-nostdlib -Wl,-Ttinysys.ld $(PREFIX)/lib/libc.a
 
 all:
-	$(CC) $(CFLAGS) -fPIC shell.c $(LDFLAGS)  -o shell
-	$(CC) $(CFLAGS) -fPIC hello.c $(LDFLAGS)  -o hello
+	$(CC) $(CFLAGS) -fPIC shell.c $(LDFLAGS) -o shell
+	$(CC) $(CFLAGS) -fPIC hello.c $(LDFLAGS) -o hello
 	$(CC) $(CFLAGS) -fPIC ls.c $(LDFLAGS) -o ls
 	$(CC) $(CFLAGS) -fPIC stat.c $(LDFLAGS) -o stat
 	$(CC) $(CFLAGS) -fPIC mkdir.c $(LDFLAGS) -o mkdir
@@ -17,7 +17,7 @@ all:
 	$(CC) $(CFLAGS) -fPIC chmod.c $(LDFLAGS) -o chmod
 	$(CC) $(CFLAGS) -fPIC chown.c $(LDFLAGS) -o chown
 	$(CC) $(CFLAGS) -fPIC testfork.c $(LDFLAGS) -o testfork
-	$(CC) $(CFLAGS) -fPIC segfault.c $(LDFLAGS) -o segfault
+	$(CC) $(CFLAGS) -fPIC segfault.c $(LDFLAGS)  -o segfault
 	$(CC) $(CFLAGS) -fPIC passdb.c $(LDFLAGS) $(PREFIX)/lib/libpwd.so -o passdb
 	$(CC) $(CFLAGS) -fPIC grpdb.c $(LDFLAGS) $(PREFIX)/lib/libpwd.so -o grpdb
 
