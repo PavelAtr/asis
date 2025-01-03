@@ -59,18 +59,18 @@ len_t sys_fwrite(const char* path, const void* ptr, len_t size, len_t off)
 {
    mountpoint* mount = sys_get_mountpoint(path);
    if (!mount) {
-      *current->sys_errno = -ENOENT;
+      *current->sys_errno = ENOENT;
       return 0;
    }
    const char* file = sys_calcpath(mount, path);
    if (!mount->mount_can_write(mount->sbfs, file, current->uid, current->gid)) {
-      *current->sys_errno = -EPERM;
+      *current->sys_errno = EPERM;
       return 0;
    }
    device* dev;
    struct tinystat st;
    if (mount->mount_stat(mount->sbfs, file, &st)) {
-      *current->sys_errno = -ENOENT;
+      *current->sys_errno = ENOENT;
       return 0;
    }
    mode_t devtype = st.st_mode & S_IFMT;
@@ -102,6 +102,53 @@ len_t sys_fwrite(const char* path, const void* ptr, len_t size, len_t off)
       break;
    }
    return 0;
+}
+
+errno_t sys_ioctl(const char* path, ulong_t request, va_list* vl)
+{
+   mountpoint* mount = sys_get_mountpoint(path);
+   if (!mount) {
+      *current->sys_errno = ENOENT;
+      return 0;
+   }
+   const char* file = sys_calcpath(mount, path);
+   if (!mount->mount_can_write(mount->sbfs, file, current->uid, current->gid)) {
+      *current->sys_errno = EPERM;
+      return 0;
+   }
+   device* dev;
+   struct tinystat st;
+   if (mount->mount_stat(mount->sbfs, file, &st)) {
+      *current->sys_errno = ENOENT;
+      return 0;
+   }
+   mode_t devtype = st.st_mode & S_IFMT;
+   switch (devtype) {
+   case S_IFBLK:
+      if ((dev = sys_get_device_byname(path, devtype))) {
+         return dev->dev_ioctl(dev->devparams, request, *vl);
+      }
+      break;
+   case S_IFCHR:
+      if ((dev = sys_get_device_byname(path, devtype))) {
+         return dev->dev_ioctl(dev->devparams, request, *vl);
+      }
+      break;
+   case S_IFDIR:
+      break;
+   case S_IFIFO:
+      break;
+   case S_IFLNK:
+      break;
+   case S_IFREG:
+      break;
+   case S_IFSOCK:
+      break;
+   default:
+      break;
+   }
+   sys_printf(SYS_INFO "Unsupported ioctl %ld\n", request);
+   return ENOTSUP;
 }
 
 int_t sys_stat(const char* pathname, void* statbuf)
@@ -251,3 +298,5 @@ int_t sys_truncate(const char *pathname, size_t length)
    }
    return 0;
 }
+
+

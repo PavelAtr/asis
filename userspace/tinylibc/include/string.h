@@ -8,7 +8,8 @@ int strcmp(const char *s1, const char *s2);
 char* strcpy(char* dst, const char* src);
 char *strncpy(char* dst, const char *restrict src, size_t sz);
 #define strlcpy(dst, src, sz) strncpy(dst, src, sz)
-char* strdup(const char *s);
+char* strdup(const char* s);
+char *strndup(const char* s, size_t n);
 void* memcpy(void* dest, const void* src, size_t n);
 char* strerror(int errnum);
 char* strtok(char* str, const char* delim);

@@ -22,6 +22,7 @@ long_t sys_syscall(long_t number, ...)
    gid_t gid1;
    pid_t pid1;
    int* intptr1;
+   va_list* valst;
    switch (number) {
    case SYS_MALLOC:
       size1 = va_arg(vl, size_t);
@@ -157,6 +158,17 @@ long_t sys_syscall(long_t number, ...)
       size1 = va_arg(vl, size_t);
       va_end(vl);
       return (addr_t)sys_realloc(ptr1, size1);
+   case SYS_IOCTL:
+      char1 = va_arg(vl, char*);
+      long1 = va_arg(vl, long_t);
+      valst = va_arg(vl, va_list*);
+      va_end(vl);
+      *current->sys_errno = sys_ioctl(char1, long1, valst);
+      if (*current->sys_errno) {
+         return -1;
+      } else {
+		 return 0;
+	  }
    default:
       va_end(vl);
       sys_printf(SYS_INFO "Unsupported syscall %d\n", number);

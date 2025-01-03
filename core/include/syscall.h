@@ -33,6 +33,7 @@ extern long (*syscall)(long number, ...);
 #define SYS_FORK 23
 #define SYS_WAITPID 24
 #define SYS_REALLOC 25
+#define SYS_IOCTL 26
 
 
 #endif

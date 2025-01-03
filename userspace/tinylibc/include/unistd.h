@@ -6,6 +6,8 @@
 
 int usleep(unsigned long usec);
 int execve(const char* file, char* const * argv,  char* const * envp);
+#define execv(pathname, argv) execve(pathname, argv, NULL)
+#define execvp(file, argv) execve(file, argv, NULL)
 
 extern char cwd[PATHMAX];
 int chdir(const char *path);
@@ -60,5 +62,9 @@ long sysconf(int name);
 #define _SC_OPEN_MAX 1
 
 ssize_t readlinkat(int dirfd, const char* pathname, char* buf, size_t bufsiz);
+pid_t setsid(void);
+
+int dup(int oldfd);
+int dup2(int oldfd, int newfd);
 
 #endif

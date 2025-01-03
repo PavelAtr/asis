@@ -44,6 +44,7 @@ void clearerr(FILE *stream);
 int feof(FILE *stream);
 int ferror(FILE *stream);
 int vfprintf(FILE* stream, const char* format, va_list ap);
+#define vprintf(format, ap) vfprintf(stdout, format, ap)
 int vsprintf(char* str, const char* format, va_list ap);
 char *fgets(char* s, int size, FILE* stream);
 int vsscanf(const char* str, const char* format, va_list ap);
