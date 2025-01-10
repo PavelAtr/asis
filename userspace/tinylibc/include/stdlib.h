@@ -48,9 +48,9 @@ int cgetnext (char **buf, char **db_array);
 int cgetclose (void);
 
 long strtol(const char* nptr, char** endptr, int base);
-#define strtoll(nptr, endptr, base) strtol(nptr, endptr, base)
+long long strtoll(const char* nptr, char** endptr, int base);
 unsigned long strtoul(const char* nptr, char** endptr, int base);
-#define strtoull(nptr, endptr, base) strtoul(nptr, endptr, base)
+unsigned long long strtoull(const char* nptr, char** endptr, int base);
 
 #define strtonum(nptr, minval, maxval, errstr) atoll(nptr)
 

@@ -253,12 +253,12 @@ static unsigned long strtoxll(const char *nptr, char **endptr, int ibase, int fl
   return number;
 }
 
-long strtol(const char *nptr, char **endptr, int ibase) {
-  return (long) strtoxll(nptr, endptr, ibase, 0);
+long long strtoll(const char *nptr, char **endptr, int ibase) {
+  return (long long) strtoxll(nptr, endptr, ibase, 0);
 }
 
-unsigned long strtoul(const char *nptr, char **endptr, int ibase) {
-  return strtoxll(nptr, endptr, ibase, FL_UNSIGNED);
+unsigned long long strtoull(const char *nptr, char **endptr, int ibase) {
+  return (unsigned long long) strtoxll(nptr, endptr, ibase, FL_UNSIGNED);
 }
 
 intmax_t strtoimax(const char *nptr, char **endptr, int ibase) {
