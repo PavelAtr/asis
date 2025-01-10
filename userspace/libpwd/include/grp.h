@@ -50,6 +50,7 @@ inline int getgrnam_r(const char* name, struct group* grp,
       if (strcmp((*result)->gr_name, name) == 0) {
          return 0;
       }
+      if ((*result)->gr_mem) free((*result)->gr_mem);
    }
    *result = NULL;
    return ENOENT;
@@ -62,6 +63,7 @@ inline int getgrgid_r(gid_t gid, struct group* grp,
       if ((*result)->gr_gid == gid) {
          return 0;
       }
+      if ((*result)->gr_mem) free((*result)->gr_mem);
    }
    *result = NULL;
    return ENOENT;
