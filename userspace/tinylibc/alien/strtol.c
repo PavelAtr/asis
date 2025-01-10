@@ -253,11 +253,11 @@ static unsigned long strtoxll(const char *nptr, char **endptr, int ibase, int fl
   return number;
 }
 
-long strtoll(const char *nptr, char **endptr, int ibase) {
+long strtol(const char *nptr, char **endptr, int ibase) {
   return (long) strtoxll(nptr, endptr, ibase, 0);
 }
 
-unsigned long strtoull(const char *nptr, char **endptr, int ibase) {
+unsigned long strtoul(const char *nptr, char **endptr, int ibase) {
   return strtoxll(nptr, endptr, ibase, FL_UNSIGNED);
 }
 

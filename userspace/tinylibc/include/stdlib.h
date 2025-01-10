@@ -48,11 +48,15 @@ int cgetnext (char **buf, char **db_array);
 int cgetclose (void);
 
 long strtol(const char* nptr, char** endptr, int base);
-long long strtoll(const char* nptr, char** endptr, int base);
+#define strtoll(nptr, endptr, base) strtol(nptr, endptr, base)
+unsigned long strtoul(const char* nptr, char** endptr, int base);
+#define strtoull(nptr, endptr, base) strtoul(nptr, endptr, base)
+
 #define strtonum(nptr, minval, maxval, errstr) atoll(nptr)
 
 #define abs(j) ((j < 0)? -j : j)
 
 #define MB_CUR_MAX 2
+
 
 #endif

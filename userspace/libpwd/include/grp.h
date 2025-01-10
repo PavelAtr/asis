@@ -32,4 +32,6 @@ int getgrnam_r(const char* name, struct group* grp,
 int getgrgid_r(gid_t gid, struct group* grp,
                char* buf, size_t buflen, struct group** result);
 int setgroupent (int stayopen);
+int initgroups(const char *user, gid_t group);
+
 #endif

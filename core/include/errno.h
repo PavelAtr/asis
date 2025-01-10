@@ -24,5 +24,8 @@ extern int errno;
 #define EPIPE 18
 #define EINTR 19
 #define EAGAIN 20
+#define ELOOP 21
+#define ESRCH 22
+#define E2BIG 23
 
 #endif
