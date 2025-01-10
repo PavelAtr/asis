@@ -98,6 +98,7 @@ pid_t sys_clone(void)
       ((dl*)current->dlhandle)->nlink++;
    }
    cpu[ret]->parent = current;
+   cpu[ret]->pid = ret;
    cpu[ret]->parentpid = curpid;
    cpu[ret]->ctx.stack = sys_malloc(MAXSTACK);
    return ret;

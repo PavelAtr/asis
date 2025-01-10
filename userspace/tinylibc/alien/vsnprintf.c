@@ -52,13 +52,6 @@
 static char *digits = "0123456789abcdefghijklmnopqrstuvwxyz";
 static char *upper_digits = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-size_t strnlen(const char *s, size_t count)
-{
-   const char *sc;
-   for (sc = s; *sc != '\0' && count--; ++sc);
-   return sc - s;
-}
-
 static int skip_atoi(const char **s)
 {
    int i = 0;

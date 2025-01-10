@@ -106,5 +106,6 @@ struct sigaction {
 };
 
 int sigaction(int signum, const struct sigaction* act, struct sigaction* oldact);
+int kill(pid_t pid, int sig);
 
 #endif

@@ -72,4 +72,8 @@ int rename(const char *oldpath, const char *newpath);
 
 #define EOF -1
 
+#define _IOFBF 0                /* Fully buffered.  */
+#define _IOLBF 1                /* Line buffered.  */
+#define _IONBF 2                /* No buffering.  */
+
 #endif

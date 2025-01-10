@@ -34,6 +34,8 @@ extern long (*syscall)(long number, ...);
 #define SYS_WAITPID 24
 #define SYS_REALLOC 25
 #define SYS_IOCTL 26
+#define SYS_GETPID 27
+#define SYS_GETPPID 28
 
 
 #endif

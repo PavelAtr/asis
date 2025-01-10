@@ -97,6 +97,7 @@ typedef struct {
 typedef struct {
   int_t flags;
   void* parent;
+  pid_t pid;
   pid_t parentpid;
   int argc;
   char**  argv;

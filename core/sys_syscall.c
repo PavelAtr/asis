@@ -169,6 +169,12 @@ long_t sys_syscall(long_t number, ...)
       } else {
 		 return 0;
 	  }
+   case SYS_GETPID:
+      va_end(vl);
+      return current->pid;
+   case SYS_GETPPID:
+      va_end(vl);
+      return current->parentpid;
    default:
       va_end(vl);
       sys_printf(SYS_INFO "Unsupported syscall %d\n", number);

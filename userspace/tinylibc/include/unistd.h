@@ -75,4 +75,7 @@ int access(const char *pathname, int mode);
 
 int chroot(const char *path);
 
+pid_t getpid(void);
+pid_t getppid(void);
+
 #endif
