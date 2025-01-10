@@ -80,6 +80,5 @@ void switch_task()
       sys_printf("initcontext %d newstack=%p newsp=%p depth=%ld\n",
          curpid, current->ctx.stack, current->ctx.sp, stackoff);
    }
-/* MARK   
-	setsp(current->ctx.sp); */
+	setsp(current->ctx.sp);
 }
