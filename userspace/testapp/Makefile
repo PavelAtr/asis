@@ -1,7 +1,7 @@
 PREFIX?=/tinysys
 #CFLAGS?=-fPIC -I$(PREFIX)/usr/include -fomit-frame-pointer
-CFLAGS?=-fPIC --sysroot=$(PREFIX) -fomit-frame-pointer
-LDFLAGS=-nostdlib $(PREFIX)/lib/crt.o $(PREFIX)/lib/libc.so
+CFLAGS?=-g -fPIC --sysroot=$(PREFIX) -fomit-frame-pointer
+LDFLAGS=-nostdlib $(PREFIX)/lib/crt.o $(PREFIX)/lib/libc.so -shared
 #LDFLAGS=-nostdlib -Wl,-Ttinysys.ld $(PREFIX)/lib/libc.a
 
 all:

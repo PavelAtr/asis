@@ -74,19 +74,6 @@ int runcommand(char* cmd)
 
 int main(int argc, char** argv)
 {
-   int fd;
-   if ((fd = open("/dev/tty", O_RDONLY)) == -1) {
-      return -1;
-   }
-   if ((fd = open("/dev/tty", O_WRONLY)) == -1) {
-      return -1;
-   }
-   if ((fd = open("/dev/tty", O_WRONLY)) == -1) {
-      return -1;
-   }
-   stdin = fdopen(0, "r");
-   stdout = fdopen(1, "w");
-   stderr = fdopen(2, "w");
    setenv("PATH", "/tinysys/:/tinysys/bin/", 0);
    chdir("/tinysys");
    setenv("CWD", "/tinysys", 0);

@@ -1,0 +1,40 @@
+ARCH?=x86_64
+
+CFLAGS?=-fomit-frame-pointer
+PREFIX?=/tinysys
+
+SYSTEM_LINK = ../drv/tty/*.c \
+../drv/hostfs/*.c \
+../drv/blk/*.c \
+../drv/loop/*.c \
+../drv/weekfs/src/*.c \
+../drv/hosttrap/*.c \
+syscalls/sys_memory.c \
+syscalls/sys_hostrun.c \
+sys_printf.c
+
+
+
+TINYSYS_LINK = sys_dev.c \
+sys_sched.c \
+main.c \
+sys_proc.c \
+sys_security.c \
+sys_syscall.c \
+syscalls/sys_fs.c \
+syscalls/sys_mount.c \
+syscalls/sys_usleep.c \
+sys_trap.c
+
+all:
+	$(CC) $(CFLAGS) -fPIC -g -c  -DELF64  $(SYSTEM_LINK)
+	$(CC) $(CFLAGS) -fPIC -g -c -I./include -I../userspace/tinylibc/include -DELF64 $(TINYSYS_LINK)
+	$(CC) $(CFLAGS) -fPIC -g *.o -o tinysys
+
+clean:
+	rm -f *.o
+	rm -rf tinysys
+
+install_headers:
+	cp -r include $(DESTDIR)$(PREFIX)/usr/
+

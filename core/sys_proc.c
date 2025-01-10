@@ -6,12 +6,58 @@
 
 proc sys;
 char* argv[1] = {"system"};
+errno_t syserr;
+
+FILE sys_stdin = {
+   "/dev/tty",
+   100,
+   0,
+   FILE_INFINITY,
+   NULL,
+};
+FILE sys_stdout = {
+   "/dev/tty",
+   100,
+   0,
+   FILE_INFINITY,
+   NULL,
+};
+FILE sys_stderr = {
+   "/dev/tty",
+   100,
+   0,
+   FILE_INFINITY,
+   NULL,
+};
+
+fdesc sysfds[COREMAXFD] = {
+   {
+	  &sys_stdin,
+      0,
+      NULL,
+      NULL,
+   },
+   {
+	  &sys_stdout, 
+      0,
+      NULL,
+      NULL,
+   },
+   {
+	  &sys_stderr, 
+      0,
+      NULL,
+      NULL,
+   }
+};
 
 void init_proc()
 {
    sys.argv = argv;
    cpu[0] = &sys;
    current = cpu[0];
+   sys.sys_errno = &syserr;
+   sys.fds = &sysfds;
 }
 
 char** copyenv(char*const* e)

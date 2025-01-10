@@ -7,12 +7,12 @@ sigset_t ss;
 
 void segfault_handler (int signum)
 {
-   sigemptyset(&ss);
-   sigprocmask(SIG_SETMASK, &ss, NULL);
+/*   sigemptyset(&ss);
+   sigprocmask(SIG_SETMASK, &ss, NULL); */
    trap_segfault();
 }
 
 void init_hosttrap()
 {
-   signal(SIGSEGV, segfault_handler);
+//   signal(SIGSEGV, segfault_handler);
 }
