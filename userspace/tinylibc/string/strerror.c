@@ -26,6 +26,8 @@ char* errors[30] = {
 "Too many levels of symbolic links",
 "No such process",
 "Argument list too long",
+"Too many open files",
+"Exec format error",
 };
 
 char* strerror(int errnum)

@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
-int getc(FILE* stream)
+int fgetc(FILE* stream)
 {
    char ret;
    size_t len = fread(&ret, 1, 1, stream);

@@ -63,6 +63,8 @@ long sysconf(int name);
 #define _SC_OPEN_MAX 1
 
 ssize_t readlinkat(int dirfd, const char* pathname, char* buf, size_t bufsiz);
+ssize_t readlink(const char* pathname, char* buf, size_t bufsiz);
+
 pid_t setsid(void);
 
 int dup(int oldfd);
@@ -72,10 +74,13 @@ int pipe(int pipefd[2]);
 int pipe2(int pipefd[2], int flags);
 
 int access(const char *pathname, int mode);
+int faccessat(int dirfd, const char *pathname, int mode, int flags);
 
 int chroot(const char *path);
 
 pid_t getpid(void);
 pid_t getppid(void);
+
+int gethostname(char *name, size_t len);
 
 #endif

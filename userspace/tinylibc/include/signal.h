@@ -108,4 +108,7 @@ struct sigaction {
 int sigaction(int signum, const struct sigaction* act, struct sigaction* oldact);
 int kill(pid_t pid, int sig);
 
+typedef void (*sighandler_t)(int);
+sighandler_t signal(int signum, sighandler_t handler);
+
 #endif

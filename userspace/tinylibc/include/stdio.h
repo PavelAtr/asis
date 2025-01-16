@@ -30,7 +30,9 @@ int fclose(FILE *stream);
 int fseek(FILE* stream, long offset, int whence);
 long ftell(FILE* stream);
 void rewind(FILE* stream);
-int getc(FILE* stream);
+int fgetc(FILE* stream);
+#define getc(f) fgetc(f)
+
 int fputs(const char* s, FILE* stream);
 int puts(const char* s);
 int putchar(int c);
@@ -75,5 +77,12 @@ int rename(const char *oldpath, const char *newpath);
 #define _IOFBF 0                /* Fully buffered.  */
 #define _IOLBF 1                /* Line buffered.  */
 #define _IONBF 2                /* No buffering.  */
+
+int setvbuf(FILE* stream, char* buf, int mode, size_t size);
+void setbuf(FILE* stream, char* buf);
+void setbuffer(FILE* stream, char* buf, size_t size);
+void setlinebuf(FILE *stream);
+
+FILE *fmemopen(void* buf, size_t size, const char *mode);
 
 #endif

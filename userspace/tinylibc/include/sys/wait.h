@@ -1,6 +1,22 @@
 #ifndef _WAIT_H
 #define _WAIT_H
 
+#define WNOHANG         0x00000001
+#define WUNTRACED       0x00000002
+#define WSTOPPED        WUNTRACED
+#define WEXITED         0x00000004
+#define WCONTINUED      0x00000008
+#define WNOWAIT         0x01000000      /* Don't reap, just poll status.  */
+
+/* First argument to waitid: */
+#define P_ALL           0
+#define P_PID           1
+#define P_PGID          2
+#define P_PIDFD         3
+
+
+
+
 #define WEXITSTATUS(status)   (((status) & 0xff00) >> 8)
 #define WTERMSIG(status)      ((status) & 0x7f)
 #define WSTOPSIG(status)      WEXITSTATUS(status)

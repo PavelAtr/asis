@@ -27,5 +27,7 @@ extern int errno;
 #define ELOOP 21
 #define ESRCH 22
 #define E2BIG 23
+#define EMFILE 24
+#define ENOEXEC 25
 
 #endif

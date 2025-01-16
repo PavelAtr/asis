@@ -54,7 +54,9 @@ unsigned long long strtoull(const char* nptr, char** endptr, int base);
 
 #define strtonum(nptr, minval, maxval, errstr) atoll(nptr)
 
-#define abs(j) ((j < 0)? -j : j)
+#define abs(j) (((j) < 0)? -(j) : (j))
+#define labs(j) (((j) < 0)? -(j) : (j))
+#define llabs(j) (((j) < 0)? -(j) : (j))
 
 #define MB_CUR_MAX 2
 
