@@ -28,7 +28,7 @@ int strncmp(const char* s1, const char* s2, size_t n);
 #define strncasecmp(s1,s2, n) strncmp(s1, s2, n)
 #define strcasecmp(s1, s2) strcmp(s1, s2)
 void bcopy(const void* src, void* dest, size_t n);
-#define strspn(s, accept) __builtin_strspn(s, accept)
-#define strcspn(s, reject) __builtin_strcspn(s, reject)
+size_t strspn(const char *s, const char *accept);
+size_t strcspn(const char *s, const char *reject);
 
 #endif

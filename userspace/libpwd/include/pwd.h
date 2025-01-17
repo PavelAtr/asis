@@ -20,13 +20,13 @@ struct passwd {
   char   *pw_shell;      /* shell program */
 };
 
-FILE* dbpasswd = NULL;
+extern FILE* dbpasswd;
 
 int fgetpwent_r(FILE * stream, struct passwd * pwbuf,
                 char * buf, size_t buflen,
                 struct passwd ** pwbufp);
 
-inline int getpwnam_r(const char* name, struct passwd* pwd,
+static inline int getpwnam_r(const char* name, struct passwd* pwd,
    char* buf, size_t buflen,
    struct passwd** pwbufp)
 {
@@ -37,9 +37,9 @@ inline int getpwnam_r(const char* name, struct passwd* pwd,
    }
    *pwbufp = NULL;
    return ENOENT;
-}
+};
 
-inline int getpwuid_r(uid_t uid, struct passwd* pwd,
+static inline int getpwuid_r(uid_t uid, struct passwd* pwd,
    char* buf, size_t buflen,
    struct passwd** pwbufp)
 {
@@ -50,9 +50,9 @@ inline int getpwuid_r(uid_t uid, struct passwd* pwd,
    }
    *pwbufp = NULL;
    return ENOENT;
-}
+};
 
-inline struct passwd *getpwent(void)
+static inline struct passwd *getpwent(void)
 {
    char buf[MAXPWDLINE];
    struct passwd pass;
@@ -61,9 +61,9 @@ inline struct passwd *getpwent(void)
       return p;
    }
    return NULL;
-}
+};
 
-inline struct passwd *getpwnam(const char *name)
+static inline struct passwd *getpwnam(const char *name)
 {
    char buf[MAXPWDLINE];
    struct passwd pass;
@@ -72,9 +72,9 @@ inline struct passwd *getpwnam(const char *name)
       return p;
    }
    return NULL;
-}
+};
 
-inline struct passwd *getpwuid(uid_t uid)
+static inline struct passwd *getpwuid(uid_t uid)
 {
    char buf[MAXPWDLINE];
    struct passwd pass;
@@ -83,26 +83,26 @@ inline struct passwd *getpwuid(uid_t uid)
       return p;
    }
    return NULL;
-}
+};
 
-inline void endpwent(void)
+static inline void endpwent(void)
 {
    if (dbpasswd) {
       fclose(dbpasswd);
       dbpasswd = NULL;
    }
-}
+};
 
-inline void setpwent(void)
+static inline void setpwent(void)
 {
    endpwent();
    dbpasswd = fopen(PASSWD_FILE, "r");
-}
+};
 
-inline int setpassent (int stayopen)
+static inline int setpassent (int stayopen)
 {
    setpwent();
    return 0;
-}
+};
 
 #endif

@@ -185,7 +185,7 @@ long random();
 // October 1988, p. 1195.
 //
 
-__inline long good_rand(long x) {
+long good_rand(long x) {
   long hi, lo;
 
   // Can't be initialized with 0, so use another value.

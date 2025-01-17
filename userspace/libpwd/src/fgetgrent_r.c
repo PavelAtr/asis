@@ -9,6 +9,7 @@ int fgetgrent_r(FILE* stream, struct group* gbuf,
                  struct group** gbufp)
 {
    memset(buf, 0x0, buflen);
+   memset(gbuf, 0x0, sizeof(struct group));
    if (!fgets(buf, buflen, stream)) {
       *gbufp = NULL;
       return ERANGE;
@@ -19,7 +20,7 @@ int fgetgrent_r(FILE* stream, struct group* gbuf,
    gbuf->gr_gid = atoi(strtok(NULL, ":"));
    char* temp = strtok(NULL, ":");
    int i;
-   int numtok = 0;
+   int numtok = 1;
    for (i = 0; i < strlen(temp); i++) {
       numtok = (temp[i] == ',')? numtok + 1: numtok; 
    }

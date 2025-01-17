@@ -23,6 +23,8 @@ char cwd[PATHMAX] = {'/', '\0'};
 FILE* stdin;
 FILE* stdout;
 FILE* stderr;
+FILE* dbpasswd = NULL;
+FILE* dbgroup = NULL;
 
 int main(int argc, char** argv);
 

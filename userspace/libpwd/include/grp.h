@@ -18,32 +18,32 @@ struct group {
                               to names of group members */
 };
 
-FILE* dbgroup = NULL;
+extern FILE* dbgroup;
 
-inline void endgrent(void)
+static inline void endgrent(void)
 {
    if (dbgroup) {
       fclose(dbgroup);
       dbgroup = NULL;
    }
-}
+};
 
-inline void setgrent(void)
+static inline void setgrent(void)
 {
    endgrent();
    dbgroup = fopen(GROUP_FILE, "r");
-}
+};
 
-inline int setgroupent (int stayopen)
+static inline int setgroupent (int stayopen)
 {
    setgrent();
    return 0;
-}
+};
 
 int fgetgrent_r(FILE* stream, struct group* gbuf,
                 char* buf, size_t buflen, struct group** gbufp);
 
-inline int getgrnam_r(const char* name, struct group* grp,
+static inline int getgrnam_r(const char* name, struct group* grp,
                char* buf, size_t buflen, struct group** result)
 {
    while (!fgetgrent_r(dbgroup, grp, buf, buflen, result)) {
@@ -54,9 +54,9 @@ inline int getgrnam_r(const char* name, struct group* grp,
    }
    *result = NULL;
    return ENOENT;
-}
+};
 
-inline int getgrgid_r(gid_t gid, struct group* grp,
+static inline int getgrgid_r(gid_t gid, struct group* grp,
                char* buf, size_t buflen, struct group** result)
 {
    while (!fgetgrent_r(dbgroup, grp, buf, buflen, result)) {
@@ -67,9 +67,9 @@ inline int getgrgid_r(gid_t gid, struct group* grp,
    }
    *result = NULL;
    return ENOENT;
-}
+};
 
-inline struct group *getgrent(void)
+static inline struct group *getgrent(void)
 {
    char buf[MAXPWDLINE];
    struct group grp;
@@ -78,9 +78,9 @@ inline struct group *getgrent(void)
       return g;
    }
    return NULL;
-}
+};
 
-inline struct group *getgrnam(const char *name)
+static inline struct group *getgrnam(const char *name)
 {
    char buf[MAXPWDLINE];
    struct group grp;
@@ -89,9 +89,9 @@ inline struct group *getgrnam(const char *name)
       return g;
    }
    return NULL;
-}
+};
 
-inline struct group *getgrgid(gid_t gid)
+static inline struct group *getgrgid(gid_t gid)
 {
    char buf[MAXPWDLINE];
    struct group grp;
@@ -100,7 +100,7 @@ inline struct group *getgrgid(gid_t gid)
       return g;
    }
    return NULL;
-}
+};
 
 extern int initgroups(const char *user, gid_t group);
 

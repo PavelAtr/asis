@@ -26,7 +26,7 @@ all:
 #	$(CC) -g ../tinylibc/stdlib/mkostemps.c test3.c -o test3
 
 clean:
-	rm -f shell hello test touch wallpaper ls stat unlink id mkdir chown chmod testfork segfault passdb grpdb
+	rm -f shell hello test touch wallpaper ls stat unlink id mkdir chown chmod testfork segfault passdb grpdb test1 test2
 
 install:
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
