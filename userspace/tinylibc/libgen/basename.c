@@ -2,5 +2,5 @@
 
 char *basename(char *path)
 {
-  return strrchr(path, '/');
+  return strrchr(path, '/') + sizeof(char);
 }
