@@ -19,7 +19,7 @@
 #else
 #endif
 
-#define INIT "/tinysys/bin/toybox"
+#define INIT "/tinysys/bin/shell"
 
 int_t sys_exec(const char* file, char** argv);
 int_t sys_runinit();

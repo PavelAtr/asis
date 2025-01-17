@@ -2,7 +2,7 @@
 #define _MATH_H
 
 double modf(double x, double *iptr);
-#define sin(x) __builtin_sin(x)
-#define fabs(x)  ((x < 0)? -x: x)
+#define sin(x) 0 /* NOT REALIZED */
+#define fabs(x)  (((x) < 0)? -(x): (x))
 
 #endif

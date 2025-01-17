@@ -4,14 +4,13 @@
 #include <errno.h>
 #include <string.h>
 
-char* initargv[3];
+char* initargv[2];
 
 int_t sys_runinit()
 {
    current->ctx.stack = sp - MAXSTACK + 64;
    initargv[0] = INIT;
-   initargv[1] = "sh";
-   initargv[2] = NULL;
+   initargv[1] = NULL;
    pid_t init = sys_fork();
    if (init == 0) {
       sys_exec(initargv[0], initargv);
