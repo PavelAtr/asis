@@ -3,7 +3,8 @@
 char *dirname(char *path)
 {
    char* c = strrchr(path, '/');
-   *c = '\0';
+   if (c) {
+      *c = '\0';
+   }
    return path;
 }
-

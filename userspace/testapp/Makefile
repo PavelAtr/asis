@@ -20,10 +20,11 @@ all:
 	$(CC) $(CFLAGS) -fPIC segfault.c $(LDFLAGS)  -o segfault
 	$(CC) $(CFLAGS) -fPIC passdb.c $(LDFLAGS) $(PREFIX)/lib/libpwd.so -o passdb
 	$(CC) $(CFLAGS) -fPIC grpdb.c $(LDFLAGS) $(PREFIX)/lib/libpwd.so -o grpdb
+	$(CC) $(CFLAGS) -fPIC exit.c $(LDFLAGS) -o _exit
 
 	$(CC) -g -I../libpwd/include/ ../libpwd/libpwd.a test1.c -o test1
 	$(CC) -g -I../libpwd/include/ ../libpwd/libpwd.a test2.c -o test2
-	$(CC) -g ../tinylibc/string/strnlen.c test3.c -o test3
+	$(CC) -g ../tinylibc/libgen/basename.c   ../tinylibc/string/strrchr.c  ../tinylibc/string/strlen.c test3.c -o test3
 
 clean:
 	rm -f shell hello test touch wallpaper ls stat unlink id mkdir chown chmod testfork segfault passdb grpdb test1 test2
@@ -46,6 +47,7 @@ install:
 	install segfault $(DESTDIR)$(PREFIX)/bin/segfault
 	install passdb $(DESTDIR)$(PREFIX)/bin/passdb
 	install grpdb $(DESTDIR)$(PREFIX)/bin/grpdb
+	install exit $(DESTDIR)$(PREFIX)/bin/_exit
 
 
 

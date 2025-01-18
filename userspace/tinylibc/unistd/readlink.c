@@ -5,6 +5,6 @@
 
 ssize_t readlink(const char*pathname, char* buf, size_t bufsiz)
 {
-    strcpy(buf, pathname);
-    return strlen(pathname);
+    strncpy(buf, pathname, bufsiz);
+    return strnlen(buf, bufsiz);
 }

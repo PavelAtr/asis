@@ -46,7 +46,7 @@ void* tempsp = tempstack + MAXSTACK;
 
 void switch_task()
 {
-   if (current) {
+  if (current) {
       getsp(current->ctx.sp);
    }
    pid_t prevpid = curpid;
@@ -80,5 +80,5 @@ void switch_task()
       sys_printf("initcontext %d newstack=%p newsp=%p depth=%ld\n",
          curpid, current->ctx.stack, current->ctx.sp, stackoff);
    }
-// MARK setsp(current->ctx.sp);
+   setsp(current->ctx.sp);
 }
