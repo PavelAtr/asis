@@ -56,7 +56,7 @@ len_t hostfs_fread(void* sbfs, const char* path, void* ptr, len_t size,
       }
    }
    fseek(f, off, SEEK_SET);
-   ret = fread(ptr, size, 1, f);
+   ret = fread(ptr, 1, size, f);
    return ret * size;
 }
 
@@ -76,7 +76,7 @@ len_t hostfs_fwrite(void* sbfs, const char* path, const void* ptr, len_t size,
       }
    }
    fseek(f, off, SEEK_SET);
-   ret = fwrite(ptr, size, 1, f);
+   ret = fwrite(ptr, 1, size, f);
    return ret * size;
 }
 

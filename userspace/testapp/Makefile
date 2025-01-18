@@ -23,7 +23,7 @@ all:
 
 	$(CC) -g -I../libpwd/include/ ../libpwd/libpwd.a test1.c -o test1
 	$(CC) -g -I../libpwd/include/ ../libpwd/libpwd.a test2.c -o test2
-#	$(CC) -g ../tinylibc/stdlib/mkostemps.c test3.c -o test3
+	$(CC) -g ../tinylibc/string/strnlen.c test3.c -o test3
 
 clean:
 	rm -f shell hello test touch wallpaper ls stat unlink id mkdir chown chmod testfork segfault passdb grpdb test1 test2

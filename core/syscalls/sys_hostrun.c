@@ -160,7 +160,7 @@ pid_t sys_waitpid(pid_t pid, int* wstatus, int options)
 
 void sys_atexit(int ret)
 {
-   sys_printf("ATEXIT\n");
+   sys_printf("ATEXIT=%d\n", ret);
    current->ret = ret;
    current->flags &= ~PROC_RUNNING;
    switch_context;

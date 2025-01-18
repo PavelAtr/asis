@@ -9,7 +9,7 @@ int vfprintf(FILE* stream, const char* format, va_list ap)
    int size = vsnprintf(NULL, MAXSTRING, format, ap);
    char* str = malloc(size + 1);
    size = vsnprintf(str, MAXSTRING, format, ap2);
-   size_t ret =  fwrite(str, size, 1, stream);
+   size_t ret =  fwrite(str, 1, size, stream);
    free(str);
    return ret;
 }

@@ -9,6 +9,6 @@
 int sys_usleep(long_t usec)
 {
    sys_printf("USLEEP\n");
-   switch_context;
+// MARK   switch_context;
    return  0;
 }
