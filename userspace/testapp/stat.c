@@ -15,9 +15,8 @@ int main(int argc, char** argv)
       path = argv[1];
    }
    struct stat st;
-   if (stat(fullpath(get_current_dir_name(), path), &st)) {
-      puts(strerror(errno));
-      puts("\n");
+   if (stat(path, &st) == -1) {
+      printf("%s\n", strerror(errno));
       return -2;
    }
    puts(path);
@@ -60,18 +59,7 @@ int main(int argc, char** argv)
    default:
       break;
    }
-   puts("uid=");
-   itoa(st.st_uid, 10, tmp);
-   puts(tmp);
-   puts(" gid=");
-   itoa(st.st_gid, 10, tmp);
-   puts(tmp);
-   puts(" mode=");
-   itoa(st.st_mode, 8, tmp);
-   puts(tmp);
-   puts(" size=");
-   itoa(st.st_size, 10, tmp);
-   puts(tmp);
-   puts("\n");
+   printf("uid=%d gid=%d mode=%o size=%ld\n", st.st_uid, 
+      st.st_gid, st.st_mode, st.st_size);
    return 0;
 }

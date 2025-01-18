@@ -17,7 +17,7 @@ sblock* we_calc_fs(sblock* sb, len_t sizefs, bsize_t bsize)
    sb->params.bsize = bsize;
    sb->params.bcount = (sizefs - sizeof(sblock)) / (bsize + sizeof(hblock));
    if (sizeof(weekfs_dentry) > bsize) {
-      printf("WARNING! Dentry size=%ld less than bsize=%d!\n", sizeof(weekfs_dentry),
+      printf("weekfs: dentry size=%ld less than bsize=%d!\n", sizeof(weekfs_dentry),
          bsize);
    }
    return sb;

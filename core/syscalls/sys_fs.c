@@ -158,10 +158,10 @@ int_t sys_stat(const char* pathname, void* statbuf)
       *current->sys_errno = ENOENT;
       return -1;
    }
-   errno_t err = mount->mount_stat(mount->sbfs, sys_calcpath(mount, pathname),
+   int_t err = mount->mount_stat(mount->sbfs, sys_calcpath(mount, pathname),
          statbuf);
    if (err) {
-      *current->sys_errno = err;
+      *current->sys_errno = ENOENT;
       return -1;
    }
    return 0;
@@ -272,12 +272,12 @@ void* sys_readdir(char* pathname, int_t ndx)
 {
    mountpoint* mount= sys_get_mountpoint(pathname);
    if (!mount) {
-      *current->sys_errno = -ENOENT;
+      *current->sys_errno = ENOENT;
       return NULL;
    }
    const char* file = sys_calcpath(mount, pathname);
    if (!mount->mount_can_read(mount->sbfs, file, current->uid, current->gid)) {
-      *current->sys_errno = -EPERM;
+      *current->sys_errno = EPERM;
       return 0;
    }
    return mount->mount_readdir(mount->sbfs, file, ndx);
