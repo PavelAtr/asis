@@ -12,6 +12,7 @@ typedef unsigned long ino_t;
 typedef unsigned long fsblkcnt_t;
 typedef unsigned long fsfilcnt_t; 
 typedef int sig_atomic_t;
+typedef unsigned long rlim_t;
 
 #ifdef UEFI
 typedef unsigned long long size_t;

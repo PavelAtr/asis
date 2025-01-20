@@ -44,4 +44,6 @@ struct rlimit64 {
 #define PRIO_PGRP       1
 #define PRIO_USER       2
 
+#define RLIM_INFINITY          (~0UL)
+
 #endif
