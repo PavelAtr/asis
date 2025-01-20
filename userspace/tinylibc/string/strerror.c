@@ -1,7 +1,7 @@
 #include <string.h>
 #include <errno.h>
 
-char* errors[30] = {
+char* errors[40] = {
 "Successfully",
 "Insufficient privileges",
 "Access denied",
@@ -28,6 +28,8 @@ char* errors[30] = {
 "Argument list too long",
 "Too many open files",
 "Exec format error",
+"Operation would block",
+"Bad file descriptor",
 };
 
 char* strerror(int errnum)

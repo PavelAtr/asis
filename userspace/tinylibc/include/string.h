@@ -30,5 +30,8 @@ int strncmp(const char* s1, const char* s2, size_t n);
 void bcopy(const void* src, void* dest, size_t n);
 size_t strspn(const char *s, const char *accept);
 size_t strcspn(const char *s, const char *reject);
+char *strpbrk(const char *s, const char *accept);
+
+extern char* sys_siglist[35];
 
 #endif

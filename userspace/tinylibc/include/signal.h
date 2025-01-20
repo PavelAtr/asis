@@ -110,5 +110,7 @@ int kill(pid_t pid, int sig);
 
 typedef void (*sighandler_t)(int);
 sighandler_t signal(int signum, sighandler_t handler);
+int raise(int sig);
+int sigsuspend(const sigset_t *mask);
 
 #endif

@@ -9,4 +9,7 @@
 #define CHAR_MAX 0x7F
 #define CHAR_BIT 8
 
+#define PATH_MAX 4096
+#define NAME_MAX 255
+
 #endif

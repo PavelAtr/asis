@@ -16,6 +16,8 @@
 #define O_NONBLOCK 0x0400
 #define O_SYNC 0x0800
 
+#define O_NOCTTY 00000400 
+
 #define MAXPIPE 512
 
 typedef struct {
@@ -29,6 +31,7 @@ typedef struct {
 typedef struct {
   FILE* stream;
   int flags;
+  pid_t pgrp;
   pipebuf* wpipe;
   pipebuf* rpipe;
 } fdesc;
@@ -43,6 +46,8 @@ int fcntl(int fd, int cmd, ... /* arg */ );
 #define F_GETFL 1
 #define F_SETFD 2
 #define F_SETLK 3
+#define F_SETFL 4
+#define F_DUPFD 5
 
 #define FD_CLOEXEC 1
 

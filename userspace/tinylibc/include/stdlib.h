@@ -2,6 +2,7 @@
 #define _STDLIB_H
 
 #include <stddef.h>
+#include <alloca.h>
 
 void* malloc(size_t size);
 void free(void *ptr);
@@ -17,7 +18,11 @@ long long atoll(const char *str);
 #define atoi(s) (int)atoll(s)
 
 #define Exit(s) _exit(s);
-#define exit(s) _exit(s);
+static inline void exit(int status)
+{
+    _exit(status);
+}
+
 double strtod(const char* nptr, char** endptr);
 
 #define EXIT_FAILURE    1       /* Failing exit status.  */

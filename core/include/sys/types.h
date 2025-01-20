@@ -9,6 +9,7 @@ typedef void* timer_t;
 typedef unsigned long ino_t;
 typedef unsigned long fsblkcnt_t;
 typedef unsigned long fsfilcnt_t; 
+typedef int sig_atomic_t;
 
 #ifdef UEFI
 typedef unsigned long long size_t;
@@ -36,12 +37,15 @@ typedef unsigned int len_t;
 typedef unsigned int counter_t;
 typedef int int_t;
 typedef int errno_t;
+
 typedef unsigned char bool_t;
 typedef unsigned int u_int32_t;
 typedef int int32_t;
 typedef unsigned int uint32_t;
 typedef long int64_t;
 typedef unsigned long uint64_t;
+typedef long intmax_t;
+typedef unsigned long uintmax_t;
 
 #define SIZE_MAX (size_t)-1
 

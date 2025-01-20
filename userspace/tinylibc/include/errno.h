@@ -5,7 +5,7 @@ extern int errno;
 
 #define ESUCCESS 0
 #define EPERM 1
-#define EACCESS 2
+#define EACCES 2
 #define ENOENT 3
 #define ENOMEM 4
 #define EEXIST 5
@@ -29,5 +29,7 @@ extern int errno;
 #define E2BIG 23
 #define EMFILE 24
 #define ENOEXEC 25
+#define EWOULDBLOCK 26
+#define EBADF 27
 
 #endif

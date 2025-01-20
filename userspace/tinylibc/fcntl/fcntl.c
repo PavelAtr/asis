@@ -2,6 +2,7 @@
 #include <stdarg.h>
 #include <errno.h>
 #include <syscall.h>
+#include <unistd.h>
 
 int fcntl(int fd, int cmd, ... /* arg */ )
 {
@@ -29,6 +30,10 @@ int fcntl(int fd, int cmd, ... /* arg */ )
       case F_SETLK:
          /* NOT REALIZED */
          return 0;
+      case F_DUPFD:
+         int newfd = va_arg(vl, int);
+         va_end(vl);
+         return dup2(fd, newfd);
       default:
          break;
    }
