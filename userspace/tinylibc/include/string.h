@@ -34,5 +34,6 @@ size_t strcspn(const char *s, const char *reject);
 char *strpbrk(const char *s, const char *accept);
 
 extern char* sys_siglist[35];
+char *strsignal(int sig);
 
 #endif

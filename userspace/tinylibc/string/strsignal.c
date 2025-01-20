@@ -33,3 +33,8 @@ char* sys_siglist[35] =
 "SIGPWR",
 "OASIGSYS",
 };
+
+char *strsignal(int sig)
+{
+   return sys_siglist[sig];
+}

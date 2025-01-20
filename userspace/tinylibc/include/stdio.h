@@ -85,6 +85,8 @@ void setlinebuf(FILE *stream);
 
 FILE *fmemopen(void* buf, size_t size, const char *mode);
 
+#define perror(s) fputs(s, stderr)
+
 #define BUFSIZ 8192
 
 #endif

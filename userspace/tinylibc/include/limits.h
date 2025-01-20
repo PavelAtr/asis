@@ -1,6 +1,9 @@
 #ifndef _LIMITS_H
 #define _LIMITS_H
 
+#include <sys/types.h>
+#include <time.h>
+
 #define INT_MIN 0x80000000
 #define INT_MAX 0x7FFFFFFF
 #define LONG_MAX  0x7FFFFFFFFFFFFFFF
