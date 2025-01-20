@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <stddef.h>
 #include <string.h>
+#include <errno.h>
 
 proc sys;
 char* argv[1] = {"system"};
@@ -34,18 +35,21 @@ fdesc sysfds[COREMAXFD] = {
    {
 	  &sys_stdin,
       0,
+      1,
       NULL,
       NULL,
    },
    {
 	  &sys_stdout, 
       0,
+      1,
       NULL,
       NULL,
    },
    {
 	  &sys_stderr, 
       0,
+      1,
       NULL,
       NULL,
    }
@@ -147,3 +151,33 @@ void free_fds(proc* task)
    }
    sys_free(fds);
 }
+
+int_t sys_setpgid(pid_t pid, pid_t pgid)
+{
+   pid_t newpgid = (pgid == 0)? current->pid : pgid;
+   if (pid == 0) {
+      current->pgid = newpgid;
+      return 0;
+   }
+   if (cpu[pid]) {
+      cpu[pid]->pgid = newpgid;
+      return 0;
+   } else {
+      *current->sys_errno = EBADR;
+      return -1;
+   } 
+}
+int_t sys_getpgid(pid_t pid)
+{
+   if (pid == 0) {
+      return current->pgid;
+   }
+   if (cpu[pid]) {
+      return cpu[pid]->pgid;
+   } else {
+      *current->sys_errno = EBADR;
+      return -1;
+   } 
+}
+
+

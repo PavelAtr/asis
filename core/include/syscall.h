@@ -36,6 +36,8 @@ extern long (*syscall)(long number, ...);
 #define SYS_IOCTL 26
 #define SYS_GETPID 27
 #define SYS_GETPPID 28
+#define SYS_GETPGID 29
+#define SYS_SETPGID 30
 
 
 #endif

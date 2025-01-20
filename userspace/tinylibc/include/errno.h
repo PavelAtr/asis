@@ -31,5 +31,6 @@ extern int errno;
 #define ENOEXEC 25
 #define EWOULDBLOCK 26
 #define EBADF 27
+#define EBADR 28
 
 #endif

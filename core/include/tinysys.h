@@ -110,6 +110,7 @@ typedef struct {
   context ctx;
   int_t ret;
   pid_t forkret;
+  pid_t pgid;
 } proc;
 
 
@@ -199,5 +200,9 @@ size_t free_memory(void);
 void* sys_realloc(void* ptr, size_t size);
 
 errno_t sys_ioctl(const char* path, ulong_t request, va_list* vl);
+
+int_t sys_setpgid(pid_t pid, pid_t pgid);
+int_t sys_getpgid(pid_t pid);
+
 
 #endif

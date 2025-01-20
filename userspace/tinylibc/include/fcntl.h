@@ -42,6 +42,7 @@ int get_free_fd(void);
 #define fd_is_valid(fd) ((unsigned int)fd < MAXFD - 1)
 
 int open(const char *pathname, int flags, ... /* mode */);
+#define open64 open
 int fcntl(int fd, int cmd, ... /* arg */ );
 #define F_GETFL 1
 #define F_SETFD 2

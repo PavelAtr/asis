@@ -1,18 +1,17 @@
 #include <unistd.h>
-
-/* NOT REALIZED */
+#include <syscall.h>
 
 int setpgid(pid_t pid, pid_t pgid)
 {
-   return 0;
+   return syscall(SYS_SETPGID, pid, pgid);
 }
 
 pid_t getpgid(pid_t pid)
 {
-   return 1;
+   return syscall(SYS_GETPGID, pid);
 }
 
 pid_t getpgrp(void)
 {
-   return 1;
+   return getpgid(0);
 }

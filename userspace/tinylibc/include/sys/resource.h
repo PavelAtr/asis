@@ -1,6 +1,9 @@
 #ifndef _SYS_RESOURCE_H
 #define _SYS_RESOURCE_H
 
+#include <sys/types.h>
+#include <time.h>
+
 #define RUSAGE_SELF     0
 #define RUSAGE_CHILDREN (-1)
 #define RUSAGE_BOTH     (-2)            /* sys_wait4() uses this */
@@ -45,5 +48,8 @@ struct rlimit64 {
 #define PRIO_USER       2
 
 #define RLIM_INFINITY          (~0UL)
+
+int getrlimit(int resource, struct rlimit *rlim);
+int setrlimit(int resource, const struct rlimit *rlim);
 
 #endif

@@ -21,6 +21,7 @@ long_t sys_syscall(long_t number, ...)
    uid_t uid1;
    gid_t gid1;
    pid_t pid1;
+   pid_t pid2;
    int* intptr1;
    va_list* valst;
    switch (number) {
@@ -175,6 +176,13 @@ long_t sys_syscall(long_t number, ...)
    case SYS_GETPPID:
       va_end(vl);
       return current->parentpid;
+   case SYS_GETPGID:
+      pid1 = va_arg(vl, pid_t);
+      return sys_getpgid(pid1);
+   case SYS_SETPGID:
+      pid1 = va_arg(vl, pid_t);
+      pid2 = va_arg(vl, pid_t);
+      return sys_setpgid(pid1, pid2);
    default:
       va_end(vl);
       sys_printf(SYS_INFO "Unsupported syscall %d\n", number);

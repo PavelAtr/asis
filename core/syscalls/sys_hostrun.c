@@ -54,7 +54,9 @@ int_t sys_exec(const char* file, char** argv)
       current->gid = current->gid;
    }
    current->dlhandle = dlopen(file, RTLD_NOW | RTLD_LOCAL | RTLD_DEEPBIND);
+   sys_printf(SYS_INFO, "DLOPEN %s\n", file);
    if (!current->dlhandle) {
+	  sys_printf(SYS_ERROR, "dlopen %s FAILED!\n", file);
       *current->sys_errno = ENOENT;
       return -1;
    }

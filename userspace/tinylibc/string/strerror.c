@@ -30,6 +30,7 @@ char* errors[40] = {
 "Exec format error",
 "Operation would block",
 "Bad file descriptor",
+"Invalid request descriptor",
 };
 
 char* strerror(int errnum)
