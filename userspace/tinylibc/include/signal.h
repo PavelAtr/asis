@@ -112,5 +112,6 @@ typedef void (*sighandler_t)(int);
 sighandler_t signal(int signum, sighandler_t handler);
 int raise(int sig);
 int sigsuspend(const sigset_t *mask);
+int sigsetmask(int mask);
 
 #endif

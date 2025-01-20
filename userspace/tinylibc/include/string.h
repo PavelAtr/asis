@@ -23,6 +23,7 @@ char* strrchr(const char *s, int c);
 #define memmove(dest, src, size) memcpy(dest, src, size)
 char* stpcpy(char* dst, const char* src);
 char* strchr(const char *s, int c);
+char *strchrnul(const char *s, int c);
 int memcmp(const void* s1, const void* s2, size_t n);
 int strncmp(const char* s1, const char* s2, size_t n);
 #define strncasecmp(s1,s2, n) strncmp(s1, s2, n)

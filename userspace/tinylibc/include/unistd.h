@@ -61,6 +61,7 @@ int ftruncate(int fd, off_t length);
 
 long sysconf(int name);
 #define _SC_OPEN_MAX 1
+#define _SC_CLK_TCK 2
 
 ssize_t readlinkat(int dirfd, const char* pathname, char* buf, size_t bufsiz);
 ssize_t readlink(const char* pathname, char* buf, size_t bufsiz);

@@ -7,7 +7,8 @@ long sysconf(int name)
    switch (name) {
    case _SC_OPEN_MAX:
       return MAXFD;
-      break;
+   case _SC_CLK_TCK:
+      return 1000;
    default:
       break;
    }

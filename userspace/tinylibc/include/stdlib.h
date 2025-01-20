@@ -3,6 +3,7 @@
 
 #include <stddef.h>
 #include <alloca.h>
+#include <unistd.h>
 
 void* malloc(size_t size);
 void free(void *ptr);
@@ -69,5 +70,8 @@ long random(void);
 void srandom(unsigned int seed);
 char *initstate(unsigned int seed, char* state, size_t n);
 char *setstate(char *state);
+
+void qsort(void* base, size_t nmemb, size_t size, int (*compar)(const void*, const void*));
+void *bsearch(const void *key, const void *base, size_t num, size_t width, int (*compare)(const void *, const void *));
 
 #endif
