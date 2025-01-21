@@ -111,6 +111,7 @@ pid_t sys_fork()
    }
    cpu[current->forkret]->forkret = 0;
    cpu[current->forkret]->ret = -1;
+   sys_printf("EXEC SWITCH\n");
    switch_context;
    sys_printf("forkret=%d\n", (int)current->forkret);
    return current->forkret;
@@ -119,44 +120,46 @@ pid_t sys_fork()
 pid_t sys_waitpid(pid_t pid, int* wstatus, int options)
 {
    sys_printf("WAITPID in %s child=%d\n", current->argv[0], pid);
+   if (pid != -1) {
+      if (!pid_is_valid(pid) || !cpu[pid]) {
+         return -1;
+      }
+   }   
    *wstatus = -1;
-   bool_t wait = 1;
    pid_t child = -1;
-   while(wait) {
+   bool_t found = 0;
+   while(1) {
       if (pid == -1) {
          int_t i;
-         bool_t child_exist = 0;
          for (i = 0; i < MAXPROC; i++) {
             if (!cpu[i]) {
                continue;
             }
             if (cpu[i]->parentpid == curpid) {
-               child_exist = 1;
-               if (!(cpu[i]->flags & PROC_RUNNING)) {
-                  wait = 0;
+			   found = 1;	
+			   if(!(cpu[i]->flags & PROC_RUNNING)) {
                   child = i;
-                  break;
-               }
+                  goto end;
+		       }
             }
          }
-         if (!child_exist) {
-            return -1;
-         }
       } else {
-         if (!pid_is_valid(pid) || !cpu[pid]) {
-            return -1;
-         }
+         found = 1; 
          if (!(cpu[pid]->flags & PROC_RUNNING)) {
             child = pid;
-            break;
+            goto end;
          }
       }
+      if (!found) {
+	     return -1;
+	  }
       switch_context;
    }
-   if (cpu[child]) {
-      *wstatus = cpu[child]->ret;
-      freeproc(child);
-   }
+end:
+   sys_printf("WAITPID END\n");
+   *wstatus = cpu[child]->ret;
+//MARK   freeproc(child);
+   cpu[child] = NULL;
    return child;
 }
 
@@ -165,6 +168,7 @@ void sys_atexit(int ret)
    sys_printf("ATEXIT=%d\n", ret);
    current->ret = ret;
    current->flags &= ~PROC_RUNNING;
+   current->flags |= PROC_ZOMBIE;
    switch_context;
 }
 

@@ -117,6 +117,7 @@ typedef struct {
 #define PROC_RUNNING 0x01
 #define PROC_NEW 0x02
 #define PROC_CLONED 0x04
+#define PROC_ZOMBIE 0x08
 
 
 extern proc* current;

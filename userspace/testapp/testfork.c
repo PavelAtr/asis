@@ -1,8 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
-#include <tiny.h>
-#include <fcntl.h>
 #include <sys/wait.h>
 
 int main(int argc, char** argv)
@@ -12,7 +10,7 @@ int main(int argc, char** argv)
       int i;
       for (i = 0; i < 10; i++) {
          puts("Child1\n");
-         usleep(100);
+         usleep(1);
       }
       return 0;
    } else {
@@ -21,7 +19,7 @@ int main(int argc, char** argv)
          int i;
          for (i = 0; i < 10; i++) {
             puts("Child2\n");
-            usleep(100);
+            usleep(1);
          }
          return 0;
       }
