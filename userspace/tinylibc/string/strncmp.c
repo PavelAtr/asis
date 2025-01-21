@@ -4,7 +4,7 @@ int strncmp(const char* s1, const char* s2, size_t n)
 {
    int i = 0;
    int equal = 1;
-   for(i = 0; s1[i] != '\0' && s2[i] != '\0', i < n; i++)
+   for(i = 0; s1[i] != '\0' && s2[i] != '\0' && i < n; i++)
       if (s1[i] != s2[i]) {
          equal = 0;
       }
