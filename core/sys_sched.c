@@ -47,7 +47,7 @@ void* tempsp = tempstack + MAXSTACK;
 void switch_task()
 {
   if (current) {
-      getsp(current->ctx.sp);
+      current->ctx.sp = sp;
    }
    pid_t prevpid = curpid;
    while(1) {
@@ -80,5 +80,21 @@ void switch_task()
       sys_printf("initcontext %d newstack=%p newsp=%p depth=%ld\n",
          curpid, current->ctx.stack, current->ctx.sp, stackoff);
    }
-   setsp(current->ctx.sp);
+   sp = current->ctx.sp;
 }
+
+int_t sys_setjmp(long* env)
+{
+   env[JMP_STACK] = (long) sys_malloc(MAXSTACK);
+   memcpy((void*)env[JMP_STACK], current->ctx.stack, MAXSTACK);
+   env[JMP_SP] = (long)sp;
+   return 0;
+}
+
+int_t sys_longjmp(long* env)
+{
+   sys_printf("longjmp newstack=%p newsp=%p\n", env[JMP_STACK], env[JMP_SP]);
+   sp = (void*)env[JMP_SP];
+   return 0;
+}
+

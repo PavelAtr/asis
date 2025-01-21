@@ -176,12 +176,12 @@ pid_t sys_waitpid(pid_t pid, int* wstatus, int options);
 
 #define MAXSTACK 8192
 
-#define setsp(sp) __asm__("mov %0, %%rsp\n" \
+#define setsp(addr) __asm__("mov %0, %%rsp\n" \
            : \
-           : "r" (sp))
+           : "r" (addr))
 
-#define getsp(sp) __asm__("mov %%rsp, %0\n" \
-           : "=r" (sp)\
+#define getsp(addr) __asm__("mov %%rsp, %0\n" \
+           : "=r" (addr)\
            : )
 
 register void* sp __asm__("rsp");
@@ -204,5 +204,9 @@ errno_t sys_ioctl(const char* path, ulong_t request, va_list* vl);
 int_t sys_setpgid(pid_t pid, pid_t pgid);
 int_t sys_getpgid(pid_t pid);
 
+int_t sys_setjmp(long* env);
+int_t sys_longjmp(long* env);
+#define JMP_STACK 0
+#define JMP_SP 1
 
 #endif

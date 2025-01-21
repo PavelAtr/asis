@@ -1,12 +1,10 @@
 #include <setjmp.h>
 #include <signal.h>
-
-/* NOT REALIZED */
-
+#include <syscall.h>
 
 int setjmp(jmp_buf env)
 {
-   return 0;
+   return syscall(SYS_SETJMP, env);
 }
 
 int sigsetjmp(sigjmp_buf env, int savesigs)
@@ -18,6 +16,7 @@ int sigsetjmp(sigjmp_buf env, int savesigs)
 
 void longjmp(jmp_buf env, int val)
 {
+   syscall(SYS_LONGJMP, env);
 }
 
 void siglongjmp(sigjmp_buf env, int val)

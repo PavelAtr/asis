@@ -24,6 +24,7 @@ long_t sys_syscall(long_t number, ...)
    pid_t pid2;
    int* intptr1;
    va_list* valst;
+   long* longptr;
    switch (number) {
    case SYS_MALLOC:
       size1 = va_arg(vl, size_t);
@@ -178,11 +179,21 @@ long_t sys_syscall(long_t number, ...)
       return current->parentpid;
    case SYS_GETPGID:
       pid1 = va_arg(vl, pid_t);
+      va_end(vl);      
       return sys_getpgid(pid1);
    case SYS_SETPGID:
       pid1 = va_arg(vl, pid_t);
       pid2 = va_arg(vl, pid_t);
+      va_end(vl);      
       return sys_setpgid(pid1, pid2);
+   case SYS_SETJMP:
+      longptr = va_arg(vl, long*);
+      va_end(vl);      
+      return sys_setjmp(longptr);
+   case SYS_LONGJMP:
+      longptr = va_arg(vl, long*);
+      va_end(vl);      
+      return sys_longjmp(longptr);
    default:
       va_end(vl);
       sys_printf(SYS_INFO "Unsupported syscall %d\n", number);
