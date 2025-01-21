@@ -94,6 +94,10 @@ int_t sys_setjmp(long* env)
 int_t sys_longjmp(long* env)
 {
    sys_printf("longjmp newstack=%p newsp=%p\n", env[JMP_STACK], env[JMP_SP]);
+   if (current->ctx.stack != (void*)env[JMP_STACK]) {
+      sys_free(current->ctx.stack);
+   }
+   current->ctx.stack = (void*)env[JMP_STACK];
    sp = (void*)env[JMP_SP];
    return 0;
 }
