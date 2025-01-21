@@ -85,9 +85,9 @@ void switch_task()
 
 int_t sys_setjmp(long* env)
 {
-   env[JMP_STACK] = (long) sys_malloc(MAXSTACK);
+   env[JMP_STACK] = (long)sys_malloc(MAXSTACK);
+   env[JMP_SP] = env[JMP_STACK] + (long)(sp - current->ctx.stack);
    memcpy((void*)env[JMP_STACK], current->ctx.stack, MAXSTACK);
-   env[JMP_SP] = (long)sp;
    return 0;
 }
 
