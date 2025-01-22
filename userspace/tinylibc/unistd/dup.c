@@ -3,6 +3,7 @@
 #include <fcntl.h>
 #include <string.h>
 #include <errno.h>
+#include <stdio.h>
 
 int dup2(int oldfd, int newfd)
 {
@@ -13,8 +14,7 @@ int dup2(int oldfd, int newfd)
    if (fds[newfd].stream) {
       close(newfd);
    }
-   memcpy(&fds[newfd], &fds[oldfd], sizeof(fdesc));
-
+   copyfdesc(&fds[newfd], &fds[oldfd]);
    return newfd;
 }
 

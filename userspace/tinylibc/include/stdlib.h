@@ -67,8 +67,8 @@ unsigned long long strtoull(const char* nptr, char** endptr, int base);
 #define MB_CUR_MAX 2
 
 long random(void);
-void srandom(unsigned int seed);
-char *initstate(unsigned int seed, char* state, size_t n);
+void srandom(unsigned long seed);
+char *initstate(unsigned long seed, char* state, long n);
 char *setstate(char *state);
 
 void qsort(void* base, size_t nmemb, size_t size, int (*compar)(const void*, const void*));

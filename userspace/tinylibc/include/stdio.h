@@ -4,6 +4,8 @@
 #include <stddef.h>
 #include <stdarg.h>
 #include <sys/types.h>
+#include <string.h>
+#include <stdlib.h>
 
 typedef struct {
   char* file;
@@ -12,6 +14,15 @@ typedef struct {
   unsigned char flags;
   char* strbuf;
 } FILE;
+
+static inline void copyfile(FILE* dst, FILE* src)
+{
+   memcpy(dst, src, sizeof(FILE));
+   dst->file = strdup(src->file);
+   if (src->strbuf) {
+      dst->strbuf = malloc(src->size);
+   }
+}
 
 #define FILE_ERROR 0x01
 #define FILE_INFINITY 0x02

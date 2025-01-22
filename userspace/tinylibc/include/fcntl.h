@@ -36,6 +36,19 @@ typedef struct {
   pipebuf* rpipe;
 } fdesc;
 
+static inline void copyfdesc(fdesc* dst, fdesc* src)
+{
+   memcpy(dst, src, sizeof(fdesc));
+   dst->stream = malloc(sizeof(FILE));
+   copyfile(dst->stream, src->stream);
+   if (src->wpipe) {
+      src->wpipe->nlink++;
+   }
+   if (src->rpipe) {
+      src->rpipe->nlink++;
+   }
+}
+
 #define MAXFD syscall(SYS_GETMAXFD)
 extern fdesc* fds;
 int get_free_fd(void);

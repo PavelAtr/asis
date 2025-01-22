@@ -10,7 +10,8 @@ pid_t tcgetpgrp(int fd)
       errno = EBADFD;
       return -1;
    }
-   return fds[fd].pgrp;
+   pid_t ret = (fds[fd].pgrp)? 100 : fds[fd].pgrp;
+   return ret;
 }
 
 int tcsetpgrp(int fd, pid_t pgrp)
@@ -22,5 +23,3 @@ int tcsetpgrp(int fd, pid_t pgrp)
    fds[fd].pgrp = pgrp;
    return 0;
 }
-
-
