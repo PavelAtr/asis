@@ -21,6 +21,9 @@ typedef unsigned long long off64_t;
 typedef long long ssize_t;
 typedef unsigned long long time_t;
 typedef long long suseconds_t;
+typedef long long long_t;
+typedef unsigned long long ulong_t;
+typedef unsigned long long addr_t;
 #else
 typedef unsigned long size_t;
 typedef long  off_t;
@@ -28,14 +31,14 @@ typedef long  off64_t;
 typedef long ssize_t;
 typedef long time_t;
 typedef long suseconds_t;
+typedef long long_t;
+typedef unsigned long ulong_t;
+typedef unsigned long addr_t;
 #endif
 typedef int pid_t;
 typedef unsigned long dev_t;
 
 
-typedef long long long_t;
-typedef unsigned long long ulong_t;
-typedef unsigned long long addr_t;
 typedef unsigned int len_t;
 typedef unsigned int counter_t;
 typedef int int_t;

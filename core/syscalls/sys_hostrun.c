@@ -158,7 +158,7 @@ pid_t sys_waitpid(pid_t pid, int* wstatus, int options)
 end:
    sys_printf("WAITPID END\n");
    *wstatus = cpu[child]->ret;
-//MARK   freeproc(child);
+   freeproc(child);
    cpu[child] = NULL;
    return child;
 }

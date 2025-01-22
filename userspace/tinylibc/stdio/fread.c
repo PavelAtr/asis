@@ -22,8 +22,8 @@ size_t fread(void* ptr, size_t size, size_t nmemb, FILE* stream)
       goto end;
    }
    ret = syscall(SYS_FREAD, stream->file, ptr, size * nmemb, stream->pos);
-   stream->pos += ret;
 end:
-//   if (!ret) usleep(1);
+   stream->pos += ret;
+   if (!ret) usleep(1);
    return ret;
 }

@@ -205,8 +205,8 @@ errno_t sys_ioctl(const char* path, ulong_t request, va_list* vl);
 int_t sys_setpgid(pid_t pid, pid_t pgid);
 int_t sys_getpgid(pid_t pid);
 
-int_t sys_setjmp(long* env);
-int_t sys_longjmp(long* env);
+int_t sys_setjmp(long_t* env);
+int_t sys_longjmp(long_t* env);
 #define JMP_STACK 0
 #define JMP_SP 1
 

@@ -85,9 +85,11 @@ static inline struct group *getgrnam(const char *name)
    char buf[MAXPWDLINE];
    struct group grp;
    struct group* g;
+   setgrent();
    if (!getgrnam_r(name, &grp, buf, MAXPWDLINE, &g)) {
       return g;
    }
+   endgrent();
    return NULL;
 };
 
@@ -96,9 +98,11 @@ static inline struct group *getgrgid(gid_t gid)
    char buf[MAXPWDLINE];
    struct group grp;
    struct group* g;
+   setgrent();
    if (!getgrgid_r(gid, &grp, buf, MAXPWDLINE, &g)) {
       return g;
    }
+   endgrent();
    return NULL;
 };
 

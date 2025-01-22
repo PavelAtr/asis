@@ -22,11 +22,11 @@ size_t fwrite(const void* ptr, size_t size, size_t nmemb, FILE* stream)
       goto end;
    }
    ret = syscall(SYS_FWRITE, stream->file, ptr, size * nmemb, stream->pos);
+end:
    stream->pos += ret;
    if (stream->pos >= stream->size) {
       stream->size = stream->pos;
    }
-end:
-//   if (!ret) usleep(1);
+   if (!ret) usleep(1);
    return ret;
 }

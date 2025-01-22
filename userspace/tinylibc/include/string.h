@@ -9,7 +9,7 @@ int strcmp(const char *s1, const char *s2);
 char* strcpy(char* dst, const char* src);
 char* strncpy(char* dst, const char* src, size_t sz);
 char* stpncpy(char* dst, const char* src, size_t sz);
-#define strlcpy(dst, src, sz) strncpy(dst, src, sz)
+size_t strlcpy(char* dst, const char* src, size_t sz);
 char* strdup(const char* s);
 char* strndup(const char* s, size_t n);
 void* memcpy(void* dest, const void* src, size_t n);
@@ -21,15 +21,14 @@ void* memset(void* s, int c, size_t n);
 char* strcat(char* dst, const char* src);
 char* strrchr(const char *s, int c);
 void* memmove(void* dest, const void* src, size_t n);
-#define bcopy(src, dest, n memmove(dest, src, n)
+#define bcopy(src, dest, n) memmove(dest, src, n)
 char* stpcpy(char* dst, const char* src);
 char* strchr(const char *s, int c);
 char *strchrnul(const char *s, int c);
 int memcmp(const void* s1, const void* s2, size_t n);
 int strncmp(const char* s1, const char* s2, size_t n);
-#define strncasecmp(s1,s2, n) strncmp(s1, s2, n)
-#define strcasecmp(s1, s2) strcmp(s1, s2)
-
+void* memchr(const void* s, int c, size_t n);
+void* memrchr(const void* s, int c, size_t n);
 size_t strspn(const char *s, const char *accept);
 size_t strcspn(const char *s, const char *reject);
 char *strpbrk(const char *s, const char *accept);

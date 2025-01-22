@@ -21,13 +21,15 @@ all:
 	$(CC) $(CFLAGS) -fPIC passdb.c $(LDFLAGS) $(PREFIX)/lib/libpwd.so -o passdb
 	$(CC) $(CFLAGS) -fPIC grpdb.c $(LDFLAGS) $(PREFIX)/lib/libpwd.so -o grpdb
 	$(CC) $(CFLAGS) -fPIC _exit.c $(LDFLAGS) -o _exit
+	$(CC) $(CFLAGS) -fPIC jmp.c $(LDFLAGS) -o jmp
 
 	$(CC) -g -I../libpwd/include/ ../libpwd/libpwd.a test1.c -o test1
 	$(CC) -g -I../libpwd/include/ ../libpwd/libpwd.a test2.c -o test2
-	$(CC) -g ../tinylibc/libgen/basename.c   ../tinylibc/string/strrchr.c  ../tinylibc/string/strlen.c test3.c -o test3
+#	$(CC) -g test3.c -o test3
+	$(CC) -g jmp.c -o test4
 
 clean:
-	rm -f shell hello test touch wallpaper ls stat unlink id mkdir chown chmod testfork segfault passdb grpdb _exit test1 test2 test3
+	rm -f shell hello test touch wallpaper ls stat unlink id mkdir chown chmod testfork segfault passdb grpdb _exit test1 test2 test3 jmp
 
 install:
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
@@ -48,6 +50,8 @@ install:
 	install passdb $(DESTDIR)$(PREFIX)/bin/passdb
 	install grpdb $(DESTDIR)$(PREFIX)/bin/grpdb
 	install _exit $(DESTDIR)$(PREFIX)/bin/_exit
+	install jmp $(DESTDIR)$(PREFIX)/bin/jmp
+
 
 
 

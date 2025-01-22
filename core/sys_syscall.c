@@ -24,7 +24,7 @@ long_t sys_syscall(long_t number, ...)
    pid_t pid2;
    int* intptr1;
    va_list* valst;
-   long* longptr;
+   long_t* longptr;
    switch (number) {
    case SYS_MALLOC:
       size1 = va_arg(vl, size_t);
@@ -187,11 +187,11 @@ long_t sys_syscall(long_t number, ...)
       va_end(vl);      
       return sys_setpgid(pid1, pid2);
    case SYS_SETJMP:
-      longptr = va_arg(vl, long*);
+      longptr = va_arg(vl, long_t*);
       va_end(vl);      
       return sys_setjmp(longptr);
    case SYS_LONGJMP:
-      longptr = va_arg(vl, long*);
+      longptr = va_arg(vl, long_t*);
       va_end(vl);      
       return sys_longjmp(longptr);
    default:

@@ -83,15 +83,15 @@ void switch_task()
    sp = current->ctx.sp;
 }
 
-int_t sys_setjmp(long* env)
+int_t sys_setjmp(long_t* env)
 {
-   env[JMP_STACK] = (long)sys_malloc(MAXSTACK);
-   env[JMP_SP] = env[JMP_STACK] + (long)(sp - current->ctx.stack);
+   env[JMP_STACK] = (long_t)sys_malloc(MAXSTACK);
+   env[JMP_SP] = env[JMP_STACK] + (long)((char*)sp - (char*)current->ctx.stack);
    memcpy((void*)env[JMP_STACK], current->ctx.stack, MAXSTACK);
    return 0;
 }
 
-int_t sys_longjmp(long* env)
+int_t sys_longjmp(long_t* env)
 {
    sys_printf("longjmp newstack=%p newsp=%p\n", env[JMP_STACK], env[JMP_SP]);
    if (current->ctx.stack != (void*)env[JMP_STACK]) {

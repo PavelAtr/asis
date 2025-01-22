@@ -26,6 +26,27 @@ int fgetpwent_r(FILE * stream, struct passwd * pwbuf,
                 char * buf, size_t buflen,
                 struct passwd ** pwbufp);
 
+
+static inline void endpwent(void)
+{
+   if (dbpasswd) {
+      fclose(dbpasswd);
+      dbpasswd = NULL;
+   }
+};
+
+static inline void setpwent(void)
+{
+   endpwent();
+   dbpasswd = fopen(PASSWD_FILE, "r");
+};
+
+static inline int setpassent (int stayopen)
+{
+   setpwent();
+   return 0;
+};
+
 static inline int getpwnam_r(const char* name, struct passwd* pwd,
    char* buf, size_t buflen,
    struct passwd** pwbufp)
@@ -68,9 +89,11 @@ static inline struct passwd *getpwnam(const char *name)
    char buf[MAXPWDLINE];
    struct passwd pass;
    struct passwd* p;
+   setpwent();
    if (!getpwnam_r(name, &pass, buf, MAXPWDLINE, &p)) {
       return p;
    }
+   endpwent();
    return NULL;
 };
 
@@ -79,30 +102,12 @@ static inline struct passwd *getpwuid(uid_t uid)
    char buf[MAXPWDLINE];
    struct passwd pass;
    struct passwd* p;
+   setpwent();
    if (!getpwuid_r(uid, &pass, buf, MAXPWDLINE, &p)) {
       return p;
    }
-   return NULL;
-};
-
-static inline void endpwent(void)
-{
-   if (dbpasswd) {
-      fclose(dbpasswd);
-      dbpasswd = NULL;
-   }
-};
-
-static inline void setpwent(void)
-{
    endpwent();
-   dbpasswd = fopen(PASSWD_FILE, "r");
-};
-
-static inline int setpassent (int stayopen)
-{
-   setpwent();
-   return 0;
+   return NULL;
 };
 
 #endif

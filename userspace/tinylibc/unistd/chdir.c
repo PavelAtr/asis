@@ -21,8 +21,8 @@ char *get_current_dir_name(void)
 
 char *getcwd(char* buf, size_t size)
 {
-   size_t cwdsize;
-   if ((cwdsize = strlen(cwd)) > size - 1)
+   size_t cwdsize = strlen(cwd);
+   if (cwdsize >= size)
    {
       errno = ERANGE;
       return NULL;
