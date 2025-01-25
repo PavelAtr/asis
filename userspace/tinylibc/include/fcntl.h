@@ -58,10 +58,11 @@ int open(const char *pathname, int flags, ... /* mode */);
 #define open64 open
 int fcntl(int fd, int cmd, ... /* arg */ );
 #define F_GETFL 1
-#define F_SETFD 2
-#define F_SETLK 3
-#define F_SETFL 4
-#define F_DUPFD 5
+#define F_GETFD 2
+#define F_SETFD 3
+#define F_SETLK 4
+#define F_SETFL 5
+#define F_DUPFD 6
 
 #define FD_CLOEXEC 1
 
