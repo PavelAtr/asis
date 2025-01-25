@@ -22,13 +22,28 @@ char *get_current_dir_name(void)
 char *getcwd(char* buf, size_t size)
 {
    size_t cwdsize = strlen(cwd);
-   if (cwdsize >= size)
+   size_t bufsize = size;
+   char* ret = buf;
+   if (!buf) {
+      if (!size) {
+         bufsize = cwdsize + 1;
+         ret = malloc(bufsize);
+      } else {
+         if (cwdsize >= size) {
+            errno = ERANGE;
+            return NULL;
+         }
+         bufsize = size;
+         ret = malloc(bufsize);
+      }
+   }
+   if (cwdsize >= bufsize)
    {
       errno = ERANGE;
       return NULL;
    }
-   memset(buf, 0x0, size);
-   strncpy(buf, cwd, cwdsize);
+   memset(ret, 0x0, bufsize);
+   strncpy(ret, cwd, cwdsize);
 
-   return buf;
+   return ret;
 }

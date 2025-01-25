@@ -9,4 +9,7 @@
 #define __END_DECLS
 #endif
 
+#define __strong_alias(alias, sym)
+#define _Nonnull
+#define weak_alias(alias, sym);
 #endif

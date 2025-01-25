@@ -54,7 +54,7 @@ int_t sys_exec(const char* file, char** argv)
       current->gid = current->gid;
    }
    current->dlhandle = dlopen(file, RTLD_NOW | RTLD_LOCAL | RTLD_DEEPBIND);
-   sys_printf(SYS_INFO, "DLOPEN %s\n", file);
+   sys_printf(SYS_INFO "DLOPEN %s\n", file);
    if (!current->dlhandle) {
 	  sys_printf(SYS_ERROR, "dlopen %s FAILED!\n", file);
       *current->sys_errno = ENOENT;
@@ -62,17 +62,18 @@ int_t sys_exec(const char* file, char** argv)
    }
    addr_t* syscall = dlsym(current->dlhandle, "syscall");
    addr_t* fds = dlsym(current->dlhandle, "fds");
-   addr_t* atexit = dlsym(current->dlhandle, "atexit");
+   addr_t* retexit = dlsym(current->dlhandle, "retexit");
    current->sys_errno = dlsym(current->dlhandle, "errno");
    void __attribute__((sysv_abi)) (*start)(int argc, char* const* argv,
       char* const* envp)
       = dlsym(current->dlhandle, "_start");
-   if (!syscall || !start || !fds || !atexit || !current->sys_errno) {
+   if (!syscall || !start || !fds || !retexit || !current->sys_errno) {
+	  sys_printf(SYS_ERROR, "Main symbols at %s FAILED!\n", file);
       *current->sys_errno = ENOMEM;
       return -1;
    }
    *syscall = (addr_t)&sys_syscall;
-   *atexit = (addr_t)&sys_atexit;
+   *retexit = (addr_t)&sys_atexit;
    current->fds = copy_fds(((proc*)current->parent)->fds);
    current->envp = copyenv(((proc*)current->parent)->envp);
    *fds = (addr_t)current->fds;
@@ -82,7 +83,7 @@ int_t sys_exec(const char* file, char** argv)
    switch_context;
    /* Never reach here */
    sys_printf("EXEC END\n");
-   freeproc(current->forkret);
+//   freeproc(current->forkret);
    return  0;
 }
 
@@ -97,6 +98,7 @@ pid_t sys_clone(void)
    cpu[ret]->flags = PROC_RUNNING | PROC_NEW | PROC_CLONED;
    cpu[ret]->parent = current;
    cpu[ret]->parentpid = curpid;
+   cpu[ret]->pid = ret;
    cpu[ret]->ctx.stack = sys_malloc(MAXSTACK);
    return ret;
 }

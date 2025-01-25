@@ -31,6 +31,10 @@ char* errors[40] = {
 "Operation would block",
 "Bad file descriptor",
 "Invalid request descriptor",
+"Operation not supported on socket",
+"Device or resource busy",
+"Address family not supported",
+"Input/output error",
 };
 
 char* strerror(int errnum)

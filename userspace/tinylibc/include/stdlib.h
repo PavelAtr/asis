@@ -4,6 +4,7 @@
 #include <stddef.h>
 #include <alloca.h>
 #include <unistd.h>
+#include <locale.h>
 
 void* malloc(size_t size);
 void free(void *ptr);
@@ -73,5 +74,20 @@ char *setstate(char *state);
 
 void qsort(void* base, size_t nmemb, size_t size, int (*compar)(const void*, const void*));
 void *bsearch(const void *key, const void *base, size_t num, size_t width, int (*compare)(const void *, const void *));
+
+extern void (*atexit_func)(void);
+int atexit(void (*function)(void));
+
+long double strtold(const char* nptr, char** endptr);
+
+static inline double strtod_l(const char* __s, char** __end_ptr, locale_t __l) {
+  return strtod(__s, __end_ptr);
+}
+
+float strtof(const char* nptr, char** endptr);
+
+static inline float strtof_l(const char* __s, char** __end_ptr, locale_t __l) {
+  return strtof(__s, __end_ptr);
+}
 
 #endif

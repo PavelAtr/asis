@@ -25,7 +25,7 @@ all:
 
 	$(CC) -g -I../libpwd/include/ ../libpwd/libpwd.a test1.c -o test1
 	$(CC) -g -I../libpwd/include/ ../libpwd/libpwd.a test2.c -o test2
-#	$(CC) -g test3.c -o test3
+	$(CC) -g test3.c -o test3
 	$(CC) -g jmp.c -o test4
 
 clean:

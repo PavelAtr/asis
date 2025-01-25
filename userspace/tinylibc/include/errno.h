@@ -32,5 +32,9 @@ extern int errno;
 #define EWOULDBLOCK 26
 #define EBADF 27
 #define EBADR 28
+#define EOPNOTSUPP 29
+#define EBUSY 30
+#define EAFNOSUPPORT 31
+#define EIO 32
 
 #endif

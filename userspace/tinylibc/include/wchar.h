@@ -1,6 +1,8 @@
 #ifndef _WCHAR_H
 #define _WCHAR_H
 
+#include <sys/types.h>
+
 #ifndef __WINT_TYPE__
 # define __WINT_TYPE__ unsigned int
 #endif
@@ -22,6 +24,8 @@ inline size_t wcrtomb(char *s, wchar_t wc, mbstate_t *ps)
    return 0;
 }
 
-#define wcwidth(c) 2
+int wcwidth(wchar_t c);
+wchar_t *wcschr(const wchar_t *wcs, wchar_t wc);
+size_t wcslen(const wchar_t *s);
 
 #endif

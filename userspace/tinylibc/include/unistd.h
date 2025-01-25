@@ -91,4 +91,6 @@ int setpgid(pid_t pid, pid_t pgid);
 pid_t getpgid(pid_t pid);
 pid_t getpgrp(void);
 
+int setgroups(size_t size, const gid_t* list);
+
 #endif

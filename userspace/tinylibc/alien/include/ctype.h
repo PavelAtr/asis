@@ -1,106 +1,77 @@
-//
-// ctype.h
-//
-// Character types
-//
-// Copyright (C) 2002 Michael Ringgaard. All rights reserved.
-//
-// Redistribution and use in source and binary forms, with or without
-// modification, are permitted provided that the following conditions
-// are met:
-// 
-// 1. Redistributions of source code must retain the above copyright 
-//    notice, this list of conditions and the following disclaimer.  
-// 2. Redistributions in binary form must reproduce the above copyright
-//    notice, this list of conditions and the following disclaimer in the
-//    documentation and/or other materials provided with the distribution.  
-// 3. Neither the name of the project nor the names of its contributors
-//    may be used to endorse or promote products derived from this software
-//    without specific prior written permission. 
-// 
-// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-// ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-// IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-// ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
-// FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-// DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
-// OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-// HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-// LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
-// OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF 
-// SUCH DAMAGE.
-// 
+#ifndef	_CTYPE_H
+#define	_CTYPE_H
 
-#if _MSC_VER > 1000
-#pragma once
-#endif
-
-#ifndef CTYPE_H
-#define CTYPE_H
-
-//
-// Character types
-//
-
-#define _UPPER          0x1     // Upper case letter
-#define _LOWER          0x2     // Lower case letter
-#define _DIGIT          0x4     // Digit[0-9]
-#define _SPACE          0x8     // Tab, carriage return, newline, vertical tab or form feed
-#define _PUNCT          0x10    // Punctuation character
-#define _CONTROL        0x20    // Control character
-#define _BLANK          0x40    // Space char
-#define _HEX            0x80    // Hexadecimal digit
-
-#define _LEADBYTE       0x8000                      // Multibyte leadbyte
-#define _ALPHA          (0x0100 | _UPPER| _LOWER)   // Alphabetic character
-
-
-#ifdef  __cplusplus
+#ifdef __cplusplus
 extern "C" {
 #endif
 
-extern unsigned short *_pctype; // pointer to table for char's
+#include <features.h>
+#include <locale.h>
+#include <sys/cdefs.h>
 
-int _isctype(int c, int mask);
+int   isalnum(int);
+int   isalpha(int);
+int   isblank(int);
+int   iscntrl(int);
+int   isdigit(int);
+int   isgraph(int);
+int   islower(int);
+int   isprint(int);
+int   ispunct(int);
+int   isspace(int);
+int   isupper(int);
+int   isxdigit(int);
+int   tolower(int);
+int   toupper(int);
 
-int isspace(int c);
-int isupper(int c);
-int islower(int c);
-int isdigit(int c);
-int isxdigit(int c);
-int ispunct(int c);
-int isalpha(int c);
-int isalnum(int c);
-int isprint(int c);
-int isgraph(int c);
-int iscntrl(int c);
-int isleadbyte(int c);
-
-int toupper(int c);
-int tolower(int c);
-
-#ifdef  __cplusplus
+#ifndef __cplusplus
+static __inline int __isspace(int _c)
+{
+	return _c == ' ' || (unsigned)_c-'\t' < 5;
 }
+
+#define isalpha(a) (0 ? isalpha(a) : (((unsigned)(a)|32)-'a') < 26)
+#define isdigit(a) (0 ? isdigit(a) : ((unsigned)(a)-'0') < 10)
+#define islower(a) (0 ? islower(a) : ((unsigned)(a)-'a') < 26)
+#define isupper(a) (0 ? isupper(a) : ((unsigned)(a)-'A') < 26)
+#define isprint(a) (0 ? isprint(a) : ((unsigned)(a)-0x20) < 0x5f)
+#define isgraph(a) (0 ? isgraph(a) : ((unsigned)(a)-0x21) < 0x5e)
+#define isspace(a) __isspace(a)
 #endif
 
-#ifndef _CTYPE_DISABLE_MACROS
 
-#define isalpha(c)     (_pctype[(unsigned char)(c)] & (_UPPER | _LOWER))
-#define isupper(c)     (_pctype[(unsigned char)(c)] & _UPPER)
-#define islower(c)     (_pctype[(unsigned char)(c)] & _LOWER)
-#define isdigit(c)     (_pctype[(unsigned char)(c)] & _DIGIT)
-#define isxdigit(c)    (_pctype[(unsigned char)(c)] & _HEX)
-#define isspace(c)     (_pctype[(unsigned char)(c)] & _SPACE)
-#define ispunct(c)     (_pctype[(unsigned char)(c)] & _PUNCT)
-#define isalnum(c)     (_pctype[(unsigned char)(c)] & (_UPPER | _LOWER | _DIGIT))
-#define isprint(c)     (_pctype[(unsigned char)(c)] & (_BLANK | _PUNCT | _UPPER | _LOWER | _DIGIT))
-#define isgraph(c)     (_pctype[(unsigned char)(c)] & (_PUNCT | _UPPER | _LOWER | _DIGIT))
-#define iscntrl(c)     (_pctype[(unsigned char)(c)] & _CONTROL)
-#define isleadbyte(c)  (_pctype[(unsigned char)(c)] & _LEADBYTE)
+#if defined(_POSIX_SOURCE) || defined(_POSIX_C_SOURCE) \
+ || defined(_XOPEN_SOURCE) || defined(_GNU_SOURCE) \
+ || defined(_BSD_SOURCE)
 
-#define tolower(c)     (isupper(c) ? ((c) - 'A' + 'a') : (c))
-#define toupper(c)     (islower(c) ? ((c) - 'a' + 'A') : (c))
+#define __NEED_locale_t
+#include <bits/alltypes.h>
 
+int   isalnum_l(int, locale_t);
+int   isalpha_l(int, locale_t);
+int   isblank_l(int, locale_t);
+int   iscntrl_l(int, locale_t);
+int   isdigit_l(int, locale_t);
+int   isgraph_l(int, locale_t);
+int   islower_l(int, locale_t);
+int   isprint_l(int, locale_t);
+int   ispunct_l(int, locale_t);
+int   isspace_l(int, locale_t);
+int   isupper_l(int, locale_t);
+int   isxdigit_l(int, locale_t);
+int   tolower_l(int, locale_t);
+int   toupper_l(int, locale_t);
+
+int   isascii(int);
+int   toascii(int);
+#define _tolower(a) ((a)|0x20)
+#define _toupper(a) ((a)&0x5f)
+#define isascii(a) (0 ? isascii(a) : (unsigned)(a) < 128)
+
+#endif
+
+#ifdef __cplusplus
+}
 #endif
 
 #endif

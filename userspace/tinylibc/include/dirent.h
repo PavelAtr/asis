@@ -44,5 +44,6 @@ struct dirent* readdir(DIR *dirp);
 #define readdir64(dirp) readdir(dirp)
 DIR *fdopendir(int fd);
 int closedir(DIR *dirp);
+void rewinddir(DIR *dirp);
 
 #endif

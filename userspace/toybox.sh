@@ -9,5 +9,5 @@ export CFLAGS="-g -fPIC -fomit-frame-pointer -Wno-format -D_MSC_VER=2000 -U__lin
 export LDFLAGS="-nostdlib  --sysroot /tinysys ${PREFIX}/lib/crt.o ${PREFIX}/lib/libc.so  ${PREFIX}/lib/libpwd.so -shared"
 
 make clean
-make V=1
+make
 install generated/unstripped/toybox ${PREFIX}/bin/toybox

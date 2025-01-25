@@ -61,8 +61,7 @@ time_t mktime(struct tm *tm);
 size_t strftime(char* s, size_t max, const char* format, const struct tm* tm);
 struct tm *localtime(const time_t *timep);
 struct tm *localtime_r(const time_t* timep, struct tm* result);
-char *strptime(const char* s, const char* format,
-            struct tm* tm);
+char *strptime(const char* s, const char* format,  struct tm* tm);
 
 void tzset(void);
 extern char *tzname[2];
