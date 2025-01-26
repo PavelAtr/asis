@@ -13,7 +13,9 @@ extern "C" {
 #include <locale.h>
 
 typedef unsigned long int wctype_t;
+#undef wint_t
 typedef unsigned int wint_t;
+#define wint_t unsigned int
 
 #include <bits/alltypes.h>
 

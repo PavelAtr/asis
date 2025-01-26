@@ -23,3 +23,18 @@ int mkostemps(char *template, int suffixlen, int flags)
    free(temp);
    return fd;
 }
+
+int mkstemp(char *template)
+{
+   return mkostemps(template, 0, O_RDWR);
+}
+
+int mkostemp(char *template, int flags)
+{
+   return mkostemps(template, 0, flags);
+}
+
+int mkstemps(char *template, int suffixlen)
+{
+   return mkostemps(template, suffixlen, O_RDWR);
+}

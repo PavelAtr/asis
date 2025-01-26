@@ -35,6 +35,7 @@ char* errors[40] = {
 "Device or resource busy",
 "Address family not supported",
 "Input/output error",
+"Value too large to be stored in data type ",
 };
 
 char* strerror(int errnum)

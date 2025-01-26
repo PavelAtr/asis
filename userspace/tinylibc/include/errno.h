@@ -36,5 +36,6 @@ extern int errno;
 #define EBUSY 30
 #define EAFNOSUPPORT 31
 #define EIO 32
+#define EOVERFLOW 33
 
 #endif

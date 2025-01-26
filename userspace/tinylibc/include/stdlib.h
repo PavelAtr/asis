@@ -32,15 +32,15 @@ double strtod(const char* nptr, char** endptr);
 void *calloc(size_t nmemb, size_t size);
 
 int mkostemps(char *template, int suffixlen, int flags);
-#define mkstemp(template) mkostemps(template, 0, O_RDWR)
-#define mkostemp(template, flags) mkostemps(template, 0, flags)
-#define mkstemps(template, suffixlen) mkostemps(template, suffixlen, O_RDWR)
+int mkstemp(char *template);
+int mkostemp(char *template, int flags);
+int mkstemps(char *template, int suffixlen);
 
 void abort(void);
 
 void *realloc(void *ptr, size_t size);
 #define reallocf(ptr, size) realloc(ptr, size)
-#define reallocarray(ptr, nmemb, size) realloc(ptr, nmemb*size)
+void *reallocarray(void *ptr, size_t nmemb, size_t size);
 const char * getprogname (void);
 
 int cgetent (char **buf, char **db_array, const char *name);

@@ -31,7 +31,7 @@
 #include <string.h>
 
 char *
-strchr_gc(const char *p, int ch)
+strchr(const char *p, int ch)
 {
 	for (;; ++p) {
 		if (*p == (char) ch)

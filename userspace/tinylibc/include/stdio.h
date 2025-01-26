@@ -34,6 +34,8 @@ extern FILE* stderr;
 #define MAXSTRING (unsigned short)-1
 
 FILE* fopen(const char* pathname, const char* mode);
+FILE *freopen(const char* pathname, const char* mode,
+     FILE* stream);
 FILE *fdopen(int fd, const char *mode);
 size_t fread(void* ptr, size_t size, size_t nmemb, FILE* stream);
 size_t fwrite(const void* ptr, size_t size, size_t nmemb, FILE* stream);

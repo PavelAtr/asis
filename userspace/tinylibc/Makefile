@@ -1,5 +1,5 @@
 PREFIX?=/tinysys
-CFLAGS?= -g -fPIC -fomit-frame-pointer --sysroot $(PREFIX) -I$(PREFIX)/usr/include_stub
+CFLAGS?= -g -fPIC -fomit-frame-pointer --sysroot=$(PREFIX) -I$(PREFIX)/usr/include_stub
 
 all: 
 	make -C init/
@@ -21,11 +21,11 @@ install:
 	install libtinyc.a $(DESTDIR)$(PREFIX)/lib/libc.a
 	mkdir -p $(DESTDIR)$(PREFIX)/usr
 	cp -r include $(DESTDIR)$(PREFIX)/usr/
-	cp -r include_stub $(DESTDIR)$(PREFIX)/usr/
+	cp -r include_stub/* $(DESTDIR)$(PREFIX)/usr/include/
 	cp -r alien/include $(DESTDIR)$(PREFIX)/usr/
 
 install_headers:
 	mkdir -p $(DESTDIR)$(PREFIX)/usr
 	cp -r include $(DESTDIR)$(PREFIX)/usr/
-	cp -r include_stub $(DESTDIR)$(PREFIX)/usr/
+	cp -r include_stub/* $(DESTDIR)$(PREFIX)/usr/include/
 	cp -r alien/include $(DESTDIR)$(PREFIX)/usr/
