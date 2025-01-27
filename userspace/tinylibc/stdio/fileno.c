@@ -6,7 +6,7 @@
 int fileno(FILE *stream)
 {
    int i;
-   for (i = 0; i < MAXFD; i++) {
+   for (i = 0; i < syscall(SYS_GETMAXFD); i++) {
       if (!fds[i]) {
          continue;
       }

@@ -61,7 +61,7 @@ struct stat {
 int stat(const char* path, struct stat* statbuf);
 int lstat(const char* pathname, struct stat* statbuf);
 mode_t umask(mode_t mask);
-#define mask atoi(getenv("UMASK"))
+#define gmask atoi(getenv("UMASK"))
 int mknod(const char *pathname, mode_t mode, dev_t dev);
 int mkdir(const char *pathname, mode_t mode);
 int chmod(const char *pathname, mode_t mode);

@@ -57,10 +57,14 @@ void elf_free(elf* e)
 dl* dl_find(dl* hndl, const char* path)
 {
    dl* s;
-   for (s = hndl; s != NULL; s = s->next)
+   sys_printf("SEARCHING %s ", path);
+   for (s = hndl; s != NULL; s = s->next) {
       if (strcmp(s->path, path) == 0) {
+		  sys_printf("ALREDY\n");
          return s;
       }
+   }
+   sys_printf("NEEDLOAD\n");
    return NULL;
 }
 
@@ -68,7 +72,6 @@ int dl_load(dl* buf, const char* file)
 {
    sys_printf(SYS_INFO "Loading %s ... ", file);
    buf->path = file;
-   buf->nlink = 1;
    buf->next = NULL;
    buf->dl_elf = sys_malloc(sizeof(elf));
    buf->dl_elf->hdr = elf_load_hdr(file);
@@ -157,9 +160,10 @@ void *dlopen(const char* filename, int flags)
    while (1) {
       const char* path;
       dtneed_ndx = 0;
-      while ((path = elf_dtneed(prog->dl_elf->dyns, prog->dl_elf->dyntab,
-                  prog->dl_elf->dynstr)) != NULL) {
-         if (dl_find(prog, path) != NULL) {
+      while (path = elf_dtneed(prog->dl_elf->dyns, prog->dl_elf->dyntab,
+                  prog->dl_elf->dynstr)) {
+		 sys_printf("NEEDED %s\n", path);			  
+         if (dl_find(prog, path)) {
             continue;
          }
          dl* lib = sys_malloc(sizeof(dl));
@@ -218,8 +222,8 @@ int dlclose(void *hndl)
    if (!s) {
       return 0;
    }
-   s->nlink--;
-   if (s->nlink) {
+   s->ncopy--;
+   if (s->ncopy) {
       return 0;
    }
    dl* next = s;

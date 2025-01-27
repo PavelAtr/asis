@@ -1,5 +1,11 @@
+#ifdef DEBUG
+#include "../include/tinysys.h"
+#include <dlfcn.h>
+#else
 #include <tinysys.h>
 #include "../libdl/libdl.h"
+#endif
+
 #include <sys/stat.h>
 #include <errno.h>
 #include <string.h>
@@ -54,25 +60,28 @@ int_t sys_exec(const char* file, char** argv)
    } else {
       current->gid = current->gid;
    }
-   current->dlhandle = dlopen(file, 0);
+   current->dlhandle = dlopen(file, RTLD_NOW | RTLD_LOCAL | RTLD_DEEPBIND);
+   sys_printf(SYS_INFO "DLOPEN %s\n", file);
    if (!current->dlhandle) {
+	  sys_printf(SYS_ERROR, "dlopen %s FAILED!\n", file);
       *current->sys_errno = ENOENT;
       return -1;
    }
    addr_t* syscall = dlsym(current->dlhandle, "syscall");
    addr_t* fds = dlsym(current->dlhandle, "fds");
-   addr_t* atexit = dlsym(current->dlhandle, "atexit");
+   addr_t* retexit = dlsym(current->dlhandle, "retexit");
    current->sys_errno = dlsym(current->dlhandle, "errno");
    void __attribute__((sysv_abi)) (*start)(int argc, char* const* argv,
       char* const* envp)
       = dlsym(current->dlhandle, "_start");
-   if (!syscall || !start || !fds || !atexit || !current->sys_errno) {
+   if (!syscall || !start || !fds || !retexit || !current->sys_errno) {
+	  sys_printf(SYS_ERROR, "Main symbols at %s FAILED!\n", file);
       *current->sys_errno = ENOMEM;
       return -1;
    }
    *syscall = (addr_t)&sys_syscall;
-   *atexit = (addr_t)&sys_atexit;
-   current->fds = copy_fds(((proc*)current->parent)->fds);
+   *retexit = (addr_t)&sys_atexit;
+   current->fds = copyfds(((proc*)current->parent)->fds);
    current->envp = copyenv(((proc*)current->parent)->envp);
    *fds = (addr_t)current->fds;
    current->flags &= ~ PROC_CLONED;
@@ -94,9 +103,11 @@ pid_t sys_clone(void)
    }
    memcpy(cpu[ret], current, sizeof(proc));
    cpu[ret]->flags = PROC_RUNNING | PROC_NEW | PROC_CLONED;
+#ifndef DEBUG
    if (current->dlhandle) {
-      ((dl*)current->dlhandle)->nlink++;
+      ((dl*)current->dlhandle)->ncopy++;
    }
+#endif
    cpu[ret]->parent = current;
    cpu[ret]->pid = ret;
    cpu[ret]->parentpid = curpid;
@@ -114,6 +125,7 @@ pid_t sys_fork()
    }
    cpu[current->forkret]->forkret = 0;
    cpu[current->forkret]->ret = -1;
+   sys_printf("EXEC SWITCH\n");
    switch_context;
    sys_printf("forkret=%d\n", (int)current->forkret);
    return current->forkret;

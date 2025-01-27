@@ -23,11 +23,16 @@ void *dlopen(const char* filename, int flags);
 void *dlsym(void* handle, const char* symbol);
 int dlclose(void *handle);
 
+#define RTLD_NOW 0x0001
+#define RTLD_LOCAL 0x0002
+#define RTLD_DEEPBIND 0x0004
+
 typedef struct {
    const char* path;
    elf* dl_elf;
    void* next;
-   int_t nlink;
+//   int_t nlink;
+   int_t ncopy;
 } dl;
 
 #endif

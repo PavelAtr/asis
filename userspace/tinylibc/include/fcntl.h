@@ -2,6 +2,7 @@
 #define _FCNTL_H
 
 #include <stdio.h>
+#include <syscall.h>
 
 #define O_CLOEXEC 0x0001
 #define O_RDONLY 0x0002
@@ -63,7 +64,7 @@ static inline void freefdesc(fdesc* dst)
       dst->rpipe->nlink--;
       if (dst->rpipe->nlink == 0) {
          free(dst->rpipe);
-         dst->rpipe = NULL;         
+         dst->rpipe = NULL;
       }
    }
    if (dst->wpipe) {
@@ -76,10 +77,9 @@ static inline void freefdesc(fdesc* dst)
    free(dst);
 }
 
-extern unsigned int MAXFD;
 extern fdesc** fds;
 int get_free_fd(void);
-#define fd_is_valid(fd) (fds[fd] && (unsigned int)fd < MAXFD - 1)
+#define fd_is_valid(fd) (fds[fd] && (unsigned int)fd < syscall(SYS_GETMAXFD) - 1)
 
 int open(const char *pathname, int flags, ... /* mode */);
 int creat(const char *pathname, mode_t mode);

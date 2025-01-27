@@ -3,5 +3,5 @@
 
 int creat(const char *pathname, mode_t mode)
 {
-   return open(pathname, O_CREAT, S_IFREG | 0666 & ~mask);
+   return open(pathname, O_CREAT, S_IFREG | 0666 & ~gmask);
 }

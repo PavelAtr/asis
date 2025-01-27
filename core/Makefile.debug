@@ -10,7 +10,7 @@ SYSTEM_LINK = ../drv/tty/*.c \
 ../drv/weekfs/src/*.c \
 ../drv/hosttrap/*.c \
 syscalls/sys_memory.c \
-syscalls/sys_hostrun.c \
+syscalls/sys_run.c \
 sys_printf.c
 
 
@@ -27,7 +27,7 @@ syscalls/sys_usleep.c \
 sys_trap.c
 
 all:
-	$(CC) $(CFLAGS) -fPIC -g -c  -DELF64  $(SYSTEM_LINK)
+	$(CC) $(CFLAGS) -fPIC -g -c  -DDEBUG  $(SYSTEM_LINK)
 	$(CC) $(CFLAGS) -fPIC -g -c -I./include -I../userspace/tinylibc/include -DELF64 $(TINYSYS_LINK)
 	$(CC) $(CFLAGS) -fPIC -g *.o -o tinysys
 
