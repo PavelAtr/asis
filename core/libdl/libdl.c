@@ -153,6 +153,8 @@ void* resolve(const char* symname)
 void *dlopen(const char* filename, int flags)
 {
    dl* prog = sys_malloc(sizeof(dl));
+   memset(prog, 0x0, sizeof(dl));
+   prog->ncopy = 1;
    if (dl_load(prog, filename)) {
       goto fail;
    }

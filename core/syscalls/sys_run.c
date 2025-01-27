@@ -30,7 +30,6 @@ int_t sys_runinit()
 
 int_t sys_exec(const char* file, char** argv)
 {
-   dlclose(current->dlhandle);
    int argc;
    for (argc = 0; argv[argc]; argc++);
    mountpoint* mount = sys_get_mountpoint(file);
@@ -103,11 +102,6 @@ pid_t sys_clone(void)
    }
    memcpy(cpu[ret], current, sizeof(proc));
    cpu[ret]->flags = PROC_RUNNING | PROC_NEW | PROC_CLONED;
-#ifndef DEBUG
-   if (current->dlhandle) {
-      ((dl*)current->dlhandle)->ncopy++;
-   }
-#endif
    cpu[ret]->parent = current;
    cpu[ret]->pid = ret;
    cpu[ret]->parentpid = curpid;
@@ -172,7 +166,9 @@ pid_t sys_waitpid(pid_t pid, int* wstatus, int options)
 end:
    sys_printf("WAITPID END\n");
    *wstatus = cpu[child]->ret;
-   freeproc(child);
+   if (!(cpu[child]->flags & PROC_CLONED)) {
+      freeproc(child);
+   }
    cpu[child] = NULL;
    return child;
 }
