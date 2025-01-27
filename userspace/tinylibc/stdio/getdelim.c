@@ -5,19 +5,21 @@ ssize_t getdelim(char** lineptr, size_t* n, int delim, FILE* stream)
 {
    int i;
    int c;
+   char* s = *lineptr;
+   if (!s) {
+      s = malloc(MAXSTRING);
+   }
    for (i = 0; i < MAXSTRING - 1; i++) {
       c = getc(stream);
       s[i] = c;
-      if (c == delim) {
+      if (c == delim || feof(stream)) {
          break;
-      }
-      if (feof(stream)) {
-         lineptr = NULL;
-         return 0;
       }
    }
    s[i] = '\0';
-   *n = i;
-   lineptr = (char**)&s;
+   *lineptr = s;
+   if (i == 0) {
+      return -1;
+   }
    return i;
 }
