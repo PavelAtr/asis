@@ -74,7 +74,7 @@ int_t sys_exec(const char* file, char** argv)
    }
    *syscall = (addr_t)&sys_syscall;
    *retexit = (addr_t)&sys_atexit;
-   current->fds = copy_fds(((proc*)current->parent)->fds);
+   current->fds = copyfds(((proc*)current->parent)->fds);
    current->envp = copyenv(((proc*)current->parent)->envp);
    *fds = (addr_t)current->fds;
    current->flags &= ~ PROC_CLONED;

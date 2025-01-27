@@ -89,6 +89,7 @@ size_t fstrwrite(const void* ptr, size_t size, size_t nmemb, FILE* stream);
 void flockfile(FILE *filehandle);
 int ftrylockfile(FILE *filehandle);
 void funlockfile(FILE *filehandle);
+#define MAXGETLINE 4096
 char * fgetln (FILE *stream, size_t *len);
 ssize_t getline(char** lineptr, size_t* n, FILE* stream);
 ssize_t getdelim(char** lineptr, size_t* n, int delim, FILE* stream);

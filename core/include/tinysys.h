@@ -156,8 +156,8 @@ int_t sys_setgid(gid_t gid);
 #define COREMAXFD 20
 #define COREMAXENV 20
 
-void** copy_fds(void** infds);
-void free_fds(proc* task);
+void** copyfds(void** infds);
+void freefds(proc* task);
 void sys_atexit(int ret);
 
 #define MAXPROC 20

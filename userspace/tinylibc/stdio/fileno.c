@@ -7,6 +7,9 @@ int fileno(FILE *stream)
 {
    int i;
    for (i = 0; i < MAXFD; i++) {
+      if (!fds[i]) {
+         continue;
+      }
       if (fds[i]->stream == stream) {
          return i;
       }

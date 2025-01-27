@@ -104,7 +104,7 @@ void freeenv(char*const* e)
    sys_free((void*)e);
 }
 
-void** copy_fds(void** infds)
+void** copyfds(void** infds)
 {
    fdesc** fds = (fdesc**)infds;
    fdesc** ret = sys_malloc(sizeof(fdesc*) * COREMAXFD);
@@ -125,7 +125,7 @@ void** copy_fds(void** infds)
    return (void**)ret;
 } 
 
-void free_fds(proc* task)
+void freefds(proc* task)
 {
    fdesc** fds = (fdesc**)task->fds;
    int_t i;

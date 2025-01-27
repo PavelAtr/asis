@@ -6,10 +6,11 @@ ssize_t getdelim(char** lineptr, size_t* n, int delim, FILE* stream)
    int i;
    int c;
    char* s = *lineptr;
+   size_t maxlen = (*n < MAXGETLINE)? *n : MAXGETLINE;
    if (!s) {
-      s = malloc(MAXSTRING);
+      s = malloc(maxlen);
    }
-   for (i = 0; i < MAXSTRING - 1; i++) {
+   for (i = 0; i < maxlen - 1; i++) {
       c = getc(stream);
       s[i] = c;
       if (c == delim || feof(stream)) {

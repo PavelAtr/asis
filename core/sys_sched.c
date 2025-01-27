@@ -29,7 +29,7 @@ void freeproc(pid_t pid)
       return;
    }
    if (!(cpu[pid]->flags & PROC_CLONED)) {
-      free_fds(cpu[pid]);
+      freefds(cpu[pid]);
       sys_free(cpu[pid]->ctx.stack);
       freeenv(cpu[pid]->envp);
    }
