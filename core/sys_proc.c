@@ -9,6 +9,7 @@
 #include <errno.h>
 
 proc sys;
+prog sysprog;
 char* argv[1] = {"system"};
 errno_t syserr;
 
@@ -68,11 +69,12 @@ fdesc* sysfds[COREMAXFD] = {
 
 void init_proc()
 {
-   sys.argv = argv;
+   sys.program = &sysprog;	
+   sys.program->argv = argv;
    cpu[0] = &sys;
    current = cpu[0];
    sys.sys_errno = &syserr;
-   sys.fds = (void**) sysfds;
+   sys.program->fds = (void**) sysfds;
 }
 
 char** copyenv(char*const* e)
@@ -127,7 +129,7 @@ void** copyfds(void** infds)
 
 void freefds(proc* task)
 {
-   fdesc** fds = (fdesc**)task->fds;
+   fdesc** fds = (fdesc**)task->program->fds;
    int_t i;
    for (i = 0; i < COREMAXFD; i++) {
       freefdesc(fds[i]);

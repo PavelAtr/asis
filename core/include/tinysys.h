@@ -95,18 +95,23 @@ typedef struct {
 } context;
 
 typedef struct {
-  int_t flags;
-  void* parent;
-  pid_t pid;
-  pid_t parentpid;
   int argc;
   char**  argv;
   char** envp;
+  void* dlhandle;
+  void** fds;
+  int nlink;	
+} prog;
+
+typedef struct {
+  int_t flags;
+  prog* program;
+  void* parent;
+  pid_t pid;
+  pid_t parentpid;
   errno_t* sys_errno;
   uid_t uid;
   gid_t gid;
-  void** fds;
-  void* dlhandle;
   context ctx;
   int_t ret;
   pid_t forkret;

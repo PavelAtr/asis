@@ -42,8 +42,6 @@ int_t sys_exec(const char* file, char** argv)
       *current->sys_errno = EPERM;
       return -1;
    }
-   current->argc = argc;
-   current->argv = argv;
    struct tinystat st;
    if (sys_stat(file, &st) == -1) {
       *current->sys_errno = ENOENT;
@@ -59,39 +57,81 @@ int_t sys_exec(const char* file, char** argv)
    } else {
       current->gid = current->gid;
    }
-   current->dlhandle = dlopen(file, RTLD_NOW | RTLD_LOCAL | RTLD_DEEPBIND);
+   current->program = sys_malloc(sizeof(prog));
+   memset(current->program, 0x0, sizeof(prog));
+   current->program -> nlink = 1;
+   current->program->argc = argc;
+   current->program->argv = argv;
+   current->program->dlhandle = dlopen(file, RTLD_NOW | RTLD_LOCAL | RTLD_DEEPBIND);
    sys_printf(SYS_INFO "DLOPEN %s\n", file);
-   if (!current->dlhandle) {
+   if (!current->program->dlhandle) {
 	  sys_printf(SYS_ERROR, "dlopen %s FAILED!\n", file);
       *current->sys_errno = ENOENT;
-      return -1;
+      sys_free(current->program);
+      goto fail;
    }
-   addr_t* syscall = dlsym(current->dlhandle, "syscall");
-   addr_t* fds = dlsym(current->dlhandle, "fds");
-   addr_t* retexit = dlsym(current->dlhandle, "retexit");
-   current->sys_errno = dlsym(current->dlhandle, "errno");
+   addr_t* syscall = dlsym(current->program->dlhandle, "syscall");
+   addr_t* fds = dlsym(current->program->dlhandle, "fds");
+   addr_t* retexit = dlsym(current->program->dlhandle, "retexit");
+   current->sys_errno = dlsym(current->program->dlhandle, "errno");
    void __attribute__((sysv_abi)) (*start)(int argc, char* const* argv,
       char* const* envp)
-      = dlsym(current->dlhandle, "_start");
+      = dlsym(current->program->dlhandle, "_start");
    if (!syscall || !start || !fds || !retexit || !current->sys_errno) {
 	  sys_printf(SYS_ERROR, "Main symbols at %s FAILED!\n", file);
       *current->sys_errno = ENOMEM;
-      return -1;
+      goto fail;
    }
    *syscall = (addr_t)&sys_syscall;
    *retexit = (addr_t)&sys_atexit;
-   current->fds = copyfds(((proc*)current->parent)->fds);
-   current->envp = copyenv(((proc*)current->parent)->envp);
-   *fds = (addr_t)current->fds;
+   current->program->fds = copyfds(((proc*)current->parent)->program->fds);
+   current->program->envp = copyenv(((proc*)current->parent)->program->envp);
+   *fds = (addr_t)current->program->fds;
    current->flags &= ~ PROC_CLONED;
    sys_printf(SYS_INFO "freememory=%ld\n", free_memory());
-   start(argc, argv, current->envp);
+   start(argc, argv, current->program->envp);
    switch_context;
    /* Never reach here */
    sys_printf("EXEC END\n");
    freeproc(current->forkret);
    return  0;
+fail:
+   sys_free(current->program);
+   return -1;
 }
+
+pid_t newproc()
+{
+   int_t i;
+   for (i = 0; i < MAXPROC; i++)
+      if (cpu[i] == NULL) {
+         cpu[i] = sys_malloc(sizeof(proc));
+         memset(cpu[i], 0x0, sizeof(proc));
+         return i;
+      }
+   *current->sys_errno = ENOMEM;
+   return -1;
+}
+
+void freeproc(pid_t pid)
+{
+   if (!pid_is_valid(pid)) {
+      return;
+   }
+   if (!cpu[pid]) {
+      return;
+   }
+   if (!(cpu[pid]->flags & PROC_CLONED)) {
+      freefds(cpu[pid]);
+      sys_free(cpu[pid]->ctx.stack);
+      freeenv(cpu[pid]->program->envp);
+   }
+   dlclose(cpu[pid]->program->dlhandle);
+   sys_free(cpu[pid]->program);
+   sys_free(cpu[pid]);
+   cpu[pid] = NULL;
+}
+
 
 pid_t sys_clone(void)
 {
@@ -105,6 +145,7 @@ pid_t sys_clone(void)
    cpu[ret]->parent = current;
    cpu[ret]->pid = ret;
    cpu[ret]->parentpid = curpid;
+   current->program->nlink++;
    cpu[ret]->ctx.stack = sys_malloc(MAXSTACK);
    return ret;
 }
@@ -112,7 +153,7 @@ pid_t sys_clone(void)
 pid_t sys_fork()
 {
    current->forkret = sys_clone();
-   sys_printf("FORK in %s child=%d\n", current->argv[0], current->forkret);
+   sys_printf("FORK in %s child=%d\n", current->program->argv[0], current->forkret);
    if (current->forkret == -1) {
       *current->sys_errno = ENOMEM;
       return -1;
@@ -127,7 +168,7 @@ pid_t sys_fork()
 
 pid_t sys_waitpid(pid_t pid, int* wstatus, int options)
 {
-   sys_printf("WAITPID in %s child=%d\n", current->argv[0], pid);
+   sys_printf("WAITPID in %s child=%d\n", current->program->argv[0], pid);
    if (pid != -1) {
       if (!pid_is_valid(pid) || !cpu[pid]) {
          return -1;
@@ -166,7 +207,8 @@ pid_t sys_waitpid(pid_t pid, int* wstatus, int options)
 end:
    sys_printf("WAITPID END\n");
    *wstatus = cpu[child]->ret;
-   if (!(cpu[child]->flags & PROC_CLONED)) {
+   cpu[child]->program->nlink--;
+   if (!cpu[child]->program->nlink) {
       freeproc(child);
    }
    cpu[child] = NULL;

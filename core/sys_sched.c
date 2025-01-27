@@ -7,42 +7,8 @@ proc* cpu[MAXPROC];
 int_t curpid = 0;
 proc* current;
 
-pid_t newproc()
-{
-   int_t i;
-   for (i = 0; i < MAXPROC; i++)
-      if (cpu[i] == NULL) {
-         cpu[i] = sys_malloc(sizeof(proc));
-         memset(cpu[i], 0x0, sizeof(proc));
-         return i;
-      }
-   *current->sys_errno = ENOMEM;
-   return -1;
-}
-
-void freeproc(pid_t pid)
-{
-   if (!pid_is_valid(pid)) {
-      return;
-   }
-   if (!cpu[pid]) {
-      return;
-   }
-   if (!(cpu[pid]->flags & PROC_CLONED)) {
-      freefds(cpu[pid]);
-      sys_free(cpu[pid]->ctx.stack);
-      freeenv(cpu[pid]->envp);
-   }
-   dlclose(cpu[pid]->dlhandle);
-   sys_free(cpu[pid]);
-   if (current == cpu[pid]) {
-      current = NULL;
-   }
-   cpu[pid] = NULL;
-}
-
-char tempstack[MAXSTACK];
-void* tempsp = tempstack + MAXSTACK;
+//char tempstack[MAXSTACK];
+//void* tempsp = tempstack + MAXSTACK;
 
 void switch_task()
 {
@@ -87,7 +53,7 @@ int_t sys_setjmp(long_t* env)
 {
    env[JMP_STACK] = (long_t)sys_malloc(MAXSTACK);
    env[JMP_SP] = env[JMP_STACK] + (long)((char*)sp - (char*)current->ctx.stack);
-   sys_printf("setjmp newstack=%p newsp=%p\n", env[JMP_STACK], env[JMP_SP]);
+   sys_printf("setjmp env=%p newstack=%p newsp=%p\n", env, env[JMP_STACK], env[JMP_SP]);
    memcpy((void*)env[JMP_STACK], current->ctx.stack, MAXSTACK);
    return 0;
 }
