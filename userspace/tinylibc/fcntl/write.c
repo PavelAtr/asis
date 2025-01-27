@@ -1,7 +1,6 @@
 #include <fcntl.h>
 #include <stdio.h>
 #include <sys/types.h>
-#include <syscall.h>
 #include <errno.h>
 
 ssize_t write(int f, const void* buf, size_t count)
@@ -10,5 +9,5 @@ ssize_t write(int f, const void* buf, size_t count)
       errno = EBADFD;
       return -1;
    }
-   return fwrite(buf, 1, count, fds[f].stream);
+   return fwrite(buf, 1, count, fds[f]->stream);
 }

@@ -24,6 +24,22 @@ static inline void copyfile(FILE* dst, FILE* src)
    }
 }
 
+static inline void freefile(FILE* dst)
+{
+   if (!dst) {
+      return;
+   }	
+   if (dst->file) {
+      free(dst->file);
+      dst->file = NULL;
+   }
+   if (dst->strbuf) {
+      free(dst->strbuf);
+      dst->strbuf = NULL;
+   }
+   free(dst);
+}
+
 #define FILE_ERROR 0x01
 #define FILE_INFINITY 0x02
 

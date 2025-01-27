@@ -24,17 +24,19 @@ int open(const char *pathname, int flags, ...)
       errno = ENOMEM;
       return -1;
    }
+   fds[fd] = malloc(sizeof(fdesc));
+   memset(fds[fd], 0x0, sizeof(fdesc));
    FILE* f = fopen(pathname,  "r+");
    if (!f) {
       errno = ENOENT;
       return -1;
    }
-   fds[fd].stream = f;
+   fds[fd]->stream = f;
    if (flags & O_APPEND) {
-      fds[fd].stream->pos = fds[fd].stream->size;
+      fds[fd]->stream->pos = fds[fd]->stream->size;
    }
-   fds[fd].flags = flags;
-   fds[fd].rpipe = NULL;
-   fds[fd].wpipe = NULL;
+   fds[fd]->flags = flags;
+   fds[fd]->rpipe = NULL;
+   fds[fd]->wpipe = NULL;
    return fd;
 }

@@ -4,8 +4,8 @@
 
 off_t lseek(int f, off_t offset, int whence)
 {
-   if (fds[f].flags & O_APPEND) {
-      return fds[f].stream->pos;
+   if (fds[f]->flags & O_APPEND) {
+      return fds[f]->stream->pos;
    }
-   return fseek(fds[f].stream, offset, whence);
+   return fseek(fds[f]->stream, offset, whence);
 }

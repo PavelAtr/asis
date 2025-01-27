@@ -1,3 +1,6 @@
+#define malloc(p) sys_malloc(p)
+#define free(p) sys_free(p)
+
 #include <tinysys.h>
 #include <fcntl.h>
 #include <stdio.h>
@@ -16,6 +19,7 @@ FILE sys_stdin = {
    FILE_INFINITY,
    NULL,
 };
+
 FILE sys_stdout = {
    "/dev/tty",
    100,
@@ -31,28 +35,35 @@ FILE sys_stderr = {
    NULL,
 };
 
-fdesc sysfds[COREMAXFD] = {
-   {
+fdesc fdin =    {
 	  &sys_stdin,
       0,
-      1,
+      0,
       NULL,
       NULL,
-   },
-   {
+   };
+
+fdesc fdout =    {
 	  &sys_stdout, 
       0,
-      1,
+      0,
       NULL,
       NULL,
-   },
-   {
+   };
+
+fdesc fderr =    {
 	  &sys_stderr, 
       0,
-      1,
+      0,
       NULL,
       NULL,
-   }
+   };
+
+
+fdesc* sysfds[COREMAXFD] = {
+&fdin,
+&fdout,
+&fderr,
 };
 
 void init_proc()
@@ -61,7 +72,7 @@ void init_proc()
    cpu[0] = &sys;
    current = cpu[0];
    sys.sys_errno = &syserr;
-   sys.fds = &sysfds;
+   sys.fds = (void**) sysfds;
 }
 
 char** copyenv(char*const* e)
@@ -93,61 +104,33 @@ void freeenv(char*const* e)
    sys_free((void*)e);
 }
 
-void* copy_fds(void* infds)
+void** copy_fds(void** infds)
 {
-   fdesc* fds = infds;
-   fdesc* ret = sys_malloc(sizeof(fdesc) * COREMAXFD);
-   memset(ret, 0x0, sizeof(fdesc) * COREMAXFD);
+   fdesc** fds = (fdesc**)infds;
+   fdesc** ret = sys_malloc(sizeof(fdesc*) * COREMAXFD);
+   memset(ret, 0x0, sizeof(fdesc*) * COREMAXFD);
    int_t i;
-   if (infds)
+   if (infds) {
       for (i = 0; i < COREMAXFD; i++) {
-         if (!(fds[i].flags & O_CLOEXEC)) {
-            if (fds[i].stream) {
-               ret[i].stream = sys_malloc(sizeof(FILE));
-               memset(ret[i].stream, 0x0, sizeof(FILE));
-               if (fds[i].stream->file) {
-                  ret[i].stream->file = strdup(fds[i].stream->file);
-               }
-               ret[i].stream->pos = fds[i].stream->pos;
-               ret[i].stream->size = fds[i].stream->size;
-               ret[i].flags = fds[i].flags;
-            }
-            ret[i].rpipe = fds[i].rpipe;
-            ret[i].wpipe = fds[i].wpipe;
-            if (fds[i].rpipe) {
-               fds[i].rpipe->nlink++;
-            }
-            if (fds[i].wpipe) {
-               fds[i].wpipe->nlink++;
-            }
+		 if (!fds[i]) {
+		    continue;
+	     }
+         if (!(fds[i]->flags & O_CLOEXEC)) {
+			 ret[i] = malloc(sizeof(fdesc));
+			 memset(ret[i], 0x0, sizeof(fdesc));
+			 copyfdesc(ret[i], fds[i]);
          }
       }
-   return ret;
-}
+   }
+   return (void**)ret;
+} 
 
 void free_fds(proc* task)
 {
-   fdesc* fds = task->fds;
+   fdesc** fds = (fdesc**)task->fds;
    int_t i;
    for (i = 0; i < COREMAXFD; i++) {
-      if (fds[i].stream) {
-         if (fds[i].stream->file) {
-            sys_free(fds[i].stream->file);
-         }
-         sys_free(fds[i].stream);
-      }
-      if (fds[i].rpipe) {
-         fds[i].rpipe->nlink--;
-         if (fds[i].rpipe->nlink == 0) {
-            sys_free(fds[i].rpipe);
-         }
-      }
-      if (fds[i].wpipe) {
-         fds[i].wpipe->nlink--;
-         if (fds[i].wpipe->nlink == 0) {
-            sys_free(fds[i].wpipe);
-         }
-      }
+      freefdesc(fds[i]);
    }
    sys_free(fds);
 }

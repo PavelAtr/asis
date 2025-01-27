@@ -105,7 +105,7 @@ typedef struct {
   errno_t* sys_errno;
   uid_t uid;
   gid_t gid;
-  void* fds;
+  void** fds;
   void* dlhandle;
   context ctx;
   int_t ret;
@@ -156,7 +156,7 @@ int_t sys_setgid(gid_t gid);
 #define COREMAXFD 20
 #define COREMAXENV 20
 
-void* copy_fds(void* infds);
+void** copy_fds(void** infds);
 void free_fds(proc* task);
 void sys_atexit(int ret);
 

@@ -38,6 +38,9 @@ typedef struct {
 
 static inline void copyfdesc(fdesc* dst, fdesc* src)
 {
+   if (!src->stream) {
+      return;
+   }
    memcpy(dst, src, sizeof(fdesc));
    dst->stream = malloc(sizeof(FILE));
    copyfile(dst->stream, src->stream);
@@ -49,10 +52,34 @@ static inline void copyfdesc(fdesc* dst, fdesc* src)
    }
 }
 
-#define MAXFD syscall(SYS_GETMAXFD)
-extern fdesc* fds;
+static inline void freefdesc(fdesc* dst)
+{
+   if (!dst) {
+      return;
+   }
+   freefile(dst->stream);
+   dst->stream = NULL;;
+   if (dst->rpipe) {
+      dst->rpipe->nlink--;
+      if (dst->rpipe->nlink == 0) {
+         free(dst->rpipe);
+         dst->rpipe = NULL;         
+      }
+   }
+   if (dst->wpipe) {
+      dst->wpipe->nlink--;
+      if (dst->wpipe->nlink == 0) {
+         free(dst->wpipe);
+         dst->wpipe = NULL;
+      }
+   }
+   free(dst);
+}
+
+extern unsigned int MAXFD;
+extern fdesc** fds;
 int get_free_fd(void);
-#define fd_is_valid(fd) ((unsigned int)fd < MAXFD - 1)
+#define fd_is_valid(fd) (fds[fd] && (unsigned int)fd < MAXFD - 1)
 
 int open(const char *pathname, int flags, ... /* mode */);
 int creat(const char *pathname, mode_t mode);

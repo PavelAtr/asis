@@ -11,11 +11,13 @@ int close(int fd)
       errno = EBADFD;
       return -1;
    }
-   fclose(fds[fd].stream);
-   fds[fd].stream = NULL;
-   if (fds[fd].rpipe) {
-      fds[fd].rpipe->nlink--;
-      if (fds[fd].rpipe->nlink == 0) {
+   freefdesc(fds[fd]);
+   fds[fd] = NULL;
+/*   fclose(fds[fd]->stream);
+   fds[fd]->stream = NULL;
+   if (fds[fd]->rpipe) {
+      fds[fd]->rpipe->nlink--;
+      if (fds[fd]->rpipe->nlink == 0) {
          free(fds[fd].rpipe);
       }
    }
@@ -24,6 +26,6 @@ int close(int fd)
       if (fds[fd].wpipe->nlink == 0) {
          free(fds[fd].wpipe);
       }
-   }
+   }*/
    return 0;
 }

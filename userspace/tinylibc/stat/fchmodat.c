@@ -8,11 +8,11 @@
 
 int fchmodat(int f, const char *pathname, mode_t mode, int flags)
 {
-   if (!fd_is_valid(f) || !fds[f].stream->file) {
+   if (!fd_is_valid(f)) {
       errno = EBADFD;
       return -1;
    }
-   char* dir = fds[f].stream->file;
+   char* dir = fds[f]->stream->file;
    const char* file = pathname;
    if (pathname == NULL || flags & AT_EMPTY_PATH)
    {

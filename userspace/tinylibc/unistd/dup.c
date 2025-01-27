@@ -11,10 +11,10 @@ int dup2(int oldfd, int newfd)
       errno = EBADFD;
       return -1;
    }
-   if (fds[newfd].stream) {
+   if (fds[newfd]) {
       close(newfd);
    }
-   copyfdesc(&fds[newfd], &fds[oldfd]);
+   copyfdesc(fds[newfd], fds[oldfd]);
    return newfd;
 }
 

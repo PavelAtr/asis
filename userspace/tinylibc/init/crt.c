@@ -5,8 +5,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-
-
+#define SYS_GETMAXFD 21
 
 #ifdef UEFI_KERNEL
 long __attribute__((ms_abi)) (*syscall)(long number, ...);
@@ -15,7 +14,7 @@ void __attribute__((ms_abi)) (*retexit)(int ret);
 long (*syscall)(unsigned int num, ...);
 void (*retexit)(int ret);
 #endif
-fdesc* fds = NULL;
+fdesc** fds = NULL;
 char** environ = NULL;
 int errno;
 char* progname;
@@ -26,11 +25,13 @@ FILE* stderr;
 FILE* dbpasswd = NULL;
 FILE* dbgroup = NULL;
 void (*atexit_func)(void) = NULL;
+unsigned int MAXFD;
 
 int main(int argc, char** argv);
 
 void _start(int argc, char** argv, char** envp)
 {
+   MAXFD = syscall(SYS_GETMAXFD);
    environ = envp;
    stdin = fdopen(0, "r");
    stdout = fdopen(1, "w");
