@@ -6,21 +6,26 @@
 int chdir(const char *path)
 {
    if (path[0] == '/') {
-      strcpy(cwd, path);
+      setenv("CWD", path, 0);
       return 0;
    }
-   strcpy(cwd + strlen(cwd), path);
-   setenv("CWD", cwd, 0);
+   char* cwd = getenv("CWD");
+   char* newcwd = malloc(strlen(cwd) + strlen(path) + 1);
+   strcpy(newcwd, cwd);
+   strcpy(newcwd + strlen(cwd), path);
+   setenv("CWD", newcwd, 0);
+   free(newcwd);
    return 0;
 }
 
 char *get_current_dir_name(void)
 {
-   return cwd;
+   return getenv("CWD");
 }
 
 char *getcwd(char* buf, size_t size)
 {
+   char* cwd = getenv("CWD");
    size_t cwdsize = strlen(cwd);
    size_t bufsize = size;
    char* ret = buf;

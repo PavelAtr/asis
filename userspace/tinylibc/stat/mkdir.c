@@ -2,8 +2,9 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <stdlib.h>
 
 int mkdir(const char* pathname, mode_t mode)
 {
-   return syscall(SYS_MKNOD, fullpath(cwd, pathname), S_IFDIR |  mode & ~global_mask);
+   return syscall(SYS_MKNOD, fullpath(getenv("CWD"), pathname), S_IFDIR |  mode & ~global_mask);
 }

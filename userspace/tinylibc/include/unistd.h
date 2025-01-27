@@ -9,7 +9,6 @@ int execve(const char* file, char* const * argv,  char* const * envp);
 #define execv(pathname, argv) execve(pathname, argv, NULL)
 #define execvp(file, argv) execve(file, argv, NULL)
 
-extern char cwd[PATHMAX];
 int chdir(const char *path);
 char *get_current_dir_name(void);
 char *getcwd(char* buf, size_t size);

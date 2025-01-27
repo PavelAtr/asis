@@ -18,7 +18,6 @@ fdesc** fds = NULL;
 char** environ = NULL;
 int errno;
 char* progname;
-char cwd[PATHMAX] = {'/', '\0'};
 FILE* stdin;
 FILE* stdout;
 FILE* stderr;

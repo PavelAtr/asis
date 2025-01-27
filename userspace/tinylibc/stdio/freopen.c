@@ -14,7 +14,7 @@ FILE *freopen(const char* path, const char* mode,
       errno = ENOENT;
       return NULL;
    }
-   stream->file = fullpath(cwd, path);
+   stream->file = fullpath(getenv("CWD"), path);
    stream->size = st.st_size;
    stream->pos = 0;
    stream->flags = 0;

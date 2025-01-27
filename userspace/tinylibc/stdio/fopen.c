@@ -15,7 +15,7 @@ FILE* fopen(const char* path, const char* mode)
       return NULL;
    }
    FILE* ret = malloc(sizeof(FILE));
-   ret->file = fullpath(cwd, path);
+   ret->file = fullpath(getenv("CWD"), path);
    ret->size = st.st_size;
    ret->pos = 0;
    ret->flags = 0;

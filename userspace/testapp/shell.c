@@ -61,6 +61,7 @@ int runcommand(char* cmd)
    pid_t child = fork();
    if (child == 0) {
       execve(myargv[0], myargv, NULL);
+      _exit(0);
    } else if(child == -1) {
       puts(strerror(errno));
       puts("\n");
@@ -76,7 +77,6 @@ int main(int argc, char** argv)
 {
    setenv("PATH", "/tinysys/:/tinysys/bin/", 0);
    chdir("/tinysys");
-   setenv("CWD", "/tinysys", 0);
    umask(0002);
    setenv("UMASK", "0002", 0);
    while (1) {
