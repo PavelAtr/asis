@@ -26,6 +26,6 @@ struct addrinfo
 
 int getaddrinfo(const char* node, const char* service, const struct addrinfo* hints, struct addrinfo** res);
 void freeaddrinfo(struct addrinfo *res);
-#define gai_strerror(err) "Not implemented."
+const char *gai_strerror(int errcode);
 
 #endif

@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-long ftell(FILE* stream)
+off_t ftello(FILE *stream)
 {
    return stream->pos;
 }

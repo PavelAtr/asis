@@ -45,6 +45,8 @@ long ftell(FILE* stream);
 void rewind(FILE* stream);
 int fgetc(FILE* stream);
 #define getc(f) fgetc(f)
+int fseeko(FILE *stream, off_t offset, int whence);
+off_t ftello(FILE *stream);
 
 int fputs(const char* s, FILE* stream);
 int puts(const char* s);

@@ -36,6 +36,8 @@ char* errors[40] = {
 "Address family not supported",
 "Input/output error",
 "Value too large to be stored in data type ",
+"Invalid cross-device link",
+"Invalid or incomplete multibyte or wide character",
 };
 
 char* strerror(int errnum)

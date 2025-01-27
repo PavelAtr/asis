@@ -43,6 +43,7 @@ struct stat {
   uid_t	st_uid;      /* User ID of owner */
   gid_t	st_gid;      /* Group ID of owner */
   size_t	st_size;
+  int st_nlink;
   short	st_major;
   short	st_minor;
   dev_t	st_dev;

@@ -37,5 +37,7 @@ extern int errno;
 #define EAFNOSUPPORT 31
 #define EIO 32
 #define EOVERFLOW 33
+#define EXDEV 34
+#define EILSEQ 35
 
 #endif
