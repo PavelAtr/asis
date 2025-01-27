@@ -35,10 +35,6 @@ void _start(int argc, char** argv, char** envp)
    stdin = fdopen(0, "r");
    stdout = fdopen(1, "w");
    stderr = fdopen(2, "w");
-   const char* cwd = getenv("CWD");
-   if (cwd) {
-      chdir(cwd);
-   }
    const char* mask = getenv("UMASK");
    if (mask) {
       umask(atoi(mask));

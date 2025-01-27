@@ -32,15 +32,14 @@ char *getcwd(char* buf, size_t size)
    if (!buf) {
       if (!size) {
          bufsize = cwdsize + 1;
-         ret = malloc(bufsize);
       } else {
          if (cwdsize >= size) {
             errno = ERANGE;
             return NULL;
          }
          bufsize = size;
-         ret = malloc(bufsize);
       }
+      ret = malloc(bufsize);
    }
    if (cwdsize >= bufsize)
    {

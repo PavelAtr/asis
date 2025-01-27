@@ -7,7 +7,7 @@
 
 DIR *opendir(const char *dirname)
 {
-   char* name = fullpath(getenv("CWD"), dirname);
+   char* name = fullpath(get_current_dir_name(), dirname);
    struct stat st;
    if (stat(name, &st)) {
       errno = ENOENT;

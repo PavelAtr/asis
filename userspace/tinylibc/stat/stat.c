@@ -6,12 +6,12 @@
 
 int stat(const char* path, struct stat* statbuf)
 {
-   return syscall(SYS_FSTAT, fullpath(getenv("CWD"), path), statbuf);
+   return syscall(SYS_FSTAT, fullpath(get_current_dir_name(), path), statbuf);
 }
 
 int lstat(const char* pathname, struct stat* statbuf)
 {
-   return stat(fullpath(getenv("CWD"), pathname), statbuf);
+   return stat(fullpath(get_current_dir_name(), pathname), statbuf);
 }
 
 int stat64(const char* path, struct stat* statbuf)
