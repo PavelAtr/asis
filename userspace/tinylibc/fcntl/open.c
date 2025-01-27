@@ -13,7 +13,7 @@ int open(const char *pathname, int flags, ...)
 {
    mode_t mode = 0;
    if (flags & O_CREAT) {
-      mode = S_IFREG | 0666 & ~global_mask;
+      mode = S_IFREG | 0666 & ~mask;
       mknod(pathname, mode, 0);
    }
    if (flags & O_TRUNC) {

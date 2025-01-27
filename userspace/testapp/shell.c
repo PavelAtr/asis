@@ -33,9 +33,8 @@ int runcommand(char* cmd)
    const char * cmd4 = "umask=";
    if (strstr(cmd, cmd4) == cmd) {
       char* param = &cmd[strlen(cmd4)];
-      int mask = atoi(param);
-      setenv("UMASK", param, 0);
-      return umask(mask);
+      int newmask = atoi(param);
+      return umask(newmask);
    }
    const char * cmd5 = "setuid ";
    if (strstr(cmd, cmd5) == cmd) {
@@ -78,7 +77,6 @@ int main(int argc, char** argv)
    setenv("PATH", "/tinysys/:/tinysys/bin/", 0);
    chdir("/tinysys");
    umask(0002);
-   setenv("UMASK", "0002", 0);
    while (1) {
       puts("> ");
       char* cmd = getcommand();

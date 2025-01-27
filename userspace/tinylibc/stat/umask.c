@@ -1,9 +1,11 @@
 #include <sys/types.h>
-
-mode_t global_mask = 0;
+#include <stdio.h>
+#include <stdlib.h>
 
 mode_t umask(mode_t mask)
 {
-   global_mask = mask;
-   return global_mask;
+   char envumask[16];
+   sprintf(envumask, "0%o", mask);
+   setenv("UMASK", envumask, 0);
+   return mask;
 }
