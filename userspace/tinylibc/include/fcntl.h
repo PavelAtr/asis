@@ -23,7 +23,6 @@
 
 typedef struct {
   char buf[MAXPIPE];
-  unsigned short size;
   unsigned short nlink;
   unsigned short writepos;
   unsigned short readpos;
@@ -59,7 +58,7 @@ static inline void freefdesc(fdesc* dst)
       return;
    }
    freefile(dst->stream);
-   dst->stream = NULL;;
+   dst->stream = NULL;
    if (dst->rpipe) {
       dst->rpipe->nlink--;
       if (dst->rpipe->nlink == 0) {

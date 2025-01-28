@@ -2,6 +2,9 @@
 #include <stdio.h>
 #include <sys/types.h>
 #include <errno.h>
+#include <string.h>
+#include <unistd.h>
+
 
 ssize_t read(int f, void* buf, size_t count)
 {

@@ -74,7 +74,7 @@ int dl_load(dl* buf, const char* file)
    sys_printf(SYS_INFO "Loading %s ... ", file);
    buf->path = file;
    buf->next = NULL;
-   buf->dl_elf = sys_malloc(sizeof(elf));
+   buf->dl_elf = sys_calloc(1, sizeof(elf));
    buf->dl_elf->hdr = elf_load_hdr(file);
    buf->dl_elf->phdrs = elf_load_phdrs(file, buf->dl_elf->hdr);
    buf->dl_elf->exec_size = elf_load_exec(file, buf->dl_elf->hdr,
@@ -137,6 +137,7 @@ int dl_load(dl* buf, const char* file)
    buf->dl_elf->dyntab = elf_load_table(file, buf->dl_elf->hdr, buf->dl_elf->dyns);
    buf->dl_elf->dynstr = elf_load_strings(file, buf->dl_elf->hdr,
          buf->dl_elf->shdrs, buf->dl_elf->dyns);
+   buf->nlink = 1;      
    sys_printf("OK\n");
    return 0;
 fail:
@@ -269,9 +270,12 @@ int dlclose(void *hndl)
    dl* next = s;
    while (next) {
       next = s->next;
-	  elf_free(s->dl_elf);
-      sys_free(s->dl_elf);
-      sys_free(s);
+      s->nlink--;
+      if (s->nlink <= 0) {
+	     elf_free(s->dl_elf);
+         sys_free(s->dl_elf);
+         sys_free(s);
+      }
       s = next;
    }
    return 0;

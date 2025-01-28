@@ -19,6 +19,7 @@ FILE sys_stdin = {
    0,
    FILE_INFINITY,
    NULL,
+   -1,
 };
 
 FILE sys_stdout = {
@@ -27,6 +28,7 @@ FILE sys_stdout = {
    0,
    FILE_INFINITY,
    NULL,
+   -1,
 };
 FILE sys_stderr = {
    "/dev/tty",
@@ -34,6 +36,7 @@ FILE sys_stderr = {
    0,
    FILE_INFINITY,
    NULL,
+   -1,
 };
 
 fdesc fdin =    {

@@ -20,6 +20,7 @@ FILE* fopen(const char* path, const char* mode)
    ret->pos = 0;
    ret->flags = 0;
    ret->strbuf = NULL;
+   ret->fd = -1;
    if (st.st_mode & (S_IFCHR)) {
       ret->flags |= FILE_INFINITY;
    }

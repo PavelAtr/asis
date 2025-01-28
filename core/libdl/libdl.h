@@ -31,6 +31,7 @@ typedef struct {
    const char* path;
    elf* dl_elf;
    void* next;
+   int_t nlink;
 } dl;
 
 #endif

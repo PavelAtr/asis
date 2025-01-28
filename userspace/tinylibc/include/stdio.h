@@ -13,6 +13,7 @@ typedef struct {
   size_t pos;
   unsigned char flags;
   char* strbuf;
+  int fd;
 } FILE;
 
 static inline void copyfile(FILE* dst, FILE* src)
