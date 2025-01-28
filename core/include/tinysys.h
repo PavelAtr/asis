@@ -86,8 +86,9 @@ int sys_mount(const char* blk, const char* mount, const char* fstype, const char
 int sys_umount(const char* dir);
 
 int sys_printf(const char* format, ...);
-#define SYS_INFO "info: "
-#define SYS_ERROR "error: "
+#define SYS_DEBUG "debug:\t"
+#define SYS_INFO "info:\t"
+#define SYS_ERROR "error:\t"
 
 typedef struct {
   void* stack;
@@ -195,9 +196,9 @@ register void* sp __asm__("rsp");
 void switch_task();
 
 #define switch_context \
-	if (current) sys_printf("switch before stack=%p sp=%p depth=%ld\n", current->ctx.stack, sp, (char*)current->ctx.stack + MAXSTACK - (char*)sp); \
+	if (current) sys_printf(SYS_DEBUG "switch before stack=%p sp=%p depth=%ld\n", current->ctx.stack, sp, (char*)current->ctx.stack + MAXSTACK - (char*)sp); \
 	switch_task(); \
-	sys_printf("switch after stack=%p sp=%p depth=%ld\n", current->ctx.stack, sp, (char*)current->ctx.stack + MAXSTACK - (char*)sp);
+	sys_printf(SYS_DEBUG "switch after stack=%p sp=%p depth=%ld\n", current->ctx.stack, sp, (char*)current->ctx.stack + MAXSTACK - (char*)sp);
 
 void trap_segfault();
 

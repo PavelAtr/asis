@@ -11,3 +11,9 @@ export LDFLAGS="-nostdlib  --sysroot=/tinysys ${PREFIX}/lib/crt.o ${PREFIX}/lib/
 make clean
 make V=1
 install generated/unstripped/toybox ${PREFIX}/bin/toybox
+
+cd ${PREFIX}/bin
+rm -f sh grep cat
+ln toybox sh
+ln toybox grep
+ln toybox cat

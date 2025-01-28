@@ -74,7 +74,7 @@ long_t sys_syscall(long_t number, ...)
       va_end(vl);
       return sys_stat(char1, ptr1);
       break;
-   case SYS_DEBUG:
+   case SYS_DBG:
       ptr1 = va_arg(vl, void*);
       va_end(vl);
       sys_printf(SYS_INFO "sys_debug %p\n", ptr1);

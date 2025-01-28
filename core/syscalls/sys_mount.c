@@ -67,7 +67,7 @@ int  _sys_mount(device* dev, mountpoint* mount, const char* fstype,
 int sys_mount(const char* blk, const char* dir, const char* fstype,
    const char* options)
 {
-   sys_printf("Mounting %s on %s type %s\n", blk, dir, fstype);
+   sys_printf(SYS_INFO "Mounting %s on %s type %s\n", blk, dir, fstype);
    mountpoint* mount = _get_free_mountpoint();
    device* dev = sys_get_device_byname(blk, S_IFBLK);
    if (!mount || !dev) {

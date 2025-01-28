@@ -14,7 +14,7 @@
 
 int main(int argc, char** argv)
 {
-   sys_printf("Starting TinySystem\n");
+   sys_printf(SYS_INFO "Starting TinySystem\n");
    void* mem = mmap(NULL, MEMSIZE, PROT_READ | PROT_WRITE | PROT_EXEC,
          MAP_ANONYMOUS|MAP_SHARED, -1, 0);
    init_memory(mem, MEMSIZE);
@@ -73,7 +73,7 @@ int main(int argc, char** argv)
    init_hosttrap();
    sys_umount("/week");
 #endif
-   sys_printf("End init\n");
+   sys_printf(SYS_INFO "End init\n");
    int ret = sys_runinit();
 #ifndef UEFI
    hostfs_cleanup();

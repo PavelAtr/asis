@@ -63,7 +63,7 @@ int_t sys_exec(const char* file, char** argv)
    current->program->argc = argc;
    current->program->argv = argv;
    current->program->dlhandle = dlopen(file, RTLD_NOW | RTLD_LOCAL | RTLD_DEEPBIND);
-   sys_printf(SYS_INFO "DLOPEN %s\n", file);
+   sys_printf(SYS_DEBUG "DLOPEN %s\n", file);
    if (!current->program->dlhandle) {
 	  sys_printf(SYS_ERROR, "dlopen %s FAILED!\n", file);
       *current->sys_errno = ENOENT;
@@ -92,7 +92,7 @@ int_t sys_exec(const char* file, char** argv)
    start(argc, argv, current->program->envp);
    switch_context;
    /* Never reach here */
-   sys_printf("EXEC END\n");
+   sys_printf(SYS_DEBUG "EXEC END\n");
    freeproc(current->forkret);
    return  0;
 fail:
@@ -135,7 +135,7 @@ void freeproc(pid_t pid)
 
 pid_t sys_clone(void)
 {
-   sys_printf("CLONE\n");
+   sys_printf(SYS_DEBUG "CLONE\n");
    pid_t ret = newproc();
    if (ret == -1) {
       return -1;
@@ -153,22 +153,22 @@ pid_t sys_clone(void)
 pid_t sys_fork()
 {
    current->forkret = sys_clone();
-   sys_printf("FORK in %s child=%d\n", current->program->argv[0], current->forkret);
+   sys_printf(SYS_DEBUG "FORK in %s child=%d\n", current->program->argv[0], current->forkret);
    if (current->forkret == -1) {
       *current->sys_errno = ENOMEM;
       return -1;
    }
    cpu[current->forkret]->forkret = 0;
    cpu[current->forkret]->ret = -1;
-   sys_printf("EXEC SWITCH\n");
+   sys_printf(SYS_DEBUG "EXEC SWITCH\n");
    switch_context;
-   sys_printf("forkret=%d\n", (int)current->forkret);
+   sys_printf(SYS_DEBUG "forkret=%d\n", (int)current->forkret);
    return current->forkret;
 }
 
 pid_t sys_waitpid(pid_t pid, int* wstatus, int options)
 {
-   sys_printf("WAITPID in %s child=%d\n", current->program->argv[0], pid);
+   sys_printf(SYS_DEBUG "WAITPID in %s child=%d\n", current->program->argv[0], pid);
    if (pid != -1) {
       if (!pid_is_valid(pid) || !cpu[pid]) {
          return -1;
@@ -205,7 +205,7 @@ pid_t sys_waitpid(pid_t pid, int* wstatus, int options)
       switch_context;
    }
 end:
-   sys_printf("WAITPID END\n");
+   sys_printf(SYS_DEBUG "WAITPID END\n");
    *wstatus = cpu[child]->ret;
    cpu[child]->program->nlink--;
    if (!cpu[child]->program->nlink) {
@@ -217,7 +217,7 @@ end:
 
 void sys_atexit(int ret)
 {
-   sys_printf("ATEXIT=%d\n", ret);
+   sys_printf(SYS_DEBUG "ATEXIT=%d\n", ret);
    current->ret = ret;
    current->flags &= ~PROC_RUNNING;
    current->flags |= PROC_ZOMBIE;

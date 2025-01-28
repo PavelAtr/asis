@@ -7,7 +7,7 @@ extern long __attribute__((ms_abi)) (*syscall)(long number, ...);
 extern long (*syscall)(long number, ...);
 #endif
 
-#define SYS_DEBUG 0
+#define SYS_DBG 0
 #define SYS_FWRITE 1
 #define SYS_FREAD 2
 #define SYS_FSTAT 3
