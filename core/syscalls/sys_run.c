@@ -64,7 +64,7 @@ int_t sys_exec(const char* file, char** argv)
    current->program -> nlink = 1;
    current->program->dlhandle = dlopen(file, RTLD_NOW | RTLD_LOCAL | RTLD_DEEPBIND);
    if (!current->program->dlhandle) {
-	  sys_printf(SYS_ERROR, "dlopen %s FAILED!\n", file);
+	  sys_printf(SYS_ERROR "dlopen %s FAILED\n", file);
       *current->sys_errno = ENOENT;
       goto fail;
    }
