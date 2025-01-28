@@ -79,8 +79,7 @@ void init_proc()
 
 char** copyenv(char*const* e)
 {
-   char** copy = sys_malloc(sizeof(char*) * COREMAXENV);
-   memset(copy, 0x0, sizeof(char*) * COREMAXENV);
+   char** copy = sys_calloc(1, sizeof(char*) * COREMAXENV);
    int_t i;
    for (i = 0; i < COREMAXENV - 2; i++) {
       if (e) {
@@ -109,8 +108,7 @@ void freeenv(char*const* e)
 void** copyfds(void** infds)
 {
    fdesc** fds = (fdesc**)infds;
-   fdesc** ret = sys_malloc(sizeof(fdesc*) * COREMAXFD);
-   memset(ret, 0x0, sizeof(fdesc*) * COREMAXFD);
+   fdesc** ret = sys_calloc(1, sizeof(fdesc*) * COREMAXFD);
    int_t i;
    if (infds) {
       for (i = 0; i < COREMAXFD; i++) {
@@ -118,8 +116,7 @@ void** copyfds(void** infds)
 		    continue;
 	     }
          if (!(fds[i]->flags & O_CLOEXEC)) {
-			 ret[i] = malloc(sizeof(fdesc));
-			 memset(ret[i], 0x0, sizeof(fdesc));
+			 ret[i] = sys_calloc(1, sizeof(fdesc));
 			 copyfdesc(ret[i], fds[i]);
          }
       }

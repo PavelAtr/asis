@@ -57,8 +57,7 @@ int_t sys_exec(const char* file, char** argv)
    } else {
       current->gid = current->gid;
    }
-   current->program = sys_malloc(sizeof(prog));
-   memset(current->program, 0x0, sizeof(prog));
+   current->program = sys_calloc(1, sizeof(prog));
    current->program->argc = argc;
    current->program->argv = argv;
    current->program -> nlink = 1;
@@ -103,8 +102,7 @@ pid_t newproc()
    int_t i;
    for (i = 0; i < MAXPROC; i++)
       if (cpu[i] == NULL) {
-         cpu[i] = sys_malloc(sizeof(proc));
-         memset(cpu[i], 0x0, sizeof(proc));
+         cpu[i] = sys_calloc(1, sizeof(proc));
          return i;
       }
    *current->sys_errno = ENOMEM;

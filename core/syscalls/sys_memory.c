@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stddef.h>
 #include <sys/types.h>
+#include <string.h>
 #else
 #include "../uefi/uefi.h"
 #endif
@@ -38,6 +39,14 @@ int sys_munmap(void* addr, size_t length)
 void* sys_malloc(size_t size)
 {
    return malloc(size);
+}
+
+void *sys_calloc(size_t nmemb, size_t size)
+{
+	size_t len = nmemb * size;
+	void* ptr = sys_malloc(len);
+	memset(ptr, 0x0, len);
+	return ptr;
 }
 
 void* sys_realloc(void* ptr, size_t size)

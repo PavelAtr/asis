@@ -6,7 +6,7 @@ CWD=$(pwd)
 export CC=gcc
 export PREFIX="/tinysys"
 export CFLAGS="-g -fPIC -fomit-frame-pointer -Wno-format -D_MSC_VER=2000 -U__linux__ -U__GLIBC__ --sysroot=/tinysys -include ${CWD}/../toybox-stub.h"
-export LDFLAGS="-nostdlib  --sysroot=/tinysys ${PREFIX}/lib/crt.o ${PREFIX}/lib/libc.so  ${PREFIX}/lib/libpwd.so -shared"
+export LDFLAGS="-nostdlib  --sysroot=/tinysys ${PREFIX}/lib/crt.o -ltinyc -lpwd -shared"
 
 make clean
 make V=1
