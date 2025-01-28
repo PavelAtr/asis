@@ -17,8 +17,8 @@ clean:
 install:
 	mkdir -p $(DESTDIR)$(PREFIX)/lib
 	install init/crt.o $(DESTDIR)$(PREFIX)/lib/crt.o
-	install libtinyc.so $(DESTDIR)$(PREFIX)/lib/libc.so
-	install libtinyc.a $(DESTDIR)$(PREFIX)/lib/libc.a
+	install libtinyc.so $(DESTDIR)$(PREFIX)/lib/libtinyc.so
+	install libtinyc.a $(DESTDIR)$(PREFIX)/lib/libtinyc.a
 	mkdir -p $(DESTDIR)$(PREFIX)/usr
 	cp -r include $(DESTDIR)$(PREFIX)/usr/
 	cp -r include_stub/* $(DESTDIR)$(PREFIX)/usr/include/

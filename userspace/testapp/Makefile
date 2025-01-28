@@ -1,7 +1,8 @@
 PREFIX?=/tinysys
 #CFLAGS?=-fPIC -I$(PREFIX)/usr/include -fomit-frame-pointer
 CFLAGS?=-g -fPIC --sysroot=$(PREFIX) -fomit-frame-pointer
-LDFLAGS=--sysroot=$(PREFIX) -nostdlib $(PREFIX)/lib/crt.o $(PREFIX)/lib/libc.so -shared
+#LDFLAGS=--sysroot=$(PREFIX) -nostdlib $(PREFIX)/lib/crt.o $(PREFIX)/lib/libc.so -shared
+LDFLAGS=--sysroot=$(PREFIX) -nostdlib $(PREFIX)/lib/crt.o -ltinyc -shared
 #LDFLAGS=-nostdlib -Wl,-Ttinysys.ld $(PREFIX)/lib/libc.a
 
 all:
@@ -18,15 +19,15 @@ all:
 	$(CC) $(CFLAGS) -fPIC chown.c $(LDFLAGS) -o chown
 	$(CC) $(CFLAGS) -fPIC testfork.c $(LDFLAGS) -o testfork
 	$(CC) $(CFLAGS) -fPIC segfault.c $(LDFLAGS)  -o segfault
-	$(CC) $(CFLAGS) -fPIC passdb.c $(LDFLAGS) $(PREFIX)/lib/libpwd.so -o passdb
-	$(CC) $(CFLAGS) -fPIC grpdb.c $(LDFLAGS) $(PREFIX)/lib/libpwd.so -o grpdb
+	$(CC) $(CFLAGS) -fPIC passdb.c $(LDFLAGS) -lpwd -o passdb
+	$(CC) $(CFLAGS) -fPIC grpdb.c $(LDFLAGS) -lpwd -o grpdb
 	$(CC) $(CFLAGS) -fPIC _exit.c $(LDFLAGS) -o _exit
 	$(CC) $(CFLAGS) -fPIC jmp.c $(LDFLAGS) -o jmp
 
-	$(CC) -g -I../libpwd/include/ ../libpwd/libpwd.a test1.c -o test1
-	$(CC) -g -I../libpwd/include/ ../libpwd/libpwd.a test2.c -o test2
-	$(CC) -g test3.c -o test3
-	$(CC) -g jmp.c -o test4
+#	$(CC) -g -I../libpwd/include/ ../libpwd/libpwd.a test1.c -o test1
+#	$(CC) -g -I../libpwd/include/ ../libpwd/libpwd.a test2.c -o test2
+#	$(CC) -g test3.c -o test3
+#	$(CC) -g jmp.c -o test4
 
 clean:
 	rm -f shell hello test touch wallpaper ls stat unlink id mkdir chown chmod testfork segfault passdb grpdb _exit test1 test2 test3 jmp

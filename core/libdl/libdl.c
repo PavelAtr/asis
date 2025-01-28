@@ -4,6 +4,7 @@
 #include <string.h>
 #define __off_t_defined
 #include <sys/mman.h>
+#include <sys/stat.h>
 
 void elf_free(elf* e)
 {
@@ -57,7 +58,7 @@ void elf_free(elf* e)
 dl* dl_find(dl* hndl, const char* path)
 {
    dl* s;
-   sys_printf("SEARCHING %s ", path);
+   sys_printf(SYS_DEBUG "SEARCHING %s ", path);
    for (s = hndl; s != NULL; s = s->next) {
       if (strcmp(s->path, path) == 0) {
 		  sys_printf("ALREDY\n");
@@ -136,7 +137,7 @@ int dl_load(dl* buf, const char* file)
    buf->dl_elf->dyntab = elf_load_table(file, buf->dl_elf->hdr, buf->dl_elf->dyns);
    buf->dl_elf->dynstr = elf_load_strings(file, buf->dl_elf->hdr,
          buf->dl_elf->shdrs, buf->dl_elf->dyns);
-   sys_printf(SYS_INFO "OK\n");
+   sys_printf("OK\n");
    return 0;
 fail:
    elf_free(buf->dl_elf);
@@ -150,21 +151,62 @@ void* resolve(const char* symname)
    return dlsym(scope, symname);
 }
 
+char* ldpath(const char* path, const char* file)
+{
+   short found = 0;
+   size_t pathlen = 0;
+   char* system_path = NULL;
+   if (path) {
+      system_path = strdup(path);
+      pathlen = strlen(system_path);
+   }
+   char* rezult = sys_malloc(pathlen + strlen(file) + 2);
+   if (file[0] == '/' || !system_path) {
+      strcpy(rezult, file);
+      goto end;
+   }
+   char* dir = strtok(system_path, ":");
+   while (dir != NULL) {
+      strcpy(rezult, dir);
+      strcpy(rezult + strlen(dir), file);
+      dir =strtok(NULL, ":");
+      struct stat st;
+      if (sys_stat(rezult, &st) != -1) {
+         found = 1;
+         break;
+      }
+   }
+end:
+   if (system_path) {
+      sys_free(system_path);
+   }
+   if (found) {
+      return rezult;
+   } else {
+      return NULL;
+   }
+}
+
+
 void *dlopen(const char* filename, int flags)
 {
    dl* prog = sys_malloc(sizeof(dl));
    memset(prog, 0x0, sizeof(dl));
-   prog->ncopy = 1;
    if (dl_load(prog, filename)) {
       goto fail;
    }
    dl* s = prog;
    while (1) {
-      const char* path;
+      const char* file;
       dtneed_ndx = 0;
-      while (path = elf_dtneed(prog->dl_elf->dyns, prog->dl_elf->dyntab,
+      while (file = elf_dtneed(prog->dl_elf->dyns, prog->dl_elf->dyntab,
                   prog->dl_elf->dynstr)) {
-		 sys_printf("NEEDED %s\n", path);			  
+		 char* path = ldpath(LD_PATH, file);
+		 if (!path) {
+            sys_printf(SYS_ERROR "%s not found in %s\n", file, LD_PATH);
+		    goto fail;
+	     }	 
+		 sys_printf(SYS_DEBUG "NEEDED %s\n", file);			  
          if (dl_find(prog, path)) {
             continue;
          }
@@ -222,10 +264,6 @@ int dlclose(void *hndl)
 {
    dl* s = hndl;
    if (!s) {
-      return 0;
-   }
-   s->ncopy--;
-   if (s->ncopy) {
       return 0;
    }
    dl* next = s;

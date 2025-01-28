@@ -59,17 +59,16 @@ int_t sys_exec(const char* file, char** argv)
    }
    current->program = sys_malloc(sizeof(prog));
    memset(current->program, 0x0, sizeof(prog));
-   current->program -> nlink = 1;
    current->program->argc = argc;
    current->program->argv = argv;
+   current->program -> nlink = 1;
    current->program->dlhandle = dlopen(file, RTLD_NOW | RTLD_LOCAL | RTLD_DEEPBIND);
-   sys_printf(SYS_DEBUG "DLOPEN %s\n", file);
    if (!current->program->dlhandle) {
 	  sys_printf(SYS_ERROR, "dlopen %s FAILED!\n", file);
       *current->sys_errno = ENOENT;
-      sys_free(current->program);
       goto fail;
    }
+   sys_printf(SYS_DEBUG "dlopen %s\n", file);
    addr_t* syscall = dlsym(current->program->dlhandle, "syscall");
    addr_t* fds = dlsym(current->program->dlhandle, "fds");
    addr_t* retexit = dlsym(current->program->dlhandle, "retexit");
@@ -87,7 +86,7 @@ int_t sys_exec(const char* file, char** argv)
    current->program->fds = copyfds(((proc*)current->parent)->program->fds);
    current->program->envp = copyenv(((proc*)current->parent)->program->envp);
    *fds = (addr_t)current->program->fds;
-   current->flags &= ~ PROC_CLONED;
+   current->flags &= ~PROC_CLONED;
    sys_printf(SYS_INFO "freememory=%ld\n", free_memory());
    start(argc, argv, current->program->envp);
    switch_context;
@@ -96,7 +95,6 @@ int_t sys_exec(const char* file, char** argv)
    freeproc(current->forkret);
    return  0;
 fail:
-   sys_free(current->program);
    return -1;
 }
 
@@ -208,7 +206,7 @@ end:
    sys_printf(SYS_DEBUG "WAITPID END\n");
    *wstatus = cpu[child]->ret;
    cpu[child]->program->nlink--;
-   if (!cpu[child]->program->nlink) {
+   if (cpu[child]->program->nlink <= 0) {
       freeproc(child);
    }
    cpu[child] = NULL;
