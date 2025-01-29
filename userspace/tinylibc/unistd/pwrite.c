@@ -11,12 +11,9 @@ ssize_t pwrite(int f, const void* buf, size_t count, off_t offset) {
       return -1;
    }
    size_t ret;
-   if (fds[f]->strbuf) {
-      ret = fstrwrite(buf, count, 1, fds[f]);
-      goto end;
-   }
-   ret = syscall(SYS_FWRITE, fds[f]->file, buf, count, offset);
-end:
-   if (!ret) usleep(1);
+   off_t old = ftell(fds[f]);
+   fseek(fds[f], SEEK_SET, offset);
+   ret = fwrite(buf, 1, count, fds[f]);
+   fseek(fds[f], SEEK_SET, old);
    return ret;
 }
