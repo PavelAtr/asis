@@ -12,5 +12,5 @@ int ftruncate(int f, off_t length)
       return -1;
    }
 
-   return syscall(SYS_TRUNCATE, fds[f]->stream->file, length);
+   return syscall(SYS_TRUNCATE, fds[f]->file, length);
 }

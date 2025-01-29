@@ -4,13 +4,12 @@
 #include <fcntl.h>
 #include <errno.h>
 
-ssize_t pipewrite(int f, const void* buf, size_t count)
+ssize_t pipewrite(FILE* f, const void* buf, size_t count)
 {
-	fdesc* fd = fds[f];
-	size_t len = (count < MAXPIPE - fd->wpipe->writepos)?
-	   count : MAXPIPE - fd->wpipe->writepos;
-	memcpy(fd->wpipe->buf + fd->wpipe->writepos, buf, len);
-	fd->wpipe->writepos += len;
+	size_t len = (count < MAXPIPE - f->wpipe->writepos)?
+	   count : MAXPIPE - f->wpipe->writepos;
+	memcpy(f->wpipe->buf + f->wpipe->writepos, buf, len);
+	f->wpipe->writepos += len;
 	if (!len) {
 		usleep(1);
 	}
@@ -38,15 +37,11 @@ size_t fwrite(const void* ptr, size_t size, size_t nmemb, FILE* stream)
       goto end;
    }
    if (stream->fd != -1) {
-      if (!fd_is_valid(stream->fd)) {
-		errno = EBADFD;
-		return -1;
-	  }
-	  if (fds[stream->fd]->wpipe)
-	  {
-		  ret = pipewrite(stream->fd, ptr, size * nmemb);
-		  goto end;
-	  }
+      if (stream->wpipe)
+      {
+         ret = pipewrite(stream, ptr, size * nmemb);
+         goto end;
+      }
    }
    ret = syscall(SYS_FWRITE, stream->file, ptr, size * nmemb, stream->pos);
 end:

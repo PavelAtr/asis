@@ -12,7 +12,7 @@ int ioctl(int fd, unsigned long request, ...)
    }
    va_list vl;
    va_start(vl, request);
-   long ret = syscall(SYS_IOCTL, fds[fd]->stream->file, request, &vl);
+   long ret = syscall(SYS_IOCTL, fds[fd]->file, request, &vl);
    va_end(vl);
    return ret;
 }

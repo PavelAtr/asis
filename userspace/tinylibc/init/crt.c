@@ -7,12 +7,12 @@
 
 #ifdef UEFI_KERNEL
 long __attribute__((ms_abi)) (*syscall)(long number, ...);
-void __attribute__((ms_abi)) (*retexit)(int ret);
+void __attribute__((ms_abi)) (*retexit)(long ret);
 #else
 long (*syscall)(long num, ...);
 void (*retexit)(int ret);
 #endif
-fdesc** fds = NULL;
+FILE** fds = NULL;
 char** environ = NULL;
 int errno;
 char* progname;

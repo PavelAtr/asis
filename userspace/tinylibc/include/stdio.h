@@ -7,29 +7,57 @@
 #include <string.h>
 #include <stdlib.h>
 
+#define MAXPIPE 512
+
 typedef struct {
-  char* file;
-  size_t size;
-  size_t pos;
-  unsigned char flags;
-  char* strbuf;
-  int fd;
+   char buf[MAXPIPE];
+   unsigned short nlink;
+   unsigned short writepos;
+   unsigned short readpos;
+} pipebuf;
+
+typedef struct {
+   char* file;
+   size_t size;
+   size_t pos;
+   const char* mode;
+   int flags;
+   int fd;
+   pid_t pgrp;
+   char* strbuf;
+   pipebuf* wpipe;
+   pipebuf* rpipe;
 } FILE;
+
+static inline void initfile(FILE* src)
+{
+	memset(src, 0x0, sizeof(FILE));
+	src->fd = -1;
+}
 
 static inline void copyfile(FILE* dst, FILE* src)
 {
+   if (!dst || !src) {
+	   return;
+   }
    memcpy(dst, src, sizeof(FILE));
    dst->file = strdup(src->file);
    if (src->strbuf) {
       dst->strbuf = malloc(src->size);
    }
-}
+   if (src->wpipe) {
+      src->wpipe->nlink++;
+   }
+   if (src->rpipe) {
+      src->rpipe->nlink++;
+   }
+};
 
 static inline void freefile(FILE* dst)
 {
    if (!dst) {
-      return;
-   }	
+	   return;
+   }
    if (dst->file) {
       free(dst->file);
       dst->file = NULL;
@@ -38,8 +66,22 @@ static inline void freefile(FILE* dst)
       free(dst->strbuf);
       dst->strbuf = NULL;
    }
+   if (dst->rpipe) {
+      dst->rpipe->nlink--;
+      if (dst->rpipe->nlink <= 0) {
+         free(dst->rpipe);
+         dst->rpipe = NULL;
+      }
+   }
+   if (dst->wpipe) {
+      dst->wpipe->nlink--;
+      if (dst->wpipe->nlink <= 0) {
+         free(dst->wpipe);
+         dst->wpipe = NULL;
+      }
+   }
    free(dst);
-}
+};
 
 #define FILE_ERROR 0x01
 #define FILE_INFINITY 0x02
@@ -48,7 +90,7 @@ extern FILE* stdin;
 extern FILE* stdout;
 extern FILE* stderr;
 
-#define MAXSTRING (unsigned short)-1
+#define MAXSTRING ((unsigned short)-1)
 
 FILE* fopen(const char* pathname, const char* mode);
 FILE *freopen(const char* pathname, const char* mode,

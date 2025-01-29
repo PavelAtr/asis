@@ -2,8 +2,8 @@
 #define free(p) sys_free(p)
 
 #include <tinysys.h>
-#include <fcntl.h>
 #include <stdio.h>
+#include <fcntl.h>
 #include <stddef.h>
 #include <string.h>
 #include <errno.h>
@@ -14,65 +14,53 @@ char* argv[1] = {"system"};
 errno_t syserr;
 
 FILE sys_stdin = {
-   "/dev/tty",
+"/dev/tty",
    100,
    0,
-   FILE_INFINITY,
-   NULL,
-   -1,
+   "r+",
+  FILE_INFINITY,
+  0,
+  0,
+NULL,
+NULL,
+NULL,
 };
 
 FILE sys_stdout = {
-   "/dev/tty",
+"/dev/tty",
    100,
    0,
-   FILE_INFINITY,
-   NULL,
-   -1,
+   "r+",
+  FILE_INFINITY,
+  1,
+  0,
+NULL,
+NULL,
+NULL,
 };
 FILE sys_stderr = {
-   "/dev/tty",
+"/dev/tty",
    100,
    0,
-   FILE_INFINITY,
-   NULL,
-   -1,
+   "r+",
+  FILE_INFINITY,
+  2,
+  0,
+NULL,
+NULL,
+NULL,
 };
 
-fdesc fdin =    {
-	  &sys_stdin,
-      0,
-      0,
-      NULL,
-      NULL,
-   };
 
-fdesc fdout =    {
-	  &sys_stdout, 
-      0,
-      0,
-      NULL,
-      NULL,
-   };
-
-fdesc fderr =    {
-	  &sys_stderr, 
-      0,
-      0,
-      NULL,
-      NULL,
-   };
-
-
-fdesc* sysfds[COREMAXFD] = {
-&fdin,
-&fdout,
-&fderr,
+FILE* sysfds[COREMAXFD] = {
+&sys_stdin,
+&sys_stdout,
+&sys_stderr,
 };
 
 void init_proc()
 {
-   sys.program = &sysprog;	
+   sys.program = &sysprog;
    sys.program->argv = argv;
    cpu[0] = &sys;
    current = cpu[0];
@@ -110,8 +98,8 @@ void freeenv(char*const* e)
 
 void** copyfds(void** infds)
 {
-   fdesc** fds = (fdesc**)infds;
-   fdesc** ret = sys_calloc(1, sizeof(fdesc*) * COREMAXFD);
+   FILE** fds = (FILE**)infds;
+   FILE** ret = sys_calloc(1, sizeof(FILE*) * COREMAXFD);
    int_t i;
    if (infds) {
       for (i = 0; i < COREMAXFD; i++) {
@@ -119,8 +107,8 @@ void** copyfds(void** infds)
 		    continue;
 	     }
          if (!(fds[i]->flags & O_CLOEXEC)) {
-			 ret[i] = sys_calloc(1, sizeof(fdesc));
-			 copyfdesc(ret[i], fds[i]);
+			 ret[i] = sys_calloc(1, sizeof(FILE));
+			 copyfile(ret[i], fds[i]);
          }
       }
    }
@@ -129,10 +117,10 @@ void** copyfds(void** infds)
 
 void freefds(proc* task)
 {
-   fdesc** fds = (fdesc**)task->program->fds;
+   FILE** fds = (FILE**)task->program->fds;
    int_t i;
    for (i = 0; i < COREMAXFD; i++) {
-      freefdesc(fds[i]);
+      freefile(fds[i]);
    }
    sys_free(fds);
 }

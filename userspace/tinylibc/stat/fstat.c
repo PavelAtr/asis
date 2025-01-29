@@ -12,6 +12,6 @@ int fstat(int f, struct stat *statbuf)
       errno = EBADFD;
       return -1;
    }
-   return syscall(SYS_FSTAT, fds[f]->stream->file, statbuf);
+   return syscall(SYS_FSTAT, fds[f]->file, statbuf);
 }
 

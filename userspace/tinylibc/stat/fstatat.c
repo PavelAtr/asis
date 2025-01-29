@@ -13,7 +13,7 @@ int fstatat(int f, const char* pathname,
       errno = EBADFD;
       return -1;
    }
-   char* dir = fds[f]->stream->file;
+   char* dir = fds[f]->file;
    const char* file = pathname;
    if (pathname == NULL || flags & AT_EMPTY_PATH)
    {

@@ -5,9 +5,21 @@ PHDRS
     rw    PT_LOAD FLAGS(6); /* 0b110 - read + write */
     other    PT_NOTE FLAGS(4); /* 0b100 - read  */
 }
+
 SECTIONS {
     .text ALIGN(1) : ALIGN(1)
     {
+        . += 0;
+        syscall = .;
+        . += 8;
+        fds = .;
+        . += 8;
+        environ = .;
+        . += 8;
+        progname = .;
+        . += 8;
+        _start = .;
+        . += 8;
         *(.text .text.*)
     } : rx
 
@@ -25,12 +37,4 @@ SECTIONS {
     {
         *(.bss .bss.*)
     } : rw
-
-    .other  ALIGN(1) : ALIGN(1)
-    {
-        *(.note.*)
-        *(.comment .comment.*)
-        *(.eh_frame*)
-        *(.got .got.*)
-    } : other
 }

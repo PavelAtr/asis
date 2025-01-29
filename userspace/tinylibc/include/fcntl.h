@@ -16,67 +16,9 @@
 #define O_NOFOLLOW 0x0200
 #define O_NONBLOCK 0x0400
 #define O_SYNC 0x0800
-
 #define O_NOCTTY 00000400 
 
-#define MAXPIPE 512
-
-typedef struct {
-  char buf[MAXPIPE];
-  unsigned short nlink;
-  unsigned short writepos;
-  unsigned short readpos;
-} pipebuf;
-
-typedef struct {
-  FILE* stream;
-  int flags;
-  pid_t pgrp;
-  pipebuf* wpipe;
-  pipebuf* rpipe;
-} fdesc;
-
-static inline void copyfdesc(fdesc* dst, fdesc* src)
-{
-   if (!src->stream) {
-      return;
-   }
-   memcpy(dst, src, sizeof(fdesc));
-   dst->stream = malloc(sizeof(FILE));
-   copyfile(dst->stream, src->stream);
-   if (src->wpipe) {
-      src->wpipe->nlink++;
-   }
-   if (src->rpipe) {
-      src->rpipe->nlink++;
-   }
-}
-
-static inline void freefdesc(fdesc* dst)
-{
-   if (!dst) {
-      return;
-   }
-   freefile(dst->stream);
-   dst->stream = NULL;
-   if (dst->rpipe) {
-      dst->rpipe->nlink--;
-      if (dst->rpipe->nlink == 0) {
-         free(dst->rpipe);
-         dst->rpipe = NULL;
-      }
-   }
-   if (dst->wpipe) {
-      dst->wpipe->nlink--;
-      if (dst->wpipe->nlink == 0) {
-         free(dst->wpipe);
-         dst->wpipe = NULL;
-      }
-   }
-   free(dst);
-}
-
-extern fdesc** fds;
+extern FILE** fds;
 int get_free_fd(void);
 #define fd_is_valid(fd) (fds[fd] && (unsigned int)fd < syscall(SYS_GETMAXFD) - 1)
 

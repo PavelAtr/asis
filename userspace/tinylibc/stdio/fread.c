@@ -4,16 +4,15 @@
 #include <fcntl.h>
 #include <errno.h>
 
-ssize_t piperead(int f, void* buf, size_t count)
+ssize_t piperead(FILE* f, void* buf, size_t count)
 {
-	fdesc* fd = fds[f];
-	size_t len = (count < fd->rpipe->writepos - fd->rpipe->readpos)?
-	   count : fd->rpipe->writepos - fd->rpipe->readpos;
-	memcpy(buf, fd->rpipe->buf, len);
-	fd->rpipe->readpos += len;
-	if (fd->rpipe->readpos = MAXPIPE) {
-		fd->rpipe->readpos = 0;
-		fd->rpipe->writepos = 0;
+	size_t len = (count < f->rpipe->writepos - f->rpipe->readpos)?
+	   count : f->rpipe->writepos - f->rpipe->readpos;
+	memcpy(buf, f->rpipe->buf, len);
+	f->rpipe->readpos += len;
+	if (f->rpipe->readpos = MAXPIPE) {
+		f->rpipe->readpos = 0;
+		f->rpipe->writepos = 0;
     }	
 	if (!len) {
 		usleep(1);
@@ -41,13 +40,9 @@ size_t fread(void* ptr, size_t size, size_t nmemb, FILE* stream)
       goto end;
    }
    if (stream->fd != -1) {
-      if (!fd_is_valid(stream->fd)) {
-		errno = EBADFD;
-		return -1;
-	  }
-	  if (fds[stream->fd]->rpipe)
+	  if (stream->rpipe)
 	  {
-		  ret = piperead(stream->fd, ptr, size * nmemb);
+		  ret = piperead(stream, ptr, size * nmemb);
 		  goto end;
 	  }
    }

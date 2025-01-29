@@ -72,7 +72,7 @@ int_t sys_exec(const char* file, char** argv)
    addr_t* fds = dlsym(current->program->dlhandle, "fds");
    addr_t* retexit = dlsym(current->program->dlhandle, "retexit");
    current->sys_errno = dlsym(current->program->dlhandle, "errno");
-   void __attribute__((sysv_abi)) (*start)(int argc, char* const* argv,
+   void (*start)(int argc, char* const* argv,
       char* const* envp)
       = dlsym(current->program->dlhandle, "_start");
    if (!syscall || !start || !fds || !retexit || !current->sys_errno) {

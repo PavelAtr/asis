@@ -14,9 +14,8 @@ int dup2(int oldfd, int newfd)
    if (fds[newfd]) {
       close(newfd);
    }
-   fds[newfd] = malloc(sizeof(fdesc));
-   memset(fds[newfd], 0x0, sizeof(fdesc));
-   copyfdesc(fds[newfd], fds[oldfd]);
+   fds[newfd] = calloc(1, sizeof(FILE));
+   copyfile(fds[newfd], fds[oldfd]);
    return newfd;
 }
 
