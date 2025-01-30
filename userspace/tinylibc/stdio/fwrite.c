@@ -6,10 +6,10 @@
 
 ssize_t pipewrite(FILE* f, const void* buf, size_t count)
 {
-	size_t len = (count < MAXPIPE - f->wpipe->writepos)?
-	   count : MAXPIPE - f->wpipe->writepos;
-	memcpy(f->wpipe->buf + f->wpipe->writepos, buf, len);
-	f->wpipe->writepos += len;
+	size_t len = (count < MAXPIPE - f->pipbuf->writepos)?
+	   count : MAXPIPE - f->pipbuf->writepos;
+	memcpy(f->pipbuf->buf + f->pipbuf->writepos, buf, len);
+	f->pipbuf->writepos += len;
 	if (!len) {
 		usleep(1);
 	}
@@ -37,7 +37,7 @@ size_t fwrite(const void* ptr, size_t size, size_t nmemb, FILE* stream)
       goto end;
    }
    if (stream->fd != -1) {
-      if (stream->wpipe)
+      if (stream->pipbuf)
       {
          ret = pipewrite(stream, ptr, size * nmemb);
          goto end;

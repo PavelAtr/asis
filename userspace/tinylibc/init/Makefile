@@ -1,5 +1,5 @@
 PREFIX?=/tinysys
-CFLAGS?= -g -fPIC -fomit-frame-pointer -I$(PREFIX)/usr/include
+CFLAGS?= -g -fPIC -fomit-frame-pointer --sysroot=$(PREFIX)
 
 all: 
 	$(CC) $(CFLAGS) -g -fPIC -c crt.c

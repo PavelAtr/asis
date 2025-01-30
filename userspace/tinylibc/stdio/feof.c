@@ -2,6 +2,11 @@
 
 int feof(FILE *stream)
 {
+   if (stream->pipbuf) {
+      if (stream->pipbuf->feof) {
+         return 1;
+      }
+   }
    if (stream->flags & FILE_INFINITY) {
       return 0;
    }

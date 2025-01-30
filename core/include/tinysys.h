@@ -40,7 +40,7 @@ int_t sys_link(const char *oldpath, const char *newpath, bool_t move);
 void* sys_mmap(void* addr, size_t length, int prot, int flags, int f, off_t offset);
 int sys_munmap(void* addr, size_t length);
 void* sys_malloc(size_t size);
-void *sys_calloc(size_t nmemb, size_t size);
+void* sys_calloc(size_t nmemb, size_t size);
 extern int curmem;
 void sys_free(void *ptr);
 void sys_prog_free(void *ptr);
@@ -121,7 +121,6 @@ typedef struct {
   pid_t pgid;
 } proc;
 
-
 #define PROC_RUNNING 0x01
 #define PROC_NEW 0x02
 #define PROC_CLONED 0x04
@@ -130,6 +129,8 @@ typedef struct {
 
 extern proc* current;
 extern proc* systask;
+extern void*** current_fds;
+extern void*** current_env;
 
 void init_proc();
 

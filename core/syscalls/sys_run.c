@@ -61,13 +61,13 @@ int_t sys_exec(const char* file, char** argv)
    current->program->argc = argc;
    current->program->argv = argv;
    current->program -> nlink = 1;
-   current->program->dlhandle = dlopen(file, RTLD_NOW | RTLD_LOCAL | RTLD_DEEPBIND);
+   current->program->dlhandle = dlopen(file, RTLD_NOW | RTLD_DEEPBIND);
    if (!current->program->dlhandle) {
-	  sys_printf(SYS_ERROR "dlopen %s FAILED\n", file);
+	  sys_printf(SYS_ERROR "EXEC dlopen %s FAILED\n", file);
       *current->sys_errno = ENOENT;
       goto fail;
    }
-   sys_printf(SYS_DEBUG "dlopen %s\n", file);
+   sys_printf(SYS_DEBUG "EXEC dlopen %s\n", file);
    addr_t* syscall = dlsym(current->program->dlhandle, "syscall");
    addr_t* fds = dlsym(current->program->dlhandle, "fds");
    addr_t* retexit = dlsym(current->program->dlhandle, "retexit");
@@ -90,7 +90,7 @@ int_t sys_exec(const char* file, char** argv)
    start(argc, argv, current->program->envp);
    switch_context;
    /* Never reach here */
-   sys_printf(SYS_DEBUG "EXEC END\n");
+   sys_printf(SYS_DEBUG "EXEC END (NOTREACHEBLE)\n");
    freeproc(current->forkret);
    return  0;
 fail:
@@ -131,7 +131,7 @@ void freeproc(pid_t pid)
 
 pid_t sys_clone(void)
 {
-   sys_printf(SYS_DEBUG "CLONE\n");
+   sys_printf(SYS_DEBUG "CLONE pid=%d prog=%s\n", current->pid, current->program->argv[0]);
    pid_t ret = newproc();
    if (ret == -1) {
       return -1;
@@ -156,7 +156,7 @@ pid_t sys_fork()
    }
    cpu[current->forkret]->forkret = 0;
    cpu[current->forkret]->ret = -1;
-   sys_printf(SYS_DEBUG "EXEC SWITCH\n");
+   sys_printf(SYS_DEBUG "SWITCH pid=%d prog=%s\n", current->pid, current->program->argv[0]);
    switch_context;
    sys_printf(SYS_DEBUG "forkret=%d\n", (int)current->forkret);
    return current->forkret;
@@ -201,7 +201,7 @@ pid_t sys_waitpid(pid_t pid, int* wstatus, int options)
       switch_context;
    }
 end:
-   sys_printf(SYS_DEBUG "WAITPID END\n");
+   sys_printf(SYS_DEBUG "WAITPID END pid=%d prog=%s\n", current->pid, current->program->argv[0]);
    *wstatus = cpu[child]->ret;
    cpu[child]->program->nlink--;
    if (cpu[child]->program->nlink <= 0) {
@@ -213,7 +213,7 @@ end:
 
 void sys_atexit(int ret)
 {
-   sys_printf(SYS_DEBUG "ATEXIT=%d\n", ret);
+   sys_printf(SYS_DEBUG "ATEXIT=%d pid=%d prog=%s\n", ret, current->pid, current->program->argv[0]);
    current->ret = ret;
    current->flags &= ~PROC_RUNNING;
    current->flags |= PROC_ZOMBIE;

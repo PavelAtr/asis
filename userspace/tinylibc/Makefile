@@ -1,5 +1,5 @@
 PREFIX?=/tinysys
-CFLAGS?= -g -fPIC -fomit-frame-pointer --sysroot=$(PREFIX) -I$(PREFIX)/usr/include_stub
+CFLAGS?= -g -fPIC -fomit-frame-pointer --sysroot=$(PREFIX)
 
 all: 
 	make -C init/

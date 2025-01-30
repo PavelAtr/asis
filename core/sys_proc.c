@@ -1,4 +1,5 @@
-#define malloc(p) sys_malloc(p)
+#define malloc(s) sys_malloc(s)
+#define calloc(n, s) sys_calloc(n, s)
 #define free(p) sys_free(p)
 
 #include <tinysys.h>
@@ -23,7 +24,6 @@ FILE sys_stdin = {
   0,
 NULL,
 NULL,
-NULL,
 };
 
 FILE sys_stdout = {
@@ -36,7 +36,6 @@ FILE sys_stdout = {
   0,
 NULL,
 NULL,
-NULL,
 };
 FILE sys_stderr = {
 "/dev/tty",
@@ -46,7 +45,6 @@ FILE sys_stderr = {
   FILE_INFINITY,
   2,
   0,
-NULL,
 NULL,
 NULL,
 };
@@ -66,6 +64,8 @@ void init_proc()
    current = cpu[0];
    sys.sys_errno = &syserr;
    sys.program->fds = (void**) sysfds;
+   current_fds = &sys.program->fds;
+   current_env = NULL;
 }
 
 char** copyenv(char*const* e)
@@ -77,7 +77,9 @@ char** copyenv(char*const* e)
          if ((e[i])[0] == '\0') {
             copy[i] = e[i];
          } else {
-            copy[i] = strdup(e[i]);
+  	        size_t len = strlen(e[i]);
+            copy[i] = calloc(1, len + 1);
+            memcpy(copy[i], e[i], len);
          }
       } else {
          copy[i] = "";

@@ -14,6 +14,7 @@ typedef struct {
    unsigned short nlink;
    unsigned short writepos;
    unsigned short readpos;
+   unsigned char feof;
 } pipebuf;
 
 typedef struct {
@@ -25,8 +26,7 @@ typedef struct {
    int fd;
    pid_t pgrp;
    char* strbuf;
-   pipebuf* wpipe;
-   pipebuf* rpipe;
+   pipebuf* pipbuf;
 } FILE;
 
 static inline void initfile(FILE* src)
@@ -41,15 +41,14 @@ static inline void copyfile(FILE* dst, FILE* src)
 	   return;
    }
    memcpy(dst, src, sizeof(FILE));
-   dst->file = strdup(src->file);
+   size_t filelen = strlen(src->file);
+   dst->file = calloc(1, filelen + 1);
+   memcpy(dst->file, src->file, filelen);
    if (src->strbuf) {
       dst->strbuf = malloc(src->size);
    }
-   if (src->wpipe) {
-      src->wpipe->nlink++;
-   }
-   if (src->rpipe) {
-      src->rpipe->nlink++;
+   if (src->pipbuf) {
+      src->pipbuf->nlink++;
    }
 };
 
@@ -66,18 +65,14 @@ static inline void freefile(FILE* dst)
       free(dst->strbuf);
       dst->strbuf = NULL;
    }
-   if (dst->rpipe) {
-      dst->rpipe->nlink--;
-      if (dst->rpipe->nlink <= 0) {
-         free(dst->rpipe);
-         dst->rpipe = NULL;
-      }
-   }
-   if (dst->wpipe) {
-      dst->wpipe->nlink--;
-      if (dst->wpipe->nlink <= 0) {
-         free(dst->wpipe);
-         dst->wpipe = NULL;
+   if (dst->pipbuf) {
+      dst->pipbuf->nlink--;
+      if ((dst->pipbuf->nlink <= 1)) {
+		dst->pipbuf->feof = 1;
+	  }
+      if (dst->pipbuf->nlink <= 0) {
+         free(dst->pipbuf);
+         dst->pipbuf = NULL;
       }
    }
    free(dst);
@@ -86,9 +81,11 @@ static inline void freefile(FILE* dst)
 #define FILE_ERROR 0x01
 #define FILE_INFINITY 0x02
 
-extern FILE* stdin;
-extern FILE* stdout;
-extern FILE* stderr;
+extern FILE** fds;
+
+#define stdin fds[0]
+#define stdout fds[1]
+#define stderr fds[2]
 
 #define MAXSTRING ((unsigned short)-1)
 

@@ -6,14 +6,14 @@
 
 ssize_t piperead(FILE* f, void* buf, size_t count)
 {
-	size_t len = (count < f->rpipe->writepos - f->rpipe->readpos)?
-	   count : f->rpipe->writepos - f->rpipe->readpos;
-	memcpy(buf, f->rpipe->buf, len);
-	f->rpipe->readpos += len;
-	if (f->rpipe->readpos = MAXPIPE) {
-		f->rpipe->readpos = 0;
-		f->rpipe->writepos = 0;
-    }	
+	size_t len = (count < f->pipbuf->writepos - f->pipbuf->readpos)?
+	   count : f->pipbuf->writepos - f->pipbuf->readpos;
+	memcpy(buf, f->pipbuf->buf, len);
+	f->pipbuf->readpos += len;
+	if (f->pipbuf->readpos >= MAXPIPE) {
+		f->pipbuf->readpos = 0;
+		f->pipbuf->writepos = 0;
+	}
 	if (!len) {
 		usleep(1);
 	}
@@ -40,7 +40,7 @@ size_t fread(void* ptr, size_t size, size_t nmemb, FILE* stream)
       goto end;
    }
    if (stream->fd != -1) {
-	  if (stream->rpipe)
+	  if (stream->pipbuf)
 	  {
 		  ret = piperead(stream, ptr, size * nmemb);
 		  goto end;
