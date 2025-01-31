@@ -208,10 +208,14 @@ pid_t sys_waitpid(pid_t pid, int* wstatus, int options)
 end:
    sys_printf(SYS_DEBUG "WAITPID END pid=%d prog=%s\n", current->pid, current->program->argv[0]);
    *wstatus = cpu[child]->ret;
+   if (cpu[child]->flags & PROC_CLONED) {
+	   goto end2;
+   }
    cpu[child]->program->nlink--;
    if (cpu[child]->program->nlink <= 0) {
       freeproc(child);
    }
+end2:   
    cpu[child] = NULL;
    return child;
 }

@@ -41,12 +41,15 @@ static inline void copyfile(FILE* dst, FILE* src)
 	   return;
    }
    memcpy(dst, src, sizeof(FILE));
+   
    size_t filelen = strlen(src->file);
    dst->file = calloc(1, filelen + 1);
    memcpy(dst->file, src->file, filelen);
+   
    if (src->strbuf) {
       dst->strbuf = malloc(src->size);
    }
+
    if (src->pipbuf) {
       src->pipbuf->nlink++;
    }
@@ -62,7 +65,6 @@ static inline void freefile(FILE* dst)
       dst->file = NULL;
    }
    if (dst->strbuf) {
-      free(dst->strbuf);
       dst->strbuf = NULL;
    }
    if (dst->pipbuf) {

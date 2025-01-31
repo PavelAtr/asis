@@ -2,6 +2,7 @@
 #include "./libdl/libdl.h"
 #include <string.h>
 #include <errno.h>
+#include <stdio.h>
 
 proc* cpu[MAXPROC];
 int_t curpid = 0;

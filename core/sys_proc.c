@@ -72,8 +72,11 @@ char** copyenv(char*const* e)
 {
    char** copy = sys_calloc(1, sizeof(char*) * COREMAXENV);
    int_t i;
-   for (i = 0; i < COREMAXENV - 2; i++) {
-      if (e) {
+   if (e) {
+      for (i = 0; i < COREMAXENV - 2 || e[i]; i++) {
+		 if (!e[i]) {
+			 continue;
+	     }
          if ((e[i])[0] == '\0') {
             copy[i] = e[i];
          } else {
@@ -81,9 +84,12 @@ char** copyenv(char*const* e)
             copy[i] = calloc(1, len + 1);
             memcpy(copy[i], e[i], len);
          }
-      } else {
-         copy[i] = "";
       }
+   }
+   for (i = 0; i < COREMAXENV - 2; i++) {
+	   if (!copy[i]) {
+		   copy[i] = "";
+       }
    }
    copy[COREMAXENV - 1] = NULL;
    return copy;
