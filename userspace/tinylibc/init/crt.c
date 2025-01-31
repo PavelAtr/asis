@@ -22,9 +22,8 @@ void (*atexit_func)(void) = NULL;
 
 int main(int argc, char** argv);
 
-void _start(int argc, char** argv, char** envp)
+void _start(int argc, char** argv)
 {
-   environ = envp;
    progname = argv[0];
    int ret = main(argc, argv);
    _exit(ret);

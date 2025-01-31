@@ -72,10 +72,10 @@ int_t sys_exec(const char* file, char** argv)
    addr_t* fds = dlsym(current->program->dlhandle, "fds");
    addr_t* retexit = dlsym(current->program->dlhandle, "retexit");
    current->sys_errno = dlsym(current->program->dlhandle, "errno");
-   void (*start)(int argc, char* const* argv,
-      char* const* envp)
-      = dlsym(current->program->dlhandle, "_start");
-   if (!syscall || !start || !fds || !retexit || !current->sys_errno) {
+   addr_t* environ = dlsym(current->program->dlhandle, "environ");
+   void (*start)(int argc, char* const* argv) =
+         dlsym(current->program->dlhandle, "_start");
+   if (!syscall || !start || !fds || !retexit || !current->sys_errno || !environ) {
 	  sys_printf(SYS_ERROR, "Main symbols at %s FAILED!\n", file);
       *current->sys_errno = ENOMEM;
       goto fail;
@@ -85,9 +85,10 @@ int_t sys_exec(const char* file, char** argv)
    current->program->fds = copyfds(((proc*)current->parent)->program->fds);
    current->program->envp = copyenv(((proc*)current->parent)->program->envp);
    *fds = (addr_t)current->program->fds;
+   *environ = (addr_t)current->program->envp;
    current->flags &= ~PROC_CLONED;
    sys_printf(SYS_INFO "freememory=%ld\n", free_memory());
-   start(argc, argv, current->program->envp);
+   start(argc, argv);
    switch_context;
    /* Never reach here */
    sys_printf(SYS_DEBUG "EXEC END (NOTREACHEBLE)\n");
