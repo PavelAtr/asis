@@ -4,14 +4,14 @@
 #include <syscall.h>
 #include <errno.h>
 
-extern char** environ;
+extern char*** environ;
 
 int envid(const char *name)
 {
    int i;
-   for(i = 0; environ[i]; i++)
-      if (strstr(environ[i], name) == environ[i]
-         && (environ[i])[strlen(name)] == '=') {
+   for(i = 0; (*environ)[i]; i++)
+      if (strstr((*environ)[i], name) == (*environ)[i]
+         && ((*environ)[i])[strlen(name)] == '=') {
          return i;
       }
    return -1;
@@ -20,8 +20,8 @@ int envid(const char *name)
 int envnewid()
 {
    int i;
-   for(i = 0; environ[i]; i++)
-      if ((environ[i])[0] == '\0') {
+   for(i = 0; (*environ)[i]; i++)
+      if (((*environ)[i])[0] == '\0') {
          return i;
       }
    return -1;

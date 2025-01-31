@@ -11,6 +11,6 @@ int mkdirat(int f, const char *pathname, mode_t mode)
       errno = EBADFD;
       return -1;
    }
-   char* dir = fds[f]->file;
+   char* dir = (*fds)[f]->file;
    return mkdir(fullpath(dir, pathname), mode);
 }

@@ -12,8 +12,8 @@ void __attribute__((ms_abi)) (*retexit)(long ret);
 long (*syscall)(long num, ...);
 void (*retexit)(int ret);
 #endif
-FILE** fds = NULL;
-char** environ = NULL;
+FILE*** fds = NULL;
+char*** environ = NULL;
 int errno;
 char* progname;
 FILE* dbpasswd = NULL;

@@ -64,7 +64,7 @@ void init_proc()
    current = cpu[0];
    sys.sys_errno = &syserr;
    sys.program->fds = (void**) sysfds;
-   current_fds = &sys.program->fds;
+   current_fds = sys.program->fds;
    current_env = NULL;
 }
 

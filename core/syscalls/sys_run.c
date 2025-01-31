@@ -82,10 +82,14 @@ int_t sys_exec(const char* file, char** argv)
    }
    *syscall = (addr_t)&sys_syscall;
    *retexit = (addr_t)&sys_atexit;
+   
    current->program->fds = copyfds(((proc*)current->parent)->program->fds);
    current->program->envp = copyenv(((proc*)current->parent)->program->envp);
-   *fds = (addr_t)current->program->fds;
-   *environ = (addr_t)current->program->envp;
+   current_fds = current->program->fds;
+   current_env = current->program->envp;
+   *fds = (addr_t)&current_fds;
+   *environ = (addr_t)&current_env;
+   
    current->flags &= ~PROC_CLONED;
    sys_printf(SYS_INFO "freememory=%ld\n", free_memory());
    start(argc, argv);

@@ -9,5 +9,5 @@ ssize_t write(int f, const void* buf, size_t count)
       errno = EBADFD;
       return -1;
    }
-   return fwrite(buf, 1, count, fds[f]);
+   return fwrite(buf, 1, count, (*fds)[f]);
 }

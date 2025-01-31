@@ -13,10 +13,10 @@ int fchown(int f, uid_t owner, gid_t group)
       return -1;
    }
    struct stat st;
-   if (stat(fds[f]->file, &st) == -1) {
+   if (stat((*fds)[f]->file, &st) == -1) {
       errno = ENOENT;
       return -1;
    }
-   return syscall(SYS_MODNOD, fds[f]->file, owner, group, st.st_mode);
+   return syscall(SYS_MODNOD, (*fds)[f]->file, owner, group, st.st_mode);
 }
 

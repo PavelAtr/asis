@@ -12,5 +12,5 @@ ssize_t read(int f, void* buf, size_t count)
       errno = EBADFD;
       return -1;
    }
-   return fread(buf, 1, count, fds[f]);
+   return fread(buf, 1, count, (*fds)[f]);
 }

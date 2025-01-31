@@ -129,8 +129,8 @@ typedef struct {
 
 extern proc* current;
 extern proc* systask;
-extern void*** current_fds;
-extern void*** current_env;
+extern void** current_fds;
+extern char** current_env;
 
 void init_proc();
 

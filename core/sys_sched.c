@@ -6,8 +6,8 @@
 proc* cpu[MAXPROC];
 int_t curpid = 0;
 proc* current;
-void*** current_fds;
-void*** current_env;
+void** current_fds;
+char** current_env;
 
 
 void switch_task()
@@ -35,8 +35,8 @@ void switch_task()
       break;
    }
    current = cpu[curpid];
-   current_fds = &current->program->fds;
-   current_env =(void***)&current->program->envp;
+   current_fds = current->program->fds;
+   current_env = current->program->envp;
    sys_printf(SYS_DEBUG "SWITCH at %d newpid=%d parent=%d flags=%d\n",
       prevpid, curpid, current->parentpid, current->flags);
    if (current->flags & PROC_NEW) {

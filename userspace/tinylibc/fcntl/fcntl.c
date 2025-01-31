@@ -21,7 +21,7 @@ int fcntl(int fd, int cmd, ... /* arg */ )
          va_end(vl);
          switch(flags) {
             case FD_CLOEXEC:
-               fds[fd]->flags |= flags;
+               (*fds)[fd]->flags |= flags;
                break;
             default:
                break;
