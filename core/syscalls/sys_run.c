@@ -19,7 +19,7 @@ int_t sys_runinit()
    initargv[1] = NULL;
    pid_t init = sys_fork();
    if (init == 0) {
-      sys_exec(initargv[0], initargv);
+      sys_exec(initargv[0], initargv, NULL);
    } else {
       int_t ret;
       sys_waitpid(init, &ret, 0);
@@ -28,7 +28,7 @@ int_t sys_runinit()
    return 0;
 }
 
-int_t sys_exec(const char* file, char** argv)
+int_t sys_exec(const char* file, char** argv, char** envp)
 {
    int argc;
    for (argc = 0; argv[argc]; argc++);
@@ -84,7 +84,11 @@ int_t sys_exec(const char* file, char** argv)
    *retexit = (addr_t)&sys_atexit;
    
    current->program->fds = copyfds(((proc*)current->parent)->program->fds);
-   current->program->envp = copyenv(((proc*)current->parent)->program->envp);
+   if (envp) {
+		current->program->envp = copyenv(envp);
+   } else {
+		current->program->envp = copyenv(((proc*)current->parent)->program->envp);
+   }
    current_fds = current->program->fds;
    current_env = current->program->envp;
    *fds = (addr_t)&current_fds;

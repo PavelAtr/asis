@@ -22,7 +22,7 @@
 #define INIT "/tinysys/bin/shell"
 #define LD_PATH "/tinysys/usr/lib/:/tinysys/lib/"
 
-int_t sys_exec(const char* file, char** argv);
+int_t sys_exec(const char* file, char** argv, char** envp);
 int_t sys_runinit();
 
 int_t sys_stat(const char* pathname, void* statbuf);

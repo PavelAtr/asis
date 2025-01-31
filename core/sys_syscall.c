@@ -18,6 +18,7 @@ long_t sys_syscall(long_t number, ...)
    int int2;
    int int3;
    char** charr1;
+   char** charr2;
    uid_t uid1;
    gid_t gid1;
    pid_t pid1;
@@ -87,8 +88,9 @@ long_t sys_syscall(long_t number, ...)
    case SYS_EXECVE:
       char1 = va_arg(vl, char*);
       charr1 = va_arg(vl, char**);
+      charr2 = va_arg(vl, char**);
       va_end(vl);
-      return sys_exec(char1, charr1);
+      return sys_exec(char1, charr1, charr2);
       break;
    case SYS_READDIR:
       char1 = va_arg(vl, char*);
