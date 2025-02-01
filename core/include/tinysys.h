@@ -112,7 +112,7 @@ typedef struct {
   void* parent;
   pid_t pid;
   pid_t parentpid;
-  errno_t* sys_errno;
+  errno_t sys_errno;
   uid_t uid;
   gid_t gid;
   context ctx;
@@ -131,6 +131,7 @@ extern proc* current;
 extern proc* systask;
 extern char** current_env;
 extern char** current_argv;
+extern errno_t* current_errno;
 
 void init_proc();
 

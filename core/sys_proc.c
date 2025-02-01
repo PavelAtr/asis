@@ -12,7 +12,6 @@
 proc sys;
 prog sysprog;
 char* argv[1] = {"system"};
-errno_t syserr;
 extern FILE** current_fds;
 
 FILE sys_stdin = {
@@ -63,7 +62,6 @@ void init_proc()
    sys.program->argv = argv;
    cpu[0] = &sys;
    current = cpu[0];
-   sys.sys_errno = &syserr;
    sys.program->fds = (void**) sysfds;
    current_fds = (FILE**)sys.program->fds;
    current_env = NULL;
@@ -151,7 +149,7 @@ int_t sys_setpgid(pid_t pid, pid_t pgid)
       cpu[pid]->pgid = newpgid;
       return 0;
    } else {
-      *current->sys_errno = EBADR;
+      current->sys_errno = EBADR;
       return -1;
    } 
 }
@@ -163,7 +161,7 @@ int_t sys_getpgid(pid_t pid)
    if (cpu[pid]) {
       return cpu[pid]->pgid;
    } else {
-      *current->sys_errno = EBADR;
+      current->sys_errno = EBADR;
       return -1;
    } 
 }

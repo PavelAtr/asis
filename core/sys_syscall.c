@@ -167,8 +167,8 @@ long_t sys_syscall(long_t number, ...)
       long1 = va_arg(vl, long_t);
       valst = va_arg(vl, va_list*);
       va_end(vl);
-      *current->sys_errno = sys_ioctl(char1, long1, valst);
-      if (*current->sys_errno) {
+      current->sys_errno = sys_ioctl(char1, long1, valst);
+      if (current->sys_errno) {
          return -1;
       } else {
 		 return 0;

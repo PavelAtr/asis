@@ -10,6 +10,7 @@ proc* current;
 FILE** current_fds;
 char** current_env;
 char** current_argv;
+errno_t* current_errno;
 
 
 void switch_task()
@@ -42,6 +43,7 @@ void switch_task()
    current_fds = (FILE**)current->program->fds;
    current_env = current->program->envp;
    current_argv = current->program->argv;
+   current_errno = &current->sys_errno;
    if (current->flags & PROC_NEW) {
       current->flags &= ~PROC_NEW;
     memcpy(current->ctx.stack, ((proc*)current->parent)->ctx.stack, MAXSTACK);

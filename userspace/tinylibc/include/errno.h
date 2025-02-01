@@ -1,7 +1,10 @@
 #ifndef _ERRNO_H
 #define _ERRNO_H
 
-extern int errno;
+#include <sys/types.h>
+
+extern errno_t** core_errno;
+#define errno (**core_errno)
 
 #define ESUCCESS 0
 #define EPERM 1

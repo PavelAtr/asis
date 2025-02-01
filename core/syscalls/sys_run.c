@@ -37,17 +37,17 @@ int_t sys_exec(const char* file, char** argv, char** envp)
    for (argc = 0; argv[argc]; argc++);
    mountpoint* mount = sys_get_mountpoint(file);
    if (!mount) {
-      *current->sys_errno = ENOENT;
+      current->sys_errno = ENOENT;
       return -1;
    }
    const char* path = sys_calcpath(mount, file);
    if (!mount->mount_can_execute(mount->sbfs, path, current->uid, current->gid)) {
-      *current->sys_errno = EPERM;
+      current->sys_errno = EPERM;
       return -1;
    }
    struct tinystat st;
    if (sys_stat(file, &st) == -1) {
-      *current->sys_errno = ENOENT;
+      current->sys_errno = ENOENT;
       return -1;
    }
    if (st.st_mode & S_ISUID) {
@@ -68,12 +68,11 @@ int_t sys_exec(const char* file, char** argv, char** envp)
    current->program->dlhandle = dlopen(file, RTLD_NOW | RTLD_DEEPBIND);
    if (!current->program->dlhandle) {
 	  sys_printf(SYS_ERROR "EXEC dlopen %s FAILED\n", file);
-      *current->sys_errno = ENOENT;
+      current->sys_errno = ENOENT;
       goto fail;
    }
 
-   current->sys_errno = dlsym(current->program->dlhandle, "errno");
-   void (*start)(int argc, void* argv, void* envp, void* fds, void* syscall_func, void* retexit_func) =
+   void (*start)(int argc, char*** argv, char*** envp, FILE*** fds, errno_t** cerrno, void* syscall_func, void* retexit_func) =
          dlsym(current->program->dlhandle, "_start");
    current->program->fds = copyfds(((proc*)current->parent)->program->fds);
    if (envp) {
@@ -84,10 +83,11 @@ int_t sys_exec(const char* file, char** argv, char** envp)
    current_fds = (FILE**)current->program->fds;
    current_env = current->program->envp;
    current_argv = current->program->argv;
+   current_errno = &current->sys_errno;
    
    current->flags &= ~PROC_CLONED;
    sys_printf(SYS_INFO "freememory=%ld\n", free_memory());
-   start(argc, &current_argv, &current_env, &current_fds, &sys_syscall, &sys_atexit);
+   start(argc, &current_argv, &current_env, &current_fds, &current_errno, &sys_syscall, &sys_atexit);
    switch_context;
    /* Never reach here */
    sys_printf(SYS_DEBUG "EXEC END (NOTREACHEBLE)\n");
@@ -105,7 +105,7 @@ pid_t newproc()
          cpu[i] = sys_calloc(1, sizeof(proc));
          return i;
       }
-   *current->sys_errno = ENOMEM;
+   current->sys_errno = ENOMEM;
    return -1;
 }
 
@@ -151,7 +151,7 @@ pid_t sys_fork()
    current->forkret = sys_clone();
    sys_printf(SYS_DEBUG "FORK in %s child=%d\n", current->program->argv[0], current->forkret);
    if (current->forkret == -1) {
-      *current->sys_errno = ENOMEM;
+      current->sys_errno = ENOMEM;
       return -1;
    }
    cpu[current->forkret]->forkret = 0;

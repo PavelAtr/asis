@@ -12,9 +12,10 @@ void __attribute__((ms_abi)) (*retexit)(long ret);
 long (*syscall)(long num, ...);
 void (*retexit)(int ret);
 #endif
-FILE*** core_fds = NULL;
-char*** core_environ = NULL;
-char*** core_argv = NULL;
+FILE*** core_fds;
+char*** core_environ;
+char*** core_argv;
+errno_t** core_errno;
 int errno;
 FILE* dbpasswd = NULL;
 FILE* dbgroup = NULL;
@@ -22,11 +23,12 @@ void (*atexit_func)(void) = NULL;
 
 int main(int argc, char** argv);
 
-void _start(int argc, void* argv, void* envp, void* cfds, void* syscall_func, void* retexit_func)
+void _start(int argc, char*** argv, char*** envp, FILE*** fds, errno_t** errno, void* syscall_func, void* retexit_func)
 {
    core_argv = argv;
    core_environ = envp;
-   core_fds = cfds;
+   core_fds = fds;
+   core_errno = errno;
    syscall = syscall_func;
    retexit = retexit_func;
    int ret = main(argc, *core_argv);

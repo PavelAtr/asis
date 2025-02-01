@@ -31,7 +31,7 @@ int_t sys_setuid(uid_t uid)
       current->uid = uid;
       return 0;
    }
-   *current->sys_errno = EPERM;
+   current->sys_errno = EPERM;
    return -1;
 }
 
@@ -41,6 +41,6 @@ int_t sys_setgid(gid_t gid)
       current->gid = gid;
       return 0;
    }
-   *current->sys_errno = EPERM;
+   current->sys_errno = EPERM;
    return -1;
 }
