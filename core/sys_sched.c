@@ -9,6 +9,7 @@ int_t curpid = 0;
 proc* current;
 FILE** current_fds;
 char** current_env;
+char** current_argv;
 
 
 void switch_task()
@@ -40,6 +41,7 @@ void switch_task()
    current = cpu[curpid];
    current_fds = (FILE**)current->program->fds;
    current_env = current->program->envp;
+   current_argv = current->program->argv;
    if (current->flags & PROC_NEW) {
       current->flags &= ~PROC_NEW;
     memcpy(current->ctx.stack, ((proc*)current->parent)->ctx.stack, MAXSTACK);

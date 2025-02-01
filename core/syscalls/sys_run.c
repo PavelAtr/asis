@@ -76,6 +76,7 @@ int_t sys_exec(const char* file, char** argv, char** envp)
    addr_t* retexit = dlsym(current->program->dlhandle, "retexit");
    current->sys_errno = dlsym(current->program->dlhandle, "errno");
    addr_t* environ = dlsym(current->program->dlhandle, "core_environ");
+   addr_t* cargv = dlsym(current->program->dlhandle, "core_argv");
    void (*start)(int argc, char* const* argv) =
          dlsym(current->program->dlhandle, "_start");
    if (!syscall || !start || !fds || !retexit || !current->sys_errno || !environ) {
@@ -94,8 +95,10 @@ int_t sys_exec(const char* file, char** argv, char** envp)
    }
    current_fds = (FILE**)current->program->fds;
    current_env = current->program->envp;
+   current_argv = current->program->argv;
    *fds = (addr_t)&current_fds;
    *environ = (addr_t)&current_env;
+   *cargv = (addr_t)&current_argv;
    
    current->flags &= ~PROC_CLONED;
    sys_printf(SYS_INFO "freememory=%ld\n", free_memory());

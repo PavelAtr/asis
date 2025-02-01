@@ -5,6 +5,7 @@
 
 DIR *fdopendir(int fd)
 {
+   INIT_FDS
    if (!fd_is_valid(fd)) {
       return NULL;
    }

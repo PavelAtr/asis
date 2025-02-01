@@ -3,6 +3,7 @@
 
 int fseek(FILE* stream, long offset, int whence)
 {
+INIT_FDS
    switch (whence) {
    case SEEK_SET:
       stream->pos = offset;

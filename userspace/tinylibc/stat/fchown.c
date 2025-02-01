@@ -8,6 +8,7 @@
 
 int fchown(int f, uid_t owner, gid_t group)
 {
+   INIT_FDS
    if (!fd_is_valid(f)) {
       errno = EBADFD;
       return -1;

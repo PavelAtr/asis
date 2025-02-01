@@ -2,6 +2,7 @@
 
 int ferror(FILE *stream)
 {
+INIT_FDS
    if (stream->flags & FILE_ERROR) {
       return 1;
    }

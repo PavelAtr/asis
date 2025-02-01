@@ -1,6 +1,6 @@
-extern char* progname;
+#include <stdlib.h>
 
 const char * getprogname (void)
 {
-   return progname;
+   return (*core_argv)[0];
 }

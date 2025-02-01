@@ -5,5 +5,6 @@
 
 int fileno(FILE *stream)
 {
+INIT_FDS
    return stream->fd;
 }

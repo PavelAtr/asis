@@ -3,6 +3,7 @@
 
 int printf(const char* format, ...)
 {
+INIT_FDS
    va_list args;
    int n;
    va_start(args, format);

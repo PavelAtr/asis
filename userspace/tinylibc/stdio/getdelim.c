@@ -3,6 +3,7 @@
 
 ssize_t getdelim(char** lineptr, size_t* n, int delim, FILE* stream)
 {
+INIT_FDS
    int i;
    int c;
    char* s = *lineptr;

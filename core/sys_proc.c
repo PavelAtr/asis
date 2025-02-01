@@ -127,11 +127,14 @@ void** copyfds(void** infds)
    return (void**)ret;
 } 
 
+FILE* tempfile; // MARK
+
 void freefds(proc* task)
 {
    FILE** fds = (FILE**)task->program->fds;
    int_t i;
    for (i = 0; i < COREMAXFD; i++) {
+      tempfile = fds[i]; // MARK 
       freefile(fds[i]);
    }
    sys_free(fds);

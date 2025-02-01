@@ -34,6 +34,7 @@ size_t fstrread(void* ptr, size_t size, size_t nmemb, FILE* stream)
 
 size_t fread(void* ptr, size_t size, size_t nmemb, FILE* stream)
 {
+INIT_FDS
    size_t ret;
    if (stream->strbuf) {
       ret = fstrread(ptr, size,  nmemb, stream);

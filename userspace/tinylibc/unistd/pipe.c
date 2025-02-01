@@ -7,6 +7,7 @@
 
 int pipe2(int pipefd[2], int flags)
 {
+   INIT_FDS
    int fd0 = get_free_fd();
    fds[fd0] = calloc(1, sizeof(FILE));
    fds[fd0]->file = strdup("pipe");

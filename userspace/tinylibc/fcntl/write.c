@@ -5,6 +5,7 @@
 
 ssize_t write(int f, const void* buf, size_t count)
 {
+   INIT_FDS
    if (!fd_is_valid(f)) {
       errno = EBADFD;
       return -1;

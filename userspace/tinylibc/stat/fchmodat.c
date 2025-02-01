@@ -8,6 +8,7 @@
 
 int fchmodat(int f, const char *pathname, mode_t mode, int flags)
 {
+   INIT_FDS
    if (!fd_is_valid(f)) {
       errno = EBADFD;
       return -1;

@@ -14,10 +14,8 @@ void (*retexit)(int ret);
 #endif
 FILE*** core_fds = NULL;
 char*** core_environ = NULL;
-FILE** fds;
-char** environ;
+char*** core_argv = NULL;
 int errno;
-char* progname;
 FILE* dbpasswd = NULL;
 FILE* dbgroup = NULL;
 void (*atexit_func)(void) = NULL;
@@ -26,9 +24,6 @@ int main(int argc, char** argv);
 
 void _start(int argc, char** argv)
 {
-   environ = *core_environ;
-   fds = *core_fds;
-   progname = argv[0];
    int ret = main(argc, argv);
    _exit(ret);
 }

@@ -6,6 +6,7 @@
 
 int ioctl(int fd, unsigned long request, ...)
 {
+   INIT_FDS
    if (!fd_is_valid(fd)) {
       errno = EBADFD;
       return -1;

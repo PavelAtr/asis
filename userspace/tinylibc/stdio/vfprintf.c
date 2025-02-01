@@ -4,6 +4,7 @@
 
 int vfprintf(FILE* stream, const char* format, va_list ap)
 {
+INIT_FDS
    va_list ap2;
    va_copy(ap2, ap);
    int size = vsnprintf(NULL, MAXSTRING, format, ap);

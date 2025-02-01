@@ -7,6 +7,7 @@
 
 int mkdirat(int f, const char *pathname, mode_t mode)
 {
+   INIT_FDS
    if (!fd_is_valid(f)) {
       errno = EBADFD;
       return -1;

@@ -130,6 +130,7 @@ typedef struct {
 extern proc* current;
 extern proc* systask;
 extern char** current_env;
+extern char** current_argv;
 
 void init_proc();
 

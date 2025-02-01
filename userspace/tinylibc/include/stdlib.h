@@ -17,6 +17,8 @@ int unsetenv(const char *name);
 
 extern char*** core_environ;
 extern char** environ;
+#define INIT_ENVIRON environ = *core_environ;
+extern char*** core_argv;
 
 long long atoll(const char *str);
 #define atol(s) (long)atoll(s)

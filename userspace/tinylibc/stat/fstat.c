@@ -8,6 +8,7 @@
 
 int fstat(int f, struct stat *statbuf)
 {
+   INIT_FDS
    if (!fd_is_valid(f)) {
       errno = EBADFD;
       return -1;

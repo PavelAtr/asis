@@ -7,6 +7,7 @@
 
 int close(int fd)
 {
+   INIT_FDS
    if (!fd_is_valid(fd)) {
       errno = EBADFD;
       return -1;

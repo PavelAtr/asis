@@ -6,6 +6,7 @@
 
 int fcntl(int fd, int cmd, ... /* arg */ )
 {
+   INIT_FDS
    if (!fd_is_valid(fd)) {
       errno = EBADFD;
       return -1;

@@ -31,6 +31,7 @@ typedef struct {
 
 extern FILE*** core_fds;
 extern FILE** fds;
+#define INIT_FDS fds = *core_fds;
 
 static inline void initfile(FILE* src)
 {

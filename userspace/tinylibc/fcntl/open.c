@@ -11,6 +11,7 @@
 
 int open(const char *pathname, int flags, ...)
 {
+   INIT_FDS
    mode_t mode = 0;
    if (flags & O_CREAT) {
       mode = S_IFREG | 0666 & ~gmask;

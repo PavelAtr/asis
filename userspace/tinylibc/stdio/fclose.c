@@ -4,6 +4,7 @@
 
 int fclose(FILE *stream)
 {
+INIT_FDS
    freefile(stream);
    stream = NULL;
    return 0;

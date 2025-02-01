@@ -8,6 +8,7 @@
 
 ssize_t pread(int f, void* buf, size_t count, off_t offset)
 {
+   INIT_FDS
    if (!fd_is_valid(f)) {
       errno = EBADFD;
       return -1;

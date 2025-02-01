@@ -7,6 +7,7 @@ int envnewid();
 
 int setenv(const char *name, const char *value, int overwrite)
 {
+   INIT_ENVIRON
    int i = envid(name);
    if (i == -1) {
       i = envnewid();

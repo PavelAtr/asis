@@ -9,6 +9,7 @@
 int fstatat(int f, const char* pathname,
                 struct stat* statbuf, int flags)
 {
+   INIT_FDS
    if (!fd_is_valid(f)) {
       errno = EBADFD;
       return -1;

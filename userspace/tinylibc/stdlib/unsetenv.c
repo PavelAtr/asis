@@ -9,6 +9,7 @@ int envnewid();
 
 int unsetenv(const char *name)
 {
+   INIT_ENVIRON
    int i = envid(name);
    if (i == -1) {
       errno = ENOENT;

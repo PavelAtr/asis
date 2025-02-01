@@ -7,6 +7,7 @@
 
 int ftruncate(int f, off_t length)
 {
+   INIT_FDS
    if (!fd_is_valid(f)) {
       errno = EBADFD;
       return -1;

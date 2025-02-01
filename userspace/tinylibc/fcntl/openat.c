@@ -7,6 +7,7 @@
 
 int openat(int f, const char *pathname, int flags, ...)
 {
+   INIT_FDS
    if (!fd_is_valid(f)) {
       errno = EBADFD;
       return -1;

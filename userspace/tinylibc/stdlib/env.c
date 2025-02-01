@@ -4,8 +4,11 @@
 #include <syscall.h>
 #include <errno.h>
 
+char** environ;
+
 int envid(const char *name)
 {
+   INIT_ENVIRON
    int i;
    for(i = 0; environ[i]; i++)
       if (strstr(environ[i], name) == environ[i]
@@ -17,6 +20,7 @@ int envid(const char *name)
 
 int envnewid()
 {
+   INIT_ENVIRON
    int i;
    for(i = 0; environ[i]; i++)
       if ((environ[i])[0] == '\0') {

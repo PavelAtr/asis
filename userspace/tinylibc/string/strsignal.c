@@ -36,5 +36,6 @@ char* sys_siglist[35] =
 
 char *strsignal(int sig)
 {
-   return sys_siglist[sig];
+//   return sys_siglist[sig];
+   return "strsignal unrealized";
 }

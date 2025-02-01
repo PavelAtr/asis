@@ -7,6 +7,7 @@ int envnewid();
 
 char *getenv(const char *name)
 {
+   INIT_ENVIRON
    int i = envid(name);
    if (i == -1) {
       return NULL;
