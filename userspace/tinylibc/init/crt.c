@@ -22,9 +22,14 @@ void (*atexit_func)(void) = NULL;
 
 int main(int argc, char** argv);
 
-void _start(int argc, char** argv)
+void _start(int argc, void* argv, void* envp, void* cfds, void* syscall_func, void* retexit_func)
 {
-   int ret = main(argc, argv);
+   core_argv = argv;
+   core_environ = envp;
+   core_fds = cfds;
+   syscall = syscall_func;
+   retexit = retexit_func;
+   int ret = main(argc, *core_argv);
    _exit(ret);
 }
 

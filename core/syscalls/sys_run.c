@@ -64,29 +64,17 @@ int_t sys_exec(const char* file, char** argv, char** envp)
    current->program->argc = argc;
    current->program->argv = argv;
    current->program -> nlink = 1;
+
    current->program->dlhandle = dlopen(file, RTLD_NOW | RTLD_DEEPBIND);
    if (!current->program->dlhandle) {
 	  sys_printf(SYS_ERROR "EXEC dlopen %s FAILED\n", file);
       *current->sys_errno = ENOENT;
       goto fail;
    }
-   sys_printf(SYS_DEBUG "EXEC dlopen %s\n", file);
-   addr_t* syscall = dlsym(current->program->dlhandle, "syscall");
-   addr_t* fds = dlsym(current->program->dlhandle, "core_fds");
-   addr_t* retexit = dlsym(current->program->dlhandle, "retexit");
+
    current->sys_errno = dlsym(current->program->dlhandle, "errno");
-   addr_t* environ = dlsym(current->program->dlhandle, "core_environ");
-   addr_t* cargv = dlsym(current->program->dlhandle, "core_argv");
-   void (*start)(int argc, char* const* argv) =
+   void (*start)(int argc, void* argv, void* envp, void* fds, void* syscall_func, void* retexit_func) =
          dlsym(current->program->dlhandle, "_start");
-   if (!syscall || !start || !fds || !retexit || !current->sys_errno || !environ) {
-	  sys_printf(SYS_ERROR, "Main symbols at %s FAILED!\n", file);
-      *current->sys_errno = ENOMEM;
-      goto fail;
-   }
-   *syscall = (addr_t)&sys_syscall;
-   *retexit = (addr_t)&sys_atexit;
-   
    current->program->fds = copyfds(((proc*)current->parent)->program->fds);
    if (envp) {
 		current->program->envp = copyenv(envp);
@@ -96,13 +84,10 @@ int_t sys_exec(const char* file, char** argv, char** envp)
    current_fds = (FILE**)current->program->fds;
    current_env = current->program->envp;
    current_argv = current->program->argv;
-   *fds = (addr_t)&current_fds;
-   *environ = (addr_t)&current_env;
-   *cargv = (addr_t)&current_argv;
    
    current->flags &= ~PROC_CLONED;
    sys_printf(SYS_INFO "freememory=%ld\n", free_memory());
-   start(argc, argv);
+   start(argc, &current_argv, &current_env, &current_fds, &sys_syscall, &sys_atexit);
    switch_context;
    /* Never reach here */
    sys_printf(SYS_DEBUG "EXEC END (NOTREACHEBLE)\n");
