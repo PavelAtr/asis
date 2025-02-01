@@ -4,8 +4,6 @@
 #include <syscall.h>
 #include <errno.h>
 
-extern char*** environ;
-
 int envid(const char *name);
 int envnewid();
 
@@ -16,6 +14,6 @@ int unsetenv(const char *name)
       errno = ENOENT;
       return -1;
    }
-   (*environ)[i] = "";
+   environ[i] = "";
    return 0;
 }

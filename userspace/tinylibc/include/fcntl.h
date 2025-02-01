@@ -18,9 +18,8 @@
 #define O_SYNC 0x0800
 #define O_NOCTTY 00000400 
 
-extern FILE*** fds;
 int get_free_fd(void);
-#define fd_is_valid(fd) ((*fds)[fd] && (unsigned int)fd < syscall(SYS_GETMAXFD) - 1)
+#define fd_is_valid(fd) (fds[fd] && (unsigned int)fd < syscall(SYS_GETMAXFD) - 1)
 
 int open(const char *pathname, int flags, ... /* mode */);
 int creat(const char *pathname, mode_t mode);

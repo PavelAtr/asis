@@ -24,16 +24,16 @@ int open(const char *pathname, int flags, ...)
       errno = ENOMEM;
       return -1;
    }
-   (*fds)[fd] = fopen(pathname,  "r+");
-   if (!(*fds)[fd]) {
+   fds[fd] = fopen(pathname,  "r+");
+   if (!fds[fd]) {
       errno = ENOENT;
       return -1;
    }
    if (flags & O_APPEND) {
-      (*fds)[fd]->pos = (*fds)[fd]->size;
+      fds[fd]->pos = fds[fd]->size;
    }
-   (*fds)[fd]->flags = flags;
-   (*fds)[fd]->fd = fd;
+   fds[fd]->flags = flags;
+   fds[fd]->fd = fd;
 
    return fd;
 }

@@ -13,7 +13,7 @@ int dprintf(int fd, const char* format, ...)
    va_list args;
    int n;
    va_start(args, format);
-   n = vfprintf((*fds)[fd], format, args);
+   n = vfprintf(fds[fd], format, args);
    va_end(args);
    return n;
 }

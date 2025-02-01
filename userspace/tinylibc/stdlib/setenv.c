@@ -2,8 +2,6 @@
 #include <stdlib.h>
 #include <errno.h>
 
-extern char*** environ;
-
 int envid(const char *name);
 int envnewid();
 
@@ -17,12 +15,12 @@ int setenv(const char *name, const char *value, int overwrite)
          return -1;
       }
    } else {
-      free((*environ)[i]);
+      free(environ[i]);
    }
-   (*environ)[i] = malloc(strlen(name) + strlen(value) + 2);
-   strcpy((*environ)[i], name);
-   strcat((*environ)[i], "=");
-   strcat((*environ)[i], value);
+   environ[i] = malloc(strlen(name) + strlen(value) + 2);
+   strcpy(environ[i], name);
+   strcat(environ[i], "=");
+   strcat(environ[i], value);
    return 0;
 }
 

@@ -11,6 +11,6 @@ int openat(int f, const char *pathname, int flags, ...)
       errno = EBADFD;
       return -1;
    }
-   char* dir = (*fds)[f]->file;
+   char* dir = fds[f]->file;
    return open(fullpath(dir, pathname), flags);
 }

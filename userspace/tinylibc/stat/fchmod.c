@@ -13,10 +13,10 @@ int fchmod(int f, mode_t mode)
       return -1;
    }
    struct stat st;
-   if (stat((*fds[f])->file, &st) == -1) {
+   if (stat(fds[f]->file, &st) == -1) {
       errno = ENOENT;
       return -1;
    }
-   return syscall(SYS_MODNOD, (*fds)[f]->file, st.st_uid, st.st_gid, mode);
+   return syscall(SYS_MODNOD, fds[f]->file, st.st_uid, st.st_gid, mode);
 }
 

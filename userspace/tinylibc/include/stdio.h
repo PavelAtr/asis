@@ -29,6 +29,9 @@ typedef struct {
    pipebuf* pipbuf;
 } FILE;
 
+extern FILE*** core_fds;
+extern FILE** fds;
+
 static inline void initfile(FILE* src)
 {
 	memset(src, 0x0, sizeof(FILE));
@@ -83,11 +86,9 @@ static inline void freefile(FILE* dst)
 #define FILE_ERROR 0x01
 #define FILE_INFINITY 0x02
 
-extern FILE*** fds;
-
-#define stdin (*fds)[0]
-#define stdout (*fds)[1]
-#define stderr (*fds)[2]
+#define stdin fds[0]
+#define stdout fds[1]
+#define stderr fds[2]
 
 #define MAXSTRING ((unsigned short)-1)
 

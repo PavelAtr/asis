@@ -2,8 +2,6 @@
 #include <stdlib.h>
 #include <errno.h>
 
-extern char*** environ;
-
 int envid(const char *name);
 int envnewid();
 
@@ -13,6 +11,6 @@ char *getenv(const char *name)
    if (i == -1) {
       return NULL;
    }
-   return (char*)&((*environ)[i])[strlen(name) + 1];
+   return (char*)&(environ[i])[strlen(name) + 1];
 }
 

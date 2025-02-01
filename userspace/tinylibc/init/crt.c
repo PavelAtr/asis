@@ -12,8 +12,10 @@ void __attribute__((ms_abi)) (*retexit)(long ret);
 long (*syscall)(long num, ...);
 void (*retexit)(int ret);
 #endif
-FILE*** fds = NULL;
-char*** environ = NULL;
+FILE*** core_fds = NULL;
+char*** core_environ = NULL;
+FILE** fds;
+char** environ;
 int errno;
 char* progname;
 FILE* dbpasswd = NULL;
@@ -24,6 +26,8 @@ int main(int argc, char** argv);
 
 void _start(int argc, char** argv)
 {
+   environ = *core_environ;
+   fds = *core_fds;
    progname = argv[0];
    int ret = main(argc, argv);
    _exit(ret);

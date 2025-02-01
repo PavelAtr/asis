@@ -13,6 +13,7 @@ proc sys;
 prog sysprog;
 char* argv[1] = {"system"};
 errno_t syserr;
+extern FILE** current_fds;
 
 FILE sys_stdin = {
 "/dev/tty",
@@ -64,20 +65,20 @@ void init_proc()
    current = cpu[0];
    sys.sys_errno = &syserr;
    sys.program->fds = (void**) sysfds;
-   current_fds = sys.program->fds;
+   current_fds = (FILE**)sys.program->fds;
    current_env = NULL;
 }
 
 char** copyenv(char*const* e)
 {
-   char** copy = sys_calloc(1, sizeof(char*) * COREMAXENV);
+   char** copy = sys_calloc(1, sizeof(char*) * COREMAXENV + 1);
    int_t i;
    if (e) {
-      for (i = 0; i < COREMAXENV - 2 || e[i]; i++) {
+      for (i = 0; i < COREMAXENV && e[i]; i++) {
 		 if (!e[i]) {
 			 continue;
 	     }
-         if ((e[i])[0] == '\0') {
+         if (e[i][0] == '\0') {
             copy[i] = e[i];
          } else {
   	        size_t len = strlen(e[i]);
@@ -86,22 +87,25 @@ char** copyenv(char*const* e)
          }
       }
    }
-   for (i = 0; i < COREMAXENV - 2; i++) {
+   for (i = 0; i < COREMAXENV; i++) {
 	   if (!copy[i]) {
 		   copy[i] = "";
        }
    }
-   copy[COREMAXENV - 1] = NULL;
+   copy[COREMAXENV] = NULL;
    return copy;
 }
-void freeenv(char*const* e)
+void freeenv(char* const* e)
 {
    int_t i;
-   for (i = 0; i < COREMAXENV - 2; i++)
-      if ((e[i])[0] != '\0') {
-         sys_free(e[i]);
+   if (e) {
+      for (i = 0; i < COREMAXENV; i++) {
+         if (e[i][0] != '\0'){
+            sys_free(e[i]);
+         }
       }
-   sys_free((void*)e);
+      sys_free((void*)e);
+   } 
 }
 
 void** copyfds(void** infds)

@@ -9,6 +9,7 @@
 #include <sys/stat.h>
 #include <errno.h>
 #include <string.h>
+#include <stdio.h>
 
 char* initargv[2];
 
@@ -27,6 +28,8 @@ int_t sys_runinit()
    }
    return 0;
 }
+
+extern FILE** current_fds;
 
 int_t sys_exec(const char* file, char** argv, char** envp)
 {
@@ -69,10 +72,10 @@ int_t sys_exec(const char* file, char** argv, char** envp)
    }
    sys_printf(SYS_DEBUG "EXEC dlopen %s\n", file);
    addr_t* syscall = dlsym(current->program->dlhandle, "syscall");
-   addr_t* fds = dlsym(current->program->dlhandle, "fds");
+   addr_t* fds = dlsym(current->program->dlhandle, "core_fds");
    addr_t* retexit = dlsym(current->program->dlhandle, "retexit");
    current->sys_errno = dlsym(current->program->dlhandle, "errno");
-   addr_t* environ = dlsym(current->program->dlhandle, "environ");
+   addr_t* environ = dlsym(current->program->dlhandle, "core_environ");
    void (*start)(int argc, char* const* argv) =
          dlsym(current->program->dlhandle, "_start");
    if (!syscall || !start || !fds || !retexit || !current->sys_errno || !environ) {
@@ -89,7 +92,7 @@ int_t sys_exec(const char* file, char** argv, char** envp)
    } else {
 		current->program->envp = copyenv(((proc*)current->parent)->program->envp);
    }
-   current_fds = current->program->fds;
+   current_fds = (FILE**)current->program->fds;
    current_env = current->program->envp;
    *fds = (addr_t)&current_fds;
    *environ = (addr_t)&current_env;

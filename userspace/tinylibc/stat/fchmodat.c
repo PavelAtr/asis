@@ -12,7 +12,7 @@ int fchmodat(int f, const char *pathname, mode_t mode, int flags)
       errno = EBADFD;
       return -1;
    }
-   char* dir = (*fds)[f]->file;
+   char* dir = fds[f]->file;
    const char* file = pathname;
    if (pathname == NULL || flags & AT_EMPTY_PATH)
    {

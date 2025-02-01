@@ -8,5 +8,5 @@ DIR *fdopendir(int fd)
    if (!fd_is_valid(fd)) {
       return NULL;
    }
-   return opendir((*fds)[fd]->file);
+   return opendir(fds[fd]->file);
 }
