@@ -16,7 +16,8 @@ FILE* fopen(const char* path, const char* mode)
    }
    FILE* ret = malloc(sizeof(FILE));
    initfile(ret);
-   ret->file = fullpath(get_current_dir_name(), path);
+   char* cwd = get_current_dir_name();
+   ret->file = fullpath(cwd, path);
    ret->size = st.st_size;
    if (st.st_mode & (S_IFCHR)) {
       ret->flags |= FILE_INFINITY;

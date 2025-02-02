@@ -23,11 +23,11 @@ void (*atexit_func)(void) = NULL;
 
 int main(int argc, char** argv);
 
-void _start(int argc, char*** argv, char*** envp, FILE*** fds, errno_t** errno, void* syscall_func, void* retexit_func)
+void _start(int argc, char*** argv, char*** envp, FILE*** cfds, errno_t** errno, void* syscall_func, void* retexit_func)
 {
    core_argv = argv;
    core_environ = envp;
-   core_fds = fds;
+   core_fds = cfds;
    core_errno = errno;
    syscall = syscall_func;
    retexit = retexit_func;

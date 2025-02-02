@@ -1,15 +1,10 @@
-#ifdef DEBUG
-#include "../include/tinysys.h"
-#include <dlfcn.h>
-#else
 #include <tinysys.h>
-#include "../libdl/libdl.h"
-#endif
-
 #include <sys/stat.h>
 #include <errno.h>
 #include <string.h>
 #include <stdio.h>
+
+#undef fds
 
 char* initargv[2];
 
@@ -29,7 +24,7 @@ int_t sys_runinit()
    return 0;
 }
 
-extern FILE** current_fds;
+extern AFILE** current_fds;
 
 int_t sys_exec(const char* file, char** argv, char** envp)
 {
@@ -60,27 +55,32 @@ int_t sys_exec(const char* file, char** argv, char** envp)
    } else {
       current->gid = current->gid;
    }
-   current->program = sys_calloc(1, sizeof(prog));
+   
+   if (current->flags & PROC_CLONED) {
+	   current->program->nlink--;
+	   if (current->program -> nlink <= 0) {
+		   sys_printf(SYS_ERROR "SYS_EXEC: Memory leak in current->program structure\n");
+	   }
+       current->program = sys_calloc(1, sizeof(prog));
+   }
    current->program->argc = argc;
    current->program->argv = argv;
    current->program -> nlink = 1;
 
-   current->program->dlhandle = dlopen(file, RTLD_NOW | RTLD_DEEPBIND);
+   current->program->dlhandle = sys_dlopen(file, 0);
    if (!current->program->dlhandle) {
 	  sys_printf(SYS_ERROR "EXEC dlopen %s FAILED\n", file);
       current->sys_errno = ENOENT;
       goto fail;
    }
 
-   void (*start)(int argc, char*** argv, char*** envp, FILE*** fds, errno_t** cerrno, void* syscall_func, void* retexit_func) =
-         dlsym(current->program->dlhandle, "_start");
-   current->program->fds = copyfds(((proc*)current->parent)->program->fds);
+   void (*start)(int argc, char*** argv, char*** envp, AFILE*** fds, errno_t** cerrno, void* syscall_func, void* retexit_func) =
+         sys_dlsym(current->program->dlhandle, "_start");
    if (envp) {
 		current->program->envp = copyenv(envp);
    } else {
 		current->program->envp = copyenv(((proc*)current->parent)->program->envp);
    }
-   current_fds = (FILE**)current->program->fds;
    current_env = current->program->envp;
    current_argv = current->program->argv;
    current_errno = &current->sys_errno;
@@ -118,12 +118,15 @@ void freeproc(pid_t pid)
       return;
    }
    if (!(cpu[pid]->flags & PROC_CLONED)) {
-      freefds(cpu[pid]);
-      sys_free(cpu[pid]->ctx.stack);
       freeenv(cpu[pid]->program->envp);
    }
-   dlclose(cpu[pid]->program->dlhandle);
-   sys_free(cpu[pid]->program);
+   freefds(cpu[pid]);
+   sys_free(cpu[pid]->ctx.stack);
+   cpu[pid]->program->nlink--;
+   if (cpu[pid]->program->nlink <= 0) {
+      sys_dlclose(cpu[pid]->program->dlhandle);
+      sys_free(cpu[pid]->program);
+   }
    sys_free(cpu[pid]);
    cpu[pid] = NULL;
 }
@@ -143,6 +146,8 @@ pid_t sys_clone(void)
    cpu[ret]->parentpid = curpid;
    current->program->nlink++;
    cpu[ret]->ctx.stack = sys_malloc(MAXSTACK);
+   cpu[ret]->fds = copyfds(current->fds);
+
    return ret;
 }
 
@@ -201,16 +206,9 @@ pid_t sys_waitpid(pid_t pid, int* wstatus, int options)
       switch_context;
    }
 end:
-   sys_printf(SYS_DEBUG "WAITPID END pid=%d prog=%s\n", current->pid, current->program->argv[0]);
+   sys_printf(SYS_DEBUG "WAITPID END pid=%d prog=%s child=%d\n", current->pid, current->program->argv[0], child);
    *wstatus = cpu[child]->ret;
-   if (cpu[child]->flags & PROC_CLONED) {
-	   goto end2;
-   }
-   cpu[child]->program->nlink--;
-   if (cpu[child]->program->nlink <= 0) {
-      freeproc(child);
-   }
-end2:   
+   freeproc(child);
    cpu[child] = NULL;
    return child;
 }
@@ -220,7 +218,7 @@ void sys_atexit(int ret)
    sys_printf(SYS_DEBUG "ATEXIT=%d pid=%d prog=%s\n", ret, current->pid, current->program->argv[0]);
    current->ret = ret;
    current->flags &= ~PROC_RUNNING;
-   current->flags |= PROC_ZOMBIE;
+   current->flags |= PROC_ENDED;
    switch_context;
 }
 

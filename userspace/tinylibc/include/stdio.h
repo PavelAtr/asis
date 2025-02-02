@@ -29,9 +29,11 @@ typedef struct {
    pipebuf* pipbuf;
 } FILE;
 
+typedef FILE AFILE;
+
 extern FILE*** core_fds;
-extern FILE** fds;
-#define INIT_FDS fds = *core_fds;
+#define fds (*core_fds)
+#define INIT_FDS
 
 static inline void initfile(FILE* src)
 {
@@ -45,9 +47,8 @@ static inline void copyfile(FILE* dst, FILE* src)
 	   return;
    }
    memcpy(dst, src, sizeof(FILE));
-   
-   size_t filelen = strlen(src->file);
-   dst->file = calloc(1, filelen + 1);
+   size_t filelen = strlen(src->file) + 1;
+   dst->file = malloc(filelen);
    memcpy(dst->file, src->file, filelen);
    
    if (src->strbuf) {
@@ -87,9 +88,9 @@ static inline void freefile(FILE* dst)
 #define FILE_ERROR 0x01
 #define FILE_INFINITY 0x02
 
-#define stdin fds[0]
-#define stdout fds[1]
-#define stderr fds[2]
+#define stdin (*core_fds)[0]
+#define stdout (*core_fds)[1]
+#define stderr (*core_fds)[2]
 
 #define MAXSTRING ((unsigned short)-1)
 

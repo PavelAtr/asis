@@ -31,7 +31,7 @@ sys_trap.c
 
 all:
 	$(CC) $(CFLAGS) -fPIC -g -c  -DELF64  $(SYSTEM_LINK)
-	$(CC) $(CFLAGS) -fPIC -g -c -I./include -I../userspace/tinylibc/include -DELF64 $(TINYSYS_LINK)
+	$(CC) $(CFLAGS) -fPIC -g -c --sysroot=$(PREFIX) -DELF64 $(TINYSYS_LINK)
 	$(CC) $(CFLAGS) -fPIC -g *.o -o tinysys
 
 clean:

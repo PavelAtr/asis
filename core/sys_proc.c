@@ -1,6 +1,7 @@
 #define malloc(s) sys_malloc(s)
 #define calloc(n, s) sys_calloc(n, s)
 #define free(p) sys_free(p)
+#define printf sys_printf
 
 #include <tinysys.h>
 #include <stdio.h>
@@ -9,12 +10,14 @@
 #include <string.h>
 #include <errno.h>
 
+#undef fds
+
 proc sys;
 prog sysprog;
 char* argv[1] = {"system"};
-extern FILE** current_fds;
+extern AFILE** current_fds;
 
-FILE sys_stdin = {
+AFILE sys_stdin = {
 "/dev/tty",
    100,
    0,
@@ -26,7 +29,7 @@ NULL,
 NULL,
 };
 
-FILE sys_stdout = {
+AFILE sys_stdout = {
 "/dev/tty",
    100,
    0,
@@ -37,7 +40,8 @@ FILE sys_stdout = {
 NULL,
 NULL,
 };
-FILE sys_stderr = {
+
+AFILE sys_stderr = {
 "/dev/tty",
    100,
    0,
@@ -49,8 +53,7 @@ NULL,
 NULL,
 };
 
-
-FILE* sysfds[COREMAXFD] = {
+AFILE* sysfds[COREMAXFD] = {
 &sys_stdin,
 &sys_stdout,
 &sys_stderr,
@@ -59,11 +62,12 @@ FILE* sysfds[COREMAXFD] = {
 void init_proc()
 {
    sys.program = &sysprog;
+   sys.program->nlink = 1;
    sys.program->argv = argv;
    cpu[0] = &sys;
    current = cpu[0];
-   sys.program->fds = (void**) sysfds;
-   current_fds = (FILE**)sys.program->fds;
+   sys.fds = (void**) sysfds;
+   current_fds = (AFILE**)sys.fds;
    current_env = NULL;
 }
 
@@ -79,8 +83,8 @@ char** copyenv(char*const* e)
          if (e[i][0] == '\0') {
             copy[i] = e[i];
          } else {
-  	        size_t len = strlen(e[i]);
-            copy[i] = calloc(1, len + 1);
+  	        size_t len = strlen(e[i]) + 1;
+            copy[i] = malloc(len);
             memcpy(copy[i], e[i], len);
          }
       }
@@ -108,8 +112,8 @@ void freeenv(char* const* e)
 
 void** copyfds(void** infds)
 {
-   FILE** fds = (FILE**)infds;
-   FILE** ret = sys_calloc(1, sizeof(FILE*) * COREMAXFD);
+   AFILE** fds = (AFILE**)infds;
+   AFILE** ret = sys_calloc(1, sizeof(AFILE*) * COREMAXFD);
    int_t i;
    if (infds) {
       for (i = 0; i < COREMAXFD; i++) {
@@ -117,7 +121,7 @@ void** copyfds(void** infds)
 		    continue;
 	     }
          if (!(fds[i]->flags & O_CLOEXEC)) {
-			 ret[i] = sys_calloc(1, sizeof(FILE));
+			 ret[i] = sys_calloc(1, sizeof(AFILE));
 			 copyfile(ret[i], fds[i]);
          }
       }
@@ -125,14 +129,18 @@ void** copyfds(void** infds)
    return (void**)ret;
 } 
 
-FILE* tempfile; // MARK
-
 void freefds(proc* task)
 {
-   FILE** fds = (FILE**)task->program->fds;
+   AFILE** fds = (AFILE**)task->fds;
    int_t i;
    for (i = 0; i < COREMAXFD; i++) {
-      tempfile = fds[i]; // MARK 
+	 AFILE* dst = fds[i];
+	 // MARK
+	 if (dst) {
+	    sys_printf("freefile=%p file=%p strbuf=%p pipbuf=%p fd=%d\n", dst, dst->file, dst->strbuf, dst->pipbuf, dst->fd);
+        sys_printf("freefile=%p name=%s\n", dst, dst->file);
+     }
+     // MARK
       freefile(fds[i]);
    }
    sys_free(fds);

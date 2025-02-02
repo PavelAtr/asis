@@ -2,12 +2,10 @@
 #include <stdio.h>
 #include <syscall.h>
 #include <errno.h>
-#include <tiny.h>
 #include <stdarg.h>
 #include <sys/stat.h>
 #include <string.h>
 #include <unistd.h>
-#include <fcntl.h>
 
 int open(const char *pathname, int flags, ...)
 {
@@ -35,6 +33,5 @@ int open(const char *pathname, int flags, ...)
    }
    fds[fd]->flags = flags;
    fds[fd]->fd = fd;
-
    return fd;
 }

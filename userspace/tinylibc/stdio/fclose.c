@@ -5,7 +5,9 @@
 int fclose(FILE *stream)
 {
 INIT_FDS
+   if (stream->fd != -1) {
+       return 0;
+   }
    freefile(stream);
-   stream = NULL;
    return 0;
 }

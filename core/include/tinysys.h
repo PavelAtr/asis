@@ -102,13 +102,13 @@ typedef struct {
   char**  argv;
   char** envp;
   void* dlhandle;
-  void** fds;
   int nlink;	
 } prog;
 
 typedef struct {
   int_t flags;
   prog* program;
+  void** fds;
   void* parent;
   pid_t pid;
   pid_t parentpid;
@@ -124,8 +124,7 @@ typedef struct {
 #define PROC_RUNNING 0x01
 #define PROC_NEW 0x02
 #define PROC_CLONED 0x04
-#define PROC_ZOMBIE 0x08
-
+#define PROC_ENDED 0x08
 
 extern proc* current;
 extern proc* systask;
@@ -219,5 +218,9 @@ int_t sys_setjmp(long_t* env);
 int_t sys_longjmp(long_t* env);
 #define JMP_STACK 0
 #define JMP_SP 1
+
+void* sys_dlopen(const char *filename, int flags);
+int sys_dlclose(void *handle);
+void* sys_dlsym(void * handle, const char * symbol);
 
 #endif

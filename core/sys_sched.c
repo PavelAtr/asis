@@ -1,13 +1,14 @@
 #include <tinysys.h>
-#include "./libdl/libdl.h"
 #include <string.h>
 #include <errno.h>
 #include <stdio.h>
 
+#undef fds
+
 proc* cpu[MAXPROC];
 int_t curpid = 0;
 proc* current;
-FILE** current_fds;
+AFILE** current_fds;
 char** current_env;
 char** current_argv;
 errno_t* current_errno;
@@ -40,7 +41,7 @@ void switch_task()
    sys_printf(SYS_DEBUG "SWITCH at pid=%d prog=%s newpid=%d flags=%d\n",
       prevpid, current->program->argv[0] ,curpid, cpu[curpid]->flags);
    current = cpu[curpid];
-   current_fds = (FILE**)current->program->fds;
+   current_fds = (AFILE**)current->fds;
    current_env = current->program->envp;
    current_argv = current->program->argv;
    current_errno = &current->sys_errno;
