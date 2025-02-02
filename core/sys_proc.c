@@ -137,8 +137,7 @@ void freefds(proc* task)
 	 AFILE* dst = fds[i];
 	 // MARK
 	 if (dst) {
-	    sys_printf("freefile=%p file=%p strbuf=%p pipbuf=%p fd=%d\n", dst, dst->file, dst->strbuf, dst->pipbuf, dst->fd);
-        sys_printf("freefile=%p name=%s\n", dst, dst->file);
+	    sys_printf("freefile=%p file=%p=%s strbuf=%p pipbuf=%p fd=%d\n", dst, dst->file, dst->file, dst->strbuf, dst->pipbuf, dst->fd);
      }
      // MARK
       freefile(fds[i]);
