@@ -23,7 +23,7 @@ void (*atexit_func)(void) = NULL;
 
 int main(int argc, char** argv);
 
-void _start(int argc, char*** argv, char*** envp, FILE*** cfds, errno_t** errno, void* syscall_func, void* retexit_func)
+int _start(int argc, char*** argv, char*** envp, FILE*** cfds, errno_t** errno, void* syscall_func, void* retexit_func)
 {
    core_argv = argv;
    core_environ = envp;
@@ -33,6 +33,9 @@ void _start(int argc, char*** argv, char*** envp, FILE*** cfds, errno_t** errno,
    retexit = retexit_func;
    int ret = main(argc, *core_argv);
    _exit(ret);
+
+/* Not reacheble */
+   return ret;
 }
 
 void _exit(int status)

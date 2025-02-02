@@ -74,7 +74,7 @@ int_t sys_exec(const char* file, char** argv, char** envp)
       goto fail;
    }
 
-   void (*start)(int argc, char*** argv, char*** envp, AFILE*** fds, errno_t** cerrno, void* syscall_func, void* retexit_func) =
+   int (*start)(int argc, char*** argv, char*** envp, AFILE*** fds, errno_t** cerrno, void* syscall_func, void* retexit_func) =
          sys_dlsym(current->program->dlhandle, "_start");
    if (envp) {
 		current->program->envp = copyenv(envp);
@@ -87,12 +87,12 @@ int_t sys_exec(const char* file, char** argv, char** envp)
    
    current->flags &= ~PROC_CLONED;
    sys_printf(SYS_INFO "freememory=%ld\n", free_memory());
-   start(argc, &current_argv, &current_env, &current_fds, &current_errno, &sys_syscall, &sys_atexit);
+   int ret = start(argc, &current_argv, &current_env, &current_fds, &current_errno, &sys_syscall, &sys_atexit);
    switch_context;
    /* Never reach here */
    sys_printf(SYS_DEBUG "EXEC END (NOTREACHEBLE)\n");
    freeproc(current->forkret);
-   return  0;
+   return  ret;
 fail:
    return -1;
 }
