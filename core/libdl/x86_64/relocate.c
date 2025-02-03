@@ -9,16 +9,18 @@
 #define R_64 R_X86_64_64
 #define R_GLOB_DAT R_X86_64_GLOB_DAT
 #define R_JUMP_SLOT R_X86_64_JUMP_SLOT
+#define R_DTPMOD64 R_X86_64_DTPMOD64
+#define R_DTPOFF64 R_X86_64_DTPOFF64
 
 void elf_relocate(Elf_Ehdr* hdr, Elf_Shdr* rela, Elf_Rela* relatab,
-   Elf_Sym* symtab, const char* symstr, Elf_Xword tls_offset, char* exec,
+   Elf_Sym* symtab, const char* symstr, int* tls_relas_count, char* exec,
    void* (*resolve)(const char* symname))
 {
    if (!hdr || !rela || !relatab || !symtab || ! symstr) {
       sys_printf(SYS_INFO "elf_relocate: hdrs is NULL\n");
       return ;
    }
-   addr_t j;
+   int j;
    for(j = 0; j < rela->sh_size / rela->sh_entsize; j ++) {
       void* symaddr;
       const char* symname = &symstr[symtab[ELF_R_SYM(relatab[j].r_info)].st_name];
@@ -42,10 +44,6 @@ void elf_relocate(Elf_Ehdr* hdr, Elf_Shdr* rela, Elf_Rela* relatab,
          memcpy(exec + relatab[j].r_offset,	symaddr,
             symtab[ELF_R_SYM(relatab[j].r_info)].st_size);
          break;
-      case R_TPOFF64:
-         *(Elf_Xword*)(exec + relatab[j].r_offset) = (Elf_Xword)(symtab[ELF_R_SYM(
-                     relatab[j].r_info)].st_value + relatab[j].r_addend + tls_offset + exec);
-         break;
       case R_64:
          if (!symaddr) {
             sys_printf(SYS_INFO "elf_relocate: %s R_64 NOT FOUND\n", symname);
@@ -68,11 +66,40 @@ void elf_relocate(Elf_Ehdr* hdr, Elf_Shdr* rela, Elf_Rela* relatab,
          }
          *(Elf_Xword*)(exec + relatab[j].r_offset) = (Elf_Xword) symaddr;
          break;
+      case R_DTPMOD64:
+         (*tls_relas_count)++;
+         break;
+      case R_DTPOFF64:
+         sys_printf(SYS_INFO "elf_relocate:  R_DTPOFF64 %ld\n", symtab[ELF_R_SYM(
+                     relatab[j].r_info)].st_value + relatab[j].r_offset);
+//         *(Elf_Xword*)(exec + relatab[j].r_offset) = symtab[ELF_R_SYM(
+//                     relatab[j].r_info)].st_value + relatab[j].r_offset;
+         break;
       default:
          sys_printf(SYS_INFO "UNREALIZED RELA %s %ld \n", symname,
             ELF_R_TYPE(relatab[j].r_info));
          break;
       }
    }
+}
+
+Elf_Rela* elf_copy_tls_rela(Elf_Shdr* rela, Elf_Rela* relatab, int count)
+{
+   if (!count) {
+      return NULL;
+   }
+   Elf_Rela* ret = malloc(sizeof(Elf_Rela) * count);
+   int j;
+   for(j = 0; j < rela->sh_size / rela->sh_entsize; j ++) {
+      switch (ELF_R_TYPE(relatab[j].r_info)) {
+      case R_DTPMOD64:
+         memcpy(&ret[j], &relatab[j], sizeof(Elf_Rela));
+         sys_printf(SYS_INFO "COPY TLS RELA %p->%p=%p\n", &relatab[j], &ret[j], relatab[j].r_offset);
+         break;
+      default:
+         break;
+      }	   
+   }
+   return ret;	
 }
 

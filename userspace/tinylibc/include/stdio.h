@@ -31,8 +31,14 @@ typedef struct {
 
 typedef FILE AFILE;
 
+extern __thread int fds1;
+extern __thread int fds2;
+
 extern FILE*** core_fds;
 #define fds (*core_fds)
+#define stdin (*core_fds)[0]
+#define stdout (*core_fds)[1]
+#define stderr (*core_fds)[2]
 #define INIT_FDS
 
 static inline void initfile(FILE* src)
@@ -87,10 +93,6 @@ static inline void freefile(FILE* dst)
 
 #define FILE_ERROR 0x01
 #define FILE_INFINITY 0x02
-
-#define stdin (*core_fds)[0]
-#define stdout (*core_fds)[1]
-#define stderr (*core_fds)[2]
 
 #define MAXSTRING ((unsigned short)-1)
 

@@ -21,6 +21,7 @@ all:
 	$(CC) $(CFLAGS) -fPIC grpdb.c $(LDFLAGS) -lpwd -o grpdb
 	$(CC) $(CFLAGS) -fPIC _exit.c $(LDFLAGS) -o _exit
 	$(CC) $(CFLAGS) -fPIC jmp.c $(LDFLAGS) -o jmp
+	$(CC) $(CFLAGS) -fPIC fds.c $(LDFLAGS) -o fds
 
 #	$(CC) -g -I../libpwd/include/ ../libpwd/libpwd.a test1.c -o test1
 #	$(CC) -g -I../libpwd/include/ ../libpwd/libpwd.a test2.c -o test2
@@ -50,6 +51,7 @@ install:
 	install grpdb $(DESTDIR)$(PREFIX)/bin/grpdb
 	install _exit $(DESTDIR)$(PREFIX)/bin/_exit
 	install jmp $(DESTDIR)$(PREFIX)/bin/jmp
+	install fds $(DESTDIR)$(PREFIX)/bin/fds
 
 
 

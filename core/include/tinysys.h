@@ -22,6 +22,9 @@
 #define INIT "/tinysys/bin/shell"
 #define LD_PATH "/tinysys/usr/lib/:/tinysys/lib/"
 
+#define malloc(s) sys_malloc(s)
+#define calloc(n, s) sys_calloc(n, s)
+
 int_t sys_exec(const char* file, char** argv, char** envp);
 int_t sys_runinit();
 

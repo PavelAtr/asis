@@ -2,6 +2,9 @@
 #include <string.h>
 #include <errno.h>
 #include <stdio.h>
+#ifndef DEBUG
+#include "libdl/libdl.h"
+#endif
 
 #undef fds
 
@@ -43,7 +46,10 @@ void switch_task()
    current = cpu[curpid];
    current_fds = (AFILE**)current->fds;
    current_env = current->program->envp;
-   current_argv = current->program->argv;
+#ifndef DEBUG
+   dltls(current->program->dlhandle, curpid);
+#endif
+//MARK   current_argv = current->program->argv;
    current_errno = &current->sys_errno;
    if (current->flags & PROC_NEW) {
       current->flags &= ~PROC_NEW;

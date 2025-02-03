@@ -27,6 +27,7 @@ libdl/$(ARCH)/relocate.c \
 syscalls/sys_fs.c \
 syscalls/sys_mount.c \
 syscalls/sys_usleep.c \
+sys_dl.c \
 sys_trap.c
 
 all:

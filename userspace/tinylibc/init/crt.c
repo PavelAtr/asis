@@ -31,7 +31,7 @@ int _start(int argc, char*** argv, char*** envp, FILE*** cfds, errno_t** errno, 
    core_errno = errno;
    syscall = syscall_func;
    retexit = retexit_func;
-   int ret = main(argc, *core_argv);
+   int ret = main(argc, *argv);
    _exit(ret);
 
 /* Not reacheble */

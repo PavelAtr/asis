@@ -2,6 +2,9 @@
 #include <stdio.h>
 #include <fcntl.h>
 
+__thread int fds1;
+__thread int fds2;
+
 int get_free_fd()
 {
    INIT_FDS

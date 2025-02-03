@@ -3,6 +3,10 @@
 #include <errno.h>
 #include <string.h>
 #include <stdio.h>
+#ifndef DEBUG
+#include "../libdl/libdl.h"
+#endif
+
 
 #undef fds
 
@@ -26,10 +30,22 @@ int_t sys_runinit()
 
 extern AFILE** current_fds;
 
-int_t sys_exec(const char* file, char** argv, char** envp)
+/*char** dupnullable(char** inargv)
+{
+	int argc;
+	for (argc = 0; inargv[argc]; argc++);
+	char** ret = sys_calloc(1, sizeof(char*) * (argc + 1));
+	for (argc = 0; inargv[argc]; argc++)
+	{
+		ret[argc] = strdup(inargv[argc]);
+    }
+	return ret;
+}*/
+
+int_t sys_exec(const char* file, char** inargv, char** envp)
 {
    int argc;
-   for (argc = 0; argv[argc]; argc++);
+   for (argc = 0; inargv[argc]; argc++);
    mountpoint* mount = sys_get_mountpoint(file);
    if (!mount) {
       current->sys_errno = ENOENT;
@@ -55,16 +71,19 @@ int_t sys_exec(const char* file, char** argv, char** envp)
    } else {
       current->gid = current->gid;
    }
-   
+
    if (current->flags & PROC_CLONED) {
 	   current->program->nlink--;
 	   if (current->program -> nlink <= 0) {
 		   sys_printf(SYS_ERROR "SYS_EXEC: Memory leak in current->program structure\n");
 	   }
        current->program = sys_calloc(1, sizeof(prog));
+       // MARK
+       sys_printf("SYS_EXEC: ALLOCATE PROGRAM STRUCT in %s\n", inargv[0]);
    }
+
    current->program->argc = argc;
-   current->program->argv = argv;
+   current->program->argv = inargv;// dupnullable(inargv);
    current->program -> nlink = 1;
 
    current->program->dlhandle = sys_dlopen(file, 0);
@@ -73,7 +92,7 @@ int_t sys_exec(const char* file, char** argv, char** envp)
       current->sys_errno = ENOENT;
       goto fail;
    }
-
+   sys_printf(SYS_INFO "EXEC dlopen %s\n", file);
    int (*start)(int argc, char*** argv, char*** envp, AFILE*** fds, errno_t** cerrno, void* syscall_func, void* retexit_func) =
          sys_dlsym(current->program->dlhandle, "_start");
    if (envp) {
@@ -81,9 +100,15 @@ int_t sys_exec(const char* file, char** argv, char** envp)
    } else {
 		current->program->envp = copyenv(((proc*)current->parent)->program->envp);
    }
+//   current->fds = copyfds(((proc*)current->parent)->fds);
+
    current_env = current->program->envp;
    current_argv = current->program->argv;
    current_errno = &current->sys_errno;
+   current_fds = (AFILE**)current->fds;
+#ifndef DEBUG
+   dltls(current->program->dlhandle, curpid);
+#endif
    
    current->flags &= ~PROC_CLONED;
    sys_printf(SYS_INFO "freememory=%ld\n", free_memory());
@@ -118,9 +143,9 @@ void freeproc(pid_t pid)
       return;
    }
    if (!(cpu[pid]->flags & PROC_CLONED)) {
-      freeenv(cpu[pid]->program->envp);
+//      freeenv(cpu[pid]->program->envp);
+      freefds(cpu[pid]);
    }
-   freefds(cpu[pid]);
    sys_free(cpu[pid]->ctx.stack);
    cpu[pid]->program->nlink--;
    if (cpu[pid]->program->nlink <= 0) {
@@ -134,11 +159,11 @@ void freeproc(pid_t pid)
 
 pid_t sys_clone(void)
 {
-   sys_printf(SYS_DEBUG "CLONE pid=%d prog=%s\n", current->pid, current->program->argv[0]);
    pid_t ret = newproc();
    if (ret == -1) {
       return -1;
    }
+   sys_printf(SYS_DEBUG "CLONE newpid=%d in prog=%s\n", ret, current->program->argv[0]);
    memcpy(cpu[ret], current, sizeof(proc));
    cpu[ret]->flags = PROC_RUNNING | PROC_NEW | PROC_CLONED;
    cpu[ret]->parent = current;
@@ -206,7 +231,7 @@ pid_t sys_waitpid(pid_t pid, int* wstatus, int options)
       switch_context;
    }
 end:
-   sys_printf(SYS_DEBUG "WAITPID END pid=%d prog=%s child=%d\n", current->pid, current->program->argv[0], child);
+   sys_printf(SYS_DEBUG "WAITPID END pid=%d prog=%s child=%d(%s)\n", current->pid, current->program->argv[0], child, cpu[child]->program->argv[0]);
    *wstatus = cpu[child]->ret;
    freeproc(child);
    cpu[child] = NULL;

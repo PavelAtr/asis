@@ -12,7 +12,8 @@ int close(int fd)
       errno = EBADFD;
       return -1;
    }
-   freefile(fds[fd]);
+   fds[fd]->fd = -1;
+   fclose(fds[fd]);
    fds[fd] = NULL;
    return 0;
 }

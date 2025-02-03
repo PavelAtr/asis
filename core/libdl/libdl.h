@@ -7,21 +7,21 @@ typedef struct {
    Elf_Ehdr* hdr;
    Elf_Phdr* phdrs;
    Elf_Shdr* shdrs;
-
    elfrelas** rela;
+   tlsrelas** tlsrela;
    elfsyms ** sym;
-
-
    Elf_Shdr* dyns;
    Elf_Dyn* dyntab;
    char* dynstr;
    len_t exec_size;
    char* exec;
+   unsigned long tls_index;
 } elf;
 
 void *dlopen(const char* filename, int flags);
 void *dlsym(void* handle, const char* symbol);
-int dlclose(void *handle);
+int dlclose(void* handle);
+void dltls(void* handle, unsigned long module_id);
 
 #define RTLD_NOW 0x0001
 #define RTLD_LOCAL 0x0002

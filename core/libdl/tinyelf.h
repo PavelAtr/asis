@@ -28,6 +28,12 @@ typedef struct {
    Elf_Rela* relas;
 } elfrelas;
 
+typedef struct {
+   Elf_Rela* relas;
+   int count;
+} tlsrelas;
+
+
 
 Elf_Ehdr* elf_load_hdr(const char* path);
 Elf_Phdr* elf_load_phdrs(const char* path, Elf_Ehdr* hdr);
@@ -40,6 +46,7 @@ char* elf_load_strings(const char* path, Elf_Ehdr* hdr, Elf_Shdr* shdrs, Elf_Shd
 void* elf_symbol(Elf_Shdr* symhdr, Elf_Sym* symtab, const char* symstr, const char* exec, const char* symname);
 extern int_t dtneed_ndx;
 const char* elf_dtneed(Elf_Shdr* dynhdr, Elf64_Dyn* dyntab, const char* dynstr);
-void elf_relocate(Elf_Ehdr* hdr, Elf_Shdr* rela, Elf_Rela* relatab, Elf_Sym* symtab, const char* symstr, Elf_Xword tls_offset, char* exec, void* (*resolve)(const char* symname));
+void elf_relocate(Elf_Ehdr* hdr, Elf_Shdr* rela, Elf_Rela* relatab, Elf_Sym* symtab, const char* symstr, int* tls_relas_count, char* exec, void* (*resolve)(const char* symname));
+Elf_Rela* elf_copy_tls_rela(Elf_Shdr* rela, Elf_Rela* relatab, int count);
 
 #endif

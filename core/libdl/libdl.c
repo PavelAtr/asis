@@ -74,7 +74,7 @@ int dl_load(dl* buf, const char* file)
    sys_printf(SYS_INFO "Loading %s ... ", file);
    buf->path = file;
    buf->next = NULL;
-   buf->dl_elf = sys_calloc(1, sizeof(elf));
+   buf->dl_elf = calloc(1, sizeof(elf));
    buf->dl_elf->hdr = elf_load_hdr(file);
    buf->dl_elf->phdrs = elf_load_phdrs(file, buf->dl_elf->hdr);
    buf->dl_elf->exec_size = elf_load_exec(file, buf->dl_elf->hdr,
@@ -91,9 +91,10 @@ int dl_load(dl* buf, const char* file)
    int_t start_ndx = 0;
    int_t i;
    int_t relacnt = elf_count_table(buf->dl_elf->hdr, buf->dl_elf->shdrs, SHT_RELA);
-   buf->dl_elf->rela = sys_malloc((relacnt + 1) * sizeof(elfrelas*));
+   
+   buf->dl_elf->rela = malloc((relacnt + 1) * sizeof(elfrelas*));
    for (i = 0; i < relacnt; i++) {
-      buf->dl_elf->rela[i] = sys_malloc(sizeof(elfrelas));
+      buf->dl_elf->rela[i] = malloc(sizeof(elfrelas));
       buf->dl_elf->rela[i]->head = elf_find_table(buf->dl_elf->hdr,
             buf->dl_elf->shdrs, &start_ndx, SHT_RELA);
       buf->dl_elf->rela[i]->relas = elf_load_table(file, buf->dl_elf->hdr,
@@ -101,6 +102,14 @@ int dl_load(dl* buf, const char* file)
       start_ndx++;
    }
    buf->dl_elf->rela[i] = NULL;
+
+   buf->dl_elf->tlsrela = sys_malloc((relacnt + 1) * sizeof(tlsrelas*));   
+   for (i = 0; i < relacnt; i++) {
+      buf->dl_elf->tlsrela[i] = calloc(1, sizeof(elfrelas));
+   }
+   buf->dl_elf->tlsrela[i] = NULL;
+   
+   
    int_t symcnt = elf_count_table(buf->dl_elf->hdr, buf->dl_elf->shdrs,
          SHT_SYMTAB);
    int_t dyncnt = elf_count_table(buf->dl_elf->hdr, buf->dl_elf->shdrs,
@@ -231,11 +240,16 @@ void *dlopen(const char* filename, int flags)
          if (s->dl_elf->sym[sym_ndx]->dynamic) {
             break;
          }
-      int_t rela_ndx;
-      for (rela_ndx = 0; s->dl_elf->rela[rela_ndx]; rela_ndx++)
+      int rela_ndx;
+      for (rela_ndx = 0; s->dl_elf->rela[rela_ndx]; rela_ndx++) {
+		 int tls_relas_count = 0; 
          elf_relocate(s->dl_elf->hdr, s->dl_elf->rela[rela_ndx]->head,
             s->dl_elf->rela[rela_ndx]->relas, s->dl_elf->sym[sym_ndx]->syms,
-            s->dl_elf->sym[sym_ndx]->symstr, 0, s->dl_elf->exec, &resolve);
+            s->dl_elf->sym[sym_ndx]->symstr, &tls_relas_count, s->dl_elf->exec, &resolve);
+		 s->dl_elf->tlsrela[rela_ndx]->count = tls_relas_count;
+         s->dl_elf->tlsrela[rela_ndx]->relas = elf_copy_tls_rela(s->dl_elf->rela[rela_ndx]->head,
+            s->dl_elf->rela[rela_ndx]->relas, tls_relas_count);  
+      }     
    }
    return prog;
 fail:
@@ -279,4 +293,27 @@ int dlclose(void *hndl)
       s = next;
    }
    return 0;
+}
+
+void dltls(void* handle, unsigned long module_id)
+{
+   dl* s;
+   for (s = handle; s != NULL; s = s->next) {
+      int rela_ndx;
+      for (rela_ndx = 0; s->dl_elf->rela[rela_ndx]; rela_ndx++) {
+         if (s->dl_elf->tlsrela[rela_ndx]->relas) {
+			 int i;
+			 for (i = 0; i < s->dl_elf->tlsrela[rela_ndx]->count; i++)
+			 {
+				 *(Elf_Xword*)(s->dl_elf->exec + s->dl_elf->tlsrela[rela_ndx]->relas[i].r_offset) = module_id;
+     			 sys_printf("FOUND %d TLS rela %p=%p\n", s->dl_elf->tlsrela[rela_ndx]->count, &s->dl_elf->tlsrela[rela_ndx]->relas[i], s->dl_elf->tlsrela[rela_ndx]->relas[i].r_offset);
+			 }
+/*		 s->dl_elf->tlsrela[rela_ndx]->count = tls_relas_count;
+         s->dl_elf->tlsrela[rela_ndx]->relas = elf_copy_tls_rela(s->dl_elf->rela[rela_ndx]->head,
+            s->dl_elf->rela[rela_ndx]->relas, tls_relas_count);  */
+         }
+
+      }
+	   s->dl_elf->tls_index = module_id;
+   }
 }
