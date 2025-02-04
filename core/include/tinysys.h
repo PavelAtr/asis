@@ -225,5 +225,6 @@ int_t sys_longjmp(long_t* env);
 void* sys_dlopen(const char *filename, int flags);
 int sys_dlclose(void *handle);
 void* sys_dlsym(void * handle, const char * symbol);
+void sys_dltls(void* handle, unsigned long module_id);
 
 #endif

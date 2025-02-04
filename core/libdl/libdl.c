@@ -248,7 +248,7 @@ void *dlopen(const char* filename, int flags)
             s->dl_elf->sym[sym_ndx]->symstr, &tls_relas_count, s->dl_elf->exec, &resolve);
 		 s->dl_elf->tlsrela[rela_ndx]->count = tls_relas_count;
          s->dl_elf->tlsrela[rela_ndx]->relas = elf_copy_tls_rela(s->dl_elf->rela[rela_ndx]->head,
-            s->dl_elf->rela[rela_ndx]->relas, tls_relas_count);  
+            s->dl_elf->rela[rela_ndx]->relas, tls_relas_count);
       }     
    }
    return prog;
@@ -298,6 +298,7 @@ int dlclose(void *hndl)
 void dltls(void* handle, unsigned long module_id)
 {
    dl* s;
+   sys_printf(SYS_DEBUG "Set TLS module id=%d\n", module_id);
    for (s = handle; s != NULL; s = s->next) {
       int rela_ndx;
       for (rela_ndx = 0; s->dl_elf->rela[rela_ndx]; rela_ndx++) {
@@ -306,11 +307,8 @@ void dltls(void* handle, unsigned long module_id)
 			 for (i = 0; i < s->dl_elf->tlsrela[rela_ndx]->count; i++)
 			 {
 				 *(Elf_Xword*)(s->dl_elf->exec + s->dl_elf->tlsrela[rela_ndx]->relas[i].r_offset) = module_id;
-     			 sys_printf("FOUND %d TLS rela %p=%p\n", s->dl_elf->tlsrela[rela_ndx]->count, &s->dl_elf->tlsrela[rela_ndx]->relas[i], s->dl_elf->tlsrela[rela_ndx]->relas[i].r_offset);
+// MARK ?? QUESTION	 sys_printf("FOUND  TLS rela in %p %p=%p\n", s->dl_elf->tlsrela[rela_ndx]->relas, &s->dl_elf->tlsrela[rela_ndx]->relas[i], s->dl_elf->tlsrela[rela_ndx]->relas[i].r_offset);
 			 }
-/*		 s->dl_elf->tlsrela[rela_ndx]->count = tls_relas_count;
-         s->dl_elf->tlsrela[rela_ndx]->relas = elf_copy_tls_rela(s->dl_elf->rela[rela_ndx]->head,
-            s->dl_elf->rela[rela_ndx]->relas, tls_relas_count);  */
          }
 
       }

@@ -78,8 +78,6 @@ int_t sys_exec(const char* file, char** inargv, char** envp)
 		   sys_printf(SYS_ERROR "SYS_EXEC: Memory leak in current->program structure\n");
 	   }
        current->program = sys_calloc(1, sizeof(prog));
-       // MARK
-       sys_printf("SYS_EXEC: ALLOCATE PROGRAM STRUCT in %s\n", inargv[0]);
    }
 
    current->program->argc = argc;
@@ -106,9 +104,7 @@ int_t sys_exec(const char* file, char** inargv, char** envp)
    current_argv = current->program->argv;
    current_errno = &current->sys_errno;
    current_fds = (AFILE**)current->fds;
-#ifndef DEBUG
-   dltls(current->program->dlhandle, curpid);
-#endif
+   sys_dltls(current->program->dlhandle, curpid);
    
    current->flags &= ~PROC_CLONED;
    sys_printf(SYS_INFO "freememory=%ld\n", free_memory());

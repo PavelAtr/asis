@@ -70,10 +70,8 @@ void elf_relocate(Elf_Ehdr* hdr, Elf_Shdr* rela, Elf_Rela* relatab,
          (*tls_relas_count)++;
          break;
       case R_DTPOFF64:
-         sys_printf(SYS_INFO "elf_relocate:  R_DTPOFF64 %ld\n", symtab[ELF_R_SYM(
-                     relatab[j].r_info)].st_value + relatab[j].r_offset);
-//         *(Elf_Xword*)(exec + relatab[j].r_offset) = symtab[ELF_R_SYM(
-//                     relatab[j].r_info)].st_value + relatab[j].r_offset;
+         *(Elf_Xword*)(exec + relatab[j].r_offset) = symtab[ELF_R_SYM(
+                     relatab[j].r_info)].st_value + relatab[j].r_addend;
          break;
       default:
          sys_printf(SYS_INFO "UNREALIZED RELA %s %ld \n", symname,
@@ -90,11 +88,12 @@ Elf_Rela* elf_copy_tls_rela(Elf_Shdr* rela, Elf_Rela* relatab, int count)
    }
    Elf_Rela* ret = malloc(sizeof(Elf_Rela) * count);
    int j;
+   int i = 0;
    for(j = 0; j < rela->sh_size / rela->sh_entsize; j ++) {
       switch (ELF_R_TYPE(relatab[j].r_info)) {
       case R_DTPMOD64:
-         memcpy(&ret[j], &relatab[j], sizeof(Elf_Rela));
-         sys_printf(SYS_INFO "COPY TLS RELA %p->%p=%p\n", &relatab[j], &ret[j], relatab[j].r_offset);
+         memcpy(&ret[i++], &relatab[j], sizeof(Elf_Rela));
+//MARK QUESTION         sys_printf("COPY TLS RELA in %p %p->%p=%p\n" ,ret, &relatab[j], &ret[j], relatab[j].r_offset);
          break;
       default:
          break;

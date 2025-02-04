@@ -46,9 +46,7 @@ void switch_task()
    current = cpu[curpid];
    current_fds = (AFILE**)current->fds;
    current_env = current->program->envp;
-#ifndef DEBUG
-   dltls(current->program->dlhandle, curpid);
-#endif
+   sys_dltls(current->program->dlhandle, curpid);
 //MARK   current_argv = current->program->argv;
    current_errno = &current->sys_errno;
    if (current->flags & PROC_NEW) {
