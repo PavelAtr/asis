@@ -1,7 +1,7 @@
 #include "namedlist.h"
 #include <stddef.h>
 
-void namedlist_add(namedlist* scope, aobj obj, const char* name);
+void namedlist_add(namedlist* scope, aobj obj, const char* name)
 {
 }
 

@@ -22,7 +22,6 @@
 #endif
 
 #define INIT "/tinysys/bin/shell"
-#define LD_PATH "/tinysys/usr/lib/:/tinysys/lib/"
 
 #define malloc(s) sys_malloc(s)
 #define free(p) sys_free(p)

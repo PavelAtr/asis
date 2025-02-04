@@ -1,6 +1,6 @@
 #include "../tinyelf.h"
-#include <tinysys.h>
 #include <string.h>
+#include <stdio.h>
 
 #define R_IRELATIVE R_X86_64_IRELATIVE
 #define R_RELATIVE R_X86_64_RELATIVE
@@ -17,7 +17,7 @@ void elf_relocate(Elf_Ehdr* hdr, Elf_Shdr* rela, Elf_Rela* relatab,
    void* (*resolve)(const char* symname))
 {
    if (!hdr || !rela || !relatab || !symtab || ! symstr) {
-      printf(SYS_INFO "%s\n", "elf_relocate: hdrs is NULL");
+      printf("%s\n", "elf_relocate: hdrs is NULL");
       return ;
    }
    int j;
@@ -38,7 +38,7 @@ void elf_relocate(Elf_Ehdr* hdr, Elf_Shdr* rela, Elf_Rela* relatab,
          break;
       case R_COPY:
          if (!symaddr) {
-            printf(SYS_INFO "elf_relocate: %s R_COPY NOT FOUND\n", symname);
+            printf("elf_relocate: %s R_COPY NOT FOUND\n", symname);
             break;
          }
          memcpy(exec + relatab[j].r_offset,	symaddr,
@@ -46,7 +46,7 @@ void elf_relocate(Elf_Ehdr* hdr, Elf_Shdr* rela, Elf_Rela* relatab,
          break;
       case R_64:
          if (!symaddr) {
-            printf(SYS_INFO "elf_relocate: %s R_64 NOT FOUND\n", symname);
+            printf("elf_relocate: %s R_64 NOT FOUND\n", symname);
             break;
          }
          *(Elf_Xword*)(exec + relatab[j].r_offset) = (Elf_Xword)(
@@ -54,14 +54,14 @@ void elf_relocate(Elf_Ehdr* hdr, Elf_Shdr* rela, Elf_Rela* relatab,
          break;
       case R_GLOB_DAT:
          if (!symaddr) {
-            printf(SYS_INFO "elf_relocate: %s R_GLOB_DAT NOT FOUND\n", symname);
+            printf("elf_relocate: %s R_GLOB_DAT NOT FOUND\n", symname);
             break;
          }
          *(Elf_Xword*)(exec + relatab[j].r_offset) = (Elf_Xword) symaddr;
          break;
       case R_JUMP_SLOT:
          if (!symaddr) {
-            printf(SYS_INFO "elf_relocate: %s R_JUMP_SLOT NOT FOUND\n", symname);
+            printf("elf_relocate: %s R_JUMP_SLOT NOT FOUND\n", symname);
             break;
          }
          *(Elf_Xword*)(exec + relatab[j].r_offset) = (Elf_Xword) symaddr;
@@ -74,7 +74,7 @@ void elf_relocate(Elf_Ehdr* hdr, Elf_Shdr* rela, Elf_Rela* relatab,
                      relatab[j].r_info)].st_value + relatab[j].r_addend;
          break;
       default:
-         printf(SYS_INFO "UNREALIZED RELA %s %ld \n", symname,
+         printf("UNREALIZED RELA %s %ld \n", symname,
             ELF_R_TYPE(relatab[j].r_info));
          break;
       }

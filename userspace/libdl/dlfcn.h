@@ -3,6 +3,9 @@
 
 #include "tinyelf.h"
 #include "namedlist.h"
+#include <sys/types.h>
+
+#define LD_PATH "/tinysys/usr/lib/:/tinysys/lib/"
 
 typedef struct {
    Elf_Ehdr* hdr;
@@ -14,7 +17,7 @@ typedef struct {
    Elf_Shdr* dyns;
    Elf_Dyn* dyntab;
    char* dynstr;
-   len_t exec_size;
+   size_t exec_size;
    char* exec;
    unsigned long tls_index;
 } elf;
@@ -33,7 +36,7 @@ typedef struct {
    const char* path;
    elf* dl_elf;
    int flags;
-   int_t nlink;
+   int nlink;
 } dl;
 
 #endif

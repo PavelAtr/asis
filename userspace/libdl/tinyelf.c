@@ -1,14 +1,22 @@
 #include "dlfcn.h"
-#include <tinysys.h>
 #include <string.h>
+
+#ifndef __ASYS__
+#include <stdio.h>
+size_t afread(const char* path, void* ptr, size_t size, size_t off)
+{
+	FILE* f = fopen(path, "r");
+	fseek(f, off, SEEK_SET);
+	size_t ret = fread(ptr, 1, size, f);
+	fclose(f);
+	return ret;
+}
+#endif
 
 Elf_Ehdr* elf_load_hdr(const char* path)
 {
    Elf_Ehdr* buf = malloc(sizeof(Elf_Ehdr));
-#ifdef __ASYS__   
    size_t ret = afread(path, buf, sizeof(Elf_Ehdr), 0);
-#else
-#endif
    if (ret < sizeof(Elf_Ehdr)) {
       free(buf);
       return NULL;
@@ -23,11 +31,8 @@ Elf_Phdr* elf_load_phdrs(const char* path, Elf_Ehdr* hdr)
       return NULL;
    }
    Elf_Phdr* buf = malloc(sizeof(Elf_Phdr) * hdr->e_phnum);
-#ifdef __ASYS__   
    size_t ret = afread(path, buf, sizeof(Elf_Phdr) * hdr->e_phnum,
          hdr->e_phoff);
-#else
-#endif
 
    if (ret < sizeof(Elf_Phdr) * hdr->e_phnum) {
       free(buf);
@@ -36,10 +41,9 @@ Elf_Phdr* elf_load_phdrs(const char* path, Elf_Ehdr* hdr)
    return buf;
 }
 
-len_t elf_load_exec(const char* path, Elf_Ehdr* hdr, Elf_Phdr* phdrs,
-   char* exec)
+size_t elf_load_exec(const char* path, Elf_Ehdr* hdr, Elf_Phdr* phdrs, char* exec)
 {
-   len_t size = 0;
+   size_t size = 0;
    if (!hdr || !phdrs) {
       printf("%s\n", "elf_load: hdrs is NULL");
       return 0;
@@ -51,10 +55,7 @@ len_t elf_load_exec(const char* path, Elf_Ehdr* hdr, Elf_Phdr* phdrs,
             size_t len = phdrs[i].p_memsz;
             size = (size < phdrs[i].p_vaddr + len)? phdrs[i].p_vaddr + len : size;
          } else {
-#ifdef __ASYS__   
             afread(path, exec + phdrs[i].p_vaddr, phdrs[i].p_filesz, phdrs[i].p_offset);
-#else
-#endif
          }
       }
    }
@@ -68,11 +69,8 @@ Elf_Shdr* elf_load_shdrs(const char* path, Elf_Ehdr* hdr)
       return NULL;
    }
    Elf_Shdr* buf = malloc(sizeof(Elf_Shdr) * hdr->e_shnum);
-#ifdef __ASYS__   
    size_t ret = afread(path, buf, sizeof(Elf_Shdr) * hdr->e_shnum,
          hdr->e_shoff);
-#else
-#endif
    if (ret < sizeof(Elf_Shdr) * hdr->e_shnum) {
       free(buf);
       return NULL;
@@ -80,14 +78,14 @@ Elf_Shdr* elf_load_shdrs(const char* path, Elf_Ehdr* hdr)
    return buf;;
 }
 
-int_t elf_count_table(Elf_Ehdr* hdr, Elf_Shdr* shdrs, unsigned int sh_type)
+int elf_count_table(Elf_Ehdr* hdr, Elf_Shdr* shdrs, unsigned int sh_type)
 {
    if (!hdr || !shdrs) {
       printf("%s\n", "elf_load_shdrs: hdrs is NULL");
       return 0;
    }
-   int_t i;
-   int_t ret = 0;
+   int i;
+   int ret = 0;
    for (i = 0; i < hdr->e_shnum; i++) {
       if (shdrs[i].sh_type == sh_type) {
          ret ++;
@@ -96,14 +94,14 @@ int_t elf_count_table(Elf_Ehdr* hdr, Elf_Shdr* shdrs, unsigned int sh_type)
    return ret;
 }
 
-Elf_Shdr* elf_find_table(Elf_Ehdr* hdr, Elf_Shdr* shdrs, int_t* start_ndx,
+Elf_Shdr* elf_find_table(Elf_Ehdr* hdr, Elf_Shdr* shdrs, int* start_ndx,
    unsigned int sh_type)
 {
    if (!hdr || !shdrs) {
       printf("%s\n", "elf_load_shdrs: hdrs is NULL");
       return NULL;
    }
-   int_t i;
+   int i;
    for (i = 0; i < hdr->e_shnum; i++) {
       if (shdrs[i].sh_type == sh_type && i >= *start_ndx) {
          *start_ndx = i;
@@ -120,10 +118,7 @@ void* elf_load_table(const char* path, Elf_Ehdr* hdr, Elf_Shdr* shdr)
       return NULL;
    }
    void* buf = malloc(shdr->sh_size);
-#ifdef __ASYS__   
    size_t ret = afread(path, buf, shdr->sh_size, shdr->sh_offset);
-#else
-#endif
    if (ret < shdr->sh_size) {
       free(buf);
       return NULL;
@@ -139,11 +134,8 @@ char* elf_load_strings(const char* path, Elf_Ehdr* hdr, Elf_Shdr* shdrs,
       return NULL;
    }
    char* buf = malloc(shdrs[tab->sh_link].sh_size);
-#ifdef __ASYS__   
    size_t ret = afread(path, buf, shdrs[tab->sh_link].sh_size,
          shdrs[tab->sh_link].sh_offset);
-#else
-#endif         
    if (ret < shdrs[tab->sh_link].sh_size) {
       free(buf);
       return NULL;
@@ -169,7 +161,7 @@ void* elf_symbol(Elf_Shdr* symhdr, Elf_Sym* symtab, const char* symstr,
    return NULL;
 }
 
-int_t dtneed_ndx = 0;
+int dtneed_ndx = 0;
 
 const char* elf_dtneed(Elf_Shdr* dynhdr, Elf64_Dyn* dyntab, const char* dynstr)
 {
@@ -177,7 +169,7 @@ const char* elf_dtneed(Elf_Shdr* dynhdr, Elf64_Dyn* dyntab, const char* dynstr)
       printf("%s\n", "elf_dtneed: hdrs is NULL");
       return NULL;
    }
-   int_t counter = 0;
+   int counter = 0;
    addr_t i;
    const char* dlname;
    for (i = 0; i < dynhdr->sh_size / dynhdr->sh_entsize; i++) {

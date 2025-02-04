@@ -1,10 +1,10 @@
-#include <tinysys.h>
 #include "dlfcn.h"
 #include <stddef.h>
 #include <string.h>
 #define __off_t_defined
 #include <sys/mman.h>
 #include <sys/stat.h>
+#include <stdio.h>
 
 void elf_free(elf* e)
 {
@@ -20,7 +20,7 @@ void elf_free(elf* e)
    if (e->shdrs) {
       free(e->shdrs);
    }
-   int_t ndx;
+   int ndx;
    for (ndx = 0; e->rela[ndx]; ndx++) {
       if (e->rela[ndx]) {
          if (e->rela[ndx]->relas) {
@@ -66,7 +66,7 @@ void elf_free(elf* e)
 dl* dl_find(dl* hndl, const char* path)
 {
    dl* s;
-   printf(SYS_DEBUG "SEARCHING %s ", path);
+   printf("SEARCHING %s ", path);
    for (s = hndl; s != NULL; s = s->next) {
       if (strcmp(s->path, path) == 0) {
 		  printf("%s\n", "ALREDY");
@@ -79,7 +79,7 @@ dl* dl_find(dl* hndl, const char* path)
 
 int dl_load(dl* buf, const char* file)
 {
-   printf(SYS_INFO "Loading %s ... ", file);
+   printf("Loading %s ... ", file);
    buf->path = file;
    buf->next = NULL;
    buf->dl_elf = calloc(1, sizeof(elf));
@@ -96,9 +96,9 @@ int dl_load(dl* buf, const char* file)
    if (!buf->dl_elf->hdr || !buf->dl_elf->phdrs || !buf->dl_elf->shdrs) {
       goto fail;
    }
-   int_t start_ndx = 0;
-   int_t i;
-   int_t relacnt = elf_count_table(buf->dl_elf->hdr, buf->dl_elf->shdrs, SHT_RELA);
+   int start_ndx = 0;
+   int i;
+   int relacnt = elf_count_table(buf->dl_elf->hdr, buf->dl_elf->shdrs, SHT_RELA);
    
    buf->dl_elf->rela = malloc((relacnt + 1) * sizeof(elfrelas*));
    for (i = 0; i < relacnt; i++) {
@@ -118,9 +118,9 @@ int dl_load(dl* buf, const char* file)
    buf->dl_elf->tlsrela[i] = NULL;
    
    
-   int_t symcnt = elf_count_table(buf->dl_elf->hdr, buf->dl_elf->shdrs,
+   int symcnt = elf_count_table(buf->dl_elf->hdr, buf->dl_elf->shdrs,
          SHT_SYMTAB);
-   int_t dyncnt = elf_count_table(buf->dl_elf->hdr, buf->dl_elf->shdrs,
+   int dyncnt = elf_count_table(buf->dl_elf->hdr, buf->dl_elf->shdrs,
          SHT_DYNSYM);
    buf->dl_elf->sym = malloc((symcnt + dyncnt + 1) * sizeof(elfsyms*));
    start_ndx = 0;
@@ -221,10 +221,10 @@ void *dlopen(const char* filename, int flags)
                   prog->dl_elf->dynstr)) {
 		 char* path = ldpath(LD_PATH, file);
 		 if (!path) {
-            printf(SYS_ERROR "%s not found in %s\n", file, LD_PATH);
+            printf("%s not found in %s\n", file, LD_PATH);
 		    goto fail;
 	     }	 
-		 printf(SYS_DEBUG "NEEDED %s\n", file);			  
+		 printf("NEEDED %s\n", file);			  
          if (dl_find(prog, path)) {
             continue;
          }
@@ -242,8 +242,8 @@ void *dlopen(const char* filename, int flags)
    }
    scope = prog;
    for (s = prog; s != NULL; s = s->next) {
-      printf(SYS_INFO "Relocate %s\n", s->path);
-      int_t sym_ndx;
+      printf("Relocate %s\n", s->path);
+      int sym_ndx;
       for (sym_ndx = 0; s->dl_elf->sym[sym_ndx]; sym_ndx++)
          if (s->dl_elf->sym[sym_ndx]->dynamic) {
             break;
@@ -270,7 +270,7 @@ void *dlsym(void* hndl, const char* symbol)
    dl* s;
    void* sym;
    for (s = hndl; s != NULL; s = s->next) {
-      int_t sym_ndx;
+      int sym_ndx;
       for (sym_ndx = 0; s->dl_elf->sym[sym_ndx]; sym_ndx++) {
          sym = elf_symbol(s->dl_elf->sym[sym_ndx]->head,
                s->dl_elf->sym[sym_ndx]->syms, s->dl_elf->sym[sym_ndx]->symstr,
@@ -306,7 +306,7 @@ int dlclose(void *hndl)
 void dltls(void* handle, unsigned long module_id)
 {
    dl* s;
-   printf(SYS_DEBUG "Set TLS module id=%d\n", module_id);
+   printf("Set TLS module id=%d\n", module_id);
    for (s = handle; s != NULL; s = s->next) {
       int rela_ndx;
       for (rela_ndx = 0; s->dl_elf->rela[rela_ndx]; rela_ndx++) {

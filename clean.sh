@@ -13,4 +13,5 @@ rm -f ./drv/hosttrap/*.o
 make -C userspace/tinylibc clean 
 make -C userspace/testapp  clean
 make -C userspace/libpwd  clean
+make -C userspace/libdl  clean
 make -C core -f Makefile.linux clean
