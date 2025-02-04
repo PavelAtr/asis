@@ -1,4 +1,4 @@
-#include "dlfcn.h"
+#include "libdl.h"
 #include <string.h>
 
 #ifndef __ASYS__

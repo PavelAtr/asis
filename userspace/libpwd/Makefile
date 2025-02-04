@@ -1,6 +1,6 @@
 PREFIX?=/tinysys
 CFLAGS?= -g -fPIC -fomit-frame-pointer --sysroot=$(PREFIX)
-LDLAGS?= --sysroot=$(PREFIX) -ltinyc
+LDLAGS?= --sysroot=$(PREFIX) -ltinyc -Wl,-fno-undefined
 
 all: 
 	$(CC) $(CFLAGS) -fPIC -c src/*.c

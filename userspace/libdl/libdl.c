@@ -1,3 +1,4 @@
+#include "libdl.h"
 #include "dlfcn.h"
 #include <stddef.h>
 #include <string.h>

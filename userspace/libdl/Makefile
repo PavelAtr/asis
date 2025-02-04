@@ -2,7 +2,7 @@ PREFIX?=/tinysys
 ARCH?=x86_64
 
 CFLAGS?= -g -fPIC -fomit-frame-pointer --sysroot=$(PREFIX) -DELF64
-LDLAGS?= --sysroot=$(PREFIX) -ltinyc
+LDLAGS?= --sysroot=$(PREFIX) -ltinyc -Wl,-fno-undefined
 
 all: 
 	$(CC) $(CFLAGS) -fPIC -c $(ARCH)/*.c *.c
