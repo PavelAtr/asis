@@ -3,7 +3,7 @@
 #include <dlfcn.h>
 #else
 #include <tinysys.h>
-#include "libdl/libdl.h"
+#include "../userspace/libdl/dlfcn.h"
 #endif
 
 void* sys_dlopen(const char *filename, int flags)

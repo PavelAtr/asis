@@ -2,9 +2,6 @@
 #include <string.h>
 #include <errno.h>
 #include <stdio.h>
-#ifndef DEBUG
-#include "libdl/libdl.h"
-#endif
 
 #undef fds
 

@@ -1,8 +1,8 @@
 #ifndef _TINYELF_H
 #define _TINYELF_H
 
+#include <tinysys.h>
 #include "elf.h"
-#include "../include/tinysys.h"
 
 #ifdef ELF64
 #define Elf_Ehdr Elf64_Ehdr

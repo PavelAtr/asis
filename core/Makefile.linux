@@ -15,20 +15,21 @@ sys_printf.c
 
 
 TINYSYS_LINK = sys_dev.c \
-libdl/libdl.c \
 sys_sched.c \
 main.c \
 syscalls/sys_run.c \
 sys_proc.c \
 sys_security.c \
 sys_syscall.c \
-libdl/tinyelf.c \
-libdl/$(ARCH)/relocate.c \
 syscalls/sys_fs.c \
 syscalls/sys_mount.c \
 syscalls/sys_usleep.c \
 sys_dl.c \
-sys_trap.c
+sys_trap.c \
+../userspace/libdl/libdl.c \
+../userspace/libdl/tinyelf.c \
+../userspace/libdl/$(ARCH)/relocate.c
+
 
 all:
 	$(CC) $(CFLAGS) -fPIC -g -c  -DELF64  $(SYSTEM_LINK)

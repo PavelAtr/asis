@@ -1,5 +1,5 @@
 #include <tinysys.h>
-#include "libdl.h"
+#include "dlfcn.h"
 #include <stddef.h>
 #include <string.h>
 #define __off_t_defined

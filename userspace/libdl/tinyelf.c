@@ -1,4 +1,5 @@
-#include "libdl.h"
+#include "dlfcn.h"
+#include <tinysys.h>
 #include <string.h>
 
 Elf_Ehdr* elf_load_hdr(const char* path)

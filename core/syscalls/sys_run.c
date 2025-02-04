@@ -3,10 +3,6 @@
 #include <errno.h>
 #include <string.h>
 #include <stdio.h>
-#ifndef DEBUG
-#include "../libdl/libdl.h"
-#endif
-
 
 #undef fds
 
