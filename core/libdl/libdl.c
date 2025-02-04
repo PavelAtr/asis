@@ -29,6 +29,14 @@ void elf_free(elf* e)
          sys_free(e->rela[ndx]);
       }
    }
+   for (ndx = 0; e->rela[ndx]; ndx++) {
+      if (e->tlsrela[ndx]) {
+         if (e->tlsrela[ndx]->relas) {
+            sys_free(e->tlsrela[ndx]->relas);
+         }
+         sys_free(e->tlsrela[ndx]);
+      }
+   }
    if (e->rela)
       sys_free(e->rela);
    for (ndx = 0; e->sym[ndx]; ndx++) {
