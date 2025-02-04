@@ -6,7 +6,7 @@
 #include <sys/stat.h>
 
 
-len_t sys_fread(const char* path, void* ptr, len_t size, len_t off)
+len_t sys_afread(const char* path, void* ptr, len_t size, len_t off)
 {
    mountpoint* mount = sys_get_mountpoint(path);
    if (!mount) {
@@ -55,7 +55,7 @@ len_t sys_fread(const char* path, void* ptr, len_t size, len_t off)
    return 0;
 }
 
-len_t sys_fwrite(const char* path, const void* ptr, len_t size, len_t off)
+len_t sys_afwrite(const char* path, const void* ptr, len_t size, len_t off)
 {
    mountpoint* mount = sys_get_mountpoint(path);
    if (!mount) {

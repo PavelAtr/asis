@@ -1,6 +1,8 @@
 #ifndef _TINYSYS_H
 #define _TINYSYS_H
 
+#define __ASYS__
+
 #include "sys/types.h"
 #include <stdarg.h>
 
@@ -23,14 +25,17 @@
 #define LD_PATH "/tinysys/usr/lib/:/tinysys/lib/"
 
 #define malloc(s) sys_malloc(s)
+#define free(p) sys_free(p)
 #define calloc(n, s) sys_calloc(n, s)
+#define printf(fmt, ...) sys_printf(fmt, __VA_ARGS__)
+#define afread(pth, p, s, o) sys_afread(pth, p, s, o)
 
 int_t sys_exec(const char* file, char** argv, char** envp);
 int_t sys_runinit();
 
 int_t sys_stat(const char* pathname, void* statbuf);
-len_t sys_fread(const char* path, void* ptr, len_t size, len_t off);
-len_t sys_fwrite(const char* path, const void* ptr, len_t size, len_t off);
+len_t sys_afread(const char* path, void* ptr, len_t size, len_t off);
+len_t sys_afwrite(const char* path, const void* ptr, len_t size, len_t off);
 void* sys_readdir(char* pathname, int_t ndx);
 int_t sys_mknod(const char* pathname, mode_t mode);
 int_t sys_modnod(const char* pathname, uid_t uid, gid_t gid, mode_t mode);

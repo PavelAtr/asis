@@ -1,8 +1,3 @@
-#define malloc(s) sys_malloc(s)
-#define calloc(n, s) sys_calloc(n, s)
-#define free(p) sys_free(p)
-#define printf sys_printf
-
 #include <tinysys.h>
 #include <stdio.h>
 #include <fcntl.h>

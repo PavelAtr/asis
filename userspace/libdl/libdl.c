@@ -12,74 +12,74 @@ void elf_free(elf* e)
       return;
    }
    if (e->hdr) {
-      sys_free(e->hdr);
+      free(e->hdr);
    }
    if (e->phdrs) {
-      sys_free(e->phdrs);
+      free(e->phdrs);
    }
    if (e->shdrs) {
-      sys_free(e->shdrs);
+      free(e->shdrs);
    }
    int_t ndx;
    for (ndx = 0; e->rela[ndx]; ndx++) {
       if (e->rela[ndx]) {
          if (e->rela[ndx]->relas) {
-            sys_free(e->rela[ndx]->relas);
+            free(e->rela[ndx]->relas);
          }
-         sys_free(e->rela[ndx]);
+         free(e->rela[ndx]);
       }
    }
    for (ndx = 0; e->rela[ndx]; ndx++) {
       if (e->tlsrela[ndx]) {
          if (e->tlsrela[ndx]->relas) {
-            sys_free(e->tlsrela[ndx]->relas);
+            free(e->tlsrela[ndx]->relas);
          }
-         sys_free(e->tlsrela[ndx]);
+         free(e->tlsrela[ndx]);
       }
    }
    if (e->rela)
-      sys_free(e->rela);
+      free(e->rela);
    for (ndx = 0; e->sym[ndx]; ndx++) {
       if (e->sym[ndx]) {
          if (e->sym[ndx]->syms) {
-            sys_free(e->sym[ndx]->syms);
+            free(e->sym[ndx]->syms);
          }
          if (e->sym[ndx]->symstr) {
-            sys_free(e->sym[ndx]->symstr);
+            free(e->sym[ndx]->symstr);
          }
-         sys_free(e->sym[ndx]);
+         free(e->sym[ndx]);
       }
    }
    if (e->sym)
-      sys_free(e->sym);
+      free(e->sym);
    if (e->dyntab) {
-      sys_free(e->dyntab);
+      free(e->dyntab);
    }
    if (e->dynstr) {
-      sys_free(e->dynstr);
+      free(e->dynstr);
    }
    if (e->exec) {
-      sys_munmap(e->exec, e->exec_size);
+      munmap(e->exec, e->exec_size);
    }
 }
 
 dl* dl_find(dl* hndl, const char* path)
 {
    dl* s;
-   sys_printf(SYS_DEBUG "SEARCHING %s ", path);
+   printf(SYS_DEBUG "SEARCHING %s ", path);
    for (s = hndl; s != NULL; s = s->next) {
       if (strcmp(s->path, path) == 0) {
-		  sys_printf("ALREDY\n");
+		  printf("%s\n", "ALREDY");
          return s;
       }
    }
-   sys_printf("NEEDLOAD\n");
+   printf("%s\n", "NEEDLOAD");
    return NULL;
 }
 
 int dl_load(dl* buf, const char* file)
 {
-   sys_printf(SYS_INFO "Loading %s ... ", file);
+   printf(SYS_INFO "Loading %s ... ", file);
    buf->path = file;
    buf->next = NULL;
    buf->dl_elf = calloc(1, sizeof(elf));
@@ -87,7 +87,7 @@ int dl_load(dl* buf, const char* file)
    buf->dl_elf->phdrs = elf_load_phdrs(file, buf->dl_elf->hdr);
    buf->dl_elf->exec_size = elf_load_exec(file, buf->dl_elf->hdr,
          buf->dl_elf->phdrs, NULL);
-   buf->dl_elf->exec = sys_mmap(NULL, buf->dl_elf->exec_size,
+   buf->dl_elf->exec = mmap(NULL, buf->dl_elf->exec_size,
          PROT_READ | PROT_WRITE | PROT_EXEC,
          MAP_ANONYMOUS|MAP_SHARED, -1, 0);
    memset(buf->dl_elf->exec, 0x0, buf->dl_elf->exec_size);
@@ -111,7 +111,7 @@ int dl_load(dl* buf, const char* file)
    }
    buf->dl_elf->rela[i] = NULL;
 
-   buf->dl_elf->tlsrela = sys_malloc((relacnt + 1) * sizeof(tlsrelas*));   
+   buf->dl_elf->tlsrela = malloc((relacnt + 1) * sizeof(tlsrelas*));   
    for (i = 0; i < relacnt; i++) {
       buf->dl_elf->tlsrela[i] = calloc(1, sizeof(elfrelas));
    }
@@ -122,10 +122,10 @@ int dl_load(dl* buf, const char* file)
          SHT_SYMTAB);
    int_t dyncnt = elf_count_table(buf->dl_elf->hdr, buf->dl_elf->shdrs,
          SHT_DYNSYM);
-   buf->dl_elf->sym = sys_malloc((symcnt + dyncnt + 1) * sizeof(elfsyms*));
+   buf->dl_elf->sym = malloc((symcnt + dyncnt + 1) * sizeof(elfsyms*));
    start_ndx = 0;
    for (i = 0; i < symcnt; i++) {
-      buf->dl_elf->sym[i] = sys_malloc(sizeof(elfsyms));
+      buf->dl_elf->sym[i] = malloc(sizeof(elfsyms));
       buf->dl_elf->sym[i]->head = elf_find_table(buf->dl_elf->hdr, buf->dl_elf->shdrs,
             &start_ndx, SHT_SYMTAB);
       buf->dl_elf->sym[i]->syms = elf_load_table(file, buf->dl_elf->hdr,
@@ -137,7 +137,7 @@ int dl_load(dl* buf, const char* file)
    }
    start_ndx = 0;
    for (i = i; i < symcnt + dyncnt; i++) {
-      buf->dl_elf->sym[i] = sys_malloc(sizeof(elfsyms));
+      buf->dl_elf->sym[i] = malloc(sizeof(elfsyms));
       buf->dl_elf->sym[i]->head = elf_find_table(buf->dl_elf->hdr, buf->dl_elf->shdrs,
             &start_ndx, SHT_DYNSYM);
       buf->dl_elf->sym[i]->syms = elf_load_table(file, buf->dl_elf->hdr,
@@ -155,7 +155,7 @@ int dl_load(dl* buf, const char* file)
    buf->dl_elf->dynstr = elf_load_strings(file, buf->dl_elf->hdr,
          buf->dl_elf->shdrs, buf->dl_elf->dyns);
    buf->nlink = 1;      
-   sys_printf("OK\n");
+   printf("%s\n", "OK");
    return 0;
 fail:
    elf_free(buf->dl_elf);
@@ -178,7 +178,7 @@ char* ldpath(const char* path, const char* file)
       system_path = strdup(path);
       pathlen = strlen(system_path);
    }
-   char* rezult = sys_malloc(pathlen + strlen(file) + 2);
+   char* rezult = malloc(pathlen + strlen(file) + 2);
    if (file[0] == '/' || !system_path) {
       strcpy(rezult, file);
       goto end;
@@ -189,14 +189,14 @@ char* ldpath(const char* path, const char* file)
       strcpy(rezult + strlen(dir), file);
       dir =strtok(NULL, ":");
       struct stat st;
-      if (sys_stat(rezult, &st) != -1) {
+      if (stat(rezult, &st) != -1) {
          found = 1;
          break;
       }
    }
 end:
    if (system_path) {
-      sys_free(system_path);
+      free(system_path);
    }
    if (found) {
       return rezult;
@@ -208,7 +208,7 @@ end:
 
 void *dlopen(const char* filename, int flags)
 {
-   dl* prog = sys_malloc(sizeof(dl));
+   dl* prog = malloc(sizeof(dl));
    memset(prog, 0x0, sizeof(dl));
    if (dl_load(prog, filename)) {
       goto fail;
@@ -221,14 +221,14 @@ void *dlopen(const char* filename, int flags)
                   prog->dl_elf->dynstr)) {
 		 char* path = ldpath(LD_PATH, file);
 		 if (!path) {
-            sys_printf(SYS_ERROR "%s not found in %s\n", file, LD_PATH);
+            printf(SYS_ERROR "%s not found in %s\n", file, LD_PATH);
 		    goto fail;
 	     }	 
-		 sys_printf(SYS_DEBUG "NEEDED %s\n", file);			  
+		 printf(SYS_DEBUG "NEEDED %s\n", file);			  
          if (dl_find(prog, path)) {
             continue;
          }
-         dl* lib = sys_malloc(sizeof(dl));
+         dl* lib = malloc(sizeof(dl));
          memset(lib, 0x0, sizeof(dl));
          if (dl_load(lib, path)) {
             goto fail;
@@ -242,7 +242,7 @@ void *dlopen(const char* filename, int flags)
    }
    scope = prog;
    for (s = prog; s != NULL; s = s->next) {
-      sys_printf(SYS_INFO "Relocate %s\n", s->path);
+      printf(SYS_INFO "Relocate %s\n", s->path);
       int_t sym_ndx;
       for (sym_ndx = 0; s->dl_elf->sym[sym_ndx]; sym_ndx++)
          if (s->dl_elf->sym[sym_ndx]->dynamic) {
@@ -295,8 +295,8 @@ int dlclose(void *hndl)
       s->nlink--;
       if (s->nlink <= 0) {
 	     elf_free(s->dl_elf);
-         sys_free(s->dl_elf);
-         sys_free(s);
+         free(s->dl_elf);
+         free(s);
       }
       s = next;
    }
@@ -306,7 +306,7 @@ int dlclose(void *hndl)
 void dltls(void* handle, unsigned long module_id)
 {
    dl* s;
-   sys_printf(SYS_DEBUG "Set TLS module id=%d\n", module_id);
+   printf(SYS_DEBUG "Set TLS module id=%d\n", module_id);
    for (s = handle; s != NULL; s = s->next) {
       int rela_ndx;
       for (rela_ndx = 0; s->dl_elf->rela[rela_ndx]; rela_ndx++) {
@@ -315,7 +315,7 @@ void dltls(void* handle, unsigned long module_id)
 			 for (i = 0; i < s->dl_elf->tlsrela[rela_ndx]->count; i++)
 			 {
 				 *(Elf_Xword*)(s->dl_elf->exec + s->dl_elf->tlsrela[rela_ndx]->relas[i].r_offset) = module_id;
-// MARK ?? QUESTION	 sys_printf("FOUND  TLS rela in %p %p=%p\n", s->dl_elf->tlsrela[rela_ndx]->relas, &s->dl_elf->tlsrela[rela_ndx]->relas[i], s->dl_elf->tlsrela[rela_ndx]->relas[i].r_offset);
+// MARK ?? QUESTION	 printf("FOUND  TLS rela in %p %p=%p\n", s->dl_elf->tlsrela[rela_ndx]->relas, &s->dl_elf->tlsrela[rela_ndx]->relas[i], s->dl_elf->tlsrela[rela_ndx]->relas[i].r_offset);
 			 }
          }
 

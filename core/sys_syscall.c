@@ -59,7 +59,7 @@ long_t sys_syscall(long_t number, ...)
       size1 = va_arg(vl, size_t);
       size2 = va_arg(vl, size_t);
       va_end(vl);
-      return sys_fwrite(char1, ptr1, size1, size2);
+      return sys_afwrite(char1, ptr1, size1, size2);
       break;
    case SYS_FREAD:
       char1 = va_arg(vl, char*);
@@ -67,7 +67,7 @@ long_t sys_syscall(long_t number, ...)
       size1 = va_arg(vl, size_t);
       size2 = va_arg(vl, size_t);
       va_end(vl);
-      return sys_fread(char1, ptr1, size1, size2);
+      return sys_afread(char1, ptr1, size1, size2);
       break;
    case SYS_FSTAT:
       char1 = va_arg(vl, char*);
