@@ -2,6 +2,7 @@
 #define _LIBDL_H
 
 #include "tinyelf.h"
+#include "namedlist.h"
 
 typedef struct {
    Elf_Ehdr* hdr;
@@ -28,9 +29,10 @@ void dltls(void* handle, unsigned long module_id);
 #define RTLD_DEEPBIND 0x0004
 
 typedef struct {
+   NAMED_LIST_ESSENTIAL
    const char* path;
    elf* dl_elf;
-   void* next;
+   int flags;
    int_t nlink;
 } dl;
 
