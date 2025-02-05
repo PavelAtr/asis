@@ -35,7 +35,8 @@ extern __thread int fds1;
 extern __thread int fds2;
 
 extern FILE*** core_fds;
-#define fds (*core_fds)
+extern __thread FILE*** core_fds2;
+#define fds (*core_fds2)
 #define stdin (*core_fds)[0]
 #define stdout (*core_fds)[1]
 #define stderr (*core_fds)[2]

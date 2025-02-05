@@ -161,9 +161,7 @@ void* elf_symbol(Elf_Shdr* symhdr, Elf_Sym* symtab, const char* symstr,
    return NULL;
 }
 
-int dtneed_ndx = 0;
-
-const char* elf_dtneed(Elf_Shdr* dynhdr, Elf64_Dyn* dyntab, const char* dynstr)
+const char* elf_dtneed(Elf_Shdr* dynhdr, Elf64_Dyn* dyntab, const char* dynstr, int* dtneed_ndx)
 {
    if (!dynhdr || !dyntab) {
       printf("%s\n", "elf_dtneed: hdrs is NULL");
@@ -176,8 +174,8 @@ const char* elf_dtneed(Elf_Shdr* dynhdr, Elf64_Dyn* dyntab, const char* dynstr)
       switch(dyntab[i].d_tag) {
       case DT_NEEDED:
          dlname =  &dynstr[dyntab[i].d_un.d_val];
-         if (dtneed_ndx == counter) {
-            dtneed_ndx++;
+         if (*dtneed_ndx == counter) {
+            *dtneed_ndx = counter + 1;
             return dlname;
          }
          counter++;

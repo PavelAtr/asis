@@ -44,8 +44,7 @@ Elf_Shdr* elf_find_table(Elf_Ehdr* hdr, Elf_Shdr* shdrs, int* start_ndx, unsigne
 void* elf_load_table(const char* path, Elf_Ehdr* hdr, Elf_Shdr* shdr);
 char* elf_load_strings(const char* path, Elf_Ehdr* hdr, Elf_Shdr* shdrs, Elf_Shdr* tab);
 void* elf_symbol(Elf_Shdr* symhdr, Elf_Sym* symtab, const char* symstr, const char* exec, const char* symname);
-extern int dtneed_ndx;
-const char* elf_dtneed(Elf_Shdr* dynhdr, Elf64_Dyn* dyntab, const char* dynstr);
+const char* elf_dtneed(Elf_Shdr* dynhdr, Elf64_Dyn* dyntab, const char* dynstr, int* dtneed_ndx);
 void elf_relocate(Elf_Ehdr* hdr, Elf_Shdr* rela, Elf_Rela* relatab, Elf_Sym* symtab, const char* symstr, int* tls_relas_count, char* exec, void* (*resolve)(const char* symname));
 Elf_Rela* elf_copy_tls_rela(Elf_Shdr* rela, Elf_Rela* relatab, int count);
 

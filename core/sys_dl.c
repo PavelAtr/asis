@@ -6,10 +6,17 @@
 #include "../userspace/libdl/dlfcn.h"
 #endif
 
+#ifdef DEBUG
 void* sys_dlopen(const char *filename, int flags)
 {
 	return dlopen(filename, RTLD_NOW | RTLD_DEEPBIND);
 }
+#else
+void* sys_dlopen(const char *filename, int flags)
+{
+	return dlopen(filename, 0);
+}
+#endif
 
 int sys_dlclose(void *handle)
 {

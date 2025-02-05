@@ -217,9 +217,9 @@ void *dlopen(const char* filename, int flags)
    dl* s = prog;
    while (1) {
       const char* file;
-      dtneed_ndx = 0;
+      int dtneed_ndx = 0;
       while (file = elf_dtneed(prog->dl_elf->dyns, prog->dl_elf->dyntab,
-                  prog->dl_elf->dynstr)) {
+                  prog->dl_elf->dynstr, &dtneed_ndx)) {
 		 char* path = ldpath(LD_PATH, file);
 		 if (!path) {
             printf("%s not found in %s\n", file, LD_PATH);
@@ -255,6 +255,7 @@ void *dlopen(const char* filename, int flags)
          elf_relocate(s->dl_elf->hdr, s->dl_elf->rela[rela_ndx]->head,
             s->dl_elf->rela[rela_ndx]->relas, s->dl_elf->sym[sym_ndx]->syms,
             s->dl_elf->sym[sym_ndx]->symstr, &tls_relas_count, s->dl_elf->exec, &resolve);
+         printf("FOUND %d tls rela\n", tls_relas_count);   
 		 s->dl_elf->tlsrela[rela_ndx]->count = tls_relas_count;
          s->dl_elf->tlsrela[rela_ndx]->relas = elf_copy_tls_rela(s->dl_elf->rela[rela_ndx]->head,
             s->dl_elf->rela[rela_ndx]->relas, tls_relas_count);

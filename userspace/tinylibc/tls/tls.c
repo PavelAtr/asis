@@ -4,6 +4,14 @@
 
 int* tinylibc_tls_id = NULL;
 
+void* allocate_tls(size_t m)
+{
+   printf("ALLOCATE TLS=%ld\n", m);
+   return NULL;
+}
+
+__thread FILE*** core_fds2;
+
 int a;
 
 typedef struct
