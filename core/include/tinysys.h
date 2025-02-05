@@ -230,5 +230,6 @@ void* sys_dlopen(const char *filename, int flags);
 int sys_dlclose(void *handle);
 void* sys_dlsym(void * handle, const char * symbol);
 void sys_dltls(void* handle, unsigned long module_id);
+int sys_getrlimit(int resource, void* r);
 
 #endif

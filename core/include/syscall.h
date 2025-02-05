@@ -40,6 +40,7 @@ extern long (*syscall)(long number, ...);
 #define SYS_SETPGID 30
 #define SYS_SETJMP 31
 #define SYS_LONGJMP 32
+#define SYS_GETRLIMIT 33
 
 
 #endif

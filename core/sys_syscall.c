@@ -196,6 +196,11 @@ long_t sys_syscall(long_t number, ...)
       longptr = va_arg(vl, long_t*);
       va_end(vl);      
       return sys_longjmp(longptr);
+   case SYS_GETRLIMIT:
+      int1 = va_arg(vl, int);
+      ptr1 = va_arg(vl, void*);
+      va_end(vl);      
+      return sys_getrlimit(int1, ptr1);
    default:
       va_end(vl);
       sys_printf(SYS_INFO "Unsupported syscall %d\n", number);

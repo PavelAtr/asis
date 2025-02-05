@@ -41,7 +41,7 @@ Elf_Phdr* elf_load_phdrs(const char* path, Elf_Ehdr* hdr)
    return buf;
 }
 
-size_t elf_load_exec(const char* path, Elf_Ehdr* hdr, Elf_Phdr* phdrs, char* exec)
+size_t elf_load_exec(const char* path, Elf_Ehdr* hdr, Elf_Phdr* phdrs, char* exec, size_t* tls_size)
 {
    size_t size = 0;
    if (!hdr || !phdrs) {
@@ -50,7 +50,7 @@ size_t elf_load_exec(const char* path, Elf_Ehdr* hdr, Elf_Phdr* phdrs, char* exe
    }
    int i;
    for (i = 0; i < hdr->e_phnum; i++) {
-      if (phdrs[i].p_type == PT_LOAD || phdrs[i].p_type == PT_TLS) {
+      if (phdrs[i].p_type == PT_LOAD) {
          if (!exec) {
             size_t len = phdrs[i].p_memsz;
             size = (size < phdrs[i].p_vaddr + len)? phdrs[i].p_vaddr + len : size;
@@ -58,6 +58,9 @@ size_t elf_load_exec(const char* path, Elf_Ehdr* hdr, Elf_Phdr* phdrs, char* exe
             afread(path, exec + phdrs[i].p_vaddr, phdrs[i].p_filesz, phdrs[i].p_offset);
          }
       }
+      if (phdrs[i].p_type == PT_TLS) {
+		  *tls_size = phdrs[i].p_memsz;
+	  }
    }
    return size;
 }
@@ -168,7 +171,7 @@ const char* elf_dtneed(Elf_Shdr* dynhdr, Elf64_Dyn* dyntab, const char* dynstr, 
       return NULL;
    }
    int counter = 0;
-   addr_t i;
+   int i;
    const char* dlname;
    for (i = 0; i < dynhdr->sh_size / dynhdr->sh_entsize; i++) {
       switch(dyntab[i].d_tag) {
@@ -186,3 +189,47 @@ const char* elf_dtneed(Elf_Shdr* dynhdr, Elf64_Dyn* dyntab, const char* dynstr, 
    }
    return NULL;
 }
+
+void elf_init(char* exec, Elf_Shdr* dynhdr, Elf64_Dyn* dyntab)
+{
+   if (!dynhdr || !dyntab) {
+      printf("%s\n", "elf_init: hdrs is NULL");
+      return;
+   }
+   int counter = 0;
+   int i;
+   const char* dlname;
+   for (i = 0; i < dynhdr->sh_size / dynhdr->sh_entsize; i++) {
+      switch(dyntab[i].d_tag) {
+      case DT_INIT:
+         void (*func)() = (void*)(exec + dyntab[i].d_un.d_ptr);
+         printf("Found init %p\n", func);
+         func();
+         break;
+      default :
+         break;
+      }
+   }
+   
+   /*typedef void (*initfunc)();
+   initfunc* dt_init_array = NULL;
+   int dt_init_arraysz = 0;
+   for (i = 0; i < dynhdr->sh_size / dynhdr->sh_entsize; i++) {
+      switch(dyntab[i].d_tag) {
+      case DT_INIT_ARRAY:
+         dt_init_array = (void*)dyntab[i].d_un.d_ptr;
+         break;
+      case DT_INIT_ARRAYSZ:
+          dt_init_arraysz = dyntab[i].d_un.d_val;
+          break;
+      default :
+         break;
+      }
+   }
+  for (i = 0; i < dt_init_arraysz / sizeof(void*); i++) {
+//	  dt_init_array[i]();
+      printf("Found init %p\n", dt_init_array[i]);
+   }
+ */
+}
+

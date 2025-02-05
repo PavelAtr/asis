@@ -87,12 +87,12 @@ int dl_load(dl* buf, const char* file)
    buf->dl_elf->hdr = elf_load_hdr(file);
    buf->dl_elf->phdrs = elf_load_phdrs(file, buf->dl_elf->hdr);
    buf->dl_elf->exec_size = elf_load_exec(file, buf->dl_elf->hdr,
-         buf->dl_elf->phdrs, NULL);
+         buf->dl_elf->phdrs, NULL, &buf->dl_elf->tls_size);
    buf->dl_elf->exec = mmap(NULL, buf->dl_elf->exec_size,
          PROT_READ | PROT_WRITE | PROT_EXEC,
          MAP_ANONYMOUS|MAP_SHARED, -1, 0);
    memset(buf->dl_elf->exec, 0x0, buf->dl_elf->exec_size);
-   elf_load_exec(file, buf->dl_elf->hdr, buf->dl_elf->phdrs, buf->dl_elf->exec);
+   elf_load_exec(file, buf->dl_elf->hdr, buf->dl_elf->phdrs, buf->dl_elf->exec, &buf->dl_elf->tls_size);
    buf->dl_elf->shdrs = elf_load_shdrs(file, buf->dl_elf->hdr);
    if (!buf->dl_elf->hdr || !buf->dl_elf->phdrs || !buf->dl_elf->shdrs) {
       goto fail;
@@ -261,6 +261,15 @@ void *dlopen(const char* filename, int flags)
             s->dl_elf->rela[rela_ndx]->relas, tls_relas_count);
       }     
    }
+   for (s = prog; s != NULL; s = s->next) {
+      printf("Init %s\n", s->path);
+      elf_init(s->dl_elf->exec, s->dl_elf->dyns, s->dl_elf->dyntab);
+      void* (*allocate_tls)(size_t) = dlsym(s, "allocate_tls");
+      if (allocate_tls) {
+		  allocate_tls(s->dl_elf->tls_size);
+	  }
+   }
+
    return prog;
 fail:
    dlclose(prog);
@@ -308,7 +317,6 @@ int dlclose(void *hndl)
 void dltls(void* handle, unsigned long module_id)
 {
    dl* s;
-   printf("Set TLS module id=%d\n", module_id);
    for (s = handle; s != NULL; s = s->next) {
       int rela_ndx;
       for (rela_ndx = 0; s->dl_elf->rela[rela_ndx]; rela_ndx++) {

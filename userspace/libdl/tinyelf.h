@@ -16,28 +16,9 @@
 #define Elf_Dyn Elf64_Dyn
 #endif
 
-typedef struct {
-   Elf_Shdr* head;
-   Elf_Sym* syms;
-   char* symstr;
-   bool_t dynamic;
-} elfsyms;
-
-typedef struct {
-   Elf_Shdr* head;
-   Elf_Rela* relas;
-} elfrelas;
-
-typedef struct {
-   Elf_Rela* relas;
-   int count;
-} tlsrelas;
-
-
-
 Elf_Ehdr* elf_load_hdr(const char* path);
 Elf_Phdr* elf_load_phdrs(const char* path, Elf_Ehdr* hdr);
-size_t elf_load_exec(const char* path, Elf_Ehdr* hdr, Elf_Phdr* phdrs, char* exec);
+size_t elf_load_exec(const char* path, Elf_Ehdr* hdr, Elf_Phdr* phdrs, char* exec, size_t* tls_size);
 Elf_Shdr* elf_load_shdrs(const char* path, Elf_Ehdr* hdr);
 int elf_count_table(Elf_Ehdr* hdr, Elf_Shdr* shdrs, unsigned int sh_type);
 Elf_Shdr* elf_find_table(Elf_Ehdr* hdr, Elf_Shdr* shdrs, int* start_ndx, unsigned int sh_type);
@@ -47,5 +28,6 @@ void* elf_symbol(Elf_Shdr* symhdr, Elf_Sym* symtab, const char* symstr, const ch
 const char* elf_dtneed(Elf_Shdr* dynhdr, Elf64_Dyn* dyntab, const char* dynstr, int* dtneed_ndx);
 void elf_relocate(Elf_Ehdr* hdr, Elf_Shdr* rela, Elf_Rela* relatab, Elf_Sym* symtab, const char* symstr, int* tls_relas_count, char* exec, void* (*resolve)(const char* symname));
 Elf_Rela* elf_copy_tls_rela(Elf_Shdr* rela, Elf_Rela* relatab, int count);
+void elf_init(char* exec, Elf_Shdr* dynhdr, Elf64_Dyn* dyntab);
 
 #endif
