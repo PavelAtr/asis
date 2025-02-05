@@ -206,6 +206,23 @@ end:
    }
 }
 
+void *dlsym_single(void* hndl, const char* symbol)
+{
+   dl* s;
+   void* sym;
+   s = hndl;
+      int sym_ndx;
+      for (sym_ndx = 0; s->dl_elf->sym[sym_ndx]; sym_ndx++) {
+         sym = elf_symbol(s->dl_elf->sym[sym_ndx]->head,
+               s->dl_elf->sym[sym_ndx]->syms, s->dl_elf->sym[sym_ndx]->symstr,
+               s->dl_elf->exec, symbol);
+         if (sym) {
+            return sym;
+         }
+      }
+   return NULL;
+}
+
 
 void *dlopen(const char* filename, int flags)
 {
@@ -264,7 +281,7 @@ void *dlopen(const char* filename, int flags)
    for (s = prog; s != NULL; s = s->next) {
       printf(MARK "Init %s\n", s->path);
       elf_init(s->dl_elf->exec, s->dl_elf->dyns, s->dl_elf->dyntab);
-      void* (*allocate_tls)(size_t) = dlsym(s, "allocate_tls");
+      void* (*allocate_tls)(size_t) = dlsym_single(s, "allocate_tls");
       if (allocate_tls) {
 		  allocate_tls(s->dl_elf->tls_size);
 	  }
