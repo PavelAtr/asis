@@ -27,7 +27,7 @@ Elf_Ehdr* elf_load_hdr(const char* path)
 Elf_Phdr* elf_load_phdrs(const char* path, Elf_Ehdr* hdr)
 {
    if (!hdr) {
-      printf("%s\n", "elf_load_pheaders: hdr is NULL");
+      printf(MARK "%s\n", "elf_load_pheaders: hdr is NULL");
       return NULL;
    }
    Elf_Phdr* buf = malloc(sizeof(Elf_Phdr) * hdr->e_phnum);
@@ -45,7 +45,7 @@ size_t elf_load_exec(const char* path, Elf_Ehdr* hdr, Elf_Phdr* phdrs, char* exe
 {
    size_t size = 0;
    if (!hdr || !phdrs) {
-      printf("%s\n", "elf_load: hdrs is NULL");
+      printf(MARK "%s\n", "elf_load: hdrs is NULL");
       return 0;
    }
    int i;
@@ -68,7 +68,7 @@ size_t elf_load_exec(const char* path, Elf_Ehdr* hdr, Elf_Phdr* phdrs, char* exe
 Elf_Shdr* elf_load_shdrs(const char* path, Elf_Ehdr* hdr)
 {
    if (!hdr) {
-      printf("%s\n", "elf_load_shdrs: hdrs is NULL");
+      printf(MARK "%s\n", "elf_load_shdrs: hdrs is NULL");
       return NULL;
    }
    Elf_Shdr* buf = malloc(sizeof(Elf_Shdr) * hdr->e_shnum);
@@ -84,7 +84,7 @@ Elf_Shdr* elf_load_shdrs(const char* path, Elf_Ehdr* hdr)
 int elf_count_table(Elf_Ehdr* hdr, Elf_Shdr* shdrs, unsigned int sh_type)
 {
    if (!hdr || !shdrs) {
-      printf("%s\n", "elf_load_shdrs: hdrs is NULL");
+      printf(MARK "%s\n", "elf_load_shdrs: hdrs is NULL");
       return 0;
    }
    int i;
@@ -101,7 +101,7 @@ Elf_Shdr* elf_find_table(Elf_Ehdr* hdr, Elf_Shdr* shdrs, int* start_ndx,
    unsigned int sh_type)
 {
    if (!hdr || !shdrs) {
-      printf("%s\n", "elf_load_shdrs: hdrs is NULL");
+      printf(MARK "%s\n", "elf_load_shdrs: hdrs is NULL");
       return NULL;
    }
    int i;
@@ -117,7 +117,7 @@ Elf_Shdr* elf_find_table(Elf_Ehdr* hdr, Elf_Shdr* shdrs, int* start_ndx,
 void* elf_load_table(const char* path, Elf_Ehdr* hdr, Elf_Shdr* shdr)
 {
    if (!hdr || !shdr) {
-      printf("%s\n", "elf_load_shdrs: hdrs is NULL");
+      printf(MARK "%s\n", "elf_load_shdrs: hdrs is NULL");
       return NULL;
    }
    void* buf = malloc(shdr->sh_size);
@@ -133,7 +133,7 @@ char* elf_load_strings(const char* path, Elf_Ehdr* hdr, Elf_Shdr* shdrs,
    Elf_Shdr* tab)
 {
    if (!hdr || !shdrs || !tab) {
-      printf("%s\n", "elf_load_strings: hdrs is NULL");
+      printf(MARK "%s\n", "elf_load_strings: hdrs is NULL");
       return NULL;
    }
    char* buf = malloc(shdrs[tab->sh_link].sh_size);
@@ -150,7 +150,7 @@ void* elf_symbol(Elf_Shdr* symhdr, Elf_Sym* symtab, const char* symstr,
    const char* exec, const char* symname)
 {
    if (!symhdr || !symtab || !symstr) {
-      printf("%s\n", "elf_symbol: hdrs is NULL");
+      printf(MARK "%s\n", "elf_symbol: hdrs is NULL");
       return NULL;
    }
    addr_t i;
@@ -167,7 +167,7 @@ void* elf_symbol(Elf_Shdr* symhdr, Elf_Sym* symtab, const char* symstr,
 const char* elf_dtneed(Elf_Shdr* dynhdr, Elf64_Dyn* dyntab, const char* dynstr, int* dtneed_ndx)
 {
    if (!dynhdr || !dyntab) {
-      printf("%s\n", "elf_dtneed: hdrs is NULL");
+      printf(MARK "%s\n", "elf_dtneed: hdrs is NULL");
       return NULL;
    }
    int counter = 0;
@@ -193,7 +193,7 @@ const char* elf_dtneed(Elf_Shdr* dynhdr, Elf64_Dyn* dyntab, const char* dynstr, 
 void elf_init(char* exec, Elf_Shdr* dynhdr, Elf64_Dyn* dyntab)
 {
    if (!dynhdr || !dyntab) {
-      printf("%s\n", "elf_init: hdrs is NULL");
+      printf(MARK "%s\n", "elf_init: hdrs is NULL");
       return;
    }
    int counter = 0;
@@ -203,7 +203,7 @@ void elf_init(char* exec, Elf_Shdr* dynhdr, Elf64_Dyn* dyntab)
       switch(dyntab[i].d_tag) {
       case DT_INIT:
          void (*func)() = (void*)(exec + dyntab[i].d_un.d_ptr);
-         printf("Found init %p\n", func);
+         printf(MARK "Found init %p\n", func);
          func();
          break;
       default :
@@ -234,7 +234,7 @@ void elf_init(char* exec, Elf_Shdr* dynhdr, Elf64_Dyn* dyntab)
 void elf_fini(char* exec, Elf_Shdr* dynhdr, Elf64_Dyn* dyntab)
 {
    if (!dynhdr || !dyntab) {
-      printf("%s\n", "elf_init: hdrs is NULL");
+      printf(MARK "%s\n", "elf_init: hdrs is NULL");
       return;
    }
    int counter = 0;

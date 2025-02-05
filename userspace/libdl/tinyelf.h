@@ -4,6 +4,10 @@
 #include "elf.h"
 #include <sys/types.h>
 
+#ifndef MARK
+#define MARK "debug: "
+#endif
+
 #ifdef ELF64
 #define Elf_Ehdr Elf64_Ehdr
 #define Elf_Phdr Elf64_Phdr

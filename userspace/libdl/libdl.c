@@ -67,20 +67,20 @@ void elf_free(elf* e)
 dl* dl_find(dl* hndl, const char* path)
 {
    dl* s;
-   printf("SEARCHING %s ", path);
+   printf(MARK "SEARCHING %s ", path);
    for (s = hndl; s != NULL; s = s->next) {
       if (strcmp(s->path, path) == 0) {
-		  printf("%s\n", "ALREDY");
+		  printf(MARK "%s\n", "ALREDY");
          return s;
       }
    }
-   printf("%s\n", "NEEDLOAD");
+   printf(MARK "%s\n", "NEEDLOAD");
    return NULL;
 }
 
 int dl_load(dl* buf, const char* file)
 {
-   printf("Loading %s ... ", file);
+   printf(MARK "Loading %s ... ", file);
    buf->path = file;
    buf->next = NULL;
    buf->dl_elf = calloc(1, sizeof(elf));
@@ -156,7 +156,7 @@ int dl_load(dl* buf, const char* file)
    buf->dl_elf->dynstr = elf_load_strings(file, buf->dl_elf->hdr,
          buf->dl_elf->shdrs, buf->dl_elf->dyns);
    buf->nlink = 1;      
-   printf("%s\n", "OK");
+   printf(MARK "%s\n", "OK");
    return 0;
 fail:
    elf_free(buf->dl_elf);
@@ -222,10 +222,10 @@ void *dlopen(const char* filename, int flags)
                   prog->dl_elf->dynstr, &dtneed_ndx)) {
 		 char* path = ldpath(LD_PATH, file);
 		 if (!path) {
-            printf("%s not found in %s\n", file, LD_PATH);
+            printf(MARK "%s not found in %s\n", file, LD_PATH);
 		    goto fail;
 	     }	 
-		 printf("NEEDED %s\n", file);			  
+		 printf(MARK "NEEDED %s\n", file);			  
          if (dl_find(prog, path)) {
             continue;
          }
@@ -243,7 +243,7 @@ void *dlopen(const char* filename, int flags)
    }
    scope = prog;
    for (s = prog; s != NULL; s = s->next) {
-      printf("Relocate %s\n", s->path);
+      printf(MARK "Relocate %s\n", s->path);
       int sym_ndx;
       for (sym_ndx = 0; s->dl_elf->sym[sym_ndx]; sym_ndx++)
          if (s->dl_elf->sym[sym_ndx]->dynamic) {
@@ -255,14 +255,14 @@ void *dlopen(const char* filename, int flags)
          elf_relocate(s->dl_elf->hdr, s->dl_elf->rela[rela_ndx]->head,
             s->dl_elf->rela[rela_ndx]->relas, s->dl_elf->sym[sym_ndx]->syms,
             s->dl_elf->sym[sym_ndx]->symstr, &tls_relas_count, s->dl_elf->exec, &resolve);
-         printf("FOUND %d tls rela\n", tls_relas_count);   
+         printf(MARK "FOUND %d tls rela\n", tls_relas_count);   
 		 s->dl_elf->tlsrela[rela_ndx]->count = tls_relas_count;
          s->dl_elf->tlsrela[rela_ndx]->relas = elf_copy_tls_rela(s->dl_elf->rela[rela_ndx]->head,
             s->dl_elf->rela[rela_ndx]->relas, tls_relas_count);
       }     
    }
    for (s = prog; s != NULL; s = s->next) {
-      printf("Init %s\n", s->path);
+      printf(MARK "Init %s\n", s->path);
       elf_init(s->dl_elf->exec, s->dl_elf->dyns, s->dl_elf->dyntab);
       void* (*allocate_tls)(size_t) = dlsym(s, "allocate_tls");
       if (allocate_tls) {
@@ -301,7 +301,7 @@ int dlclose(void *hndl)
       return 0;
    }
    for (s = hndl; s != NULL; s = s->next) {
-         printf("Fini %s\n", s->path);
+         printf(MARK "Fini %s\n", s->path);
          elf_fini(s->dl_elf->exec, s->dl_elf->dyns, s->dl_elf->dyntab);
    }
    s = hndl;
@@ -330,7 +330,7 @@ void dltls(void* handle, unsigned long module_id)
 			 for (i = 0; i < s->dl_elf->tlsrela[rela_ndx]->count; i++)
 			 {
 				 *(Elf_Xword*)(s->dl_elf->exec + s->dl_elf->tlsrela[rela_ndx]->relas[i].r_offset) = module_id;
-// MARK ?? QUESTION	 printf("FOUND  TLS rela in %p %p=%p\n", s->dl_elf->tlsrela[rela_ndx]->relas, &s->dl_elf->tlsrela[rela_ndx]->relas[i], s->dl_elf->tlsrela[rela_ndx]->relas[i].r_offset);
+// MARK ?? QUESTION	 printf(MARK "FOUND  TLS rela in %p %p=%p\n", s->dl_elf->tlsrela[rela_ndx]->relas, &s->dl_elf->tlsrela[rela_ndx]->relas[i], s->dl_elf->tlsrela[rela_ndx]->relas[i].r_offset);
 			 }
          }
 

@@ -17,7 +17,7 @@ void elf_relocate(Elf_Ehdr* hdr, Elf_Shdr* rela, Elf_Rela* relatab,
    void* (*resolve)(const char* symname))
 {
    if (!hdr || !rela || !relatab || !symtab || ! symstr) {
-      printf("%s\n", "elf_relocate: hdrs is NULL");
+      printf(MARK "%s\n", "elf_relocate: hdrs is NULL");
       return ;
    }
    int j;
@@ -38,7 +38,7 @@ void elf_relocate(Elf_Ehdr* hdr, Elf_Shdr* rela, Elf_Rela* relatab,
          break;
       case R_COPY:
          if (!symaddr) {
-            printf("elf_relocate: %s R_COPY NOT FOUND\n", symname);
+            printf(MARK "elf_relocate: %s R_COPY NOT FOUND\n", symname);
             break;
          }
          memcpy(exec + relatab[j].r_offset,	symaddr,
@@ -46,7 +46,7 @@ void elf_relocate(Elf_Ehdr* hdr, Elf_Shdr* rela, Elf_Rela* relatab,
          break;
       case R_64:
          if (!symaddr) {
-            printf("elf_relocate: %s R_64 NOT FOUND\n", symname);
+            printf(MARK "elf_relocate: %s R_64 NOT FOUND\n", symname);
             break;
          }
          *(Elf_Xword*)(exec + relatab[j].r_offset) = (Elf_Xword)(
@@ -54,14 +54,14 @@ void elf_relocate(Elf_Ehdr* hdr, Elf_Shdr* rela, Elf_Rela* relatab,
          break;
       case R_GLOB_DAT:
          if (!symaddr) {
-            printf("elf_relocate: %s R_GLOB_DAT NOT FOUND\n", symname);
+            printf(MARK "elf_relocate: %s R_GLOB_DAT NOT FOUND\n", symname);
             break;
          }
          *(Elf_Xword*)(exec + relatab[j].r_offset) = (Elf_Xword) symaddr;
          break;
       case R_JUMP_SLOT:
          if (!symaddr) {
-            printf("elf_relocate: %s R_JUMP_SLOT NOT FOUND\n", symname);
+            printf(MARK "elf_relocate: %s R_JUMP_SLOT NOT FOUND\n", symname);
             break;
          }
          *(Elf_Xword*)(exec + relatab[j].r_offset) = (Elf_Xword) symaddr;
@@ -74,7 +74,7 @@ void elf_relocate(Elf_Ehdr* hdr, Elf_Shdr* rela, Elf_Rela* relatab,
                      relatab[j].r_info)].st_value + relatab[j].r_addend;
          break;
       default:
-         printf("UNREALIZED RELA %s %ld \n", symname,
+         printf(MARK "UNREALIZED RELA %s %ld \n", symname,
             ELF_R_TYPE(relatab[j].r_info));
          break;
       }
@@ -93,7 +93,7 @@ Elf_Rela* elf_copy_tls_rela(Elf_Shdr* rela, Elf_Rela* relatab, int count)
       switch (ELF_R_TYPE(relatab[j].r_info)) {
       case R_DTPMOD64:
          memcpy(&ret[i++], &relatab[j], sizeof(Elf_Rela));
-//MARK QUESTION         printf("COPY TLS RELA in %p %p->%p=%p\n" ,ret, &relatab[j], &ret[j], relatab[j].r_offset);
+//MARK QUESTION         printf(MARK "COPY TLS RELA in %p %p->%p=%p\n" ,ret, &relatab[j], &ret[j], relatab[j].r_offset);
          break;
       default:
          break;
