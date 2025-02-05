@@ -300,6 +300,11 @@ int dlclose(void *hndl)
    if (!s) {
       return 0;
    }
+   for (s = hndl; s != NULL; s = s->next) {
+         printf("Fini %s\n", s->path);
+         elf_fini(s->dl_elf->exec, s->dl_elf->dyns, s->dl_elf->dyntab);
+   }
+   s = hndl;
    dl* next = s;
    while (next) {
       next = s->next;

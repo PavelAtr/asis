@@ -29,5 +29,6 @@ const char* elf_dtneed(Elf_Shdr* dynhdr, Elf64_Dyn* dyntab, const char* dynstr, 
 void elf_relocate(Elf_Ehdr* hdr, Elf_Shdr* rela, Elf_Rela* relatab, Elf_Sym* symtab, const char* symstr, int* tls_relas_count, char* exec, void* (*resolve)(const char* symname));
 Elf_Rela* elf_copy_tls_rela(Elf_Shdr* rela, Elf_Rela* relatab, int count);
 void elf_init(char* exec, Elf_Shdr* dynhdr, Elf64_Dyn* dyntab);
+void elf_fini(char* exec, Elf_Shdr* dynhdr, Elf64_Dyn* dyntab);
 
 #endif

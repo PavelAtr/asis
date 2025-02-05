@@ -5,7 +5,8 @@
 #include <sys/resource.h>
 
 int* tinylibc_tls_id = NULL;
-size_t tls_size = 0;
+size_t tls_size = 256;
+char** dtv = NULL;
 
 void* allocate_tls(size_t m)
 {
@@ -14,8 +15,6 @@ void* allocate_tls(size_t m)
 }
 
 __thread FILE*** core_fds2;
-
-int a;
 
 typedef struct
 {
@@ -27,8 +26,33 @@ __attribute__ ((visibility ("hidden"))) void *__tls_get_addr (tls_index *ti)
 {
    unsigned long ti_module = (tinylibc_tls_id) ? *tinylibc_tls_id : ti->ti_module;
    unsigned long ti_offset = ti->ti_offset;
+   if (!dtv) {
+      struct rlimit r;
+      getrlimit(RLIMIT_NPROC, &r);
+      printf("INITTLSDTV module=%ld offset=%ld tlssize=%ldx%ld\n", ti_module, ti_offset, tls_size, r.rlim_max);
+      dtv = calloc(1, sizeof(char*) * r.rlim_max);
+   }
+   if (!dtv[ti_module])
+   {
+       printf("INITTLS module=%ld offset=%ld tlssize=%ld\n", ti_module, ti_offset, tls_size);
+	   dtv[ti_module] = calloc(1, tls_size);
+   }
+   return dtv[ti_module] + ti_offset;
+}
+
+__attribute__ ((destructor)) void free_tls(void)
+{
    struct rlimit r;
    getrlimit(RLIMIT_NPROC, &r);
-   printf("TLS module=%ld offset=%ld tlssize=%ldX%ld\n", ti_module, ti_offset, tls_size, r.rlim_max);
-   return &a;
+   long i;
+   if (dtv) {
+      for (i = 0; i < r.rlim_max; i ++)
+      {
+         if (dtv[i]) {
+             free(dtv[i]);
+         }
+      }
+      free(dtv);
+   }
 }
+

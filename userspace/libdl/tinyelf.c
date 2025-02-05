@@ -210,14 +210,14 @@ void elf_init(char* exec, Elf_Shdr* dynhdr, Elf64_Dyn* dyntab)
          break;
       }
    }
-   
-   /*typedef void (*initfunc)();
+
+   typedef void (*initfunc)();
    initfunc* dt_init_array = NULL;
    int dt_init_arraysz = 0;
    for (i = 0; i < dynhdr->sh_size / dynhdr->sh_entsize; i++) {
       switch(dyntab[i].d_tag) {
       case DT_INIT_ARRAY:
-         dt_init_array = (void*)dyntab[i].d_un.d_ptr;
+         dt_init_array = (void*)(exec + dyntab[i].d_un.d_ptr);
          break;
       case DT_INIT_ARRAYSZ:
           dt_init_arraysz = dyntab[i].d_un.d_val;
@@ -226,10 +226,48 @@ void elf_init(char* exec, Elf_Shdr* dynhdr, Elf64_Dyn* dyntab)
          break;
       }
    }
-  for (i = 0; i < dt_init_arraysz / sizeof(void*); i++) {
-//	  dt_init_array[i]();
-      printf("Found init %p\n", dt_init_array[i]);
+   for (i = 0; i < dt_init_arraysz / sizeof(void*); i++) {
+      dt_init_array[i]();
    }
- */
-}
+ }
+
+void elf_fini(char* exec, Elf_Shdr* dynhdr, Elf64_Dyn* dyntab)
+{
+   if (!dynhdr || !dyntab) {
+      printf("%s\n", "elf_init: hdrs is NULL");
+      return;
+   }
+   int counter = 0;
+   int i;
+   const char* dlname;
+   for (i = 0; i < dynhdr->sh_size / dynhdr->sh_entsize; i++) {
+      switch(dyntab[i].d_tag) {
+      case DT_FINI:
+         void (*func)() = (void*)(exec + dyntab[i].d_un.d_ptr);
+         func();
+         break;
+      default :
+         break;
+      }
+   }
+
+   typedef void (*initfunc)();
+   initfunc* dt_init_array = NULL;
+   int dt_init_arraysz = 0;
+   for (i = 0; i < dynhdr->sh_size / dynhdr->sh_entsize; i++) {
+      switch(dyntab[i].d_tag) {
+      case DT_FINI_ARRAY:
+         dt_init_array = (void*)(exec + dyntab[i].d_un.d_ptr);
+         break;
+      case DT_FINI_ARRAYSZ:
+          dt_init_arraysz = dyntab[i].d_un.d_val;
+          break;
+      default :
+         break;
+      }
+   }
+   for (i = 0; i < dt_init_arraysz / sizeof(void*); i++) {
+      dt_init_array[i]();
+   }
+ }
 
