@@ -258,9 +258,9 @@ void *dlopen(const char* filename, int flags)
          break;
       }
    }
-   scope = prog;
    for (s = prog; s != NULL; s = s->next) {
       printf(MARK "Relocate %s\n", s->path);
+      scope = s;
       int sym_ndx;
       for (sym_ndx = 0; s->dl_elf->sym[sym_ndx]; sym_ndx++)
          if (s->dl_elf->sym[sym_ndx]->dynamic) {
