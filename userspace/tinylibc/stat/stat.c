@@ -6,8 +6,6 @@
 
 int stat(const char* path, struct stat* statbuf)
 {
-   int a = fds1;
-   int b = fds2;
    return syscall(SYS_FSTAT, fullpath(get_current_dir_name(), path), statbuf);
 }
 

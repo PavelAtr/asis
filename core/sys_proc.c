@@ -62,8 +62,6 @@ void init_proc()
    cpu[0] = &sys;
    current = cpu[0];
    sys.fds = (void**) sysfds;
-   current_fds = (AFILE**)sys.fds;
-   current_env = NULL;
 }
 
 char** copyenv(char*const* e)

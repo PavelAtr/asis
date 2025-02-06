@@ -12,26 +12,19 @@ void __attribute__((ms_abi)) (*retexit)(long ret);
 long (*syscall)(long num, ...);
 void (*retexit)(int ret);
 #endif
-FILE*** core_fds;
-char*** core_environ;
-char*** core_argv;
-errno_t** core_errno;
-int errno;
 FILE* dbpasswd = NULL;
 FILE* dbgroup = NULL;
 void (*atexit_func)(void) = NULL;
 
 int main(int argc, char** argv);
+void libtinyc_init(FILE** fds, char** environ, char** argv, errno_t** errno);
 
-int _start(int argc, char*** argv, char*** envp, FILE*** cfds, errno_t** errno, void* syscall_func, void* retexit_func)
+int _start(int argc, char** argv, char** envp, FILE** cfds, errno_t** errno, void* syscall_func, void* retexit_func)
 {
-   core_argv = argv;
-   core_environ = envp;
-   core_fds = cfds;
-   core_errno = errno;
    syscall = syscall_func;
    retexit = retexit_func;
-   int ret = main(argc, *argv);
+   libtinyc_init(cfds, envp, argv, errno);
+   int ret = main(argc, argv);
    _exit(ret);
 
 /* Not reacheble */

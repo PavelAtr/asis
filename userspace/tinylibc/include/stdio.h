@@ -31,15 +31,12 @@ typedef struct {
 
 typedef FILE AFILE;
 
-extern __thread int fds1;
-extern __thread int fds2;
-
-extern FILE*** core_fds;
-#define fds (*core_fds)
-#define stdin (*core_fds)[0]
-#define stdout (*core_fds)[1]
-#define stderr (*core_fds)[2]
-#define INIT_FDS
+extern __thread FILE** core_fds;
+extern FILE** fds;
+#define stdin fds[0]
+#define stdout fds[1]
+#define stderr fds[2]
+#define INIT_FDS fds = core_fds;
 
 static inline void initfile(FILE* src)
 {

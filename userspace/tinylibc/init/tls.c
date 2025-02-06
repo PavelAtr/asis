@@ -14,8 +14,6 @@ void* allocate_tls(size_t m)
    return NULL;
 }
 
-__thread FILE*** core_fds2;
-
 typedef struct
 {
    unsigned long int ti_module;
@@ -29,13 +27,11 @@ __attribute__ ((visibility ("hidden"))) void *__tls_get_addr (tls_index *ti)
    if (!dtv) {
       struct rlimit r;
       getrlimit(RLIMIT_NPROC, &r);
-      printf("INITTLSDTV module=%ld offset=%ld tlssize=%ldx%ld\n", ti_module, ti_offset, tls_size, r.rlim_max);
       dtv = calloc(1, sizeof(char*) * r.rlim_max);
    }
    if (!dtv[ti_module])
    {
-       printf("INITTLS module=%ld offset=%ld tlssize=%ld\n", ti_module, ti_offset, tls_size);
-	   dtv[ti_module] = calloc(1, tls_size);
+      dtv[ti_module] = calloc(1, tls_size);
    }
    return dtv[ti_module] + ti_offset;
 }

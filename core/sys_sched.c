@@ -8,9 +8,6 @@
 proc* cpu[MAXPROC];
 int_t curpid = 0;
 proc* current;
-AFILE** current_fds;
-char** current_env;
-char** current_argv;
 errno_t* current_errno;
 
 
@@ -41,10 +38,7 @@ void switch_task()
    sys_printf(SYS_DEBUG "SWITCH at pid=%d prog=%s newpid=%d flags=%d\n",
       prevpid, current->program->argv[0] ,curpid, cpu[curpid]->flags);
    current = cpu[curpid];
-   current_fds = (AFILE**)current->fds;
-   current_env = current->program->envp;
    sys_dltls(current->program->dlhandle, curpid);
-//MARK   current_argv = current->program->argv;
    current_errno = &current->sys_errno;
    if (current->flags & PROC_NEW) {
       current->flags &= ~PROC_NEW;

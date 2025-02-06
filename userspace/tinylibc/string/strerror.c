@@ -1,6 +1,8 @@
 #include <string.h>
 #include <errno.h>
 
+int* errnoptr;
+
 char* errors[40] = {
 "Successfully",
 "Insufficient privileges",

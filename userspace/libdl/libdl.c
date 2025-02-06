@@ -70,7 +70,7 @@ dl* dl_find(dl* hndl, const char* path)
    printf(MARK "SEARCHING %s ", path);
    for (s = hndl; s != NULL; s = s->next) {
       if (strcmp(s->path, path) == 0) {
-		  printf(MARK "%s\n", "ALREDY");
+	 printf("%s\n", "ALREDY");
          return s;
       }
    }
@@ -156,7 +156,7 @@ int dl_load(dl* buf, const char* file)
    buf->dl_elf->dynstr = elf_load_strings(file, buf->dl_elf->hdr,
          buf->dl_elf->shdrs, buf->dl_elf->dyns);
    buf->nlink = 1;      
-   printf(MARK "%s\n", "OK");
+   printf("%s\n", "OK");
    return 0;
 fail:
    elf_free(buf->dl_elf);

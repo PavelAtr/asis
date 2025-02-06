@@ -15,10 +15,10 @@ char *getenv(const char *name);
 int setenv(const char *name, const char *value, int overwrite);
 int unsetenv(const char *name);
 
-extern char*** core_environ;
+extern __thread char** core_environ;
 extern char** environ;
-#define INIT_ENVIRON environ = *core_environ;
-extern char*** core_argv;
+#define INIT_ENVIRON environ = core_environ;
+extern __thread char** core_argv;
 
 long long atoll(const char *str);
 #define atol(s) (long)atoll(s)
