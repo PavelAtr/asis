@@ -17,7 +17,7 @@ clean:
 install:
 	mkdir -p $(DESTDIR)$(PREFIX)/lib
 	install init/crt.o $(DESTDIR)$(PREFIX)/lib/crt.o
-	install init/tls.o $(DESTDIR)$(PREFIX)/lib/tls.o
+	install init/tls.a $(DESTDIR)$(PREFIX)/lib/tls.a
 	install libtinyc.so $(DESTDIR)$(PREFIX)/lib/libtinyc.so
 	install libtinyc.a $(DESTDIR)$(PREFIX)/lib/libtinyc.a
 	mkdir -p $(DESTDIR)$(PREFIX)/usr
