@@ -9,7 +9,7 @@ proc* cpu[MAXPROC];
 int_t curpid = 0;
 proc* current;
 errno_t* current_errno;
-
+AFILE** current_fds;
 
 void switch_task()
 {
@@ -40,6 +40,7 @@ void switch_task()
    current = cpu[curpid];
    sys_dltls(current->program->dlhandle, curpid);
    current_errno = &current->sys_errno;
+   current_fds = (AFILE**)current->fds;
    if (current->flags & PROC_NEW) {
       current->flags &= ~PROC_NEW;
     memcpy(current->ctx.stack, ((proc*)current->parent)->ctx.stack, MAXSTACK);

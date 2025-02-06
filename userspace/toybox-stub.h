@@ -1,6 +1,5 @@
 #include <stdio.h>
 #undef fds
-
            struct statfs {
                unsigned long f_type;    /* Type of filesystem (see below) */
                unsigned long f_bsize;   /* Optimal transfer block size */

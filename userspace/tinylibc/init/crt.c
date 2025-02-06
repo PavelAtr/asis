@@ -4,6 +4,7 @@
 #include <string.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <errno.h>
 
 #ifdef UEFI_KERNEL
 long __attribute__((ms_abi)) (*syscall)(long number, ...);
@@ -17,14 +18,16 @@ FILE* dbgroup = NULL;
 void (*atexit_func)(void) = NULL;
 
 int main(int argc, char** argv);
-void libtinyc_init(FILE** fds, char** environ, char** argv, errno_t** errno);
+void libtinyc_init(char** environ, char** argv);
 
-int _start(int argc, char** argv, char** envp, FILE** cfds, errno_t** errno, void* syscall_func, void* retexit_func)
+int _start(int argc, char** cargv, char** cenvp, FILE*** cfds, errno_t** cerrno, void* syscall_func, void* retexit_func)
 {
    syscall = syscall_func;
    retexit = retexit_func;
-   libtinyc_init(cfds, envp, argv, errno);
-   int ret = main(argc, argv);
+   core_fds = cfds;
+   core_errno = cerrno;
+   libtinyc_init(cenvp, cargv);
+   int ret = main(argc, cargv);
    _exit(ret);
 
 /* Not reacheble */
