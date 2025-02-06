@@ -3,6 +3,9 @@
 #include <errno.h>
 #include <string.h>
 #include <stdio.h>
+#ifndef DEBUG
+#include "../../userspace/libdl/libdl.h"
+#endif
 
 #undef fds
 
@@ -88,7 +91,12 @@ int_t sys_exec(const char* file, char** inargv, char** envp)
    }
    sys_printf(SYS_INFO "EXEC dlopen %s\n", file);
    int (*start)(int argc, char** argv, char** envp, AFILE*** fds, errno_t** cerrno, void* syscall_func, void* retexit_func) =
+#ifdef DEBUG
          sys_dlsym(current->program->dlhandle, "_start");
+#else
+   (void*)(((dl*)current->program->dlhandle)->dl_elf->hdr->e_entry + 
+      ((dl*)current->program->dlhandle)->dl_elf->exec);
+#endif
    if (envp) {
 		current->program->envp = copyenv(envp);
    } else {
