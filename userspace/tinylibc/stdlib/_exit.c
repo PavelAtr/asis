@@ -7,7 +7,6 @@ void __attribute__((ms_abi)) (*retexit)(int ret);
 #else
 void (*retexit)(int ret);
 #endif
-void (*atexit_func)(void) = NULL;
 
 void _exit(int status)
 {

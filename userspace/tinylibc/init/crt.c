@@ -5,14 +5,8 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <syscall.h>
 
-#ifdef UEFI_KERNEL
-extern long __attribute__((ms_abi)) (*syscall)(long number, ...);
-extern void __attribute__((ms_abi)) (*retexit)(long ret);
-#else
-extern long (*syscall)(long num, ...);
-extern void (*retexit)(int ret);
-#endif
 FILE* dbpasswd = NULL;
 FILE* dbgroup = NULL;
 

@@ -29,6 +29,11 @@ static inline void exit(int status)
 {
     _exit(status);
 }
+#ifdef UEFI_KERNEL
+extern void __attribute__((ms_abi)) (*retexit)(int ret);
+#else
+extern void (*retexit)(int ret);
+#endif
 
 double strtod(const char* nptr, char** endptr);
 
