@@ -41,11 +41,20 @@ typedef struct {
 } elf;
 
 typedef struct {
-   NAMED_LIST_ESSENTIAL
    const char* path;
    elf* dl_elf;
    int flags;
+   int status;
    int nlink;
 } dl;
+
+typedef struct {
+   NAMED_LIST_ESSENTIAL
+   dl* obj;
+} dlhandle;
+
+/* sl->status field */
+#define DL_RELOCATED 0x01
+#define DL_INITED 0x02
 
 #endif

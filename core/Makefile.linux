@@ -29,6 +29,7 @@ sys_dl.c \
 sys_trap.c \
 ../userspace/libdl/libdl.c \
 ../userspace/libdl/tinyelf.c \
+../userspace/libdl/namedlist.c \
 ../userspace/libdl/$(ARCH)/relocate.c
 
 

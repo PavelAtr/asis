@@ -64,25 +64,10 @@ void elf_free(elf* e)
    }
 }
 
-dl* dl_find(dl* hndl, const char* path)
-{
-   dl* s;
-   printf(MARK "SEARCHING %s ", path);
-   for (s = hndl; s != NULL; s = s->next) {
-      if (strcmp(s->path, path) == 0) {
-	 printf("%s\n", "ALREDY");
-         return s;
-      }
-   }
-   printf(MARK "%s\n", "NEEDLOAD");
-   return NULL;
-}
-
 int dl_load(dl* buf, const char* file)
 {
    printf(MARK "Loading %s ... ", file);
    buf->path = file;
-   buf->next = NULL;
    buf->dl_elf = calloc(1, sizeof(elf));
    buf->dl_elf->hdr = elf_load_hdr(file);
    buf->dl_elf->phdrs = elf_load_phdrs(file, buf->dl_elf->hdr);
@@ -163,7 +148,7 @@ fail:
    return -1;
 }
 
-dl* scope;
+dlhandle* scope;
 
 void* resolve(const char* symname)
 {
@@ -206,61 +191,43 @@ end:
    }
 }
 
-void *dlsym_single(void* hndl, const char* symbol)
-{
-   dl* s;
-   void* sym;
-   s = hndl;
-      int sym_ndx;
-      for (sym_ndx = 0; s->dl_elf->sym[sym_ndx]; sym_ndx++) {
-         sym = elf_symbol(s->dl_elf->sym[sym_ndx]->head,
-               s->dl_elf->sym[sym_ndx]->syms, s->dl_elf->sym[sym_ndx]->symstr,
-               s->dl_elf->exec, symbol);
-         if (sym) {
-            return sym;
-         }
-      }
-   return NULL;
-}
-
+void *dlsym_single(void* hndl, const char* symbol);
 
 void *dlopen(const char* filename, int flags)
 {
-   dl* prog = malloc(sizeof(dl));
-   memset(prog, 0x0, sizeof(dl));
+   dl* prog = calloc(1, sizeof(dl));
    if (dl_load(prog, filename)) {
       goto fail;
    }
-   dl* s = prog;
-   while (1) {
+   dlhandle* handle = (dlhandle*)namedlist_add(NULL, prog,  prog->path);
+   dlhandle* j;
+   for (j = handle; j; j = j->next) {
+      dl* s = j->obj;
       const char* file;
       int dtneed_ndx = 0;
-      while (file = elf_dtneed(prog->dl_elf->dyns, prog->dl_elf->dyntab,
-                  prog->dl_elf->dynstr, &dtneed_ndx)) {
+      printf(MARK "Resolving dependencies of %s\n", s->path);
+      while (file = elf_dtneed(s->dl_elf->dyns, s->dl_elf->dyntab,
+                  s->dl_elf->dynstr, &dtneed_ndx)) {
 		 char* path = ldpath(LD_PATH, file);
 		 if (!path) {
             printf(MARK "%s not found in %s\n", file, LD_PATH);
 		    goto fail;
 	     }	 
-		 printf(MARK "NEEDED %s\n", file);			  
-         if (dl_find(prog, path)) {
+         if (namedlist_get((namedlist*)handle, path)) {
+    	    printf(MARK "NEEDED %s ALREDY\n", path);			  
             continue;
          }
-         dl* lib = malloc(sizeof(dl));
-         memset(lib, 0x0, sizeof(dl));
+         dl* lib = calloc(1,sizeof(dl));
          if (dl_load(lib, path)) {
             goto fail;
          }
-         s->next = lib;
+         handle = (dlhandle*)namedlist_add((namedlist*)handle, lib, lib->path);
       }
-      s = s->next;
-      if (s == NULL) {
-         break;
-      }
-   }
-   for (s = prog; s != NULL; s = s->next) {
+   }   
+   for (j = handle; j; j = j->next) {
+	  dl* s  = j->obj;
       printf(MARK "Relocate %s\n", s->path);
-      scope = s;
+      scope = j;
       int sym_ndx;
       for (sym_ndx = 0; s->dl_elf->sym[sym_ndx]; sym_ndx++)
          if (s->dl_elf->sym[sym_ndx]->dynamic) {
@@ -278,26 +245,46 @@ void *dlopen(const char* filename, int flags)
             s->dl_elf->rela[rela_ndx]->relas, tls_relas_count);
       }     
    }
-   for (s = prog; s != NULL; s = s->next) {
-      printf(MARK "Init %s\n", s->path);
+   for (j = handle; j != NULL; j = j->next) {
+	  dl* s  = j->obj;
       elf_init(s->dl_elf->exec, s->dl_elf->dyns, s->dl_elf->dyntab);
-      void* (*allocate_tls)(size_t) = dlsym_single(s, "allocate_tls");
+      void* (*allocate_tls)(size_t) = dlsym_single(j, "allocate_tls");
       if (allocate_tls) {
 		  allocate_tls(s->dl_elf->tls_size);
 	  }
    }
 
-   return prog;
+   return handle;
 fail:
-   dlclose(prog);
+   dlclose(handle);
    return NULL;
 }
+
+void *dlsym_single(void* hndl, const char* symbol)
+{
+   dlhandle* j = hndl;	
+   dl* s = j->obj;
+   void* sym;
+      int sym_ndx;
+      for (sym_ndx = 0; s->dl_elf->sym[sym_ndx]; sym_ndx++) {
+         sym = elf_symbol(s->dl_elf->sym[sym_ndx]->head,
+               s->dl_elf->sym[sym_ndx]->syms, s->dl_elf->sym[sym_ndx]->symstr,
+               s->dl_elf->exec, symbol);
+         if (sym) {
+            return sym;
+         }
+      }
+   return NULL;
+}
+
 
 void *dlsym(void* hndl, const char* symbol)
 {
    dl* s;
    void* sym;
-   for (s = hndl; s != NULL; s = s->next) {
+   dlhandle* j;
+   for (j = hndl; j != NULL; j = j->next) {
+	  s = j->obj; 
       int sym_ndx;
       for (sym_ndx = 0; s->dl_elf->sym[sym_ndx]; sym_ndx++) {
          sym = elf_symbol(s->dl_elf->sym[sym_ndx]->head,
@@ -313,33 +300,40 @@ void *dlsym(void* hndl, const char* symbol)
 
 int dlclose(void *hndl)
 {
-   dl* s = hndl;
+   dlhandle* j = hndl; 	
+   dl* s = j->obj;
    if (!s) {
       return 0;
    }
-   for (s = hndl; s != NULL; s = s->next) {
-         printf(MARK "Fini %s\n", s->path);
-         elf_fini(s->dl_elf->exec, s->dl_elf->dyns, s->dl_elf->dyntab);
+   for (j = hndl; j != NULL; j = j->next) {
+	   s = j->obj;
+       printf(MARK "Fini %s\n", s->path);
+       elf_fini(s->dl_elf->exec, s->dl_elf->dyns, s->dl_elf->dyntab);
    }
-   s = hndl;
-   dl* next = s;
+   j = hndl;
+   dlhandle* next = j;
    while (next) {
-      next = s->next;
+      next = j->next;
+      s = j->obj;
       s->nlink--;
       if (s->nlink <= 0) {
 	     elf_free(s->dl_elf);
          free(s->dl_elf);
          free(s);
       }
-      s = next;
+      free(j->name);
+      free(j);
+      j = next;
    }
    return 0;
 }
 
 void dltls(void* handle, unsigned long module_id)
 {
+   dlhandle* j;
    dl* s;
-   for (s = handle; s != NULL; s = s->next) {
+   for (j = handle; j != NULL; j = j->next) {
+	  s = j->obj;
       int rela_ndx;
       for (rela_ndx = 0; s->dl_elf->rela[rela_ndx]; rela_ndx++) {
          if (s->dl_elf->tlsrela[rela_ndx]->relas) {

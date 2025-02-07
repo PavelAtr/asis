@@ -94,8 +94,8 @@ int_t sys_exec(const char* file, char** inargv, char** envp)
 #ifdef DEBUG
          sys_dlsym(current->program->dlhandle, "_start");
 #else
-   (void*)(((dl*)current->program->dlhandle)->dl_elf->hdr->e_entry + 
-      ((dl*)current->program->dlhandle)->dl_elf->exec);
+   (void*)(((dlhandle*)current->program->dlhandle)->obj->dl_elf->hdr->e_entry + 
+      ((dlhandle*)current->program->dlhandle)->obj->dl_elf->exec);
 #endif
    if (envp) {
 		current->program->envp = copyenv(envp);

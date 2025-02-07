@@ -3,7 +3,7 @@
 
 
 #define NAMED_LIST_ESSENTIAL \
-   const char* name; \
+   char* name; \
    void* next;
 
 typedef void* aobj;
@@ -13,8 +13,8 @@ typedef struct {
    aobj obj;
 } namedlist;
 
-void namedlist_add(namedlist* scope, aobj obj, const char* name);
-void namedlist_rm(namedlist* scope, const char* name);
+namedlist* namedlist_add(namedlist* scope, aobj obj, const char* name);
+namedlist* namedlist_rm(namedlist* scope, const char* name);
 aobj namedlist_get(namedlist* scope, const char* name);
 
 #endif

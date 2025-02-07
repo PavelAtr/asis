@@ -1,10 +1,10 @@
 PREFIX?=/tinysys
 CFLAGS?= -g -fPIC -fomit-frame-pointer --sysroot=$(PREFIX)
-LDLAGS?= --sysroot=$(PREFIX) -ltinyc -Wl,-fno-undefined
+LDFLAGS?= --sysroot=$(PREFIX) -nostdlib -ltinyc -Wl,-fno-undefined -shared
 
 all: 
 	$(CC) $(CFLAGS) -fPIC -c src/*.c
-	$(CC) $(CFLAGS) -fPIC  $(LDFLAGS) -nostdlib -shared *.o -o libpwd.so
+	$(CC) $(CFLAGS) -fPIC  $(LDFLAGS) *.o -o libpwd.so
 	ar rcs libpwd.a *.o
 	
 clean:
