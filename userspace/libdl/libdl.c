@@ -140,7 +140,6 @@ int dl_load(dl* buf, const char* file)
    buf->dl_elf->dyntab = elf_load_table(file, buf->dl_elf->hdr, buf->dl_elf->dyns);
    buf->dl_elf->dynstr = elf_load_strings(file, buf->dl_elf->hdr,
          buf->dl_elf->shdrs, buf->dl_elf->dyns);
-   buf->nlink = 1;      
    printf("%s\n", "OK");
    return 0;
 fail:
@@ -218,11 +217,18 @@ void *dlopen(const char* filename, int flags)
     	    printf(MARK "NEEDED %s ALREDY\n", path);			  
             continue;
          }
-         dl* lib = calloc(1,sizeof(dl));
-         if (dl_load(lib, path)) {
-            goto fail;
+         dl* lib;
+         if ((lib = namedlist_get((namedlist*)globalscope, path)))
+         {
+			printf(MARK "InCache %s\n", path);			  
+	     } else {
+            lib = calloc(1,sizeof(dl));
+            if (dl_load(lib, path)) {
+                goto fail;
+            }   
          }
          handle = (dlhandle*)namedlist_add((namedlist*)handle, lib, lib->path);
+         lib->nlink++;
       }
    }   
    for (j = handle; j; j = j->next) {
@@ -321,22 +327,19 @@ int dlclose(void *hndl)
    if (!s) {
       return 0;
    }
-   for (j = hndl; j != NULL; j = j->next) {
-	   s = j->obj;
-       printf(MARK "Fini %s\n", s->path);
-       elf_fini(s->dl_elf->exec, s->dl_elf->dyns, s->dl_elf->dyntab);
-   }
-   j = hndl;
    dlhandle* next = j;
    while (next) {
       next = j->next;
       s = j->obj;
       s->nlink--;
       if (s->nlink <= 0) {
+         printf(MARK "Dlclose %s\n", s->path);
+         elf_fini(s->dl_elf->exec, s->dl_elf->dyns, s->dl_elf->dyntab);
 	     elf_free(s->dl_elf);
          free(s->dl_elf);
          free(s);
       }
+      j->next = NULL;
       free(j->name);
       free(j);
       j = next;

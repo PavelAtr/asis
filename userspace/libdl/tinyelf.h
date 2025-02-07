@@ -5,7 +5,7 @@
 #include <sys/types.h>
 
 #ifndef MARK
-#define MARK "debug: "
+#define MARK "debug:\t"
 #endif
 
 #ifdef ELF64
