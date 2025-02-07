@@ -148,11 +148,12 @@ fail:
    return -1;
 }
 
-dlhandle* scope;
+dlhandle* relascope;
+dlhandle* globalscope = NULL;
 
 void* resolve(const char* symname)
 {
-   return dlsym(scope, symname);
+   return dlsym(relascope, symname);
 }
 
 char* ldpath(const char* path, const char* file)
@@ -226,8 +227,11 @@ void *dlopen(const char* filename, int flags)
    }   
    for (j = handle; j; j = j->next) {
 	  dl* s  = j->obj;
+	  if (s->status & DL_RELOCATED) {
+		  continue;
+	  }
       printf(MARK "Relocate %s\n", s->path);
-      scope = j;
+      relascope = j;
       int sym_ndx;
       for (sym_ndx = 0; s->dl_elf->sym[sym_ndx]; sym_ndx++)
          if (s->dl_elf->sym[sym_ndx]->dynamic) {
@@ -239,21 +243,33 @@ void *dlopen(const char* filename, int flags)
          elf_relocate(s->dl_elf->hdr, s->dl_elf->rela[rela_ndx]->head,
             s->dl_elf->rela[rela_ndx]->relas, s->dl_elf->sym[sym_ndx]->syms,
             s->dl_elf->sym[sym_ndx]->symstr, &tls_relas_count, s->dl_elf->exec, &resolve);
-         printf(MARK "FOUND %d tls rela\n", tls_relas_count);   
 		 s->dl_elf->tlsrela[rela_ndx]->count = tls_relas_count;
          s->dl_elf->tlsrela[rela_ndx]->relas = elf_copy_tls_rela(s->dl_elf->rela[rela_ndx]->head,
             s->dl_elf->rela[rela_ndx]->relas, tls_relas_count);
-      }     
+      }
+      s->status |= DL_RELOCATED;
    }
    for (j = handle; j != NULL; j = j->next) {
 	  dl* s  = j->obj;
+	  if (s->status & DL_INITED) {
+		  continue;
+	  }
+      printf(MARK "Init %s\n", s->path);
       elf_init(s->dl_elf->exec, s->dl_elf->dyns, s->dl_elf->dyntab);
       void* (*allocate_tls)(size_t) = dlsym_single(j, "allocate_tls");
       if (allocate_tls) {
 		  allocate_tls(s->dl_elf->tls_size);
 	  }
+      s->status |= DL_INITED;
    }
-
+   for (j = handle->next; j != NULL; j = j->next) {
+	  dl* s  = j->obj;
+	  if (namedlist_get((namedlist*)globalscope, s->path)) {
+		  continue;
+	  }
+      printf(MARK "Add to global scope %s\n", s->path);
+      globalscope = (dlhandle*)namedlist_add((namedlist*)globalscope, s, s->path);
+   }
    return handle;
 fail:
    dlclose(handle);
