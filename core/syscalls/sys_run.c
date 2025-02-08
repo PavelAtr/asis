@@ -109,6 +109,7 @@ int_t sys_exec(const char* file, char** inargv, char** envp)
    
    current->flags &= ~PROC_CLONED;
    sys_printf(SYS_INFO "freememory=%ld\n", free_memory());
+   sys_printf(SYS_INFO "Start=%p\n", start);
    int ret = start(argc, current->program->argv, current->program->envp, &current_fds, &current_errno, &sys_syscall, &sys_atexit);
    switch_context;
    /* Never reach here */
