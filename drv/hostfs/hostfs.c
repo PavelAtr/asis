@@ -8,7 +8,7 @@
 #endif
 
 const char* hfilename = "";
-FILE* f;
+FILE* f = NULL;
 char fmode = '\0';
 
 errno_t hostfs_mknod(void* sbfs, const char *pathname, uid_t uid, gid_t gid,
