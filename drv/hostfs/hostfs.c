@@ -7,9 +7,7 @@
 #include <dirent.h>
 #endif
 
-const char* hfilename = "";
 FILE* f = NULL;
-char fmode = '\0';
 
 errno_t hostfs_mknod(void* sbfs, const char *pathname, uid_t uid, gid_t gid,
    mode_t mode)
@@ -44,19 +42,13 @@ len_t hostfs_fread(void* sbfs, const char* path, void* ptr, len_t size,
    len_t off)
 {
    len_t ret = 0;
-//   printf("fread %s %s ", path, hfilename);
-//   if (strcmp(path, hfilename) != 0 || fmode != 'r') {
       if (f) {
          fclose(f);
       }
       f = fopen(path, "r");
-//      printf("FOPEN %s %s ", path, hfilename);
-//      hfilename = path;
-//      fmode = 'r';
       if (!f) {
          return 0;
       }
-//   }
    fseek(f, off, SEEK_SET);
    ret = fread(ptr, 1, size, f);
    return ret;
@@ -66,18 +58,13 @@ len_t hostfs_fwrite(void* sbfs, const char* path, const void* ptr, len_t size,
    len_t off)
 {
    len_t ret = 0;
-//   if (strcmp(path, hfilename) != 0 || fmode != 'w') {
       if (f) {
          fclose(f);
       }
       f = fopen(path, "r+");
-//      printf("FOPENWRITE %s %s  ", path, hfilename);
-//      hfilename = path;
-//      fmode = 'w';
       if (!f) {
          return 0;
       }
-//   }
    fseek(f, off, SEEK_SET);
    ret = fwrite(ptr, 1, size, f);
    return ret;
