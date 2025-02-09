@@ -17,8 +17,8 @@ all:
 	$(CC) $(CFLAGS) -fPIC chown.c $(LDFLAGS) -o chown
 	$(CC) $(CFLAGS) -fPIC testfork.c $(LDFLAGS) -o testfork
 	$(CC) $(CFLAGS) -fPIC segfault.c $(LDFLAGS)  -o segfault
-	$(CC) $(CFLAGS) -fPIC passdb.c -lpwd  $(LDFLAGS) -o passdb
-	$(CC) $(CFLAGS) -fPIC grpdb.c -lpwd $(LDFLAGS) -o grpdb
+	$(CC) $(CFLAGS) -fPIC passdb.c $(LDFLAGS) -lpwd -o passdb
+	$(CC) $(CFLAGS) -fPIC grpdb.c $(LDFLAGS) -lpwd -o grpdb
 	$(CC) $(CFLAGS) -fPIC _exit.c $(LDFLAGS) -o _exit
 	$(CC) $(CFLAGS) -fPIC jmp.c $(LDFLAGS) -o jmp
 	$(CC) $(CFLAGS) -fPIC fds.c $(LDFLAGS) -o fds

@@ -148,10 +148,15 @@ fail:
 }
 
 dlhandle* relascope;
+dlhandle* selfscope;
 dlhandle* globalscope = NULL;
 
 void* resolve(const char* symname)
 {
+   void* addr = dlsym(selfscope, symname);
+   if (addr) {
+	  return addr;
+   }
    return dlsym(relascope, symname);
 }
 
@@ -228,14 +233,15 @@ void *dlopen(const char* filename, int flags)
          handle = (dlhandle*)namedlist_add((namedlist*)handle, lib, lib->path);
          lib->nlink++;
       }
-   }   
+   }
+   relascope = handle; 
    for (j = handle; j; j = j->next) {
 	  dl* s  = j->obj;
 	  if (s->status & DL_RELOCATED) {
 		  continue;
 	  }
       printf(MARK "Relocate %s\n", s->path);
-      relascope = j;
+      selfscope = j;
       int sym_ndx;
       for (sym_ndx = 0; s->dl_elf->sym[sym_ndx]; sym_ndx++)
          if (s->dl_elf->sym[sym_ndx]->dynamic) {
