@@ -14,8 +14,7 @@ struct group {
   char   *gr_name;        /* group name */
   char   *gr_passwd;      /* group password */
   gid_t   gr_gid;         /* group ID */
-  char  **gr_mem;         /* NULL-terminated array of pointers
-                              to names of group members */
+  char  *gr_mem;         /* Not standard but simple */
 };
 
 extern FILE* dbgroup; /* Need stored in client application */
@@ -50,7 +49,6 @@ static inline int getgrnam_r(const char* name, struct group* grp,
       if (strcmp((*result)->gr_name, name) == 0) {
          return 0;
       }
-      if ((*result)->gr_mem) free((*result)->gr_mem);
    }
    *result = NULL;
    return ENOENT;
@@ -63,7 +61,6 @@ static inline int getgrgid_r(gid_t gid, struct group* grp,
       if ((*result)->gr_gid == gid) {
          return 0;
       }
-      if ((*result)->gr_mem) free((*result)->gr_mem);
    }
    *result = NULL;
    return ENOENT;
