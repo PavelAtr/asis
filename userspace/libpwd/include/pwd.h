@@ -20,7 +20,7 @@ struct passwd {
   char   *pw_shell;      /* shell program */
 };
 
-extern FILE* dbpasswd;
+extern FILE* dbpasswd; /* Need stored in client application */
 
 int fgetpwent_r(FILE * stream, struct passwd * pwbuf,
                 char * buf, size_t buflen,

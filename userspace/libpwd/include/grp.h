@@ -18,7 +18,7 @@ struct group {
                               to names of group members */
 };
 
-extern FILE* dbgroup;
+extern FILE* dbgroup; /* Need stored in client application */
 
 static inline void endgrent(void)
 {

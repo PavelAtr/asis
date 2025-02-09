@@ -2,6 +2,9 @@
 #include <stdio.h>
 #include <pwd.h>
 
+FILE* dbpasswd = NULL;
+FILE* dbgroup = NULL;
+
 int main(int argc, char** argv)
 {
    FILE* passdb = fopen("/etc/passwd", "r");
