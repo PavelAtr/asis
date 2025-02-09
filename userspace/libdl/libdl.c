@@ -321,6 +321,7 @@ int dlclose(void *hndl)
       if (s->nlink <= 0) {
          printf(MARK "Dlclose %s\n", s->path);
          elf_fini(s->dl_elf->exec, s->dl_elf->dyns, s->dl_elf->dyntab);
+         namedlist_rm((namedlist*)globalscope, s->path);
 	     elf_free(s->dl_elf);
          free(s->dl_elf);
          free(s);

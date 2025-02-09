@@ -95,9 +95,11 @@ void freeenv(char* const* e)
    int_t i;
    if (e) {
       for (i = 0; i < COREMAXENV; i++) {
-         if (e[i][0] != '\0'){
-            sys_free(e[i]);
-         }
+		 if (e[i]) {
+            if (e[i][0] != '\0'){
+               sys_free(e[i]);
+            }
+	     }
       }
       sys_free((void*)e);
    } 
