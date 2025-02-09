@@ -174,6 +174,7 @@ int_t sys_setgid(gid_t gid);
 
 void** copyfds(void** infds);
 void freefds(proc* task);
+void** cloexecfds(void** infds);
 void sys_atexit(int ret);
 
 #define MAXPROC 20
@@ -231,5 +232,9 @@ int sys_dlclose(void *handle);
 void* sys_dlsym(void * handle, const char * symbol);
 void sys_dltls(void* handle, unsigned long module_id);
 int sys_getrlimit(int resource, void* r);
+
+extern char** current_envp;
+extern char** current_argv;
+
 
 #endif

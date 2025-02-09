@@ -10,6 +10,8 @@ int_t curpid = 0;
 proc* current;
 errno_t* current_errno;
 AFILE** current_fds;
+char** current_envp;
+char** current_argv;
 
 void switch_task()
 {
@@ -41,6 +43,9 @@ void switch_task()
    sys_dltls(current->program->dlhandle, curpid);
    current_errno = &current->sys_errno;
    current_fds = (AFILE**)current->fds;
+   current_envp = current->program->envp;
+   current_argv = current->program->argv;
+
    if (current->flags & PROC_NEW) {
       current->flags &= ~PROC_NEW;
     memcpy(current->ctx.stack, ((proc*)current->parent)->ctx.stack, MAXSTACK);

@@ -90,7 +90,7 @@ int_t sys_exec(const char* file, char** inargv, char** envp)
       goto fail;
    }
    sys_printf(SYS_INFO "EXEC dlopen %s\n", file);
-   int (*start)(int argc, char** argv, char** envp, AFILE*** fds, errno_t** cerrno, void* syscall_func, void* retexit_func) =
+   int (*start)(int argc, char*** argv, char*** envp, AFILE*** fds, errno_t** cerrno, void* syscall_func, void* retexit_func) =
 #ifdef DEBUG
          sys_dlsym(current->program->dlhandle, "_start");
 #else
@@ -102,15 +102,18 @@ int_t sys_exec(const char* file, char** inargv, char** envp)
    } else {
 		current->program->envp = copyenv(((proc*)current->parent)->program->envp);
    }
-//   current->fds = copyfds(((proc*)current->parent)->fds);
+   current->fds = cloexecfds(current->fds);
    current_errno = &current->sys_errno;
    current_fds = (AFILE**)current->fds;
+   current_envp = current->program->envp;
+   current_argv = current->program->argv;
+
    sys_dltls(current->program->dlhandle, curpid);
    
    current->flags &= ~PROC_CLONED;
    sys_printf(SYS_INFO "freememory=%ld\n", free_memory());
    sys_printf(SYS_INFO "Start=%p\n", start);
-   int ret = start(argc, current->program->argv, current->program->envp, &current_fds, &current_errno, &sys_syscall, &sys_atexit);
+   int ret = start(argc, &current_argv, &current_envp, &current_fds, &current_errno, &sys_syscall, &sys_atexit);
    switch_context;
    /* Never reach here */
    sys_printf(SYS_DEBUG "EXEC END (NOTREACHEBLE)\n");
@@ -141,9 +144,9 @@ void freeproc(pid_t pid)
       return;
    }
    if (!(cpu[pid]->flags & PROC_CLONED)) {
-//      freeenv(cpu[pid]->program->envp);
-      freefds(cpu[pid]);
+      freeenv(cpu[pid]->program->envp);
    }
+   freefds(cpu[pid]);
    sys_free(cpu[pid]->ctx.stack);
    cpu[pid]->program->nlink--;
    if (cpu[pid]->program->nlink <= 0) {

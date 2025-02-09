@@ -113,13 +113,37 @@ void** copyfds(void** infds)
 		 if (!fds[i]) {
 		    continue;
 	     }
-         if (!(fds[i]->flags & O_CLOEXEC)) {
-			 ret[i] = sys_calloc(1, sizeof(AFILE));
-			 copyfile(ret[i], fds[i]);
-         }
+    	 ret[i] = sys_calloc(1, sizeof(AFILE));
+		 copyfile(ret[i], fds[i]);
       }
    }
    return (void**)ret;
+} 
+
+void** cloexecfds(void** infds)
+{
+   AFILE** fds = (AFILE**)infds;
+   int_t i;
+   if (infds) {
+      for (i = 0; i < COREMAXFD; i++) {
+		 if (!fds[i]) {
+		    continue;
+	     }
+         if (fds[i]->flags & O_CLOEXEC) {
+	 // MARK
+
+	 AFILE* dst = fds[i];
+	 if (dst) {
+	    sys_printf("freefile=%p file=%p=%s strbuf=%p pipbuf=%p fd=%d\n", dst, dst->file, dst->file, dst->strbuf, dst->pipbuf, dst->fd);
+     }
+     // MARK
+
+             freefile(fds[i]);
+			 fds[i] = NULL;
+         }
+      }
+   }
+   return infds;
 } 
 
 void freefds(proc* task)
@@ -137,6 +161,7 @@ void freefds(proc* task)
    }
    sys_free(fds);
 }
+
 
 int_t sys_setpgid(pid_t pid, pid_t pgid)
 {
