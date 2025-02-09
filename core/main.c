@@ -75,8 +75,5 @@ int main(int argc, char** argv)
 #endif
    sys_printf(SYS_INFO "End init\n");
    int ret = sys_runinit();
-#ifndef UEFI
-   hostfs_cleanup();
-#endif
    return ret;
 }

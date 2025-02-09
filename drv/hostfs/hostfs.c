@@ -7,8 +7,6 @@
 #include <dirent.h>
 #endif
 
-FILE* f = NULL;
-
 errno_t hostfs_mknod(void* sbfs, const char *pathname, uid_t uid, gid_t gid,
    mode_t mode)
 {
@@ -41,40 +39,31 @@ errno_t hostfs_link(void* sb, const char* src, const char* dst, bool_t move,
 len_t hostfs_fread(void* sbfs, const char* path, void* ptr, len_t size,
    len_t off)
 {
+   FILE* f;
    len_t ret = 0;
-      if (f) {
-         fclose(f);
-      }
       f = fopen(path, "r");
       if (!f) {
          return 0;
       }
    fseek(f, off, SEEK_SET);
    ret = fread(ptr, 1, size, f);
+   fclose(f);
    return ret;
 }
 
 len_t hostfs_fwrite(void* sbfs, const char* path, const void* ptr, len_t size,
    len_t off)
 {
+   FILE* f;
    len_t ret = 0;
-      if (f) {
-         fclose(f);
-      }
       f = fopen(path, "r+");
       if (!f) {
          return 0;
       }
    fseek(f, off, SEEK_SET);
    ret = fwrite(ptr, 1, size, f);
+   fclose(f);
    return ret;
-}
-
-void hostfs_cleanup(void)
-{
-   if (f) {
-      fclose(f);
-   }
 }
 
 errno_t hostfs_stat(void* sbfs, const char* pathname, void* statbuf)
