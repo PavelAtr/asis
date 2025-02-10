@@ -5,7 +5,7 @@
 #include "namedlist.h"
 #include <sys/types.h>
 
-#define LD_PATH "/tinysys/usr/lib/:/tinysys/lib/"
+extern char * ld_library_path;
 
 typedef struct {
    Elf_Shdr* head;

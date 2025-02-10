@@ -74,7 +74,7 @@ int runcommand(char* cmd)
 
 int main(int argc, char** argv)
 {
-   setenv("PATH", "/tinysys/:/tinysys/bin/", 0);
+   setenv("PATH", "/tinysys/usr/bin:/tinysys/bin", 0);
    chdir("/tinysys");
    umask(0002);
    while (1) {

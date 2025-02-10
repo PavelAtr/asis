@@ -9,8 +9,9 @@
 
 proc sys;
 prog sysprog;
-char* argv[1] = {"system"};
+char* sys_argv[1] = {"system"};
 extern AFILE** current_fds;
+char* ld_library_path = "/tinysys/usr/lib:/tinysys/lib";
 
 AFILE sys_stdin = {
 "/dev/tty",
@@ -48,6 +49,12 @@ NULL,
 NULL,
 };
 
+char* sys_env[COREMAXENV] = {
+	"PATH=/tinysys/usr/bin:tinysys/bin",
+	"CWD=/tinysys",
+	"UMASK=0022",
+};
+
 AFILE* sysfds[COREMAXFD] = {
 &sys_stdin,
 &sys_stdout,
@@ -58,7 +65,8 @@ void init_proc()
 {
    sys.program = &sysprog;
    sys.program->nlink = 1;
-   sys.program->argv = argv;
+   sys.program->argv = sys_argv;
+//   sys.program->envp = sys_env;
    cpu[0] = &sys;
    current = cpu[0];
    sys.fds = (void**) sysfds;
@@ -192,5 +200,3 @@ int_t sys_getpgid(pid_t pid)
       return -1;
    } 
 }
-
-

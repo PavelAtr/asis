@@ -19,7 +19,8 @@ char* execpath(const char* path, const char* file)
    char* dir = strtok(system_path, ":");
    while (dir != NULL) {
       strcpy(rezult, dir);
-      strcpy(rezult + strlen(dir), file);
+      strcpy(rezult + strlen(dir), "/");
+      strcpy(rezult + strlen(dir) + 1, file);
       dir =strtok(NULL, ":");
       struct stat st;
       if (stat(rezult, &st) != -1) {

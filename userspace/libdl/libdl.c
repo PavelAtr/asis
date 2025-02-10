@@ -177,7 +177,8 @@ char* ldpath(const char* path, const char* file)
    char* dir = strtok(system_path, ":");
    while (dir != NULL) {
       strcpy(rezult, dir);
-      strcpy(rezult + strlen(dir), file);
+      strcpy(rezult + strlen(dir), "/");
+      strcpy(rezult + strlen(dir) + 1, file);
       dir =strtok(NULL, ":");
       struct stat st;
       if (stat(rezult, &st) != -1) {
@@ -211,9 +212,9 @@ void *dlopen(const char* filename, int flags)
       printf(MARK "Resolving dependencies of %s\n", s->path);
       while (file = elf_dtneed(s->dl_elf->dyns, s->dl_elf->dyntab,
                   s->dl_elf->dynstr, &dtneed_ndx)) {
-		 char* path = ldpath(LD_PATH, file);
+		 char* path = ldpath(ld_library_path, file);
 		 if (!path) {
-            printf(MARK "%s not found in %s\n", file, LD_PATH);
+            printf(MARK "%s not found in %s\n", file, ld_library_path);
 		    goto fail;
 	     }	 
          if (namedlist_get((namedlist*)handle, path)) {
