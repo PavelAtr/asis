@@ -97,6 +97,9 @@ int_t sys_exec(const char* file, char** inargv, char** envp)
    (void*)(((dlhandle*)current->program->dlhandle)->obj->dl_elf->hdr->e_entry + 
       ((dlhandle*)current->program->dlhandle)->obj->dl_elf->exec);
 #endif
+#ifdef DEBUG
+   current->tlsid = sys_dlsym(current->program->dlhandle, "tinylibc_tls_id");
+#endif
    if (envp) {
 		current->program->envp = copyenv(envp);
    } else {

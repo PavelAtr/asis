@@ -37,14 +37,14 @@ void switch_task()
       }
       break;
    }
-   sys_printf(SYS_DEBUG "SWITCH at pid=%d prog=%s newpid=%d flags=%d\n",
-      prevpid, current->program->argv[0] ,curpid, cpu[curpid]->flags);
+   sys_printf(SYS_DEBUG "SWITCH at pid=%d prog=%s newpid=%d newprog=%s flags=%d\n",
+      prevpid, current->program->argv[0] ,curpid, cpu[curpid]->program->argv[0], cpu[curpid]->flags);
    current = cpu[curpid];
-   sys_dltls(current->program->dlhandle, curpid);
    current_errno = &current->sys_errno;
    current_fds = (AFILE**)current->fds;
    current_envp = current->program->envp;
    current_argv = current->program->argv;
+   sys_dltls(current->program->dlhandle, curpid);
 
    if (current->flags & PROC_NEW) {
       current->flags &= ~PROC_NEW;

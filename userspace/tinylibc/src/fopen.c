@@ -14,7 +14,7 @@ FILE* fopen(const char* path, const char* mode)
       errno = ENOENT;
       return NULL;
    }
-   FILE* ret = malloc(sizeof(FILE));
+   FILE* ret = calloc(1, sizeof(FILE));
    initfile(ret);
    char* cwd = get_current_dir_name();
    ret->file = fullpath(cwd, path);

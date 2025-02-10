@@ -126,6 +126,7 @@ typedef struct {
   int_t ret;
   pid_t forkret;
   pid_t pgid;
+  addr_t* tlsid;
 } proc;
 
 #define PROC_RUNNING 0x01
@@ -135,9 +136,6 @@ typedef struct {
 
 extern proc* current;
 extern proc* systask;
-extern char** current_env;
-extern char** current_argv;
-extern errno_t* current_errno;
 
 void init_proc();
 
@@ -235,6 +233,6 @@ int sys_getrlimit(int resource, void* r);
 
 extern char** current_envp;
 extern char** current_argv;
-
+extern errno_t* current_errno;
 
 #endif
