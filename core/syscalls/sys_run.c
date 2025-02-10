@@ -83,22 +83,23 @@ int_t sys_exec(const char* file, char** inargv, char** envp)
    current->program->argv = inargv;// dupnullable(inargv);
    current->program -> nlink = 1;
 
-   current->program->dlhandle = sys_dlopen(file, 0);
-   if (!current->program->dlhandle) {
+   current->program->dlhndl = sys_dlopen(file, 0);
+   if (!current->program->dlhndl) {
 	  sys_printf(SYS_ERROR "EXEC dlopen %s FAILED\n", file);
       current->sys_errno = ENOENT;
       goto fail;
    }
    sys_printf(SYS_INFO "EXEC dlopen %s\n", file);
-   int (*start)(int argc, char*** argv, char*** envp, AFILE*** fds, errno_t** cerrno, void* syscall_func, void* retexit_func) =
 #ifdef DEBUG
-         sys_dlsym(current->program->dlhandle, "_start");
+   int (*start)(int argc, char*** argv, char*** envp, AFILE*** fds, errno_t** cerrno, void* syscall_func, void* retexit_func) =
+         sys_dlsym(current->program->dlhndl, "_start");
 #else
-   (void*)(((dlhandle*)current->program->dlhandle)->obj->dl_elf->hdr->e_entry + 
-      ((dlhandle*)current->program->dlhandle)->obj->dl_elf->exec);
+   int (*start)(int argc, char*** argv, char*** envp, AFILE*** fds, errno_t** cerrno, void* syscall_func, void* retexit_func) =
+   (void*)(((dlhandle*)current->program->dlhndl)->obj->dl_elf->hdr->e_entry + 
+      ((dlhandle*)current->program->dlhndl)->obj->dl_elf->exec);
 #endif
 #ifdef DEBUG
-   current->tlsid = sys_dlsym(current->program->dlhandle, "tinylibc_tls_id");
+   current->tlsid = sys_dlsym(current->program->dlhndl, "tinylibc_tls_id");
 #endif
    if (envp) {
 		current->program->envp = copyenv(envp);
@@ -111,7 +112,7 @@ int_t sys_exec(const char* file, char** inargv, char** envp)
    current_envp = current->program->envp;
    current_argv = current->program->argv;
 
-   sys_dltls(current->program->dlhandle, curpid);
+   sys_dltls(current->program->dlhndl, curpid);
    
    current->flags &= ~PROC_CLONED;
    sys_printf(SYS_INFO "freememory=%ld\n", free_memory());
@@ -153,7 +154,7 @@ void freeproc(pid_t pid)
    sys_free(cpu[pid]->ctx.stack);
    cpu[pid]->program->nlink--;
    if (cpu[pid]->program->nlink <= 0) {
-      sys_dlclose(cpu[pid]->program->dlhandle);
+      sys_dlclose(cpu[pid]->program->dlhndl);
       sys_free(cpu[pid]->program);
    }
    sys_free(cpu[pid]);

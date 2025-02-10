@@ -108,7 +108,7 @@ typedef struct {
   int argc;
   char**  argv;
   char** envp;
-  void* dlhandle;
+  void* dlhndl;
   int nlink;	
 } prog;
 
