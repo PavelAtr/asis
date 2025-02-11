@@ -14,9 +14,6 @@ ssize_t piperead(FILE* f, void* buf, size_t count)
 		f->pipbuf->readpos = 0;
 		f->pipbuf->writepos = 0;
 	}
-	if (!len) {
-		usleep(1);
-	}
 	return len;
 }
 
@@ -41,15 +38,15 @@ INIT_FDS
       goto end;
    }
    if (stream->fd != -1) {
-	  if (stream->pipbuf)
-	  {
-		  ret = piperead(stream, ptr, size * nmemb);
-		  goto end;
-	  }
+      if (stream->pipbuf)
+      {
+         ret = piperead(stream, ptr, size * nmemb);
+         goto end;
+      }
    }
    ret = syscall(SYS_FREAD, stream->file, ptr, size * nmemb, stream->pos);
 end:
    stream->pos += ret;
-   if (!ret) usleep(1);
+   if (!ret) switchtask;
    return ret;
 }

@@ -6,13 +6,13 @@
 
 ssize_t pipewrite(FILE* f, const void* buf, size_t count)
 {
+        while(f->pipbuf->writepos >= MAXPIPE) {
+            switchtask;
+        }
 	size_t len = (count < MAXPIPE - f->pipbuf->writepos)?
 	   count : MAXPIPE - f->pipbuf->writepos;
 	memcpy(f->pipbuf->buf + f->pipbuf->writepos, buf, len);
 	f->pipbuf->writepos += len;
-	if (!len) {
-		usleep(1);
-	}
 	return len;
 }
 
@@ -50,6 +50,6 @@ end:
    if (stream->pos >= stream->size) {
       stream->size = stream->pos;
    }
-   if (!ret) usleep(1);
+   if (!ret) switchtask;
    return ret;
 }

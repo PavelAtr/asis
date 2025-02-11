@@ -8,7 +8,6 @@
 #undef fds
 
 proc sys;
-prog sysprog;
 char* sys_argv[1] = {"system"};
 extern AFILE** current_fds;
 char* ld_library_path = "/tinysys/usr/lib:/tinysys/lib";
@@ -63,10 +62,9 @@ AFILE* sysfds[COREMAXFD] = {
 
 void init_proc()
 {
-   sys.program = &sysprog;
-   sys.program->nlink = 1;
-   sys.program->argv = sys_argv;
-//   sys.program->envp = sys_env;
+   sys.nlink = 1;
+   sys.argv = sys_argv;
+//   sys.envp = sys_env;
    cpu[0] = &sys;
    current = cpu[0];
    sys.fds = (void**) sysfds;
@@ -139,14 +137,15 @@ void** cloexecfds(void** infds)
 		 if (!fds[i]) {
 		    continue;
 	     }
-         if (fds[i]->flags & O_CLOEXEC) {
 	 // MARK
 
 	 AFILE* dst = fds[i];
 	 if (dst) {
-	    sys_printf("freefile=%p file=%p=%s strbuf=%p pipbuf=%p fd=%d\n", dst, dst->file, dst->file, dst->strbuf, dst->pipbuf, dst->fd);
+	    sys_printf("infofile=%p file=%p=%s strbuf=%p pipbuf=%p fd=%d\n", dst, dst->file, dst->file, dst->strbuf, dst->pipbuf, dst->fd);
      }
      // MARK
+
+         if (fds[i]->flags & O_CLOEXEC) {
 
              freefile(fds[i]);
 			 fds[i] = NULL;
@@ -164,7 +163,7 @@ void freefds(proc* task)
 	 AFILE* dst = fds[i];
 	 // MARK
 	 if (dst) {
-	    sys_printf("freefile=%p in %s file=%p=%s strbuf=%p pipbuf=%p fd=%d\n", dst, task->program->argv[0], dst->file, dst->file, dst->strbuf, dst->pipbuf, dst->fd);
+	    sys_printf("freefile=%p in %s file=%p=%s strbuf=%p pipbuf=%p fd=%d\n", dst, task->argv[0], dst->file, dst->file, dst->strbuf, dst->pipbuf, dst->fd);
      }
      // MARK
       freefile(fds[i]);

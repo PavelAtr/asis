@@ -72,19 +72,15 @@ int_t sys_exec(const char* file, char** inargv, char** envp)
    }
 
    if (current->flags & PROC_CLONED) {
-	   current->program->nlink--;
-	   if (current->program -> nlink <= 0) {
-		   sys_printf(SYS_ERROR "SYS_EXEC: Memory leak in current->program structure\n");
-	   }
-       current->program = sys_calloc(1, sizeof(prog));
+	   current->nlink--;
    }
 
-   current->program->argc = argc;
-   current->program->argv = inargv;// dupnullable(inargv);
-   current->program -> nlink = 1;
+   current->argc = argc;
+   current->argv = inargv;// dupnullable(inargv);
+   current->nlink = 1;
 
-   current->program->dlhndl = sys_dlopen(file, 0);
-   if (!current->program->dlhndl) {
+   current->dlhndl = sys_dlopen(file, 0);
+   if (!current->dlhndl) {
 	  sys_printf(SYS_ERROR "EXEC dlopen %s FAILED\n", file);
       current->sys_errno = ENOENT;
       goto fail;
@@ -92,27 +88,27 @@ int_t sys_exec(const char* file, char** inargv, char** envp)
    sys_printf(SYS_INFO "EXEC dlopen %s\n", file);
 #ifdef DEBUG
    int (*start)(int argc, char*** argv, char*** envp, AFILE*** fds, errno_t** cerrno, void* syscall_func, void* retexit_func) =
-         sys_dlsym(current->program->dlhndl, "_start");
+         sys_dlsym(current->dlhndl, "_start");
 #else
    int (*start)(int argc, char*** argv, char*** envp, AFILE*** fds, errno_t** cerrno, void* syscall_func, void* retexit_func) =
-   (void*)(((dlhandle*)current->program->dlhndl)->obj->dl_elf->hdr->e_entry + 
-      ((dlhandle*)current->program->dlhndl)->obj->dl_elf->exec);
+   (void*)(((dlhandle*)current->dlhndl)->obj->dl_elf->hdr->e_entry + 
+      ((dlhandle*)current->dlhndl)->obj->dl_elf->exec);
 #endif
 #ifdef DEBUG
-   current->tlsid = sys_dlsym(current->program->dlhndl, "tinylibc_tls_id");
+   current->tlsid = sys_dlsym(current->dlhndl, "tinylibc_tls_id");
 #endif
    if (envp) {
-		current->program->envp = copyenv(envp);
+		current->envp = copyenv(envp);
    } else {
-		current->program->envp = copyenv(((proc*)current->parent)->program->envp);
+		current->envp = copyenv(((proc*)current->parent)->envp);
    }
    current->fds = cloexecfds(current->fds);
    current_errno = &current->sys_errno;
    current_fds = (AFILE**)current->fds;
-   current_envp = current->program->envp;
-   current_argv = current->program->argv;
+   current_envp = current->envp;
+   current_argv = current->argv;
 
-   sys_dltls(current->program->dlhndl, curpid);
+   sys_dltls(current->dlhndl, curpid);
    
    current->flags &= ~PROC_CLONED;
    sys_printf(SYS_INFO "freememory=%ld\n", free_memory());
@@ -148,14 +144,13 @@ void freeproc(pid_t pid)
       return;
    }
    if (!(cpu[pid]->flags & PROC_CLONED)) {
-      freeenv(cpu[pid]->program->envp);
+      freeenv(cpu[pid]->envp);
    }
    freefds(cpu[pid]);
    sys_free(cpu[pid]->ctx.stack);
-   cpu[pid]->program->nlink--;
-   if (cpu[pid]->program->nlink <= 0) {
-      sys_dlclose(cpu[pid]->program->dlhndl);
-      sys_free(cpu[pid]->program);
+   cpu[pid]->nlink--;
+   if (cpu[pid]->nlink <= 0) {
+      sys_dlclose(cpu[pid]->dlhndl);
    }
    sys_free(cpu[pid]);
    cpu[pid] = NULL;
@@ -168,13 +163,13 @@ pid_t sys_clone(void)
    if (ret == -1) {
       return -1;
    }
-   sys_printf(SYS_DEBUG "CLONE newpid=%d in prog=%s\n", ret, current->program->argv[0]);
+   sys_printf(SYS_DEBUG "CLONE newpid=%d in prog=%s\n", ret, current->argv[0]);
    memcpy(cpu[ret], current, sizeof(proc));
    cpu[ret]->flags = PROC_RUNNING | PROC_NEW | PROC_CLONED;
    cpu[ret]->parent = current;
    cpu[ret]->pid = ret;
    cpu[ret]->parentpid = curpid;
-   current->program->nlink++;
+   current->nlink++;
    cpu[ret]->ctx.stack = sys_malloc(MAXSTACK);
    cpu[ret]->fds = copyfds(current->fds);
 
@@ -184,14 +179,14 @@ pid_t sys_clone(void)
 pid_t sys_fork()
 {
    current->forkret = sys_clone();
-   sys_printf(SYS_DEBUG "FORK in %s child=%d\n", current->program->argv[0], current->forkret);
+   sys_printf(SYS_DEBUG "FORK in %s child=%d\n", current->argv[0], current->forkret);
    if (current->forkret == -1) {
       current->sys_errno = ENOMEM;
       return -1;
    }
    cpu[current->forkret]->forkret = 0;
    cpu[current->forkret]->ret = -1;
-   sys_printf(SYS_DEBUG "SWITCH pid=%d prog=%s\n", current->pid, current->program->argv[0]);
+   sys_printf(SYS_DEBUG "SWITCH pid=%d prog=%s\n", current->pid, current->argv[0]);
    switch_context;
    sys_printf(SYS_DEBUG "forkret=%d\n", (int)current->forkret);
    return current->forkret;
@@ -199,7 +194,7 @@ pid_t sys_fork()
 
 pid_t sys_waitpid(pid_t pid, int* wstatus, int options)
 {
-   sys_printf(SYS_DEBUG "WAITPID in %s child=%d\n", current->program->argv[0], pid);
+   sys_printf(SYS_DEBUG "WAITPID in %s child=%d\n", current->argv[0], pid);
    if (pid != -1) {
       if (!pid_is_valid(pid) || !cpu[pid]) {
          return -1;
@@ -236,7 +231,7 @@ pid_t sys_waitpid(pid_t pid, int* wstatus, int options)
       switch_context;
    }
 end:
-   sys_printf(SYS_DEBUG "WAITPID END pid=%d prog=%s child=%d(%s)\n", current->pid, current->program->argv[0], child, cpu[child]->program->argv[0]);
+   sys_printf(SYS_DEBUG "WAITPID END pid=%d prog=%s child=%d(%s)\n", current->pid, current->argv[0], child, cpu[child]->argv[0]);
    *wstatus = cpu[child]->ret;
    freeproc(child);
    cpu[child] = NULL;
@@ -245,7 +240,7 @@ end:
 
 void sys_atexit(int ret)
 {
-   sys_printf(SYS_DEBUG "ATEXIT=%d pid=%d prog=%s\n", ret, current->pid, current->program->argv[0]);
+   sys_printf(SYS_DEBUG "ATEXIT=%d pid=%d prog=%s\n", ret, current->pid, current->argv[0]);
    current->ret = ret;
    current->flags &= ~PROC_RUNNING;
    current->flags |= PROC_ENDED;

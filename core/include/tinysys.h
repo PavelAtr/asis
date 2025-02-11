@@ -110,11 +110,7 @@ typedef struct {
   char** envp;
   void* dlhndl;
   int nlink;	
-} prog;
-
-typedef struct {
   int_t flags;
-  prog* program;
   void** fds;
   void* parent;
   pid_t pid;
@@ -190,7 +186,7 @@ pid_t sys_fork(void);
 pid_t sys_waitpid(pid_t pid, int* wstatus, int options);
 
 
-#define MAXSTACK 8192
+#define MAXSTACK 65536
 
 #define setsp(addr) __asm__("mov %0, %%rsp\n" \
            : \
