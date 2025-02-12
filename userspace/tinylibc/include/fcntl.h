@@ -1,8 +1,8 @@
 #ifndef _FCNTL_H
 #define _FCNTL_H
 
+#include <sys/types.h>
 #include <stdio.h>
-#include <syscall.h>
 
 #define O_CLOEXEC 0x0001
 #define O_RDONLY 0x0002
@@ -19,7 +19,7 @@
 #define O_NOCTTY 00000400 
 
 int get_free_fd(void);
-#define fd_is_valid(fd) (fds[fd] && (unsigned int)fd < syscall(SYS_GETMAXFD))
+char fd_is_valid(int fd);
 
 int open(const char *pathname, int flags, ... /* mode */);
 int creat(const char *pathname, mode_t mode);

@@ -12,3 +12,13 @@ int get_free_fd()
       }
    return -1;
 }
+
+char fd_is_valid(int fd) {
+   if ((unsigned int)fd < syscall(SYS_GETMAXFD))
+   {
+      if (fds[fd]) {
+         return 1;
+      }
+   }
+   return 0;
+}

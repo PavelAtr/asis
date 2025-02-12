@@ -7,6 +7,9 @@
 ssize_t pipewrite(FILE* f, const void* buf, size_t count)
 {
         while(f->pipbuf->writepos >= MAXPIPE) {
+            if (feof(f)) {
+               break;
+            }
             switchtask;
         }
 	size_t len = (count < MAXPIPE - f->pipbuf->writepos)?
