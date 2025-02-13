@@ -71,13 +71,19 @@ int_t sys_exec(const char* file, char** inargv, char** envp)
       current->gid = current->gid;
    }
 
-   if (current->flags & PROC_CLONED) {
-	   current->nlink--;
+   *current->dlnlink--;
+   if (!current->flags & PROC_CLONED) {
+	   if (*current->dlnlink <= 0) {
+		   sys_dlclose(current->dlhndl);
+      }
+   } else
+   {
+	   current->dlnlink = malloc(sizeof(int));
+	   *current->dlnlink = 0;
    }
 
    current->argc = argc;
    current->argv = inargv;// dupnullable(inargv);
-   current->nlink = 1;
 
    current->dlhndl = sys_dlopen(file, 0);
    if (!current->dlhndl) {
@@ -85,6 +91,7 @@ int_t sys_exec(const char* file, char** inargv, char** envp)
       current->sys_errno = ENOENT;
       goto fail;
    }
+   *current->dlnlink++;
    sys_printf(SYS_INFO "EXEC dlopen %s\n", file);
 #ifdef DEBUG
    int (*start)(int argc, char*** argv, char*** envp, AFILE*** fds, errno_t** cerrno, void* syscall_func, void* retexit_func) =
@@ -97,17 +104,18 @@ int_t sys_exec(const char* file, char** inargv, char** envp)
 #ifdef DEBUG
    current->tlsid = sys_dlsym(current->dlhndl, "tinylibc_tls_id");
 #endif
-   if (envp) {
-		current->envp = copyenv(envp);
-   } else {
-		current->envp = copyenv(((proc*)current->parent)->envp);
+   if (current->flags & PROC_CLONED) {
+      if (envp) {
+		   current->envp = copyenv(envp);
+      } else {
+		   current->envp = copyenv(((proc*)current->parent)->envp);
+      }
    }
    current->fds = cloexecfds(current->fds);
    current_errno = &current->sys_errno;
    current_fds = (AFILE**)current->fds;
    current_envp = current->envp;
    current_argv = current->argv;
-
    sys_dltls(current->dlhndl, curpid);
    
    current->flags &= ~PROC_CLONED;
@@ -148,8 +156,8 @@ void freeproc(pid_t pid)
    }
    freefds(cpu[pid]);
    sys_free(cpu[pid]->ctx.stack);
-   cpu[pid]->nlink--;
-   if (cpu[pid]->nlink <= 0) {
+   *cpu[pid]->dlnlink--;
+   if (*cpu[pid]->dlnlink <= 0) {
       sys_dlclose(cpu[pid]->dlhndl);
    }
    sys_free(cpu[pid]);
@@ -169,7 +177,7 @@ pid_t sys_clone(void)
    cpu[ret]->parent = current;
    cpu[ret]->pid = ret;
    cpu[ret]->parentpid = curpid;
-   current->nlink++;
+   *current->dlnlink++;
    cpu[ret]->ctx.stack = sys_malloc(MAXSTACK);
    cpu[ret]->fds = copyfds(current->fds);
 

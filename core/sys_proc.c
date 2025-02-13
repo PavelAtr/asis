@@ -22,6 +22,7 @@ AFILE sys_stdin = {
   0,
 NULL,
 NULL,
+0,
 };
 
 AFILE sys_stdout = {
@@ -34,6 +35,7 @@ AFILE sys_stdout = {
   0,
 NULL,
 NULL,
+  0,
 };
 
 AFILE sys_stderr = {
@@ -46,6 +48,7 @@ AFILE sys_stderr = {
   0,
 NULL,
 NULL,
+  0,
 };
 
 char* sys_env[COREMAXENV] = {
@@ -60,9 +63,12 @@ AFILE* sysfds[COREMAXFD] = {
 &sys_stderr,
 };
 
+int sys_dlnlink;
+
 void init_proc()
 {
-   sys.nlink = 1;
+   sys.dlnlink = &sys_dlnlink;
+   *sys.dlnlink = 1;
    sys.argv = sys_argv;
 //   sys.envp = sys_env;
    cpu[0] = &sys;

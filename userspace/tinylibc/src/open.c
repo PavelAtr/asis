@@ -31,7 +31,7 @@ int open(const char *pathname, int flags, ...)
    if (flags & O_APPEND) {
       fds[fd]->pos = fds[fd]->size;
    }
-   fds[fd]->flags = flags;
+   fds[fd]->fdflags = flags;
    fds[fd]->fd = fd;
    return fd;
 }

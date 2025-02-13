@@ -19,7 +19,7 @@ FILE* fopen(const char* path, const char* mode)
    char* cwd = get_current_dir_name();
    ret->file = fullpath(cwd, path);
    ret->size = st.st_size;
-   if (st.st_mode & (S_IFCHR)) {
+   if (st.st_mode & S_IFCHR) {
       ret->flags |= FILE_INFINITY;
    }
    return ret;

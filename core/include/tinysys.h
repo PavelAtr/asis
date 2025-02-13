@@ -42,7 +42,7 @@ int_t sys_unlink(const char *pathname);
 int_t sys_truncate(const char *pathname, size_t length);
 int_t sys_link(const char *oldpath, const char *newpath, bool_t move);
 
-#define MEMSIZE	256000
+#define MEMSIZE	10000000
 
 void* sys_mmap(void* addr, size_t length, int prot, int flags, int f, off_t offset);
 int sys_munmap(void* addr, size_t length);
@@ -109,7 +109,7 @@ typedef struct {
   char**  argv;
   char** envp;
   void* dlhndl;
-  int nlink;	
+  int* dlnlink;	
   int_t flags;
   void** fds;
   void* parent;

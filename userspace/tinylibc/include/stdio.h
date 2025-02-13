@@ -7,7 +7,7 @@
 #include <string.h>
 #include <stdlib.h>
 
-#define MAXPIPE 4096
+#define MAXPIPE 512
 
 typedef struct {
    char buf[MAXPIPE];
@@ -27,6 +27,7 @@ typedef struct {
    pid_t pgrp;
    char* strbuf;
    pipebuf* pipbuf;
+   int fdflags;
 } FILE;
 
 typedef FILE AFILE;

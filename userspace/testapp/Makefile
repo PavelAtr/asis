@@ -22,6 +22,7 @@ all:
 	$(CC) $(CFLAGS) -fPIC _exit.c $(LDFLAGS) -o _exit
 	$(CC) $(CFLAGS) -fPIC jmp.c $(LDFLAGS) -o jmp
 	$(CC) $(CFLAGS) -fPIC fds.c $(LDFLAGS) -o fds
+	$(CC) $(CFLAGS) -fPIC mycat.c $(LDFLAGS) -o mycat
 
 #	$(CC) -g -I../libpwd/include/ ../libpwd/libpwd.a test1.c -o test1
 #	$(CC) -g -I../libpwd/include/ ../libpwd/libpwd.a test2.c -o test2
@@ -52,6 +53,7 @@ install:
 	install _exit $(DESTDIR)$(PREFIX)/bin/_exit
 	install jmp $(DESTDIR)$(PREFIX)/bin/jmp
 	install fds $(DESTDIR)$(PREFIX)/bin/fds
+	install mycat $(DESTDIR)$(PREFIX)/bin/mycat
 
 
 
