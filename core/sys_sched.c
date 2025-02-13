@@ -63,18 +63,18 @@ int_t sys_setjmp(long_t* env)
    env[JMP_STACK] = (long_t)sys_malloc(MAXSTACK);
    env[JMP_SP] = env[JMP_STACK] + (long)((char*)sp - (char*)current->ctx.stack);
    sys_printf(SYS_DEBUG "setjmp env=%p newstack=%p newsp=%p\n", env, env[JMP_STACK], env[JMP_SP]);
-   memcpy((void*)env[JMP_STACK], current->ctx.stack, MAXSTACK);
+   memcpy((char*)env[JMP_STACK], current->ctx.stack, MAXSTACK);
    return 0;
 }
 
 int_t sys_longjmp(long_t* env)
 {
    sys_printf(SYS_DEBUG "longjmp newstack=%p newsp=%p\n", env[JMP_STACK], env[JMP_SP]);
-   if (current->ctx.stack != (void*)env[JMP_STACK]) {
+   if (current->ctx.stack != (char*)env[JMP_STACK]) {
       sys_free(current->ctx.stack);
    }
-   current->ctx.stack = (void*)env[JMP_STACK];
-   sp = (void*)env[JMP_SP];
+   current->ctx.stack = (char*)env[JMP_STACK];
+   sp = (char*)env[JMP_SP];
    return 0;
 }
 

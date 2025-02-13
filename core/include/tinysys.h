@@ -100,8 +100,9 @@ int sys_printf(const char* format, ...);
 #define SYS_ERROR "error:\t"
 
 typedef struct {
-  void* stack;
-  void* sp;
+  char* stackalloc;
+  char* stack;
+  char* sp;
 } context;
 
 typedef struct {
@@ -186,7 +187,7 @@ pid_t sys_fork(void);
 pid_t sys_waitpid(pid_t pid, int* wstatus, int options);
 
 
-#define MAXSTACK 10000
+#define MAXSTACK 0x20000
 
 #define setsp(addr) __asm__("mov %0, %%rsp\n" \
            : \

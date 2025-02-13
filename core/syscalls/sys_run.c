@@ -155,7 +155,7 @@ void freeproc(pid_t pid)
       freeenv(cpu[pid]->envp);
    }
    freefds(cpu[pid]);
-   sys_free(cpu[pid]->ctx.stack);
+   sys_free(cpu[pid]->ctx.stackalloc);
    *cpu[pid]->dlnlink--;
    if (*cpu[pid]->dlnlink <= 0) {
       sys_dlclose(cpu[pid]->dlhndl);
@@ -178,7 +178,8 @@ pid_t sys_clone(void)
    cpu[ret]->pid = ret;
    cpu[ret]->parentpid = curpid;
    *current->dlnlink++;
-   cpu[ret]->ctx.stack = sys_malloc(MAXSTACK);
+   cpu[ret]->ctx.stackalloc = sys_malloc(MAXSTACK + 16);
+   cpu[ret]->ctx.stack = (char*)((addr_t)(cpu[ret]->ctx.stackalloc + 16) & ~0x0F);
    cpu[ret]->fds = copyfds(current->fds);
 
    return ret;
