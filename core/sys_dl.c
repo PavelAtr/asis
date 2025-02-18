@@ -8,16 +8,20 @@
 
 void* sys_dlopen(const char *filename, int flags)
 {
+    void* handle;	
 #ifdef DEBUG
-	return dlopen(filename, RTLD_NOW | RTLD_DEEPBIND);
+	handle = dlopen(filename, RTLD_NOW | RTLD_DEEPBIND);
 #else
-	return dlopen(filename, 0);
+	handle = dlopen(filename, 0);
 #endif
+    sys_printf(SYS_DEBUG "DLOPEN=%p\n", handle);
+    return handle;
 }
 
 
 int sys_dlclose(void *handle)
 {
+	sys_printf(SYS_DEBUG "DLCLOSE=%p\n", handle);
 	return dlclose(handle);
 }
 

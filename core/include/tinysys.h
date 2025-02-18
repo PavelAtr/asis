@@ -187,7 +187,7 @@ pid_t sys_fork(void);
 pid_t sys_waitpid(pid_t pid, int* wstatus, int options);
 
 
-#define MAXSTACK 0x20000
+#define MAXSTACK 0x100000
 
 #define setsp(addr) __asm__("mov %0, %%rsp\n" \
            : \

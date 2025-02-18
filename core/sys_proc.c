@@ -63,11 +63,9 @@ AFILE* sysfds[COREMAXFD] = {
 &sys_stderr,
 };
 
-int sys_dlnlink;
-
 void init_proc()
 {
-   sys.dlnlink = &sys_dlnlink;
+   sys.dlnlink = sys_malloc(sizeof(int));
    *sys.dlnlink = 1;
    sys.argv = sys_argv;
 //   sys.envp = sys_env;

@@ -78,6 +78,7 @@ int_t sys_exec(const char* file, char** inargv, char** envp)
       }
    } else
    {
+	   sys_printf(SYS_INFO "EXEC alloc INT (%d=%s)\n", curpid, file);
 	   current->dlnlink = malloc(sizeof(int));
 	   *current->dlnlink = 0;
    }
@@ -151,15 +152,16 @@ void freeproc(pid_t pid)
    if (!cpu[pid]) {
       return;
    }
+   *cpu[pid]->dlnlink--;
+   if (*cpu[pid]->dlnlink <= 0) {
+      sys_dlclose(cpu[pid]->dlhndl);
+      sys_free(cpu[pid]->dlnlink);
+   }
    if (!(cpu[pid]->flags & PROC_CLONED)) {
       freeenv(cpu[pid]->envp);
    }
    freefds(cpu[pid]);
    sys_free(cpu[pid]->ctx.stackalloc);
-   *cpu[pid]->dlnlink--;
-   if (*cpu[pid]->dlnlink <= 0) {
-      sys_dlclose(cpu[pid]->dlhndl);
-   }
    sys_free(cpu[pid]);
    cpu[pid] = NULL;
 }
