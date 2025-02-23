@@ -78,7 +78,6 @@ int_t sys_exec(const char* file, char** inargv, char** envp)
       }
    } else
    {
-	   sys_printf(SYS_INFO "EXEC alloc INT (%d=%s)\n", curpid, file);
 	   current->dlnlink = malloc(sizeof(int));
 	   *current->dlnlink = 0;
    }
@@ -120,8 +119,7 @@ int_t sys_exec(const char* file, char** inargv, char** envp)
    sys_dltls(current->dlhndl, curpid);
    
    current->flags &= ~PROC_CLONED;
-   sys_printf(SYS_INFO "freememory=%ld\n", free_memory());
-   sys_printf(SYS_INFO "Start=%p\n", start);
+// MARK   sys_printf(SYS_INFO "freememory=%ld\n", free_memory());
    int ret = start(argc, &current_argv, &current_envp, &current_fds, &current_errno, &sys_syscall, &sys_atexit);
    switch_context;
    /* Never reach here */
@@ -146,6 +144,7 @@ pid_t newproc()
 
 void freeproc(pid_t pid)
 {
+sys_printf("FREEPROC %d\n", pid);
    if (!pid_is_valid(pid)) {
       return;
    }
@@ -155,7 +154,7 @@ void freeproc(pid_t pid)
    *cpu[pid]->dlnlink--;
    if (*cpu[pid]->dlnlink <= 0) {
       sys_dlclose(cpu[pid]->dlhndl);
-      sys_free(cpu[pid]->dlnlink);
+// MARK      sys_free(cpu[pid]->dlnlink);
    }
    if (!(cpu[pid]->flags & PROC_CLONED)) {
       freeenv(cpu[pid]->envp);
@@ -173,15 +172,15 @@ pid_t sys_clone(void)
    if (ret == -1) {
       return -1;
    }
-   sys_printf(SYS_DEBUG "CLONE newpid=%d in prog=%s\n", ret, current->argv[0]);
+   sys_printf(SYS_DEBUG "CLONE newpid=%d in %d=%s\n", ret, current->pid, current->argv[0]);
    memcpy(cpu[ret], current, sizeof(proc));
    cpu[ret]->flags = PROC_RUNNING | PROC_NEW | PROC_CLONED;
    cpu[ret]->parent = current;
    cpu[ret]->pid = ret;
    cpu[ret]->parentpid = curpid;
    *current->dlnlink++;
-   cpu[ret]->ctx.stackalloc = sys_malloc(MAXSTACK + 16);
-   cpu[ret]->ctx.stack = (char*)((addr_t)(cpu[ret]->ctx.stackalloc + 16) & ~0x0F);
+   cpu[ret]->ctx.stackalloc = sys_malloc(MAXSTACK + 0x10);
+   cpu[ret]->ctx.stack = (char*)((addr_t)(cpu[ret]->ctx.stackalloc + 0x10) & ~0x0F); // Aligned 0x10
    cpu[ret]->fds = copyfds(current->fds);
 
    return ret;

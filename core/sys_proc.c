@@ -143,10 +143,10 @@ void** cloexecfds(void** infds)
 	     }
 	 // MARK
 
-	 AFILE* dst = fds[i];
-	 if (dst) {
-	    sys_printf("infofile=%p file=%p=%s strbuf=%p pipbuf=%p fd=%d\n", dst, dst->file, dst->file, dst->strbuf, dst->pipbuf, dst->fd);
-     }
+//	 AFILE* dst = fds[i];
+//	 if (dst) {
+//	    sys_printf("infofile=%p file=%p=%s strbuf=%p pipbuf=%p fd=%d\n", dst, dst->file, dst->file, dst->strbuf, dst->pipbuf, dst->fd);
+//     }
      // MARK
 
          if (fds[i]->flags & O_CLOEXEC) {

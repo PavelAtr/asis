@@ -200,9 +200,11 @@ end:
 void *dlopen(const char* filename, int flags)
 {
    dl* prog = calloc(1, sizeof(dl));
-   if (dl_load(prog, filename)) {
+
+   if (dl_load(prog, filename) == -1) {
       goto fail;
    }
+
    dlhandle* handle = (dlhandle*)namedlist_add(NULL, prog,  prog->path);
    dlhandle* j;
    for (j = handle; j; j = j->next) {
@@ -227,7 +229,7 @@ void *dlopen(const char* filename, int flags)
 			printf(MARK "InCache %s\n", path);			  
 	     } else {
             lib = calloc(1,sizeof(dl));
-            if (dl_load(lib, path)) {
+            if (dl_load(lib, path) == -1) {
                 goto fail;
             }   
          }
@@ -262,6 +264,8 @@ void *dlopen(const char* filename, int flags)
    }
    for (j = handle; j != NULL; j = j->next) {
 	  dl* s  = j->obj;
+	  sys_printf("DLOPEN S is %p=%s\n", s, s->path);
+
 	  if (s->status & DL_INITED) {
 		  continue;
 	  }
@@ -283,6 +287,7 @@ void *dlopen(const char* filename, int flags)
    }
    return handle;
 fail:
+   printf(MARK "DLOPEN ERROR %s\n", prog->path);
    dlclose(handle);
    return NULL;
 }
@@ -341,6 +346,7 @@ void dltls(void* handle, unsigned long module_id)
    dl* s;
    for (j = handle; j != NULL; j = j->next) {
 	  s = j->obj;
+	  printf("DLTLS in %p\n", s);
       int rela_ndx;
       for (rela_ndx = 0; s->dl_elf->rela[rela_ndx]; rela_ndx++) {
          if (s->dl_elf->tlsrela[rela_ndx]->relas) {
@@ -348,11 +354,9 @@ void dltls(void* handle, unsigned long module_id)
 			 for (i = 0; i < s->dl_elf->tlsrela[rela_ndx]->count; i++)
 			 {
 				 *(Elf_Xword*)(s->dl_elf->exec + s->dl_elf->tlsrela[rela_ndx]->relas[i].r_offset) = module_id;
-// MARK ?? QUESTION	 printf(MARK "FOUND  TLS rela in %p %p=%p\n", s->dl_elf->tlsrela[rela_ndx]->relas, &s->dl_elf->tlsrela[rela_ndx]->relas[i], s->dl_elf->tlsrela[rela_ndx]->relas[i].r_offset);
 			 }
          }
-
       }
-	   s->dl_elf->tls_index = module_id;
+      s->dl_elf->tls_index = module_id;
    }
 }

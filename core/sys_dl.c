@@ -22,7 +22,11 @@ void* sys_dlopen(const char *filename, int flags)
 int sys_dlclose(void *handle)
 {
 	sys_printf(SYS_DEBUG "DLCLOSE=%p\n", handle);
-	return dlclose(handle);
+#ifndef DEBUG
+   return dlclose(handle);
+#else
+   return 0;
+#endif
 }
 
 void* sys_dlsym(void * handle, const char * symbol)
@@ -34,7 +38,7 @@ extern void** current_fds;
 
 void sys_dltls(void* handle, unsigned long module_id)
 {
-	sys_printf(SYS_DEBUG "Set TLS modid=%ld\n", module_id);
+	sys_printf(SYS_DEBUG "Set TLS modid=%ld in %p\n", module_id, handle);
 #ifdef DEBUG
 	if (current->tlsid) {
 	   *current->tlsid = (addr_t)&curpid;

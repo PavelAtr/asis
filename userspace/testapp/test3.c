@@ -1,17 +1,16 @@
 #include <stdio.h>
+#include <dlfcn.h>
+#include <assert.h>
 
 int main(int argc, char** argv)
 {
-   namedlist* scope = NULL;
-   scope = namedlist_add(scope, "string1", "test1");
-   scope = namedlist_add(scope, "string2", "test2");
-   scope = namedlist_add(scope, "string3", "test3");
-   scope = namedlist_rm(scope, "test3");
-   scope = namedlist_rm(scope, "test1");
-   scope = namedlist_rm(scope, "test2");
-   namedlist* i;
-   for (i = scope; i; i = i->next)
-       printf("%s\n", i->name);
-   printf("name2=%s\n", namedlist_get(scope, "test2"));
+   void* hndl = dlopen("libpng16.so.16", RTLD_NOW | RTLD_LOCAL| RTLD_DEEPBIND);
+   assert(hndl);
+   void* hndl2 = dlopen("libpng16.so.16", RTLD_NOW | RTLD_LOCAL| RTLD_DEEPBIND);
+   assert(hndl2);
+   dlclose(hndl);
+   dlclose(hndl2);
+
+
    return 0;
 }

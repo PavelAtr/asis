@@ -187,7 +187,7 @@ pid_t sys_fork(void);
 pid_t sys_waitpid(pid_t pid, int* wstatus, int options);
 
 
-#define MAXSTACK 0x100000
+#define MAXSTACK 8000000
 
 #define setsp(addr) __asm__("mov %0, %%rsp\n" \
            : \
@@ -201,10 +201,13 @@ register void* sp __asm__("rsp");
 
 void switch_task();
 
+//#define switch_context \
+//	if (current) sys_printf(SYS_DEBUG "switch before stack=%p sp=%p depth=%ld\n", current->ctx.stack, sp, (char*)current->ctx.stack + MAXSTACK - (char*)sp); \
+//	switch_task(); \
+//	sys_printf(SYS_DEBUG "switch after stack=%p sp=%p depth=%ld\n", current->ctx.stack, sp, (char*)current->ctx.stack + MAXSTACK - (char*)sp);
+
 #define switch_context \
-	if (current) sys_printf(SYS_DEBUG "switch before stack=%p sp=%p depth=%ld\n", current->ctx.stack, sp, (char*)current->ctx.stack + MAXSTACK - (char*)sp); \
-	switch_task(); \
-	sys_printf(SYS_DEBUG "switch after stack=%p sp=%p depth=%ld\n", current->ctx.stack, sp, (char*)current->ctx.stack + MAXSTACK - (char*)sp);
+	switch_task();
 
 void trap_segfault();
 
