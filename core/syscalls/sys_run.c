@@ -13,7 +13,7 @@ char* initargv[2];
 
 int_t sys_runinit()
 {
-   current->ctx.stack = sp - MAXSTACK + 64;
+   current->ctx.stack = sp - MAXSTACK + 128;
    initargv[0] = INIT;
    initargv[1] = NULL;
    pid_t init = sys_fork();
@@ -160,7 +160,7 @@ sys_printf("FREEPROC %d\n", pid);
       freeenv(cpu[pid]->envp);
    }
    freefds(cpu[pid]);
-   sys_free(cpu[pid]->ctx.stackalloc);
+   sys_free(cpu[pid]->ctx.stack);
    sys_free(cpu[pid]);
    cpu[pid] = NULL;
 }
@@ -179,8 +179,7 @@ pid_t sys_clone(void)
    cpu[ret]->pid = ret;
    cpu[ret]->parentpid = curpid;
    *current->dlnlink++;
-   cpu[ret]->ctx.stackalloc = sys_malloc(MAXSTACK + 0x10);
-   cpu[ret]->ctx.stack = (char*)((addr_t)(cpu[ret]->ctx.stackalloc + 0x10) & ~0x0F); // Aligned 0x10
+   cpu[ret]->ctx.stack = sys_malloc(MAXSTACK);
    cpu[ret]->fds = copyfds(current->fds);
 
    return ret;

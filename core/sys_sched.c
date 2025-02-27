@@ -53,28 +53,27 @@ void switch_task()
          + MAXSTACK - (char*)((proc*)current->parent)->ctx.sp;
       current->ctx.sp = (char*)current->ctx.stack + MAXSTACK - stackoff;
       sys_printf(SYS_DEBUG "initcontext %d newstack=%p newsp=%p depth=%ld\n",
-         curpid, current->ctx.stack, current->ctx.sp, stackoff);
+         curpid, current->ctx.stack, current->ctx.sp, current->ctx.sp - current->ctx.stack);
    }
    sp = current->ctx.sp;
 }
 
 int_t sys_setjmp(long_t* env)
 {
-   env[JMP_STACK] = (long_t)sys_malloc(MAXSTACK + 0x10);
-   env[JMP_SP] = (env[JMP_STACK] & ~0x0F) + (long)((char*)sp - (char*)current->ctx.stack);
+   env[JMP_STACK] = (long_t)sys_malloc(MAXSTACK);
+   env[JMP_SP] = env[JMP_STACK] + sp - current->ctx.stack;
    sys_printf(SYS_DEBUG "setjmp env=%p newstack=%p newsp=%p\n", env, env[JMP_STACK], env[JMP_SP]);
-   memcpy((char*)env[JMP_STACK], current->ctx.stack, MAXSTACK + 0x10);
+   memcpy((char*)env[JMP_STACK], current->ctx.stack, MAXSTACK);
    return 0;
 }
 
 int_t sys_longjmp(long_t* env)
 {
-   sys_printf(SYS_DEBUG "longjmp newstack=%p newsp=%p\n", env[JMP_STACK], env[JMP_SP]);
-   if (current->ctx.stack != (char*)env[JMP_STACK]) {
-      sys_free(current->ctx.stackalloc);
-   }
-   current->ctx.stack = (char*)(env[JMP_STACK] & ~0x0F) ;
-   current->ctx.stackalloc = (char*)(env[JMP_STACK]) ;
+   sys_printf(SYS_DEBUG "longjmp env=%p newstack=%p newsp=%p\n", env, env[JMP_STACK], env[JMP_SP]);
+//   if (current->ctx.stack != (char*)env[JMP_STACK]) {
+//      sys_free(current->ctx.stack);
+//   }
+   current->ctx.stack = (char*)env[JMP_STACK];
    sp = (char*)env[JMP_SP];
    return 0;
 }

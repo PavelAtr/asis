@@ -100,7 +100,6 @@ int sys_printf(const char* format, ...);
 #define SYS_ERROR "error:\t"
 
 typedef struct {
-  char* stackalloc;
   char* stack;
   char* sp;
 } context;
@@ -187,7 +186,7 @@ pid_t sys_fork(void);
 pid_t sys_waitpid(pid_t pid, int* wstatus, int options);
 
 
-#define MAXSTACK 8000000
+#define MAXSTACK (4096*1024)
 
 #define setsp(addr) __asm__("mov %0, %%rsp\n" \
            : \
@@ -197,17 +196,15 @@ pid_t sys_waitpid(pid_t pid, int* wstatus, int options);
            : "=r" (addr)\
            : )
 
-register void* sp __asm__("rsp");
+register char* sp __asm__("rsp");
 
 void switch_task();
 
-//#define switch_context \
-//	if (current) sys_printf(SYS_DEBUG "switch before stack=%p sp=%p depth=%ld\n", current->ctx.stack, sp, (char*)current->ctx.stack + MAXSTACK - (char*)sp); \
-//	switch_task(); \
-//	sys_printf(SYS_DEBUG "switch after stack=%p sp=%p depth=%ld\n", current->ctx.stack, sp, (char*)current->ctx.stack + MAXSTACK - (char*)sp);
-
 #define switch_context \
-	switch_task();
+	if (current) sys_printf(SYS_DEBUG "switch before stack=%p sp=%p depth=%ld\n", current->ctx.stack, sp, sp - current->ctx.stack); \
+	switch_task(); \
+	sys_printf(SYS_DEBUG "switch after stack=%p sp=%p depth=%ld\n", current->ctx.stack, sp, sp - current->ctx.stack);
+
 
 void trap_segfault();
 
