@@ -4,7 +4,9 @@
 int fputs(const char* s, FILE* stream)
 {
 INIT_FDS
-   return fwrite(s, strlen(s), 1, stream);
+   size_t len = fwrite(s, 1, strlen(s), stream);
+   len += fwrite("\n", 1, 1, stream);
+   return len;
 }
 
 int puts(const char* s)

@@ -21,12 +21,8 @@ void* sys_dlopen(const char *filename, int flags)
 
 int sys_dlclose(void *handle)
 {
-	sys_printf("DLCLOSE=%p\n", handle);
-#ifndef DEBUG
+   sys_printf("DLCLOSE=%p\n", handle);
    return dlclose(handle);
-#else
-   return 0;
-#endif
 }
 
 void* sys_dlsym(void * handle, const char * symbol)

@@ -9,6 +9,7 @@
 
 void elf_free(elf* e)
 {
+   sys_printf("!!!!!!!!!!!!!!FREE ELF=%p\n", e);
    if (!e) {
       return;
    }
@@ -67,7 +68,7 @@ void elf_free(elf* e)
 int dl_load(dl* buf, const char* file)
 {
    printf(MARK "Loading %s ... ", file);
-   buf->path = file;
+   buf->path = strdup(file);
    buf->dl_elf = calloc(1, sizeof(elf));
    buf->dl_elf->hdr = elf_load_hdr(file);
    buf->dl_elf->phdrs = elf_load_phdrs(file, buf->dl_elf->hdr);
@@ -228,7 +229,7 @@ void *dlopen(const char* filename, int flags)
          {
 			printf(MARK "InCache %s\n", path);			  
 	     } else {
-            lib = calloc(1,sizeof(dl));
+            lib = calloc(1, sizeof(dl));
             if (dl_load(lib, path) == -1) {
                 goto fail;
             }   
@@ -264,7 +265,7 @@ void *dlopen(const char* filename, int flags)
    }
    for (j = handle; j != NULL; j = j->next) {
 	  dl* s  = j->obj;
-	  sys_printf("DLOPEN S is %p=%s\n", s, s->path);
+	  sys_printf("DLOPEN %p=%s elf=%p\n", s, s->path, s->dl_elf);
 
 	  if (s->status & DL_INITED) {
 		  continue;
@@ -315,14 +316,12 @@ void *dlsym(void* hndl, const char* symbol)
 int dlclose(void *hndl)
 {
    dlhandle* j = hndl; 	
-   dl* s = j->obj;
-   if (!s) {
-      return 0;
-   }
+   dl* s;
    dlhandle* next = j;
    while (next) {
       next = j->next;
       s = j->obj;
+      if (!s) continue;
       s->nlink--;
       if (s->nlink <= 0) {
          printf(MARK "Dlclose %s\n", s->path);
@@ -332,7 +331,6 @@ int dlclose(void *hndl)
          free(s->dl_elf);
          free(s);
       }
-      j->next = NULL;
       free(j->name);
       free(j);
       j = next;
@@ -346,7 +344,7 @@ void dltls(void* handle, unsigned long module_id)
    dl* s;
    for (j = handle; j != NULL; j = j->next) {
 	  s = j->obj;
-	  printf("DLTLS in %p\n", s);
+	  printf("DLTLS in %p(%p) elf=%p\n", s, s->path, s->dl_elf);
       int rela_ndx;
       for (rela_ndx = 0; s->dl_elf->rela[rela_ndx]; rela_ndx++) {
          if (s->dl_elf->tlsrela[rela_ndx]->relas) {

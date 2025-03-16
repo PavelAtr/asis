@@ -41,7 +41,7 @@ extern AFILE** current_fds;
 	return ret;
 }*/
 
-int_t sys_exec(const char* file, char** inargv, char** envp)
+int_t sys_exec(char* file, char** inargv, char** envp)
 {
    int argc;
    for (argc = 0; inargv[argc]; argc++);
@@ -124,7 +124,6 @@ int_t sys_exec(const char* file, char** inargv, char** envp)
    switch_context;
    /* Never reach here */
    sys_printf(SYS_DEBUG "EXEC END (NOTREACHEBLE)\n");
-   freeproc(current->forkret);
    return  ret;
 fail:
    return -1;

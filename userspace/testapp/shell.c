@@ -78,7 +78,7 @@ int main(int argc, char** argv)
    chdir("/tinysys");
    umask(0002);
    while (1) {
-      puts("> ");
+      printf("%s", "> ");
       char* cmd = getcommand();
       if (strcmp(cmd, "exit") == 0) {
          break;

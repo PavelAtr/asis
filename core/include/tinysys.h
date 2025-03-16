@@ -29,7 +29,7 @@
 #define printf(fmt, ...) sys_printf(fmt, __VA_ARGS__)
 #define afread(pth, p, s, o) sys_afread(pth, p, s, o)
 
-int_t sys_exec(const char* file, char** argv, char** envp);
+int_t sys_exec(char* file, char** argv, char** envp);
 int_t sys_runinit();
 
 int_t sys_stat(const char* pathname, void* statbuf);

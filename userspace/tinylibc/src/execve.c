@@ -1,5 +1,7 @@
 #include <syscall.h>
-#include <tiny.h>
+#include <stdlib.h>
+#include <errno.h>
+#include <stdio.h>
 
 int execve(const char* path, char* const argv[], char* const envp[])
 {

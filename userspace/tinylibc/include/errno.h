@@ -3,7 +3,7 @@
 
 #include <sys/types.h>
 
-extern  errno_t** core_errno;
+extern int** core_errno;
 #define errno **core_errno
 
 #define ESUCCESS 0
