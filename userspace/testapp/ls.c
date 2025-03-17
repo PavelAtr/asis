@@ -19,8 +19,8 @@ int main(int argc, char** argv)
    char* dirname = path;
    DIR* dir = opendir(dirname);
    if (!dir) {
-      puts(strerror(errno));
-      puts("\n");
+      printf("%s", strerror(errno));
+      printf("%s", "\n");
       return -1;
    }
    struct dirent* dent;
@@ -30,31 +30,30 @@ int main(int argc, char** argv)
       stat(fullpath(get_current_dir_name(), dent->d_name), &st);
       switch (st.st_mode & S_IFMT) {
       case S_IFBLK:
-         puts("<BLK>");
+         printf("%s", "<BLK>");
          break;
       case S_IFCHR:
-         puts("<CHR>");
+         printf("%s", "<CHR>");
          break;
       case S_IFDIR:
-         puts("<DIR>");
+         printf("%s", "<DIR>");
          break;
       case S_IFIFO:
-         puts("<FIFO>");
+         printf("%s", "<FIFO>");
          break;
       case S_IFLNK:
-         puts("<LNK>");
+         printf("%s", "<LNK>");
          break;
       case S_IFREG:
-         puts("<REG>");
+         printf("%s", "<REG>");
          break;
       case S_IFSOCK:
-         puts("<SOCK>");
+         printf("%s", "<SOCK>");
          break;
       default:
          break;
       }
-      puts(dent->d_name);
-      puts("\n");
+      printf("%s\n", dent->d_name);
    }
    return 0;
 }

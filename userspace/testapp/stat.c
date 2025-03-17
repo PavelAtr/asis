@@ -19,42 +19,29 @@ int main(int argc, char** argv)
       printf("%s\n", strerror(errno));
       return -2;
    }
-   puts(path);
-   puts(":\n");
+   printf("%s:\n", path);
    char tmp[10];
    switch (st.st_mode & S_IFMT) {
    case S_IFBLK:
-      puts("<BLK>");
-      itoa(st.st_major, 10, tmp);
-      puts(tmp);
-      puts(":");
-      itoa(st.st_minor, 10, tmp);
-      puts(tmp);
-      puts(" ");
+      printf("<BLK> [%d:%d] ", st.st_major, st.st_minor);
       break;
    case S_IFCHR:
-      puts("<CHR>");
-      itoa(st.st_major, 10, tmp);
-      puts(tmp);
-      puts(":");
-      itoa(st.st_minor, 10, tmp);
-      puts(tmp);
-      puts(" ");
+      printf("<CHR> [%d:%d] ", st.st_major, st.st_minor);
       break;
    case S_IFDIR:
-      puts("<DIR> ");
+      printf("%s", "<DIR> ");
       break;
    case S_IFIFO:
-      puts("<FIFO> ");
+      printf("%s", "<FIFO> ");
       break;
    case S_IFLNK:
-      puts("<LNK> ");
+      printf("%s", "<LNK> ");
       break;
    case S_IFREG:
-      puts("<REG> ");
+      printf("%s", "<REG> ");
       break;
    case S_IFSOCK:
-      puts("<SOCK> ");
+      printf("%s", "<SOCK> ");
       break;
    default:
       break;

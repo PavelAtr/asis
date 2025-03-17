@@ -8,7 +8,7 @@
 proc* cpu[MAXPROC];
 int_t curpid = 0;
 proc* current;
-errno_t* current_errno;
+//MARK errno_t* current_errno;
 AFILE** current_fds;
 char** current_envp;
 char** current_argv;
@@ -40,7 +40,7 @@ void switch_task()
    sys_printf(SYS_DEBUG "SWITCH at %d=%s to %d=%s flags=%b\n",
       prevpid, current->argv[0] ,curpid, cpu[curpid]->argv[0], cpu[curpid]->flags);
    current = cpu[curpid];
-   current_errno = &current->sys_errno;
+//MARK   current_errno = &current->sys_errno;
    current_fds = (AFILE**)current->fds;
    current_envp = current->envp;
    current_argv = current->argv;
@@ -78,3 +78,7 @@ int_t sys_longjmp(long_t* env)
    return 0;
 }
 
+errno_t sys_geterrno()
+{
+	return current->sys_errno;
+}

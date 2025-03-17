@@ -3,8 +3,7 @@
 
 #include <sys/types.h>
 
-extern int** core_errno;
-#define errno **core_errno
+extern int errno;
 
 #define ESUCCESS 0
 #define EPERM 1

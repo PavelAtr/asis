@@ -51,7 +51,7 @@ void* sys_calloc(size_t nmemb, size_t size);
 extern int curmem;
 void sys_free(void *ptr);
 void sys_prog_free(void *ptr);
-long_t sys_syscall(long_t number, ...);
+long_t sys_syscall(long_t number, va_list vl);
 int sys_usleep(long_t usecs);
 
 #define MAXDEV 5
@@ -230,6 +230,7 @@ int sys_getrlimit(int resource, void* r);
 
 extern char** current_envp;
 extern char** current_argv;
-extern errno_t* current_errno;
+
+errno_t sys_geterrno();
 
 #endif
