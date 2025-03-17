@@ -1,18 +1,6 @@
 #ifndef _SYSCALL_H
 #define _SYSCALL_H
 
-#include <stdarg.h>
-#include <errno.h>
-
-#ifndef __ASYS__
-#ifdef UEFI_KERNEL
-extern long __attribute__((ms_abi)) (*sys_syscall)(long number, va_list args);
-#else
-extern long (*sys_syscall)(long number, va_list args);
-#endif
-#endif
-
-
 #define SYS_DBG 0
 #define SYS_FWRITE 1
 #define SYS_FREAD 2
@@ -49,14 +37,6 @@ extern long (*sys_syscall)(long number, va_list args);
 #define SYS_GETRLIMIT 33
 #define SYS_GETERRNO 34
 
-static inline long syscall(long number, ...)
-{
-   va_list vl;
-   va_start(vl, number);
-   long ret = sys_syscall(number, vl);
-   errno = sys_syscall(SYS_GETERRNO, NULL);
-   return ret;
-}
-
+long syscall(long number, ...);
 
 #endif
