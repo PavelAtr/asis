@@ -102,6 +102,7 @@ int sys_printf(const char* format, ...);
 typedef struct {
   char* stack;
   char* oldstack;
+  size_t depth;
   char* sp;
 } context;
 

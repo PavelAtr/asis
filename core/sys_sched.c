@@ -61,8 +61,9 @@ int_t sys_setjmp(long_t* env)
 {
    env[JMP_STACK] = (long_t)sys_malloc(MAXSTACK);
    env[JMP_SP] = env[JMP_STACK] + sp - current->ctx.stack;
+   current->ctx.depth = current->ctx.stack + MAXSTACK - sp;
+   memcpy((char*)env[JMP_SP], sp, current->ctx.depth);
    sys_printf(SYS_DEBUG "setjmp env=%p newstack=%p newsp=%p\n", env, env[JMP_STACK], env[JMP_SP]);
-   memcpy((char*)env[JMP_STACK], current->ctx.stack, MAXSTACK);
    return 0;
 }
 
