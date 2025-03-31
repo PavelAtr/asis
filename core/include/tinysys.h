@@ -101,6 +101,7 @@ int sys_printf(const char* format, ...);
 
 typedef struct {
   char* stack;
+  char* oldstack;
   char* sp;
 } context;
 
@@ -197,14 +198,15 @@ pid_t sys_waitpid(pid_t pid, int* wstatus, int options);
            : )
 
 register char* sp __asm__("rsp");
+extern char* mainsp;
 
 void switch_task();
 
-#define switch_context \
+//MARK#define switch_context \
 	if (current) sys_printf(SYS_DEBUG "switch before stack=%p sp=%p depth=%ld\n", current->ctx.stack, sp, sp - current->ctx.stack); \
 	switch_task(); \
 	sys_printf(SYS_DEBUG "switch after stack=%p sp=%p depth=%ld\n", current->ctx.stack, sp, sp - current->ctx.stack);
-
+#define switch_context switch_task();
 
 void trap_segfault();
 

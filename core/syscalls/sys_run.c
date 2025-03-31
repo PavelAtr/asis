@@ -10,10 +10,12 @@
 #undef fds
 
 char* initargv[2];
+char* mainsp;
 
 int_t sys_runinit()
 {
-   current->ctx.stack = sp - MAXSTACK + 128;
+   current->ctx.stack = mainsp - MAXSTACK;
+   sys_printf("sys_runinit: stack=%p sp=%p\n", current->ctx.stack, sp);
    initargv[0] = INIT;
    initargv[1] = NULL;
    pid_t init = sys_fork();

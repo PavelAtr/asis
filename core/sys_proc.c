@@ -97,7 +97,6 @@ char** copyenv(char*const* e)
 		   copy[i] = "";
        }
    }
-   copy[COREMAXENV] = NULL;
    return copy;
 }
 void freeenv(char* const* e)

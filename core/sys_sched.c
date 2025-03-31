@@ -15,7 +15,7 @@ char** current_argv;
 
 void switch_task()
 {
-  if (current) {
+   if (current) {
       current->ctx.sp = sp;
    }
    pid_t prevpid = curpid;
@@ -40,7 +40,6 @@ void switch_task()
    sys_printf(SYS_DEBUG "SWITCH at %d=%s to %d=%s flags=%b\n",
       prevpid, current->argv[0] ,curpid, cpu[curpid]->argv[0], cpu[curpid]->flags);
    current = cpu[curpid];
-//MARK   current_errno = &current->sys_errno;
    current_fds = (AFILE**)current->fds;
    current_envp = current->envp;
    current_argv = current->argv;
@@ -48,10 +47,10 @@ void switch_task()
 
    if (current->flags & PROC_NEW) {
       current->flags &= ~PROC_NEW;
-    memcpy(current->ctx.stack, ((proc*)current->parent)->ctx.stack, MAXSTACK);
-      size_t stackoff = (char*)((proc*)current->parent)->ctx.stack
-         + MAXSTACK - (char*)((proc*)current->parent)->ctx.sp;
-      current->ctx.sp = (char*)current->ctx.stack + MAXSTACK - stackoff;
+      size_t stackoff = ((proc*)current->parent)->ctx.stack
+         + MAXSTACK - ((proc*)current->parent)->ctx.sp;
+      current->ctx.sp = current->ctx.stack + MAXSTACK - stackoff;
+      memcpy(current->ctx.sp, ((proc*)current->parent)->ctx.sp, stackoff);
       sys_printf(SYS_DEBUG "initcontext %d newstack=%p newsp=%p depth=%ld\n",
          curpid, current->ctx.stack, current->ctx.sp, current->ctx.sp - current->ctx.stack);
    }
@@ -70,11 +69,12 @@ int_t sys_setjmp(long_t* env)
 int_t sys_longjmp(long_t* env)
 {
    sys_printf(SYS_DEBUG "longjmp env=%p newstack=%p newsp=%p\n", env, env[JMP_STACK], env[JMP_SP]);
-//   if (current->ctx.stack != (char*)env[JMP_STACK]) {
-//      sys_free(current->ctx.stack);
-//   }
+   current->ctx.oldstack = current->ctx.stack;
    current->ctx.stack = (char*)env[JMP_STACK];
    sp = (char*)env[JMP_SP];
+//MARK   if (current->ctx.oldstack != current->ctx.stack) {
+//      sys_free(current->ctx.oldstack);
+//   }
    return 0;
 }
 

@@ -74,6 +74,7 @@ int main(int argc, char** argv)
    sys_umount("/week");
 #endif
    sys_printf(SYS_INFO "End init\n");
+   mainsp = sp;
    int ret = sys_runinit();
    return ret;
 }
