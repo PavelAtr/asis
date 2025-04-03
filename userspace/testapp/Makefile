@@ -24,7 +24,7 @@ all:
 	$(CC) $(CFLAGS) -fPIC fds.c $(LDFLAGS) -o fds
 	$(CC) $(CFLAGS) -fPIC mycat.c $(LDFLAGS) -o mycat
 
-#	$(CC) -g -I../libpwd/include/ ../libpwd/libpwd.a test1.c -o test1
+	$(CC) -g test1.c -o test1
 #	$(CC) -g -I../libpwd/include/ ../libpwd/libpwd.a test2.c -o test2
 	$(CC) -g test3.c -o test3
 #	$(CC) -g jmp.c -o test4

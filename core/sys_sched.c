@@ -8,7 +8,6 @@
 proc* cpu[MAXPROC];
 int_t curpid = 0;
 proc* current;
-//MARK errno_t* current_errno;
 AFILE** current_fds;
 char** current_envp;
 char** current_argv;
@@ -59,19 +58,18 @@ void switch_task()
 
 int_t sys_setjmp(long_t* env)
 {
-   env[JMP_STACK] = (long_t)sys_malloc(MAXSTACK);
-   env[JMP_SP] = env[JMP_STACK] + sp - current->ctx.stack;
-   current->ctx.depth = current->ctx.stack + MAXSTACK - sp;
-   memcpy((char*)env[JMP_SP], sp, current->ctx.depth);
-   sys_printf(SYS_DEBUG "setjmp env=%p newstack=%p newsp=%p\n", env, env[JMP_STACK], env[JMP_SP]);
+   env[JMP_SP] = (long_t)sp;
+   env[JMP_DEPTH] = current->ctx.stack + MAXSTACK - sp;
+   env[JMP_STACK] = (long_t)sys_malloc(env[JMP_DEPTH]);
+   memcpy((char*)env[JMP_STACK], sp, env[JMP_DEPTH]);
+   sys_printf(SYS_DEBUG "setjmp env=%p sp=%p depath=%ld\n", env, env[JMP_SP], env[JMP_DEPTH]);
    return 0;
 }
 
 int_t sys_longjmp(long_t* env)
 {
-   sys_printf(SYS_DEBUG "longjmp env=%p newstack=%p newsp=%p\n", env, env[JMP_STACK], env[JMP_SP]);
-   current->ctx.oldstack = current->ctx.stack;
-   current->ctx.stack = (char*)env[JMP_STACK];
+   sys_printf(SYS_DEBUG "longjmp env=%p newsp=%p\n", env, env[JMP_SP]);
+   memcpy((char*)env[JMP_SP], (char*)env[JMP_STACK], env[JMP_DEPTH]);
    sp = (char*)env[JMP_SP];
 //MARK   if (current->ctx.oldstack != current->ctx.stack) {
 //      sys_free(current->ctx.oldstack);

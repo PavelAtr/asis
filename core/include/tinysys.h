@@ -101,8 +101,6 @@ int sys_printf(const char* format, ...);
 
 typedef struct {
   char* stack;
-  char* oldstack;
-  size_t depth;
   char* sp;
 } context;
 
@@ -224,6 +222,7 @@ int_t sys_setjmp(long_t* env);
 int_t sys_longjmp(long_t* env);
 #define JMP_STACK 0
 #define JMP_SP 1
+#define JMP_DEPTH 2
 
 void* sys_dlopen(const char *filename, int flags);
 int sys_dlclose(void *handle);
