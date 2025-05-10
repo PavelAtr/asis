@@ -55,21 +55,25 @@ extern AFILE** current_fds;
 
 int_t sys_exec(char* file, char** inargv, char** envp)
 {
+   sys_printf(SYS_DEBUG "EXEC %s\n", file);
    int argc;
    for (argc = 0; inargv[argc]; argc++);
    mountpoint* mount = sys_get_mountpoint(file);
    if (!mount) {
       current->sys_errno = ENOENT;
+      current->dlhndl = NULL;
       return -1;
    }
    const char* path = sys_calcpath(mount, file);
    if (!mount->mount_can_execute(mount->sbfs, path, current->uid, current->gid)) {
       current->sys_errno = EPERM;
+      current->dlhndl = NULL;
       return -1;
    }
    struct tinystat st;
    if (sys_stat(file, &st) == -1) {
       current->sys_errno = ENOENT;
+      current->dlhndl = NULL;
       return -1;
    }
    if (st.st_mode & S_ISUID) {
@@ -83,15 +87,14 @@ int_t sys_exec(char* file, char** inargv, char** envp)
       current->gid = current->gid;
    }
 
-   *current->dlnlink--;
-   if (!current->flags & PROC_CLONED) {
-	   if (*current->dlnlink <= 0) {
+   (*current->dlnlink)--;
+   if (current->flags & PROC_CLONED) {
+      current->dlnlink = malloc(sizeof(int));
+	 } else
+   {
+	   if ((*current->dlnlink) <= 0) {
 		   sys_dlclose(current->dlhndl);
       }
-   } else
-   {
-	   current->dlnlink = malloc(sizeof(int));
-	   *current->dlnlink = 0;
    }
 
    current->argc = argc;
@@ -101,10 +104,10 @@ int_t sys_exec(char* file, char** inargv, char** envp)
    if (!current->dlhndl) {
 	  sys_printf(SYS_ERROR "EXEC dlopen %s FAILED\n", file);
       current->sys_errno = ENOENT;
-      goto fail;
+      return -1;
    }
-   *current->dlnlink++;
-   sys_printf(SYS_INFO "EXEC dlopen %s\n", file);
+   *current->dlnlink = 1;
+   sys_printf(SYS_INFO "EXEC dlopen %s nlink %p=%d\n", file, current->dlnlink, *current->dlnlink);
 #ifdef DEBUG
    startfunction start = sys_dlsym(current->dlhndl, "_start");
 #else
@@ -134,8 +137,6 @@ int_t sys_exec(char* file, char** inargv, char** envp)
    /* Never reach here */
    sys_printf(SYS_DEBUG "EXEC END (NOTREACHEBLE)\n");
    return  ret;
-fail:
-   return -1;
 }
 
 pid_t newproc()
@@ -152,15 +153,16 @@ pid_t newproc()
 
 void freeproc(pid_t pid)
 {
-sys_printf("FREEPROC %d\n", pid);
+   sys_printf("FREEPROC %d nlink %p=%d\n", pid, cpu[pid]->dlnlink, *cpu[pid]->dlnlink);
    if (!pid_is_valid(pid)) {
       return;
    }
    if (!cpu[pid]) {
       return;
    }
-   *cpu[pid]->dlnlink--;
-   if (*cpu[pid]->dlnlink <= 0) {
+   (*cpu[pid]->dlnlink)--;
+   if ((*cpu[pid]->dlnlink) <= 0) {
+      sys_printf(SYS_DEBUG "FREEPROC DEALLOC %d dlnlink %p=%d\n", pid, cpu[pid]->dlnlink, *cpu[pid]->dlnlink);
       sys_dlclose(cpu[pid]->dlhndl);
       sys_free(cpu[pid]->dlnlink);
    }
@@ -180,16 +182,15 @@ pid_t sys_clone(void)
    if (ret == -1) {
       return -1;
    }
-   sys_printf(SYS_DEBUG "CLONE newpid=%d in %d=%s\n", ret, current->pid, current->argv[0]);
    memcpy(cpu[ret], current, sizeof(proc));
    cpu[ret]->flags = PROC_RUNNING | PROC_NEW | PROC_CLONED;
    cpu[ret]->parent = current;
    cpu[ret]->pid = ret;
    cpu[ret]->parentpid = curpid;
-   *current->dlnlink++;
+   (*current->dlnlink)++;
    cpu[ret]->ctx.stack = sys_malloc(MAXSTACK);
    cpu[ret]->fds = copyfds(current->fds);
-
+   sys_printf(SYS_DEBUG "CLONE newpid=%d in %d=%s, nlink %p=%d\n", ret, current->pid, current->argv[0], current->dlnlink, *current->dlnlink);
    return ret;
 }
 
@@ -248,7 +249,7 @@ pid_t sys_waitpid(pid_t pid, int* wstatus, int options)
       switch_context;
    }
 end:
-   sys_printf(SYS_DEBUG "WAITPID END pid=%d prog=%s child=%d(%s)\n", current->pid, current->argv[0], child, cpu[child]->argv[0]);
+   sys_printf(SYS_DEBUG "WAITPID END pid=%d prog=%s child=%s(%d), nlink %p=%d\n", current->pid, current->argv[0], cpu[child]->argv[0], child, cpu[child]->dlnlink, *cpu[child]->dlnlink);
    *wstatus = cpu[child]->ret;
    freeproc(child);
    cpu[child] = NULL;

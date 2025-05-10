@@ -14,14 +14,17 @@ void* sys_dlopen(const char *filename, int flags)
 #else
 	handle = dlopen(filename, 0);
 #endif
-    sys_printf("DLOPEN=%p\n", handle);
+    sys_printf("DLOPEN=%p\n", handle); //MARK
     return handle;
 }
 
 
 int sys_dlclose(void *handle)
 {
-   sys_printf("DLCLOSE=%p\n", handle);
+   sys_printf("DLCLOSE=%p\n", handle); //MARK
+   if (!handle) {
+	  return -1;
+   }
    return dlclose(handle);
 }
 
