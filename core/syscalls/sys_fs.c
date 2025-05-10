@@ -27,11 +27,6 @@ len_t sys_afread(const char* path, void* ptr, len_t size, len_t off)
    mode_t devtype = st.st_mode & S_IFMT;
    switch (devtype) {
    case S_IFBLK:
-      if ((dev = sys_get_device_byname(path, devtype))) {
-         dev->dev_seek(dev->devparams, off);
-         return dev->dev_read(dev->devparams, ptr, size);
-      }
-      break;
    case S_IFCHR:
       if ((dev = sys_get_device_byname(path, devtype))) {
          dev->dev_seek(dev->devparams, off);
@@ -76,11 +71,6 @@ len_t sys_afwrite(const char* path, const void* ptr, len_t size, len_t off)
    mode_t devtype = st.st_mode & S_IFMT;
    switch (devtype) {
    case S_IFBLK:
-      if ((dev = sys_get_device_byname(path, devtype))) {
-         dev->dev_seek(dev->devparams, off);
-         return dev->dev_write(dev->devparams, ptr, size);
-      }
-      break;
    case S_IFCHR:
       if ((dev = sys_get_device_byname(path, devtype))) {
          dev->dev_seek(dev->devparams, off);
