@@ -11,6 +11,7 @@
 
 char* initargv[2];
 char* mainsp;
+extern char* sys_env[COREMAXENV];
 
 int_t sys_runinit()
 {
@@ -24,6 +25,15 @@ int_t sys_runinit()
    } else {
       int_t ret;
       sys_waitpid(init, &ret, 0);
+      if (sys_env[0]) {
+         sys_free(sys_env[0]);
+      }
+      if (sys_env[1]) {
+         sys_free(sys_env[1]);
+      }
+      if (sys_env[2]) {
+         sys_free(sys_env[2]);
+      }
       return ret;
    }
    return 0;
@@ -152,7 +162,7 @@ sys_printf("FREEPROC %d\n", pid);
    *cpu[pid]->dlnlink--;
    if (*cpu[pid]->dlnlink <= 0) {
       sys_dlclose(cpu[pid]->dlhndl);
-// MARK      sys_free(cpu[pid]->dlnlink);
+      sys_free(cpu[pid]->dlnlink);
    }
    if (!(cpu[pid]->flags & PROC_CLONED)) {
       freeenv(cpu[pid]->envp);

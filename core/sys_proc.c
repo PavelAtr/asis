@@ -51,6 +51,7 @@ NULL,
   0,
 };
 
+int sys_dlnlink = 1;
 char* sys_env[COREMAXENV];
 
 AFILE* sysfds[COREMAXFD] = {
@@ -61,8 +62,7 @@ AFILE* sysfds[COREMAXFD] = {
 
 void init_proc()
 {
-   sys.dlnlink = sys_malloc(sizeof(int));
-   *sys.dlnlink = 1;
+   sys.dlnlink = &sys_dlnlink;
    sys.argv = sys_argv;
    sys_env[0]=strdup("PATH=/tinysys/usr/bin:/tinysys/bin");
 	sys_env[1]=strdup("CWD=/tinysys");

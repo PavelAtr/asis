@@ -3,11 +3,14 @@
 
 void printenv()
 {
-   INIT_ENVIRON
-   printf("environ=%p environ[0]=%p\n", environ, environ[0]);
+   if (!environ) {
+      printf("Environment is not initialized.\n");
+      return;
+   }
    int i;
-   for(i = 0; environ[i]; i++)
+   for (i = 0; environ[i]; i++) {
       if ((environ[i])[0] != '\0') {
          puts(environ[i]);
       }
+   }
 }
