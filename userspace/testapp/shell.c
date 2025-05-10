@@ -68,7 +68,6 @@ int runcommand(char* cmd)
       int ret;
       waitpid(child, &ret, 0);
    }
-   free(myargv[0]);
    return 0;
 }
 
