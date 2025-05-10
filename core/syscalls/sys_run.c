@@ -96,11 +96,9 @@ int_t sys_exec(char* file, char** inargv, char** envp)
    *current->dlnlink++;
    sys_printf(SYS_INFO "EXEC dlopen %s\n", file);
 #ifdef DEBUG
-   int (*start)(int argc, char*** argv, char*** envp, AFILE*** fds, void* syscall_func, void* retexit_func) =
-         sys_dlsym(current->dlhndl, "_start");
+   startfunction start = sys_dlsym(current->dlhndl, "_start");
 #else
-   int (*start)(int argc, char*** argv, char*** envp, AFILE*** fds, void* syscall_func, void* retexit_func) =
-   (void*)(((dlhandle*)current->dlhndl)->obj->dl_elf->hdr->e_entry + 
+   startfunction start = (void*)(((dlhandle*)current->dlhndl)->obj->dl_elf->hdr->e_entry + 
       ((dlhandle*)current->dlhndl)->obj->dl_elf->exec);
 #endif
 #ifdef DEBUG
@@ -114,7 +112,6 @@ int_t sys_exec(char* file, char** inargv, char** envp)
       }
    }
    current->fds = cloexecfds(current->fds);
-// MARK   current_errno = &current->sys_errno;
    current_fds = (AFILE**)current->fds;
    current_envp = current->envp;
    current_argv = current->argv;
@@ -122,7 +119,7 @@ int_t sys_exec(char* file, char** inargv, char** envp)
    
    current->flags &= ~PROC_CLONED;
 // MARK   sys_printf(SYS_INFO "freememory=%ld\n", free_memory());
-   int ret = start(argc, &current_argv, &current_envp, &current_fds, &sys_syscall, &sys_atexit);
+   int ret = start(argc, &current_argv, &current_envp, (void***)&current_fds, &sys_syscall, &sys_atexit);
    switch_context;
    /* Never reach here */
    sys_printf(SYS_DEBUG "EXEC END (NOTREACHEBLE)\n");

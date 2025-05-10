@@ -61,9 +61,9 @@ int main(int argc, char** argv)
    if (sys_mount("/dev/sda", "/", "hostfs", "")) {
       sys_printf(SYS_ERROR "Error mount /\n");
    }
-   if (sys_mount("/dev/loop0", "/week", "weekfs", "")) {
+/*  MARK   if (sys_mount("/dev/loop0", "/week", "weekfs", "")) {
       sys_printf(SYS_ERROR "Error mount /week\n");
-   }
+   }*/
 #else
    if (sys_mount("/dev/sda", "/", "uefifs", "")) {
       sys_printf(SYS_ERROR "Error mount /\n");
@@ -71,7 +71,7 @@ int main(int argc, char** argv)
 #endif
 #ifndef UEFI
    init_hosttrap();
-   sys_umount("/week");
+// MARK   sys_umount("/week");
 #endif
    sys_printf(SYS_INFO "End init\n");
    mainsp = sp;

@@ -51,11 +51,7 @@ NULL,
   0,
 };
 
-char* sys_env[COREMAXENV] = {
-	"PATH=/tinysys/usr/bin:tinysys/bin",
-	"CWD=/tinysys",
-	"UMASK=0022",
-};
+char* sys_env[COREMAXENV];
 
 AFILE* sysfds[COREMAXFD] = {
 &sys_stdin,
@@ -68,7 +64,10 @@ void init_proc()
    sys.dlnlink = sys_malloc(sizeof(int));
    *sys.dlnlink = 1;
    sys.argv = sys_argv;
-//   sys.envp = sys_env;
+   sys_env[0]=strdup("PATH=/tinysys/usr/bin:/tinysys/bin");
+	sys_env[1]=strdup("CWD=/tinysys");
+	sys_env[2]=strdup("UMASK=0022");
+   sys.envp = sys_env;
    cpu[0] = &sys;
    current = cpu[0];
    sys.fds = (void**) sysfds;

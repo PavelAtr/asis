@@ -10,11 +10,10 @@ int chdir(const char *path)
       return 0;
    }
    char* cwd = getenv("CWD");
-   char* newcwd = malloc(strlen(cwd) + strlen(path) + 1);
+   char* newcwd = alloca(strlen(cwd) + strlen(path) + 1);
    strcpy(newcwd, cwd);
    strcpy(newcwd + strlen(cwd), path);
    setenv("CWD", newcwd, 0);
-   free(newcwd);
    return 0;
 }
 

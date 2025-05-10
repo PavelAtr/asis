@@ -72,9 +72,6 @@ int_t sys_longjmp(long_t* env)
    sys_printf(SYS_DEBUG "longjmp env=%p newsp=%p\n", env, env[JMP_SP]);
    memcpy((char*)env[JMP_SP], (char*)env[JMP_STACK], env[JMP_DEPTH]);
    sp = (char*)env[JMP_SP];
-//MARK   if (current->ctx.oldstack != current->ctx.stack) {
-//      sys_free(current->ctx.oldstack);
-//   }
    sys_free((void*)env[JMP_STACK]);
    env[JMP_STACK] = 0;
    return 0;
