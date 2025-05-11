@@ -1,0 +1,56 @@
+main.o: main.c ../config.h /tinysys/usr/include/stdio.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h \
+ /tinysys/usr/include/sys/types.h /tinysys/usr/include/string.h \
+ /tinysys/usr/include/stdlib.h /tinysys/usr/include/alloca.h \
+ /tinysys/usr/include/unistd.h /tinysys/usr/include/locale.h \
+ /tinysys/usr/include/signal.h /tinysys/usr/include/pthreadtypes.h \
+ /tinysys/usr/include/sys/stat.h /tinysys/usr/include/time.h \
+ /tinysys/usr/include/sys/time.h /tinysys/usr/include/fcntl.h shell.h \
+ /tinysys/usr/include/sys/param.h main.h /tinysys/usr/include/errno.h \
+ mail.h options.h output.h parser.h token.h nodes.h expand.h \
+ /tinysys/usr/include/inttypes.h eval.h jobs.h input.h priv.h trap.h \
+ var.h show.h memalloc.h error.h /tinysys/usr/include/setjmp.h init.h \
+ mystring.h exec.h cd.h
+../config.h:
+/tinysys/usr/include/stdio.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h:
+/tinysys/usr/include/sys/types.h:
+/tinysys/usr/include/string.h:
+/tinysys/usr/include/stdlib.h:
+/tinysys/usr/include/alloca.h:
+/tinysys/usr/include/unistd.h:
+/tinysys/usr/include/locale.h:
+/tinysys/usr/include/signal.h:
+/tinysys/usr/include/pthreadtypes.h:
+/tinysys/usr/include/sys/stat.h:
+/tinysys/usr/include/time.h:
+/tinysys/usr/include/sys/time.h:
+/tinysys/usr/include/fcntl.h:
+shell.h:
+/tinysys/usr/include/sys/param.h:
+main.h:
+/tinysys/usr/include/errno.h:
+mail.h:
+options.h:
+output.h:
+parser.h:
+token.h:
+nodes.h:
+expand.h:
+/tinysys/usr/include/inttypes.h:
+eval.h:
+jobs.h:
+input.h:
+priv.h:
+trap.h:
+var.h:
+show.h:
+memalloc.h:
+error.h:
+/tinysys/usr/include/setjmp.h:
+init.h:
+mystring.h:
+exec.h:
+cd.h:

@@ -115,7 +115,6 @@ int_t sys_exec(char* file, char** inargv, char** envp)
    }
    if (current->flags & PROC_CLONED) {
       current->dlnlink = new_dlnlink(current->dlhndl);
-      sys_printf(SYS_DEBUG "EXEC dlopen %s nlink %p=%d\n", file, current->dlnlink, *current->dlnlink);
    } else
    {
 	   if ((*current->dlnlink) <= 0) {
@@ -123,7 +122,6 @@ int_t sys_exec(char* file, char** inargv, char** envp)
       }
    }
    (*current->dlnlink)++;
-   sys_printf(SYS_INFO "EXEC dlopen %s nlink %p=%d\n", file, current->dlnlink, *current->dlnlink);
 #ifdef DEBUG
    startfunction start = sys_dlsym(current->dlhndl, "_start");
 #else

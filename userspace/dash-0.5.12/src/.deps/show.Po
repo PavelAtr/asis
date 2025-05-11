@@ -1,0 +1,27 @@
+show.o: show.c ../config.h /tinysys/usr/include/stdio.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h \
+ /tinysys/usr/include/sys/types.h /tinysys/usr/include/string.h \
+ /tinysys/usr/include/stdlib.h /tinysys/usr/include/alloca.h \
+ /tinysys/usr/include/unistd.h /tinysys/usr/include/locale.h shell.h \
+ /tinysys/usr/include/sys/param.h parser.h token.h nodes.h mystring.h \
+ /tinysys/usr/include/inttypes.h show.h options.h
+../config.h:
+/tinysys/usr/include/stdio.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h:
+/tinysys/usr/include/sys/types.h:
+/tinysys/usr/include/string.h:
+/tinysys/usr/include/stdlib.h:
+/tinysys/usr/include/alloca.h:
+/tinysys/usr/include/unistd.h:
+/tinysys/usr/include/locale.h:
+shell.h:
+/tinysys/usr/include/sys/param.h:
+parser.h:
+token.h:
+nodes.h:
+mystring.h:
+/tinysys/usr/include/inttypes.h:
+show.h:
+options.h:

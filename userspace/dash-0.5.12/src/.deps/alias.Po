@@ -1,0 +1,32 @@
+alias.o: alias.c ../config.h /tinysys/usr/include/stdlib.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h \
+ /tinysys/usr/include/alloca.h /tinysys/usr/include/unistd.h \
+ /tinysys/usr/include/sys/types.h /tinysys/usr/include/locale.h shell.h \
+ /tinysys/usr/include/sys/param.h input.h output.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h error.h \
+ /tinysys/usr/include/setjmp.h /tinysys/usr/include/signal.h \
+ /tinysys/usr/include/pthreadtypes.h memalloc.h mystring.h \
+ /tinysys/usr/include/inttypes.h /tinysys/usr/include/string.h alias.h \
+ options.h
+../config.h:
+/tinysys/usr/include/stdlib.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+/tinysys/usr/include/alloca.h:
+/tinysys/usr/include/unistd.h:
+/tinysys/usr/include/sys/types.h:
+/tinysys/usr/include/locale.h:
+shell.h:
+/tinysys/usr/include/sys/param.h:
+input.h:
+output.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h:
+error.h:
+/tinysys/usr/include/setjmp.h:
+/tinysys/usr/include/signal.h:
+/tinysys/usr/include/pthreadtypes.h:
+memalloc.h:
+mystring.h:
+/tinysys/usr/include/inttypes.h:
+/tinysys/usr/include/string.h:
+alias.h:
+options.h:
