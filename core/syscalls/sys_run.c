@@ -53,6 +53,21 @@ extern AFILE** current_fds;
 	return ret;
 }*/
 
+int_t* new_dlnlink(void* dlhandle)
+{
+   int_t i;
+   for (i = 0; i < MAXPROC; i++)
+      if (cpu[i] != NULL) {
+         if (cpu[i]->dlhndl == dlhandle && cpu[i] != current)
+         {
+            return cpu[i]->dlnlink;
+         }
+      }   
+   int_t* ret = sys_calloc(1, sizeof(int_t));
+   *ret = 0;
+   return ret;
+}
+
 int_t sys_exec(char* file, char** inargv, char** envp)
 {
    sys_printf(SYS_DEBUG "EXEC %s\n", file);
@@ -88,15 +103,7 @@ int_t sys_exec(char* file, char** inargv, char** envp)
    }
 
    (*current->dlnlink)--;
-   if (current->flags & PROC_CLONED) {
-      current->dlnlink = malloc(sizeof(int));
-	 } else
-   {
-	   if ((*current->dlnlink) <= 0) {
-		   sys_dlclose(current->dlhndl);
-      }
-   }
-
+   
    current->argc = argc;
    current->argv = inargv;// dupnullable(inargv);
 
@@ -106,7 +113,16 @@ int_t sys_exec(char* file, char** inargv, char** envp)
       current->sys_errno = ENOENT;
       return -1;
    }
-   *current->dlnlink = 1;
+   if (current->flags & PROC_CLONED) {
+      current->dlnlink = new_dlnlink(current->dlhndl);
+      sys_printf(SYS_DEBUG "EXEC dlopen %s nlink %p=%d\n", file, current->dlnlink, *current->dlnlink);
+   } else
+   {
+	   if ((*current->dlnlink) <= 0) {
+		   sys_dlclose(current->dlhndl);
+      }
+   }
+   (*current->dlnlink)++;
    sys_printf(SYS_INFO "EXEC dlopen %s nlink %p=%d\n", file, current->dlnlink, *current->dlnlink);
 #ifdef DEBUG
    startfunction start = sys_dlsym(current->dlhndl, "_start");
