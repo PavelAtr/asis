@@ -115,7 +115,7 @@ Elf_Shdr* elf_find_table(Elf_Ehdr* hdr, Elf_Shdr* shdrs, int* start_ndx,
    return NULL;
 }
 
-void* elf_load_table(const char* path, Elf_Ehdr* hdr, Elf_Shdr* shdr, const char* exec)
+void* elf_load_table(const char* path, Elf_Ehdr* hdr, Elf_Shdr* shdr)
 {
    if (!hdr || !shdr) {
       printf(MARK "%s\n", "elf_load_shdrs: hdrs is NULL");
@@ -131,7 +131,7 @@ void* elf_load_table(const char* path, Elf_Ehdr* hdr, Elf_Shdr* shdr, const char
 }
 
 char* elf_load_strings(const char* path, Elf_Ehdr* hdr, Elf_Shdr* shdrs,
-   Elf_Shdr* tab, const char* exec)
+   Elf_Shdr* tab)
 {
    if (!hdr || !shdrs || !tab) {
       printf(MARK "%s\n", "elf_load_strings: hdrs is NULL");
@@ -145,6 +145,40 @@ char* elf_load_strings(const char* path, Elf_Ehdr* hdr, Elf_Shdr* shdrs,
       return NULL;
    }
    return buf;
+}
+
+char* elf_load_shstrings(const char* path, Elf_Ehdr* hdr, Elf_Shdr* shdrs)
+{
+   if (!hdr || !shdrs) {
+      printf(MARK "%s\n", "elf_load_shstr: hdrs is NULL");
+      return NULL;
+   }
+   char* buf = malloc(shdrs[hdr->e_shstrndx].sh_size);
+   size_t ret = afread(path, buf, shdrs[hdr->e_shstrndx].sh_size,
+         shdrs[hdr->e_shstrndx].sh_offset);
+   if (ret < shdrs[hdr->e_shstrndx].sh_size) {
+      free(buf);
+      return NULL;
+   }
+   return buf;
+}
+
+Elf_Shdr* elf_string_header(Elf_Shdr* shdrs, Elf_Shdr* shdr)
+{
+   if (!shdr || !shdr) {
+      printf(MARK "%s\n", "elf_string_header: hdrs is NULL");
+      return NULL;
+   }
+   return &shdrs[shdr->sh_link];
+}
+
+char* elf_section_name(Elf_Shdr* shdr, char* shstr)
+{
+   if (!shdr || !shstr) {
+      printf(MARK "%s\n", "elf_section_name: hdrs is NULL");
+      return NULL;
+   }
+   return &shstr[shdr->sh_name];
 }
 
 void* elf_symbol(Elf_Shdr* symhdr, Elf_Sym* symtab, const char* symstr,

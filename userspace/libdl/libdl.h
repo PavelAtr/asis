@@ -10,6 +10,7 @@ extern char * ld_library_path;
 typedef struct {
    Elf_Shdr* head;
    Elf_Sym* syms;
+   Elf_Shdr* strhead;
    char* symstr;
    char dynamic;
 } elfsyms;
@@ -34,6 +35,7 @@ typedef struct {
    Elf_Shdr* dyns;
    Elf_Dyn* dyntab;
    char* dynstr;
+   char* shstr;
    size_t exec_size;
    size_t tls_size;
    char* exec;

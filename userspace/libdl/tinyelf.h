@@ -26,8 +26,11 @@ size_t elf_load_exec(const char* path, Elf_Ehdr* hdr, Elf_Phdr* phdrs, char* exe
 Elf_Shdr* elf_load_shdrs(const char* path, Elf_Ehdr* hdr);
 int elf_count_table(Elf_Ehdr* hdr, Elf_Shdr* shdrs, unsigned int sh_type);
 Elf_Shdr* elf_find_table(Elf_Ehdr* hdr, Elf_Shdr* shdrs, int* start_ndx, unsigned int sh_type);
-void* elf_load_table(const char* path, Elf_Ehdr* hdr, Elf_Shdr* shdr, const char* exec);
-char* elf_load_strings(const char* path, Elf_Ehdr* hdr, Elf_Shdr* shdrs, Elf_Shdr* tab, const char* exec);
+void* elf_load_table(const char* path, Elf_Ehdr* hdr, Elf_Shdr* shdr);
+char* elf_load_strings(const char* path, Elf_Ehdr* hdr, Elf_Shdr* shdrs, Elf_Shdr* tab);
+char* elf_load_shstrings(const char* path, Elf_Ehdr* hdr, Elf_Shdr* shdrs);
+Elf_Shdr* elf_string_header(Elf_Shdr* shdrs, Elf_Shdr* shdr);
+char* elf_section_name(Elf_Shdr* shdr, char* shstr);
 void* elf_symbol(Elf_Shdr* symhdr, Elf_Sym* symtab, const char* symstr, const char* exec, const char* symname);
 const char* elf_dtneed(Elf_Shdr* dynhdr, Elf64_Dyn* dyntab, const char* dynstr, int* dtneed_ndx);
 void elf_relocate(Elf_Ehdr* hdr, Elf_Shdr* rela, Elf_Rela* relatab, Elf_Sym* symtab, const char* symstr, int* tls_relas_count, char* exec, void* (*resolve)(const char* symname));

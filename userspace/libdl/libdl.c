@@ -21,6 +21,9 @@ void elf_free(elf* e)
    if (e->shdrs) {
       free(e->shdrs);
    }
+   if (e->shstr) {
+      free(e->shstr);
+   }
    int ndx;
    for (ndx = 0; e->rela[ndx]; ndx++) {
       if (e->rela[ndx]) {
@@ -82,6 +85,7 @@ int dl_load(dl* buf, const char* file)
    if (!buf->dl_elf->hdr || !buf->dl_elf->phdrs || !buf->dl_elf->shdrs) {
       goto fail;
    }
+   buf->dl_elf->shstr = elf_load_shstrings(file, buf->dl_elf->hdr, buf->dl_elf->shdrs);
    int start_ndx = 0;
    int i;
    int relacnt = elf_count_table(buf->dl_elf->hdr, buf->dl_elf->shdrs, SHT_RELA);
@@ -92,7 +96,7 @@ int dl_load(dl* buf, const char* file)
       buf->dl_elf->rela[i]->head = elf_find_table(buf->dl_elf->hdr,
             buf->dl_elf->shdrs, &start_ndx, SHT_RELA);
       buf->dl_elf->rela[i]->relas = elf_load_table(file, buf->dl_elf->hdr,
-            buf->dl_elf->rela[i]->head, buf->dl_elf->exec);
+            buf->dl_elf->rela[i]->head);
       start_ndx++;
    }
    buf->dl_elf->rela[i] = NULL;
@@ -115,10 +119,13 @@ int dl_load(dl* buf, const char* file)
       buf->dl_elf->sym[i]->head = elf_find_table(buf->dl_elf->hdr, buf->dl_elf->shdrs,
             &start_ndx, SHT_SYMTAB);
       buf->dl_elf->sym[i]->syms = elf_load_table(file, buf->dl_elf->hdr,
-            buf->dl_elf->sym[i]->head, buf->dl_elf->exec);
+            buf->dl_elf->sym[i]->head);
       buf->dl_elf->sym[i]->symstr = elf_load_strings(file, buf->dl_elf->hdr,
-            buf->dl_elf->shdrs, buf->dl_elf->sym[i]->head, buf->dl_elf->exec);
+            buf->dl_elf->shdrs, buf->dl_elf->sym[i]->head);
+      buf->dl_elf->sym[i]->strhead = elf_string_header(buf->dl_elf->shdrs, buf->dl_elf->sym[i]->head);
+      printf("\nstring table name=%s\n", elf_section_name( buf->dl_elf->sym[i]->strhead, buf->dl_elf->shstr)); // GARBAGE         
       buf->dl_elf->sym[i]->dynamic = 0;
+      printf("\nsymbol table name=%s\n", elf_section_name( buf->dl_elf->sym[i]->head, buf->dl_elf->shstr)); // GARBAGE
       start_ndx++;
    }
    start_ndx = 0;
@@ -127,10 +134,13 @@ int dl_load(dl* buf, const char* file)
       buf->dl_elf->sym[i]->head = elf_find_table(buf->dl_elf->hdr, buf->dl_elf->shdrs,
             &start_ndx, SHT_DYNSYM);
       buf->dl_elf->sym[i]->syms = elf_load_table(file, buf->dl_elf->hdr,
-            buf->dl_elf->sym[i]->head, buf->dl_elf->exec);
+            buf->dl_elf->sym[i]->head);
       buf->dl_elf->sym[i]->symstr = elf_load_strings(file, buf->dl_elf->hdr,
-            buf->dl_elf->shdrs, buf->dl_elf->sym[i]->head, buf->dl_elf->exec);
+            buf->dl_elf->shdrs, buf->dl_elf->sym[i]->head);
+      buf->dl_elf->sym[i]->strhead = elf_string_header(buf->dl_elf->shdrs, buf->dl_elf->sym[i]->head);
+      printf("\nstring table name=%s\n", elf_section_name( buf->dl_elf->sym[i]->strhead, buf->dl_elf->shstr)); // GARBAGE         
       buf->dl_elf->sym[i]->dynamic = 1;
+      printf("\nsymbol table name=%s\n", elf_section_name( buf->dl_elf->sym[i]->head, buf->dl_elf->shstr)); // GARBAGE         
       start_ndx++;
    }
    buf->dl_elf->sym[i] = NULL;
@@ -138,9 +148,9 @@ int dl_load(dl* buf, const char* file)
    buf->dl_elf->dyns = elf_find_table(buf->dl_elf->hdr, buf->dl_elf->shdrs,
          &start_ndx, SHT_DYNAMIC);
    buf->dl_elf->dyntab = elf_load_table(file, buf->dl_elf->hdr,
-      buf->dl_elf->dyns, buf->dl_elf->exec);
+      buf->dl_elf->dyns);
    buf->dl_elf->dynstr = elf_load_strings(file, buf->dl_elf->hdr,
-         buf->dl_elf->shdrs, buf->dl_elf->dyns, buf->dl_elf->exec);
+         buf->dl_elf->shdrs, buf->dl_elf->dyns);
    printf("%s\n", "OK");
    return 0;
 fail:
