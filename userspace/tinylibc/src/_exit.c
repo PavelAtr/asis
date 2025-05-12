@@ -10,8 +10,9 @@ void (*retexit)(int ret);
 
 void _exit(int status)
 {
-   if (atexit_func) {
-      atexit_func();
-   }
-   retexit(status);
+    if (atexit_func) {
+        atexit_func();
+    }
+    retexit(status);
+    while (1); // Гарантирует, что функция не вернёт управление
 }
