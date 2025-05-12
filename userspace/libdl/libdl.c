@@ -218,7 +218,17 @@ void *dlopen(const char* filename, int flags)
    dlhandle* handle = (dlhandle*)namedlist_add(NULL, prog,  prog->path);
    #ifdef USE_SYMBOLFILE
    FILE* symfile = fopen("add-symbol-file.txt", "a");
-   fprintf(symfile, "add-symbol-file %s %p\n", prog->path, prog->dl_elf->exec);
+   fprintf(symfile, "add-symbol-file %s %p ", prog->path, prog->dl_elf->exec);
+   int sym_ndx;
+   for (sym_ndx = 0; prog->dl_elf->sym[sym_ndx]; sym_ndx++) {
+      fprintf(symfile, "-s %s %p ", elf_section_name(
+         prog->dl_elf->sym[sym_ndx]->head, prog->dl_elf->shstr),
+         prog->dl_elf->sym[sym_ndx]->syms);
+      fprintf(symfile, "-s %s %p ", elf_section_name(
+         prog->dl_elf->sym[sym_ndx]->strhead, prog->dl_elf->shstr),
+         prog->dl_elf->sym[sym_ndx]->symstr);
+   }
+   fprintf(symfile, "\n");
    fclose(symfile);
    #endif
    dlhandle* j;
@@ -252,7 +262,16 @@ void *dlopen(const char* filename, int flags)
          lib->nlink++;
          #ifdef USE_SYMBOLFILE
             FILE* symfile = fopen("add-symbol-file.txt", "a");
-            fprintf(symfile, "add-symbol-file %s %p\n", lib->path, lib->dl_elf->exec);
+            fprintf(symfile, "add-symbol-file %s %p ", lib->path, lib->dl_elf->exec);
+            int sym_ndx;
+            for (sym_ndx = 0; lib->dl_elf->sym[sym_ndx]; sym_ndx++) {
+               fprintf(symfile, "-s %s %p ", elf_section_name(
+                  lib->dl_elf->sym[sym_ndx]->head, lib->dl_elf->shstr),
+                  lib->dl_elf->sym[sym_ndx]->syms);
+               fprintf(symfile, "-s %s %p ", elf_section_name(
+                  lib->dl_elf->sym[sym_ndx]->strhead, lib->dl_elf->shstr),
+                  lib->dl_elf->sym[sym_ndx]->symstr);
+            }
             fclose(symfile);
          #endif
       }
@@ -344,10 +363,8 @@ int dlclose(void *hndl)
          printf(MARK "Dlclose %s\n", s->path);
          elf_fini(s->dl_elf->exec, s->dl_elf->dyns, s->dl_elf->dyntab);
          namedlist_rm((namedlist*)globalscope, s->path);
-         #ifndef USE_SYMBOLFILE
 	      elf_free(s->dl_elf);
          free(s->dl_elf);
-         #endif
          free(s);
       }
       free(j->name);
