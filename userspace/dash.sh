@@ -11,11 +11,14 @@ make
 export PREFIX="/tinysys"
 export CFLAGS="-g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable= "
 export LDFLAGS="-Wl,--no-undefined --sysroot=/tinysys -nostdlib ${PREFIX}/lib/crt.o -ltinyc -shared"
+export EXTENTION=.so
 
 rm -rf src/*.o
 ./configure --host=x86_64-pc-none --build=x86_64-linux-gnu --target=x86_64-linux-gnu --disable-test-workaround --prefix=${PREFIX}
 make V=1
 make install
+mv ${PREFIX}/bin/dash ${PREFIX}/bin/dash${EXTENTION}
+
 
 
 
