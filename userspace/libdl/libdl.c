@@ -9,7 +9,6 @@
 
 void elf_free(elf* e)
 {
-   sys_printf("!!!!!!!!!!!!!!FREE ELF=%p\n", e);
    if (!e) {
       return;
    }
@@ -93,7 +92,7 @@ int dl_load(dl* buf, const char* file)
       buf->dl_elf->rela[i]->head = elf_find_table(buf->dl_elf->hdr,
             buf->dl_elf->shdrs, &start_ndx, SHT_RELA);
       buf->dl_elf->rela[i]->relas = elf_load_table(file, buf->dl_elf->hdr,
-            buf->dl_elf->rela[i]->head);
+            buf->dl_elf->rela[i]->head, buf->dl_elf->exec);
       start_ndx++;
    }
    buf->dl_elf->rela[i] = NULL;
@@ -116,9 +115,9 @@ int dl_load(dl* buf, const char* file)
       buf->dl_elf->sym[i]->head = elf_find_table(buf->dl_elf->hdr, buf->dl_elf->shdrs,
             &start_ndx, SHT_SYMTAB);
       buf->dl_elf->sym[i]->syms = elf_load_table(file, buf->dl_elf->hdr,
-            buf->dl_elf->sym[i]->head);
+            buf->dl_elf->sym[i]->head, buf->dl_elf->exec);
       buf->dl_elf->sym[i]->symstr = elf_load_strings(file, buf->dl_elf->hdr,
-            buf->dl_elf->shdrs, buf->dl_elf->sym[i]->head);
+            buf->dl_elf->shdrs, buf->dl_elf->sym[i]->head, buf->dl_elf->exec);
       buf->dl_elf->sym[i]->dynamic = 0;
       start_ndx++;
    }
@@ -128,9 +127,9 @@ int dl_load(dl* buf, const char* file)
       buf->dl_elf->sym[i]->head = elf_find_table(buf->dl_elf->hdr, buf->dl_elf->shdrs,
             &start_ndx, SHT_DYNSYM);
       buf->dl_elf->sym[i]->syms = elf_load_table(file, buf->dl_elf->hdr,
-            buf->dl_elf->sym[i]->head);
+            buf->dl_elf->sym[i]->head, buf->dl_elf->exec);
       buf->dl_elf->sym[i]->symstr = elf_load_strings(file, buf->dl_elf->hdr,
-            buf->dl_elf->shdrs, buf->dl_elf->sym[i]->head);
+            buf->dl_elf->shdrs, buf->dl_elf->sym[i]->head, buf->dl_elf->exec);
       buf->dl_elf->sym[i]->dynamic = 1;
       start_ndx++;
    }
@@ -138,9 +137,10 @@ int dl_load(dl* buf, const char* file)
    start_ndx = 0;
    buf->dl_elf->dyns = elf_find_table(buf->dl_elf->hdr, buf->dl_elf->shdrs,
          &start_ndx, SHT_DYNAMIC);
-   buf->dl_elf->dyntab = elf_load_table(file, buf->dl_elf->hdr, buf->dl_elf->dyns);
+   buf->dl_elf->dyntab = elf_load_table(file, buf->dl_elf->hdr,
+      buf->dl_elf->dyns, buf->dl_elf->exec);
    buf->dl_elf->dynstr = elf_load_strings(file, buf->dl_elf->hdr,
-         buf->dl_elf->shdrs, buf->dl_elf->dyns);
+         buf->dl_elf->shdrs, buf->dl_elf->dyns, buf->dl_elf->exec);
    printf("%s\n", "OK");
    return 0;
 fail:
@@ -205,8 +205,12 @@ void *dlopen(const char* filename, int flags)
    if (dl_load(prog, filename) == -1) {
       goto fail;
    }
-
    dlhandle* handle = (dlhandle*)namedlist_add(NULL, prog,  prog->path);
+   #ifdef USE_SYMBOLFILE
+   FILE* symfile = fopen("add-symbol-file.txt", "a");
+   fprintf(symfile, "add-symbol-file %s %p\n", prog->path, prog->dl_elf->exec);
+   fclose(symfile);
+   #endif
    dlhandle* j;
    for (j = handle; j; j = j->next) {
       dl* s = j->obj;
@@ -236,6 +240,11 @@ void *dlopen(const char* filename, int flags)
          }
          handle = (dlhandle*)namedlist_add((namedlist*)handle, lib, lib->path);
          lib->nlink++;
+         #ifdef USE_SYMBOLFILE
+            FILE* symfile = fopen("add-symbol-file.txt", "a");
+            fprintf(symfile, "add-symbol-file %s %p\n", lib->path, lib->dl_elf->exec);
+            fclose(symfile);
+         #endif
       }
    }
    relascope = handle; 
@@ -325,8 +334,10 @@ int dlclose(void *hndl)
          printf(MARK "Dlclose %s\n", s->path);
          elf_fini(s->dl_elf->exec, s->dl_elf->dyns, s->dl_elf->dyntab);
          namedlist_rm((namedlist*)globalscope, s->path);
-	     elf_free(s->dl_elf);
+         #ifndef USE_SYMBOLFILE
+	      elf_free(s->dl_elf);
          free(s->dl_elf);
+         #endif
          free(s);
       }
       free(j->name);

@@ -6,6 +6,7 @@ set -e
 make -C userspace/tinylibc install_headers
 make -C core -f Makefile.linux install_headers
 make -C userspace/libpwd install_headers
+make -C userspace/libdl install_headers
 
 make -C userspace/tinylibc
 make -C userspace/tinylibc install

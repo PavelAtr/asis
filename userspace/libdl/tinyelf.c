@@ -1,4 +1,5 @@
 #include "libdl.h"
+#include "tinyelf.h"
 #include <string.h>
 
 #ifndef __ASYS__
@@ -78,7 +79,7 @@ Elf_Shdr* elf_load_shdrs(const char* path, Elf_Ehdr* hdr)
       free(buf);
       return NULL;
    }
-   return buf;;
+   return buf;
 }
 
 int elf_count_table(Elf_Ehdr* hdr, Elf_Shdr* shdrs, unsigned int sh_type)
@@ -114,7 +115,7 @@ Elf_Shdr* elf_find_table(Elf_Ehdr* hdr, Elf_Shdr* shdrs, int* start_ndx,
    return NULL;
 }
 
-void* elf_load_table(const char* path, Elf_Ehdr* hdr, Elf_Shdr* shdr)
+void* elf_load_table(const char* path, Elf_Ehdr* hdr, Elf_Shdr* shdr, const char* exec)
 {
    if (!hdr || !shdr) {
       printf(MARK "%s\n", "elf_load_shdrs: hdrs is NULL");
@@ -130,7 +131,7 @@ void* elf_load_table(const char* path, Elf_Ehdr* hdr, Elf_Shdr* shdr)
 }
 
 char* elf_load_strings(const char* path, Elf_Ehdr* hdr, Elf_Shdr* shdrs,
-   Elf_Shdr* tab)
+   Elf_Shdr* tab, const char* exec)
 {
    if (!hdr || !shdrs || !tab) {
       printf(MARK "%s\n", "elf_load_strings: hdrs is NULL");

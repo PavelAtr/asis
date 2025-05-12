@@ -76,5 +76,7 @@ int main(int argc, char** argv)
    sys_printf(SYS_INFO "End init\n");
    mainsp = sp;
    int ret = sys_runinit();
+   sp = mainsp;
+   sys_printf(SYS_INFO "End runinit ret=%d\n", ret);
    return ret;
 }
