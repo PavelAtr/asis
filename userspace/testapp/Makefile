@@ -24,20 +24,18 @@ all:
 	$(CC) $(CFLAGS) -fPIC jmp.c $(LDFLAGS) -o jmp$(EXTENTION)
 	$(CC) $(CFLAGS) -fPIC fds.c $(LDFLAGS) -o fds$(EXTENTION)
 	$(CC) $(CFLAGS) -fPIC mycat.c $(LDFLAGS) -o mycat$(EXTENTION)
-	$(CC) $(CFLAGS) -fPIC mycat2.c $(LDFLAGS) -o mycat2$(EXTENTION)
 
 	$(CC) -g test1.c -o test1
 #	$(CC) -g -I../libpwd/include/ ../libpwd/libpwd.a test2.c -o test2
 	$(CC) -g test3.c -o test3
 	$(CC) -g mycat.c -o mycat_native
-	$(CC) -g mycat2.c -o mycat_native2
 #	$(CC) -g jmp.c -o test4
 
 clean:
 	rm -f shell$(EXTENTION) hello$(EXTENTION) test$(EXTENTION) touch$(EXTENTION) wallpaper$(EXTENTION) \
               ls$(EXTENTION) stat$(EXTENTION) unlink$(EXTENTION) id$(EXTENTION) mkdir$(EXTENTION) chown$(EXTENTION) \
               chmod$(EXTENTION) testfork$(EXTENTION) segfault$(EXTENTION) passdb$(EXTENTION) grpdb$(EXTENTION) _exit$(EXTENTION) \
-              test1$(EXTENTION) test2$(EXTENTION) test3$(EXTENTION) jmp$(EXTENTION) fds$(EXTENTION) mycat$(EXTENTION) mycat2$(EXTENTION)
+              test1$(EXTENTION) test2$(EXTENTION) test3$(EXTENTION) jmp$(EXTENTION) fds$(EXTENTION) mycat$(EXTENTION)
 
 install:
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
@@ -61,7 +59,6 @@ install:
 	install jmp$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/jmp$(EXTENTION)
 	install fds$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/fds$(EXTENTION)
 	install mycat$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/mycat$(EXTENTION)
-	install mycat2$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/mycat2$(EXTENTION)
 
 
 

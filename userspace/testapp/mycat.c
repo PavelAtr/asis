@@ -36,9 +36,10 @@ int do_mycat(int argc, char** argv)
       while (1)
       {
          len2 = 0;
-         len2 += fwrite(buf, 1, len, stdout);
+         size_t len3 = fwrite(buf, 1, len, stdout);
+         len2 += len3;
          if (len2 == len) break;
-         if (len2 == 0 && feof(stdout)) return 0;
+         if (len3 == 0 && feof(stdout)) return 0;
       }
    }
    return 0;
