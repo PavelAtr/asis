@@ -14,7 +14,6 @@ void err(int ret, char* msg)
 
 int do_mycat2(int argc, char** argv)
 {
-   FILE* console = fopen("/dev/tty", "r+");
    if (argc > 1) {
       int input = open(argv[1], O_RDONLY);
       if (input == -1) err(errno, "Error fopen\n");
@@ -41,7 +40,6 @@ int do_mycat2(int argc, char** argv)
          if (len2 == len) break;
          if (len2 == 0 && feof(stdout)) return 0;
       }
-      fprintf(console, "\nmycat2: readed %ld:%ld\n", len, len2);
    }
    return 0;
 }

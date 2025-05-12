@@ -37,7 +37,7 @@ clean:
 	rm -f shell$(EXTENTION) hello$(EXTENTION) test$(EXTENTION) touch$(EXTENTION) wallpaper$(EXTENTION) \
               ls$(EXTENTION) stat$(EXTENTION) unlink$(EXTENTION) id$(EXTENTION) mkdir$(EXTENTION) chown$(EXTENTION) \
               chmod$(EXTENTION) testfork$(EXTENTION) segfault$(EXTENTION) passdb$(EXTENTION) grpdb$(EXTENTION) _exit$(EXTENTION) \
-              test1$(EXTENTION) test2$(EXTENTION) test3$(EXTENTION) jmp$(EXTENTION) fds$(EXTENTION) mycat$(EXTENTION)
+              test1$(EXTENTION) test2$(EXTENTION) test3$(EXTENTION) jmp$(EXTENTION) fds$(EXTENTION) mycat$(EXTENTION) mycat2$(EXTENTION)
 
 install:
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
