@@ -265,8 +265,6 @@ void *dlopen(const char* filename, int flags)
    }
    for (j = handle; j != NULL; j = j->next) {
 	  dl* s  = j->obj;
-	  sys_printf("DLOPEN %p=%s elf=%p\n", s, s->path, s->dl_elf);
-
 	  if (s->status & DL_INITED) {
 		  continue;
 	  }

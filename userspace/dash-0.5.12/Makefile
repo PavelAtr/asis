@@ -225,7 +225,7 @@ INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_PROGRAM = ${INSTALL}
 INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
-LDFLAGS = -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o -ltinyc -shared
+LDFLAGS = -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc -shared
 LIBOBJS = 
 LIBS = 
 LTLIBOBJS = 

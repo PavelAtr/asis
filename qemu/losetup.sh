@@ -1,3 +1,3 @@
 #!/bin/sh
 
-sudo losetup  -o 1048576 -f hda
+sudo losetup  -o 1048576 -f hda.img

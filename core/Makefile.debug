@@ -32,11 +32,10 @@ sys_trap.c
 all:
 	$(CC) $(CFLAGS) -fPIC -g -c -DDEBUG  $(SYSTEM_LINK)
 	$(CC) $(CFLAGS) -fPIC -g -c -DDEBUG  --sysroot=$(PREFIX) -DELF64 $(TINYSYS_LINK)
-	$(CC) $(CFLAGS) -fPIC -g *.o -o tinysys
+	$(CC) $(CFLAGS) -fPIC -g *.o -o tinysys.debug
 
 clean:
 	rm -f *.o
-	rm -rf tinysys
 
 install_headers:
 	cp -r include $(DESTDIR)$(PREFIX)/usr/
