@@ -8,7 +8,7 @@ ssize_t piperead(FILE* f, void* buf, size_t count)
 {
 	size_t len = (count < f->pipbuf->writepos - f->pipbuf->readpos)?
 	   count : f->pipbuf->writepos - f->pipbuf->readpos;
-	memcpy(buf, f->pipbuf->buf, len);
+	memcpy(buf, f->pipbuf->buf + f->pipbuf->readpos, len);
 	f->pipbuf->readpos += len;
 	if (f->pipbuf->readpos >= MAXPIPE) {
 		f->pipbuf->readpos = 0;

@@ -14,6 +14,7 @@ void err(int ret, char* msg)
 
 int do_mycat(int argc, char** argv)
 {
+   FILE* console = fopen("/dev/tty", "r+");
    if (argc > 1) {
       int input = open(argv[1], O_RDONLY);
       if (input == -1) err(errno, "Error fopen\n");
@@ -26,9 +27,21 @@ int do_mycat(int argc, char** argv)
    char buf[CHUNK];
    while (1)
    {
-      size_t len = fread(buf, 1, CHUNK, stdin);
-      fwrite(buf, 1, len, stdout);
-      if (len == 0 && feof(stdin)) break;
+      size_t len, len2;
+      while (1)
+      {
+	      len = fread(buf, 1, CHUNK, stdin);
+         if (len != 0) break;
+         if (len == 0 && feof(stdin)) return 0;
+      }
+      while (1)
+      {
+         len2 = 0;
+         len2 += fwrite(buf, 1, len, stdout);
+         if (len2 == len) break;
+         if (len2 == 0 && feof(stdout)) return 0;
+      }
+      fprintf(console, "\nmycat: readed %ld:%ld\n", len, len2);
    }
    return 0;
 }

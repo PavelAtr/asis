@@ -14,7 +14,6 @@ typedef struct {
    unsigned short nlink;
    unsigned short writepos;
    unsigned short readpos;
-   unsigned char feof;
 } pipebuf;
 
 typedef struct {
@@ -78,9 +77,6 @@ static inline void freefile(FILE* dst)
    }
    if (dst->pipbuf) {
       dst->pipbuf->nlink--;
-      if ((dst->pipbuf->nlink <= 1)) {
-		dst->pipbuf->feof = 1;
-	  }
       if (dst->pipbuf->nlink <= 0) {
          free(dst->pipbuf);
          dst->pipbuf = NULL;

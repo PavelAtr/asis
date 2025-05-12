@@ -4,9 +4,8 @@ int feof(FILE *stream)
 {
 INIT_FDS
    if (stream->pipbuf) {
-      if (stream->pipbuf->feof) {
-         return 1;
-      }
+      if (stream->pipbuf->nlink <= 1)
+      return 1;
    }
    if (stream->flags & FILE_INFINITY) {
       return 0;
