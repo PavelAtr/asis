@@ -342,17 +342,3 @@ void dltls(void* handle, unsigned long module_id)
       s->dl_elf->tls_index = module_id;
    }
 }
-#ifdef USE_SYMBOLFILE
-   void elf_print_sections_symbols(void* file, char* exec, Elf_Ehdr* hdr, Elf_Shdr* shdrs, char* shstrs)
-   {
-      int i;
-      for (i = 0; i < hdr->e_shnum; i++) {
-         if (shdrs[i].sh_addr)
-         {
-            char* section_addr = exec + shdrs[i].sh_addr;
-            char* section_name = &shstrs[shdrs[i].sh_name];
-            fprintf(file, " -s %s %p", section_name, section_addr);
-         }
-      } 
-   }
-#endif

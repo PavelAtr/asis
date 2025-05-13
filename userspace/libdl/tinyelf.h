@@ -7,6 +7,7 @@
 #ifndef MARK
 #define MARK "dldebug:\t"
 #endif
+#include <stdio.h>
 
 /* #ifdef ELF64 MARK*/
 #define Elf_Ehdr Elf64_Ehdr
@@ -27,6 +28,7 @@ Elf_Shdr* elf_load_shdrs(const char* path, Elf_Ehdr* hdr);
 int elf_count_section(Elf_Ehdr* hdr, Elf_Shdr* shdrs, unsigned int sh_type);
 Elf_Shdr* elf_find_section_bytype(Elf_Ehdr* hdr, Elf_Shdr* shdrs, int* start_ndx, unsigned int sh_type);
 Elf_Shdr* elf_find_section_byname(Elf_Ehdr* hdr, Elf_Shdr* shdrs, char* shstrs, const char* name);
+char* elf_section_addr(char* exec, Elf_Shdr* shdr);
 void* elf_load_section(const char* path, Elf_Ehdr* hdr, Elf_Shdr* shdr);
 char* elf_load_strings(const char* path, Elf_Ehdr* hdr, Elf_Shdr* shdrs, Elf_Shdr* tab);
 char* elf_load_shstrings(const char* path, Elf_Ehdr* hdr, Elf_Shdr* shdrs);
@@ -38,5 +40,6 @@ void elf_relocate(Elf_Ehdr* hdr, Elf_Shdr* rela, Elf_Rela* relatab, Elf_Sym* sym
 Elf_Rela* elf_copy_tls_rela(Elf_Shdr* rela, Elf_Rela* relatab, int count);
 void elf_init(char* exec, Elf_Shdr* dynhdr, Elf64_Dyn* dyntab);
 void elf_fini(char* exec, Elf_Shdr* dynhdr, Elf64_Dyn* dyntab);
+void elf_print_sections_symbols(void* file /* out txt FILE* */,  char* exec, Elf_Ehdr* hdr, Elf_Shdr* shdrs, char* shstrs);
 
 #endif

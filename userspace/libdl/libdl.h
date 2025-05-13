@@ -56,8 +56,4 @@ typedef struct {
 #define DL_RELOCATED 0x01
 #define DL_INITED 0x02
 
-#ifdef USE_SYMBOLFILE
-   void elf_print_sections_symbols(void* file, char* exec, Elf_Ehdr* hdr, Elf_Shdr* shdrs, char* shstrs);
-#endif
-
 #endif

@@ -130,6 +130,11 @@ Elf_Shdr* elf_find_section_byname(Elf_Ehdr* hdr, Elf_Shdr* shdrs, char* shstrs, 
    return NULL;
 }
 
+char* elf_section_addr(char* exec, Elf_Shdr* shdr)
+{
+   return exec + shdr->sh_addr;
+}
+
 void* elf_load_section(const char* path, Elf_Ehdr* hdr, Elf_Shdr* shdr)
 {
    if (!hdr || !shdr) {
@@ -320,4 +325,21 @@ void elf_fini(char* exec, Elf_Shdr* dynhdr, Elf64_Dyn* dyntab)
       dt_init_array[i]();
    }
  }
+ 
+void elf_print_sections_symbols(void* file, char* exec, Elf_Ehdr* hdr, Elf_Shdr* shdrs, char* shstrs)
+{
+   int i;
+   if (!file || !exec || !hdr || !shdrs || !shstrs) {
+      printf(MARK "%s\n", "elf_print_sections_symbols: hdrs is NULL");
+      return;
+   }
+   for (i = 0; i < hdr->e_shnum; i++) {
+      if (shdrs[i].sh_addr)
+      {
+         char* section_addr = exec + shdrs[i].sh_addr;
+         char* section_name = &shstrs[shdrs[i].sh_name];
+         fprintf(file, " -s %s %p", section_name, section_addr);
+      }
+   } 
+}
 
