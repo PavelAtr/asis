@@ -17,7 +17,8 @@ void elf_relocate(Elf_Ehdr* hdr, Elf_Shdr* rela, Elf_Rela* relatab,
    void* (*resolve)(const char* symname))
 {
    if (!hdr || !rela || !relatab || !symtab || ! symstr) {
-      printf(MARK "%s\n", "elf_relocate: hdrs is NULL");
+      printf(MARK "%s  %p %p %p %p %p\n", "elf_relocate: hdrs is NULL",
+         hdr, rela, relatab, symtab, symstr);
       return ;
    }
    int j;

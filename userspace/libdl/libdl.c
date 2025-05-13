@@ -106,14 +106,22 @@ int dl_load(dl* buf, const char* file)
       buf->dl_elf->tlsrela[i] = calloc(1, sizeof(elfrelas));
    }
    buf->dl_elf->tlsrela[i] = NULL;
-   
+
+   start_ndx = 0;
+   buf->dl_elf->dynsym_hdr = elf_find_section_bytype(buf->dl_elf->hdr, buf->dl_elf->shdrs,
+      &start_ndx, SHT_DYNSYM);
+   buf->dl_elf->dynsym_tab = (Elf_Sym*)(buf->dl_elf->exec + buf->dl_elf->dynsym_hdr->sh_offset);
+   buf->dl_elf->dynsym_str = buf->dl_elf->exec + buf->dl_elf->shdrs[buf->dl_elf->dynsym_hdr->sh_link].sh_offset;
+  
    
 /*   int symcnt = elf_count_section(buf->dl_elf->hdr, buf->dl_elf->shdrs,
          SHT_SYMTAB);*/
    int symcnt = 0;      
-   int dyncnt = elf_count_section(buf->dl_elf->hdr, buf->dl_elf->shdrs,
-         SHT_DYNSYM);
+/*   int dyncnt = elf_count_section(buf->dl_elf->hdr, buf->dl_elf->shdrs,
+         SHT_DYNSYM);*/
+   int dyncnt = 0;      
    buf->dl_elf->sym = malloc((symcnt + dyncnt + 1) * sizeof(elfsyms*));
+   i = 0;
 /*   start_ndx = 0;
    for (i = 0; i < symcnt; i++) {
       buf->dl_elf->sym[i] = malloc(sizeof(elfsyms));
@@ -128,13 +136,9 @@ int dl_load(dl* buf, const char* file)
       buf->dl_elf->sym[i]->dynamic = 0;
       printf("\nsymbol section name=%s\n", elf_section_name( buf->dl_elf->sym[i]->head, buf->dl_elf->shstr)); // GARBAGE
       start_ndx++;
-   }*/
+   }
    start_ndx = 0;
-   buf->dl_elf->dynsym_hdr = elf_find_section_bytype(buf->dl_elf->hdr, buf->dl_elf->shdrs,
-         &start_ndx, SHT_DYNSYM);
-   buf->dl_elf->dynsym_tab = (Elf_Sym*)(buf->dl_elf->exec + buf->dl_elf->dynsym_hdr->sh_offset);
-   buf->dl_elf->dynsymstr = buf->dl_elf->exec + buf->dl_elf->shdrs[buf->dl_elf->dynsym_hdr->sh_link].sh_offset;
-   for (i = 0; i < symcnt + dyncnt; i++) {
+   for (i = i; i < symcnt + dyncnt; i++) {
       buf->dl_elf->sym[i] = malloc(sizeof(elfsyms));
       buf->dl_elf->sym[i]->head = elf_find_section_bytype(buf->dl_elf->hdr, buf->dl_elf->shdrs,
             &start_ndx, SHT_DYNSYM);
@@ -147,7 +151,7 @@ int dl_load(dl* buf, const char* file)
       buf->dl_elf->sym[i]->dynamic = 1;
       printf("\nsymbol section name=%s\n", elf_section_name( buf->dl_elf->sym[i]->head, buf->dl_elf->shstr)); // GARBAGE         
       start_ndx++;
-   }
+   }*/
    buf->dl_elf->sym[i] = NULL;
    start_ndx = 0;
    buf->dl_elf->dyns = elf_find_section_bytype(buf->dl_elf->hdr, buf->dl_elf->shdrs,
@@ -395,7 +399,7 @@ void *dlopen(const char* filename, int flags)
 		 int tls_relas_count = 0; 
        elf_relocate(s->dl_elf->hdr, s->dl_elf->rela[rela_ndx]->head,
          s->dl_elf->rela[rela_ndx]->relas, s->dl_elf->dynsym_tab,
-         s->dl_elf->dynsymstr, &tls_relas_count, s->dl_elf->exec, &resolve);
+         s->dl_elf->dynsym_str, &tls_relas_count, s->dl_elf->exec, &resolve);
 		 s->dl_elf->tlsrela[rela_ndx]->count = tls_relas_count;
          s->dl_elf->tlsrela[rela_ndx]->relas = elf_copy_tls_rela(s->dl_elf->rela[rela_ndx]->head,
          s->dl_elf->rela[rela_ndx]->relas, tls_relas_count);
@@ -438,7 +442,7 @@ void *dlsym(void* hndl, const char* symbol)
    for (j = hndl; j != NULL; j = j->next) {
 	  s = j->obj; 
          sym = elf_symbol(s->dl_elf->dynsym_hdr, s->dl_elf->dynsym_tab,
-               s->dl_elf->dynsymstr, s->dl_elf->exec, symbol);
+               s->dl_elf->dynsym_str, s->dl_elf->exec, symbol);
          if (sym) {
             return sym;
          }

@@ -34,7 +34,7 @@ typedef struct {
    elfsyms ** sym;
    Elf_Shdr* dynsym_hdr;
    Elf_Sym* dynsym_tab;
-   char* dynsymstr;
+   char* dynsym_str;
    Elf_Shdr* dyns;
    Elf_Dyn* dyntab;
    char* dynstr;
