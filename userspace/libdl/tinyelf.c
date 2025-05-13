@@ -82,7 +82,7 @@ Elf_Shdr* elf_load_shdrs(const char* path, Elf_Ehdr* hdr)
    return buf;
 }
 
-int elf_count_table(Elf_Ehdr* hdr, Elf_Shdr* shdrs, unsigned int sh_type)
+int elf_count_section(Elf_Ehdr* hdr, Elf_Shdr* shdrs, unsigned int sh_type)
 {
    if (!hdr || !shdrs) {
       printf(MARK "%s\n", "elf_load_shdrs: hdrs is NULL");
@@ -98,7 +98,7 @@ int elf_count_table(Elf_Ehdr* hdr, Elf_Shdr* shdrs, unsigned int sh_type)
    return ret;
 }
 
-Elf_Shdr* elf_find_table(Elf_Ehdr* hdr, Elf_Shdr* shdrs, int* start_ndx,
+Elf_Shdr* elf_find_section(Elf_Ehdr* hdr, Elf_Shdr* shdrs, int* start_ndx,
    unsigned int sh_type)
 {
    if (!hdr || !shdrs) {
@@ -115,7 +115,7 @@ Elf_Shdr* elf_find_table(Elf_Ehdr* hdr, Elf_Shdr* shdrs, int* start_ndx,
    return NULL;
 }
 
-void* elf_load_table(const char* path, Elf_Ehdr* hdr, Elf_Shdr* shdr)
+void* elf_load_section(const char* path, Elf_Ehdr* hdr, Elf_Shdr* shdr)
 {
    if (!hdr || !shdr) {
       printf(MARK "%s\n", "elf_load_shdrs: hdrs is NULL");

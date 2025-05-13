@@ -74,10 +74,12 @@ int main(int argc, char** argv)
    init_hosttrap();
 // MARK   sys_umount("/week");
 #endif
+/* GARBAGE */
 #ifdef USE_SYMBOLFILE
    FILE* symfile = fopen("dl.txt", "w+");
    fclose(symfile);
 #endif
+/* ENDGARBAGE */
    sys_printf(SYS_INFO "End init\n");
    mainsp = sp;
    int ret = sys_runinit();

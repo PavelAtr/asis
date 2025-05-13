@@ -88,14 +88,14 @@ int dl_load(dl* buf, const char* file)
    buf->dl_elf->shstr = elf_load_shstrings(file, buf->dl_elf->hdr, buf->dl_elf->shdrs);
    int start_ndx = 0;
    int i;
-   int relacnt = elf_count_table(buf->dl_elf->hdr, buf->dl_elf->shdrs, SHT_RELA);
+   int relacnt = elf_count_section(buf->dl_elf->hdr, buf->dl_elf->shdrs, SHT_RELA);
    
    buf->dl_elf->rela = malloc((relacnt + 1) * sizeof(elfrelas*));
    for (i = 0; i < relacnt; i++) {
       buf->dl_elf->rela[i] = malloc(sizeof(elfrelas));
-      buf->dl_elf->rela[i]->head = elf_find_table(buf->dl_elf->hdr,
+      buf->dl_elf->rela[i]->head = elf_find_sectione(buf->dl_elf->hdr,
             buf->dl_elf->shdrs, &start_ndx, SHT_RELA);
-      buf->dl_elf->rela[i]->relas = elf_load_table(file, buf->dl_elf->hdr,
+      buf->dl_elf->rela[i]->relas = elf_load_section(file, buf->dl_elf->hdr,
             buf->dl_elf->rela[i]->head);
       start_ndx++;
    }
@@ -108,46 +108,46 @@ int dl_load(dl* buf, const char* file)
    buf->dl_elf->tlsrela[i] = NULL;
    
    
-   int symcnt = elf_count_table(buf->dl_elf->hdr, buf->dl_elf->shdrs,
+   int symcnt = elf_count_section(buf->dl_elf->hdr, buf->dl_elf->shdrs,
          SHT_SYMTAB);
-   int dyncnt = elf_count_table(buf->dl_elf->hdr, buf->dl_elf->shdrs,
+   int dyncnt = elf_count_section(buf->dl_elf->hdr, buf->dl_elf->shdrs,
          SHT_DYNSYM);
    buf->dl_elf->sym = malloc((symcnt + dyncnt + 1) * sizeof(elfsyms*));
    start_ndx = 0;
    for (i = 0; i < symcnt; i++) {
       buf->dl_elf->sym[i] = malloc(sizeof(elfsyms));
-      buf->dl_elf->sym[i]->head = elf_find_table(buf->dl_elf->hdr, buf->dl_elf->shdrs,
+      buf->dl_elf->sym[i]->head = elf_find_section(buf->dl_elf->hdr, buf->dl_elf->shdrs,
             &start_ndx, SHT_SYMTAB);
-      buf->dl_elf->sym[i]->syms = elf_load_table(file, buf->dl_elf->hdr,
+      buf->dl_elf->sym[i]->syms = elf_load_section(file, buf->dl_elf->hdr,
             buf->dl_elf->sym[i]->head);
       buf->dl_elf->sym[i]->symstr = elf_load_strings(file, buf->dl_elf->hdr,
             buf->dl_elf->shdrs, buf->dl_elf->sym[i]->head);
       buf->dl_elf->sym[i]->strhead = elf_string_header(buf->dl_elf->shdrs, buf->dl_elf->sym[i]->head);
-      printf("\nstring table name=%s\n", elf_section_name( buf->dl_elf->sym[i]->strhead, buf->dl_elf->shstr)); // GARBAGE         
+      printf("\nstring section name=%s\n", elf_section_name( buf->dl_elf->sym[i]->strhead, buf->dl_elf->shstr)); // GARBAGE         
       buf->dl_elf->sym[i]->dynamic = 0;
-      printf("\nsymbol table name=%s\n", elf_section_name( buf->dl_elf->sym[i]->head, buf->dl_elf->shstr)); // GARBAGE
+      printf("\nsymbol section name=%s\n", elf_section_name( buf->dl_elf->sym[i]->head, buf->dl_elf->shstr)); // GARBAGE
       start_ndx++;
    }
    start_ndx = 0;
    for (i = i; i < symcnt + dyncnt; i++) {
       buf->dl_elf->sym[i] = malloc(sizeof(elfsyms));
-      buf->dl_elf->sym[i]->head = elf_find_table(buf->dl_elf->hdr, buf->dl_elf->shdrs,
+      buf->dl_elf->sym[i]->head = elf_find_section(buf->dl_elf->hdr, buf->dl_elf->shdrs,
             &start_ndx, SHT_DYNSYM);
-      buf->dl_elf->sym[i]->syms = elf_load_table(file, buf->dl_elf->hdr,
+      buf->dl_elf->sym[i]->syms = elf_load_section(file, buf->dl_elf->hdr,
             buf->dl_elf->sym[i]->head);
       buf->dl_elf->sym[i]->symstr = elf_load_strings(file, buf->dl_elf->hdr,
             buf->dl_elf->shdrs, buf->dl_elf->sym[i]->head);
       buf->dl_elf->sym[i]->strhead = elf_string_header(buf->dl_elf->shdrs, buf->dl_elf->sym[i]->head);
-      printf("\nstring table name=%s\n", elf_section_name( buf->dl_elf->sym[i]->strhead, buf->dl_elf->shstr)); // GARBAGE         
+      printf("\nstring section name=%s\n", elf_section_name( buf->dl_elf->sym[i]->strhead, buf->dl_elf->shstr)); // GARBAGE         
       buf->dl_elf->sym[i]->dynamic = 1;
-      printf("\nsymbol table name=%s\n", elf_section_name( buf->dl_elf->sym[i]->head, buf->dl_elf->shstr)); // GARBAGE         
+      printf("\nsymbol section name=%s\n", elf_section_name( buf->dl_elf->sym[i]->head, buf->dl_elf->shstr)); // GARBAGE         
       start_ndx++;
    }
    buf->dl_elf->sym[i] = NULL;
    start_ndx = 0;
-   buf->dl_elf->dyns = elf_find_table(buf->dl_elf->hdr, buf->dl_elf->shdrs,
+   buf->dl_elf->dyns = elf_find_section(buf->dl_elf->hdr, buf->dl_elf->shdrs,
          &start_ndx, SHT_DYNAMIC);
-   buf->dl_elf->dyntab = elf_load_table(file, buf->dl_elf->hdr,
+   buf->dl_elf->dyntab = elf_load_section(file, buf->dl_elf->hdr,
       buf->dl_elf->dyns);
    buf->dl_elf->dynstr = elf_load_strings(file, buf->dl_elf->hdr,
          buf->dl_elf->shdrs, buf->dl_elf->dyns);
