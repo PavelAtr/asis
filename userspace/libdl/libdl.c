@@ -93,7 +93,7 @@ int dl_load(dl* buf, const char* file)
    buf->dl_elf->rela = malloc((relacnt + 1) * sizeof(elfrelas*));
    for (i = 0; i < relacnt; i++) {
       buf->dl_elf->rela[i] = malloc(sizeof(elfrelas));
-      buf->dl_elf->rela[i]->head = elf_find_section(buf->dl_elf->hdr,
+      buf->dl_elf->rela[i]->head = elf_find_section_bytype(buf->dl_elf->hdr,
             buf->dl_elf->shdrs, &start_ndx, SHT_RELA);
       buf->dl_elf->rela[i]->relas = elf_load_section(file, buf->dl_elf->hdr,
             buf->dl_elf->rela[i]->head);
@@ -116,7 +116,7 @@ int dl_load(dl* buf, const char* file)
    start_ndx = 0;
    for (i = 0; i < symcnt; i++) {
       buf->dl_elf->sym[i] = malloc(sizeof(elfsyms));
-      buf->dl_elf->sym[i]->head = elf_find_section(buf->dl_elf->hdr, buf->dl_elf->shdrs,
+      buf->dl_elf->sym[i]->head = elf_find_section_bytype(buf->dl_elf->hdr, buf->dl_elf->shdrs,
             &start_ndx, SHT_SYMTAB);
       buf->dl_elf->sym[i]->syms = elf_load_section(file, buf->dl_elf->hdr,
             buf->dl_elf->sym[i]->head);
@@ -131,7 +131,7 @@ int dl_load(dl* buf, const char* file)
    start_ndx = 0;
    for (i = i; i < symcnt + dyncnt; i++) {
       buf->dl_elf->sym[i] = malloc(sizeof(elfsyms));
-      buf->dl_elf->sym[i]->head = elf_find_section(buf->dl_elf->hdr, buf->dl_elf->shdrs,
+      buf->dl_elf->sym[i]->head = elf_find_section_bytype(buf->dl_elf->hdr, buf->dl_elf->shdrs,
             &start_ndx, SHT_DYNSYM);
       buf->dl_elf->sym[i]->syms = elf_load_section(file, buf->dl_elf->hdr,
             buf->dl_elf->sym[i]->head);
@@ -145,7 +145,7 @@ int dl_load(dl* buf, const char* file)
    }
    buf->dl_elf->sym[i] = NULL;
    start_ndx = 0;
-   buf->dl_elf->dyns = elf_find_section(buf->dl_elf->hdr, buf->dl_elf->shdrs,
+   buf->dl_elf->dyns = elf_find_section_bytype(buf->dl_elf->hdr, buf->dl_elf->shdrs,
          &start_ndx, SHT_DYNAMIC);
    buf->dl_elf->dyntab = elf_load_section(file, buf->dl_elf->hdr,
       buf->dl_elf->dyns);

@@ -98,7 +98,7 @@ int elf_count_section(Elf_Ehdr* hdr, Elf_Shdr* shdrs, unsigned int sh_type)
    return ret;
 }
 
-Elf_Shdr* elf_find_section(Elf_Ehdr* hdr, Elf_Shdr* shdrs, int* start_ndx,
+Elf_Shdr* elf_find_section_bytype(Elf_Ehdr* hdr, Elf_Shdr* shdrs, int* start_ndx,
    unsigned int sh_type)
 {
    if (!hdr || !shdrs) {
@@ -109,6 +109,21 @@ Elf_Shdr* elf_find_section(Elf_Ehdr* hdr, Elf_Shdr* shdrs, int* start_ndx,
    for (i = 0; i < hdr->e_shnum; i++) {
       if (shdrs[i].sh_type == sh_type && i >= *start_ndx) {
          *start_ndx = i;
+         return  &shdrs[i];
+      }
+   }
+   return NULL;
+}
+
+Elf_Shdr* elf_find_section_byname(Elf_Ehdr* hdr, Elf_Shdr* shdrs, char* shstrs, const char* name)
+{
+   if (!hdr || !shdrs || ! shstrs) {
+      printf(MARK "%s\n", "elf_load_shdrs: hdrs is NULL");
+      return NULL;
+   }
+   int i;
+   for (i = 0; i < hdr->e_shnum; i++) {
+      if (strcmp(name, &shstrs[shdrs[i].sh_name]) == 0) {
          return  &shdrs[i];
       }
    }
