@@ -11,6 +11,7 @@
 #endif
 #include <stddef.h>
 #include <sys/stat.h>
+#include <stdio.h>
 
 int main(int argc, char** argv)
 {
@@ -72,6 +73,10 @@ int main(int argc, char** argv)
 #ifndef UEFI
    init_hosttrap();
 // MARK   sys_umount("/week");
+#endif
+#ifdef USE_SYMBOLFILE
+   FILE* symfile = fopen("dl.txt", "w+");
+   fclose(symfile);
 #endif
    sys_printf(SYS_INFO "End init\n");
    mainsp = sp;

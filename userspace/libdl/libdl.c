@@ -217,7 +217,7 @@ void *dlopen(const char* filename, int flags)
    }
    dlhandle* handle = (dlhandle*)namedlist_add(NULL, prog,  prog->path);
    #ifdef USE_SYMBOLFILE
-   FILE* symfile = fopen("add-symbol-file.txt", "a");
+   FILE* symfile = fopen("dl.txt", "a");
    fprintf(symfile, "add-symbol-file %s %p ", prog->path, prog->dl_elf->exec);
    int sym_ndx;
    for (sym_ndx = 0; prog->dl_elf->sym[sym_ndx]; sym_ndx++) {
@@ -261,7 +261,7 @@ void *dlopen(const char* filename, int flags)
          handle = (dlhandle*)namedlist_add((namedlist*)handle, lib, lib->path);
          lib->nlink++;
          #ifdef USE_SYMBOLFILE
-            FILE* symfile = fopen("add-symbol-file.txt", "a");
+            FILE* symfile = fopen("dl.txt", "a");
             fprintf(symfile, "add-symbol-file %s %p ", lib->path, lib->dl_elf->exec);
             int sym_ndx;
             for (sym_ndx = 0; lib->dl_elf->sym[sym_ndx]; sym_ndx++) {
