@@ -93,7 +93,7 @@ int dl_load(dl* buf, const char* file)
    buf->dl_elf->rela = malloc((relacnt + 1) * sizeof(elfrelas*));
    for (i = 0; i < relacnt; i++) {
       buf->dl_elf->rela[i] = malloc(sizeof(elfrelas));
-      buf->dl_elf->rela[i]->head = elf_find_sectione(buf->dl_elf->hdr,
+      buf->dl_elf->rela[i]->head = elf_find_section(buf->dl_elf->hdr,
             buf->dl_elf->shdrs, &start_ndx, SHT_RELA);
       buf->dl_elf->rela[i]->relas = elf_load_section(file, buf->dl_elf->hdr,
             buf->dl_elf->rela[i]->head);
