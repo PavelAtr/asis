@@ -32,6 +32,9 @@ typedef struct {
    elfrelas** rela;
    tlsrelas** tlsrela;
    elfsyms ** sym;
+   Elf_Shdr* dynsym_hdr;
+   Elf_Sym* dynsym_tab;
+   char* dynsymstr;
    Elf_Shdr* dyns;
    Elf_Dyn* dyntab;
    char* dynstr;
