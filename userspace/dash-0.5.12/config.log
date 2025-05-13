@@ -108,13 +108,13 @@ gcc: fatal error: no input files
 compilation terminated.
 configure:3870: $? = 1
 configure:3890: checking whether the C compiler works
-configure:3912: gcc -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc -shared conftest.c  >&5
+configure:3912: gcc -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc conftest.c  >&5
 configure:3916: $? = 0
 configure:3966: result: yes
 configure:3969: checking for C compiler default output file name
 configure:3971: result: a.out
 configure:3977: checking for suffix of executables
-configure:3984: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc -shared conftest.c  >&5
+configure:3984: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc conftest.c  >&5
 configure:3988: $? = 0
 configure:4011: result: 
 configure:4033: checking whether we are cross compiling
@@ -263,8 +263,8 @@ configure:4946: result: no
 configure:5029: checking for build system compiler
 configure:5036: result: cc
 configure:5040: checking for __attribute__((__alias__()))
-configure:5055: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc -shared conftest.c  >&5
-/usr/bin/ld: warning: type of symbol `t' changed from 1 to 2 in /tmp/ccyn7YST.o
+configure:5055: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc conftest.c  >&5
+/usr/bin/ld: warning: type of symbol `t' changed from 1 to 2 in /tmp/cclWL5CU.o
 configure:5055: $? = 0
 configure:5061: result: yes
 configure:5093: checking for alloca.h
@@ -1371,16 +1371,16 @@ configure: failed program was:
 | }
 configure:5314: result: no
 configure:5327: checking for bsearch
-configure:5327: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc -shared conftest.c  >&5
+configure:5327: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc conftest.c  >&5
 configure:5327: $? = 0
 configure:5327: result: yes
 configure:5333: checking for faccessat
-configure:5333: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc -shared conftest.c  >&5
+configure:5333: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc conftest.c  >&5
 configure:5333: $? = 0
 configure:5333: result: yes
 configure:5339: checking for getpwnam
-configure:5339: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc -shared conftest.c  >&5
-/usr/bin/ld: /tmp/ccbKx9rz.o: in function `main':
+configure:5339: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc conftest.c  >&5
+/usr/bin/ld: /tmp/ccvQEaEv.o: in function `main':
 /home/PavelAtr/tinysys/userspace/dash-0.5.12/conftest.c:77: undefined reference to `getpwnam'
 collect2: error: ld returned 1 exit status
 configure:5339: $? = 1
@@ -1467,11 +1467,11 @@ configure: failed program was:
 | }
 configure:5339: result: no
 configure:5345: checking for getrlimit
-configure:5345: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc -shared conftest.c  >&5
+configure:5345: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc conftest.c  >&5
 configure:5345: $? = 0
 configure:5345: result: yes
 configure:5351: checking for isalpha
-configure:5351: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc -shared conftest.c  >&5
+configure:5351: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc conftest.c  >&5
 conftest.c:67:6: warning: conflicting types for built-in function 'isalpha'; expected 'int(int)' [-Wbuiltin-declaration-mismatch]
    67 | char isalpha ();
       |      ^~~~~~~
@@ -1481,57 +1481,57 @@ conftest.c:59:1: note: 'isalpha' is declared in header '<ctype.h>'
 configure:5351: $? = 0
 configure:5351: result: yes
 configure:5357: checking for killpg
-configure:5357: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc -shared conftest.c  >&5
+configure:5357: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc conftest.c  >&5
 configure:5357: $? = 0
 configure:5357: result: yes
 configure:5363: checking for mempcpy
-configure:5363: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc -shared conftest.c  >&5
+configure:5363: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc conftest.c  >&5
 conftest.c:69:6: warning: conflicting types for built-in function 'mempcpy'; expected 'void *(void *, const void *, long unsigned int)' [-Wbuiltin-declaration-mismatch]
    69 | char mempcpy ();
       |      ^~~~~~~
 configure:5363: $? = 0
 configure:5363: result: yes
 configure:5369: checking for sigsetmask
-configure:5369: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc -shared conftest.c  >&5
+configure:5369: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc conftest.c  >&5
 configure:5369: $? = 0
 configure:5369: result: yes
 configure:5375: checking for stpcpy
-configure:5375: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc -shared conftest.c  >&5
+configure:5375: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc conftest.c  >&5
 conftest.c:71:6: warning: conflicting types for built-in function 'stpcpy'; expected 'char *(char *, const char *)' [-Wbuiltin-declaration-mismatch]
    71 | char stpcpy ();
       |      ^~~~~~
 configure:5375: $? = 0
 configure:5375: result: yes
 configure:5381: checking for strchrnul
-configure:5381: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc -shared conftest.c  >&5
+configure:5381: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc conftest.c  >&5
 configure:5381: $? = 0
 configure:5381: result: yes
 configure:5387: checking for strsignal
-configure:5387: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc -shared conftest.c  >&5
+configure:5387: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc conftest.c  >&5
 configure:5387: $? = 0
 configure:5387: result: yes
 configure:5393: checking for strtod
-configure:5393: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc -shared conftest.c  >&5
+configure:5393: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc conftest.c  >&5
 configure:5393: $? = 0
 configure:5393: result: yes
 configure:5399: checking for strtoimax
-configure:5399: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc -shared conftest.c  >&5
+configure:5399: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc conftest.c  >&5
 configure:5399: $? = 0
 configure:5399: result: yes
 configure:5405: checking for strtoumax
-configure:5405: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc -shared conftest.c  >&5
+configure:5405: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc conftest.c  >&5
 configure:5405: $? = 0
 configure:5405: result: yes
 configure:5411: checking for sysconf
-configure:5411: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc -shared conftest.c  >&5
+configure:5411: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc conftest.c  >&5
 configure:5411: $? = 0
 configure:5411: result: yes
 configure:5448: checking for fnmatch
-configure:5448: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc -shared conftest.c  >&5
+configure:5448: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc conftest.c  >&5
 configure:5448: $? = 0
 configure:5448: result: yes
 configure:5468: checking for signal
-configure:5468: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc -shared conftest.c  >&5
+configure:5468: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc conftest.c  >&5
 configure:5468: $? = 0
 configure:5468: result: yes
 configure:5485: checking whether stat64 is declared
@@ -1650,8 +1650,8 @@ configure: failed program was:
 | }
 configure:5485: result: no
 configure:5507: checking for glob64
-configure:5507: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc -shared conftest.c  >&5
-/usr/bin/ld: /tmp/ccPrhHbQ.o: in function `main':
+configure:5507: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc conftest.c  >&5
+/usr/bin/ld: /tmp/ccvm2oNI.o: in function `main':
 /home/PavelAtr/tinysys/userspace/dash-0.5.12/conftest.c:93: undefined reference to `glob64'
 collect2: error: ld returned 1 exit status
 configure:5507: $? = 1
@@ -1754,8 +1754,8 @@ configure: failed program was:
 | }
 configure:5507: result: no
 configure:5526: checking for open64
-configure:5526: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc -shared conftest.c  >&5
-/usr/bin/ld: /tmp/cc6ULVu9.o: in function `main':
+configure:5526: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc conftest.c  >&5
+/usr/bin/ld: /tmp/cc84TptY.o: in function `main':
 /home/PavelAtr/tinysys/userspace/dash-0.5.12/conftest.c:96: undefined reference to `open64'
 collect2: error: ld returned 1 exit status
 configure:5526: $? = 1
@@ -1904,7 +1904,7 @@ ac_cv_env_CFLAGS_value='-g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Null
 ac_cv_env_CPPFLAGS_set=
 ac_cv_env_CPPFLAGS_value=
 ac_cv_env_LDFLAGS_set=set
-ac_cv_env_LDFLAGS_value='-Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc -shared'
+ac_cv_env_LDFLAGS_value='-Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc'
 ac_cv_env_LIBS_set=
 ac_cv_env_LIBS_value=
 ac_cv_env_build_alias_set=set
@@ -2008,7 +2008,7 @@ INSTALL_DATA='${INSTALL} -m 644'
 INSTALL_PROGRAM='${INSTALL}'
 INSTALL_SCRIPT='${INSTALL}'
 INSTALL_STRIP_PROGRAM='$(install_sh) -c -s'
-LDFLAGS='-Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc -shared'
+LDFLAGS='-Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc'
 LIBOBJS=''
 LIBS=''
 LTLIBOBJS=''

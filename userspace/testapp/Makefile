@@ -1,8 +1,8 @@
 PREFIX?=/tinysys
-EXTENTION?=.so
+EXTENTION?=
 CFLAGS?=-g -fPIC --sysroot=$(PREFIX) -fomit-frame-pointer
 #LDFLAGS=--sysroot=$(PREFIX) -Wl,-T../tinysys_x86_64.ld -nostdlib $(PREFIX)/lib/crt.o -ltinyc -shared
-LDFLAGS=--sysroot=$(PREFIX) -nostdlib $(PREFIX)/lib/crt.o $(PREFIX)/lib/tls.a -ltinyc -shared
+LDFLAGS=--sysroot=$(PREFIX) -nostdlib $(PREFIX)/lib/crt.o $(PREFIX)/lib/tls.a -ltinyc
 
 all:
 	$(CC) $(CFLAGS) -fPIC shell.c $(LDFLAGS) -o shell$(EXTENTION)
