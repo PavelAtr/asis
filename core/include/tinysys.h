@@ -188,7 +188,7 @@ typedef int (*startfunction)
    (int argc, char*** argv, char*** envp, void*** fds,
      void* syscall_func, void* retexit_func);
 
-#define MAXSTACK (4096*1024)
+#define MAXSTACK (512*1024)
 
 #define setsp(addr) __asm__("mov %0, %%rsp\n" \
            : \

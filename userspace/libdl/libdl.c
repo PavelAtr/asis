@@ -58,7 +58,7 @@ void elf_free(elf* e)
 
 int dl_load(dl* buf, const char* file)
 {
-   printf(MARK "Loading %s ... ", file);
+   printf(MARK "Loading %s ... \n", file);
    buf->path = strdup(file);
    buf->dl_elf = calloc(1, sizeof(elf));
    buf->dl_elf->hdr = elf_load_hdr(file);
