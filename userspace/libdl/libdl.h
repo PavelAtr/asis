@@ -37,22 +37,6 @@ typedef struct {
    size_t tls_size;
    char* exec;
    unsigned long tls_index;
-   #ifdef USE_SYMBOLFILE
-   Elf_Shdr* debug_aranges_head;
-   void* debug_aranges_addr;
-   Elf_Shdr* debug_info_head;
-   void* debug_info_addr;
-   Elf_Shdr* debug_abbrev_head;
-   void* debug_abbrev_addr;
-   Elf_Shdr* debug_line_head;
-   void* debug_line_addr;
-   Elf_Shdr* debug_str_head;
-   void* debug_str_addr;
-   Elf_Shdr* debug_line_str_head;
-   void* debug_line_str_addr;
-   Elf_Shdr* debug_rnglists_head;
-   void* debug_rnglists_addr;
-   #endif
 } elf;
 
 typedef struct {
@@ -71,5 +55,9 @@ typedef struct {
 /* sl->status field */
 #define DL_RELOCATED 0x01
 #define DL_INITED 0x02
+
+#ifdef USE_SYMBOLFILE
+   void elf_print_sections_symbols(void* file, char* exec, Elf_Ehdr* hdr, Elf_Shdr* shdrs, char* shstrs);
+#endif
 
 #endif

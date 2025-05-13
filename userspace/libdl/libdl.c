@@ -123,36 +123,6 @@ int dl_load(dl* buf, const char* file)
       buf->dl_elf->dyntab = elf_load_section(file, buf->dl_elf->hdr, buf->dl_elf->dyns);
       buf->dl_elf->dynstr = elf_load_strings(file, buf->dl_elf->hdr, buf->dl_elf->shdrs, buf->dl_elf->dyns);
    }
-   #ifdef USE_SYMBOLFILE
-   buf->dl_elf->debug_aranges_head = elf_find_section_byname(
-      buf->dl_elf->hdr, buf->dl_elf->shdrs, buf->dl_elf->shstr, ".debug_aranges");
-   buf->dl_elf->debug_aranges_addr = elf_load_section(file, buf->dl_elf->hdr,
-      buf->dl_elf->debug_aranges_head);
-   buf->dl_elf->debug_info_head = elf_find_section_byname(
-      buf->dl_elf->hdr, buf->dl_elf->shdrs, buf->dl_elf->shstr, ".debug_info");
-   buf->dl_elf->debug_info_addr = elf_load_section(file, buf->dl_elf->hdr,
-      buf->dl_elf->debug_info_head);
-   buf->dl_elf->debug_abbrev_head = elf_find_section_byname(
-      buf->dl_elf->hdr, buf->dl_elf->shdrs, buf->dl_elf->shstr, ".debug_abbrev");
-   buf->dl_elf->debug_abbrev_addr = elf_load_section(file, buf->dl_elf->hdr,
-      buf->dl_elf->debug_abbrev_head);
-   buf->dl_elf->debug_line_head = elf_find_section_byname(
-      buf->dl_elf->hdr, buf->dl_elf->shdrs, buf->dl_elf->shstr, ".debug_line");
-   buf->dl_elf->debug_line_addr = elf_load_section(file, buf->dl_elf->hdr,
-      buf->dl_elf->debug_line_head);
-   buf->dl_elf->debug_str_head = elf_find_section_byname(
-      buf->dl_elf->hdr, buf->dl_elf->shdrs, buf->dl_elf->shstr, ".debug_str");
-   buf->dl_elf->debug_str_addr = elf_load_section(file, buf->dl_elf->hdr,
-      buf->dl_elf->debug_str_head);
-   buf->dl_elf->debug_line_str_head = elf_find_section_byname(
-      buf->dl_elf->hdr, buf->dl_elf->shdrs, buf->dl_elf->shstr, ".debug_line_str");
-   buf->dl_elf->debug_line_str_addr = elf_load_section(file, buf->dl_elf->hdr,
-      buf->dl_elf->debug_line_str_head);
-   buf->dl_elf->debug_rnglists_head = elf_find_section_byname(
-      buf->dl_elf->hdr, buf->dl_elf->shdrs, buf->dl_elf->shstr, ".debug_rnglists");
-   buf->dl_elf->debug_rnglists_addr = elf_load_section(file, buf->dl_elf->hdr,
-      buf->dl_elf->debug_rnglists_head);
-   #endif
    printf("%s\n", "OK");
    return 0;
 fail:
@@ -220,46 +190,8 @@ void *dlopen(const char* filename, int flags)
    dlhandle* handle = (dlhandle*)namedlist_add(NULL, prog,  prog->path);
    #ifdef USE_SYMBOLFILE
    FILE* symfile = fopen("dl.txt", "a");
-   fprintf(symfile, "add-symbol-file %s %p ", prog->path, prog->dl_elf->exec);
-   fprintf(symfile, "-s %s %p ", ".symtab", prog->dl_elf->symtab_tab);
-   fprintf(symfile, "-s %s %p ", ".strtab", prog->dl_elf->symtab_str);
-   fprintf(symfile, "-s %s %p ", ".dynsym", prog->dl_elf->dynsym_tab);
-   fprintf(symfile, "-s %s %p ", ".dynstr", prog->dl_elf->dynsym_str);
-   if (prog->dl_elf->debug_aranges_head) {
-      fprintf(symfile, "-s %s %p ", elf_section_name(
-         prog->dl_elf->debug_aranges_head, prog->dl_elf->shstr),
-         prog->dl_elf->debug_aranges_addr);
-   }
-   if (prog->dl_elf->debug_info_head) {
-      fprintf(symfile, "-s %s %p ", elf_section_name(
-         prog->dl_elf->debug_info_head, prog->dl_elf->shstr),
-         prog->dl_elf->debug_info_addr);
-   }
-   if (prog->dl_elf->debug_abbrev_head) {
-      fprintf(symfile, "-s %s %p ", elf_section_name(
-         prog->dl_elf->debug_abbrev_head, prog->dl_elf->shstr),
-         prog->dl_elf->debug_abbrev_addr);
-   }
-   if (prog->dl_elf->debug_line_head) {
-      fprintf(symfile, "-s %s %p ", elf_section_name(
-         prog->dl_elf->debug_line_head, prog->dl_elf->shstr),
-         prog->dl_elf->debug_line_addr);
-   }
-   if (prog->dl_elf->debug_str_head) {
-      fprintf(symfile, "-s %s %p ", elf_section_name(
-         prog->dl_elf->debug_str_head, prog->dl_elf->shstr),
-         prog->dl_elf->debug_str_addr);
-   }
-   if (prog->dl_elf->debug_line_str_head) {
-      fprintf(symfile, "-s %s %p ", elf_section_name(
-         prog->dl_elf->debug_line_str_head, prog->dl_elf->shstr),
-         prog->dl_elf->debug_line_str_addr);
-   }
-   if (prog->dl_elf->debug_rnglists_head) {
-      fprintf(symfile, "-s %s %p ", elf_section_name(
-         prog->dl_elf->debug_rnglists_head, prog->dl_elf->shstr),
-         prog->dl_elf->debug_rnglists_addr);
-   }
+   fprintf(symfile, "add-symbol-file %s ", prog->path);
+   elf_print_sections_symbols(symfile, prog->dl_elf->exec, prog->dl_elf->hdr, prog->dl_elf->shdrs, prog->dl_elf->shstr);
    fprintf(symfile, "\n");
    fclose(symfile);
    #endif
@@ -294,46 +226,8 @@ void *dlopen(const char* filename, int flags)
          lib->nlink++;
          #ifdef USE_SYMBOLFILE
             FILE* symfile = fopen("dl.txt", "a");
-            fprintf(symfile, "add-symbol-file %s %p ", lib->path, lib->dl_elf->exec);
-            fprintf(symfile, "-s %s %p ", ".symtab", lib->dl_elf->symtab_tab);
-            fprintf(symfile, "-s %s %p ", ".strtab", lib->dl_elf->symtab_str);
-            fprintf(symfile, "-s %s %p ", ".dynsym", lib->dl_elf->dynsym_tab);
-            fprintf(symfile, "-s %s %p ", ".dynstr", lib->dl_elf->dynsym_str);
-            if (prog->dl_elf->debug_aranges_head) {
-               fprintf(symfile, "-s %s %p ", elf_section_name(
-                  prog->dl_elf->debug_aranges_head, prog->dl_elf->shstr),
-                  prog->dl_elf->debug_aranges_addr);
-            }
-            if (prog->dl_elf->debug_info_head) {
-               fprintf(symfile, "-s %s %p ", elf_section_name(
-                  prog->dl_elf->debug_info_head, prog->dl_elf->shstr),
-                  prog->dl_elf->debug_info_addr);
-            }
-            if (prog->dl_elf->debug_abbrev_head) {
-               fprintf(symfile, "-s %s %p ", elf_section_name(
-                  prog->dl_elf->debug_abbrev_head, prog->dl_elf->shstr),
-                  prog->dl_elf->debug_abbrev_addr);
-            }
-            if (prog->dl_elf->debug_line_head) {
-               fprintf(symfile, "-s %s %p ", elf_section_name(
-                  prog->dl_elf->debug_line_head, prog->dl_elf->shstr),
-                  prog->dl_elf->debug_line_addr);
-            }
-            if (prog->dl_elf->debug_str_head) {
-               fprintf(symfile, "-s %s %p ", elf_section_name(
-                  prog->dl_elf->debug_str_head, prog->dl_elf->shstr),
-                  prog->dl_elf->debug_str_addr);
-            }
-            if (prog->dl_elf->debug_line_str_head) {
-               fprintf(symfile, "-s %s %p ", elf_section_name(
-                  prog->dl_elf->debug_line_str_head, prog->dl_elf->shstr),
-                  prog->dl_elf->debug_line_str_addr);
-            }
-            if (prog->dl_elf->debug_rnglists_head) {
-               fprintf(symfile, "-s %s %p ", elf_section_name(
-                  prog->dl_elf->debug_rnglists_head, prog->dl_elf->shstr),
-                  prog->dl_elf->debug_rnglists_addr);
-            }
+            fprintf(symfile, "add-symbol-file %s ", lib->path);
+            elf_print_sections_symbols(symfile, lib->dl_elf->exec, lib->dl_elf->hdr, lib->dl_elf->shdrs, lib->dl_elf->shstr);
             fprintf(symfile, "\n");
             fclose(symfile);
          #endif
@@ -448,3 +342,17 @@ void dltls(void* handle, unsigned long module_id)
       s->dl_elf->tls_index = module_id;
    }
 }
+#ifdef USE_SYMBOLFILE
+   void elf_print_sections_symbols(void* file, char* exec, Elf_Ehdr* hdr, Elf_Shdr* shdrs, char* shstrs)
+   {
+      int i;
+      for (i = 0; i < hdr->e_shnum; i++) {
+         if (shdrs[i].sh_addr)
+         {
+            char* section_addr = exec + shdrs[i].sh_addr;
+            char* section_name = &shstrs[shdrs[i].sh_name];
+            fprintf(file, " -s %s %p", section_name, section_addr);
+         }
+      } 
+   }
+#endif
