@@ -258,6 +258,41 @@ void *dlopen(const char* filename, int flags)
          prog->dl_elf->sym[sym_ndx]->strhead, prog->dl_elf->shstr),
          prog->dl_elf->sym[sym_ndx]->symstr);
    }
+   if (prog->dl_elf->debug_aranges_head) {
+      fprintf(symfile, "-s %s %p ", elf_section_name(
+         prog->dl_elf->debug_aranges_head, prog->dl_elf->shstr),
+         prog->dl_elf->debug_aranges_addr);
+   }
+   if (prog->dl_elf->debug_info_head) {
+      fprintf(symfile, "-s %s %p ", elf_section_name(
+         prog->dl_elf->debug_info_head, prog->dl_elf->shstr),
+         prog->dl_elf->debug_info_addr);
+   }
+   if (prog->dl_elf->debug_abbrev_head) {
+      fprintf(symfile, "-s %s %p ", elf_section_name(
+         prog->dl_elf->debug_abbrev_head, prog->dl_elf->shstr),
+         prog->dl_elf->debug_abbrev_addr);
+   }
+   if (prog->dl_elf->debug_line_head) {
+      fprintf(symfile, "-s %s %p ", elf_section_name(
+         prog->dl_elf->debug_line_head, prog->dl_elf->shstr),
+         prog->dl_elf->debug_line_addr);
+   }
+   if (prog->dl_elf->debug_str_head) {
+      fprintf(symfile, "-s %s %p ", elf_section_name(
+         prog->dl_elf->debug_str_head, prog->dl_elf->shstr),
+         prog->dl_elf->debug_str_addr);
+   }
+   if (prog->dl_elf->debug_line_str_head) {
+      fprintf(symfile, "-s %s %p ", elf_section_name(
+         prog->dl_elf->debug_line_str_head, prog->dl_elf->shstr),
+         prog->dl_elf->debug_line_str_addr);
+   }
+   if (prog->dl_elf->debug_rnglists_head) {
+      fprintf(symfile, "-s %s %p ", elf_section_name(
+         prog->dl_elf->debug_rnglists_head, prog->dl_elf->shstr),
+         prog->dl_elf->debug_rnglists_addr);
+   }
    fprintf(symfile, "\n");
    fclose(symfile);
    #endif
@@ -302,6 +337,42 @@ void *dlopen(const char* filename, int flags)
                   lib->dl_elf->sym[sym_ndx]->strhead, lib->dl_elf->shstr),
                   lib->dl_elf->sym[sym_ndx]->symstr);
             }
+            if (prog->dl_elf->debug_aranges_head) {
+               fprintf(symfile, "-s %s %p ", elf_section_name(
+                  prog->dl_elf->debug_aranges_head, prog->dl_elf->shstr),
+                  prog->dl_elf->debug_aranges_addr);
+            }
+            if (prog->dl_elf->debug_info_head) {
+               fprintf(symfile, "-s %s %p ", elf_section_name(
+                  prog->dl_elf->debug_info_head, prog->dl_elf->shstr),
+                  prog->dl_elf->debug_info_addr);
+            }
+            if (prog->dl_elf->debug_abbrev_head) {
+               fprintf(symfile, "-s %s %p ", elf_section_name(
+                  prog->dl_elf->debug_abbrev_head, prog->dl_elf->shstr),
+                  prog->dl_elf->debug_abbrev_addr);
+            }
+            if (prog->dl_elf->debug_line_head) {
+               fprintf(symfile, "-s %s %p ", elf_section_name(
+                  prog->dl_elf->debug_line_head, prog->dl_elf->shstr),
+                  prog->dl_elf->debug_line_addr);
+            }
+            if (prog->dl_elf->debug_str_head) {
+               fprintf(symfile, "-s %s %p ", elf_section_name(
+                  prog->dl_elf->debug_str_head, prog->dl_elf->shstr),
+                  prog->dl_elf->debug_str_addr);
+            }
+            if (prog->dl_elf->debug_line_str_head) {
+               fprintf(symfile, "-s %s %p ", elf_section_name(
+                  prog->dl_elf->debug_line_str_head, prog->dl_elf->shstr),
+                  prog->dl_elf->debug_line_str_addr);
+            }
+            if (prog->dl_elf->debug_rnglists_head) {
+               fprintf(symfile, "-s %s %p ", elf_section_name(
+                  prog->dl_elf->debug_rnglists_head, prog->dl_elf->shstr),
+                  prog->dl_elf->debug_rnglists_addr);
+            }
+            fprintf(symfile, "\n");
             fclose(symfile);
          #endif
       }
