@@ -132,7 +132,10 @@ Elf_Shdr* elf_find_section_byname(Elf_Ehdr* hdr, Elf_Shdr* shdrs, char* shstrs, 
 
 char* elf_section_addr(char* exec, Elf_Shdr* shdr)
 {
-   return exec + shdr->sh_addr;
+   if (shdr->sh_addr) {
+      return exec + shdr->sh_addr;
+   }
+   return NULL;
 }
 
 void* elf_load_section(const char* path, Elf_Ehdr* hdr, Elf_Shdr* shdr)

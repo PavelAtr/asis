@@ -216,21 +216,21 @@ void *dlopen(const char* filename, int flags)
          if ((lib = namedlist_get((namedlist*)globalscope, path)))
          {
 			printf(MARK "InCache %s\n", path);			  
-	     } else {
+	      } else {
             lib = calloc(1, sizeof(dl));
             if (dl_load(lib, path) == -1) {
                 goto fail;
-            }   
-         }
-         handle = (dlhandle*)namedlist_add((namedlist*)handle, lib, lib->path);
-         lib->nlink++;
-         #ifdef USE_SYMBOLFILE
+            }
+#ifdef USE_SYMBOLFILE
             FILE* symfile = fopen("dl.txt", "a");
             fprintf(symfile, "add-symbol-file %s ", lib->path);
             elf_print_sections_symbols(symfile, lib->dl_elf->exec, lib->dl_elf->hdr, lib->dl_elf->shdrs, lib->dl_elf->shstr);
             fprintf(symfile, "\n");
             fclose(symfile);
-         #endif
+#endif
+         }
+         handle = (dlhandle*)namedlist_add((namedlist*)handle, lib, lib->path);
+         lib->nlink++;
       }
    }
    relascope = handle; 
