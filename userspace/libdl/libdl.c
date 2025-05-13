@@ -151,6 +151,36 @@ int dl_load(dl* buf, const char* file)
       buf->dl_elf->dyns);
    buf->dl_elf->dynstr = elf_load_strings(file, buf->dl_elf->hdr,
          buf->dl_elf->shdrs, buf->dl_elf->dyns);
+   #ifdef USE_SYMBOLFILE
+   buf->dl_elf->debug_aranges_head = elf_find_section_byname(
+      buf->dl_elf->hdr, buf->dl_elf->shdrs, buf->dl_elf->shstr, ".debug_aranges");
+   buf->dl_elf->debug_aranges_addr = elf_load_section(file, buf->dl_elf->hdr,
+      buf->dl_elf->debug_aranges_head);
+   buf->dl_elf->debug_info_head = elf_find_section_byname(
+      buf->dl_elf->hdr, buf->dl_elf->shdrs, buf->dl_elf->shstr, ".debug_info");
+   buf->dl_elf->debug_info_addr = elf_load_section(file, buf->dl_elf->hdr,
+      buf->dl_elf->debug_info_head);
+   buf->dl_elf->debug_abbrev_head = elf_find_section_byname(
+      buf->dl_elf->hdr, buf->dl_elf->shdrs, buf->dl_elf->shstr, ".debug_abbrev");
+   buf->dl_elf->debug_abbrev_addr = elf_load_section(file, buf->dl_elf->hdr,
+      buf->dl_elf->debug_abbrev_head);
+   buf->dl_elf->debug_line_head = elf_find_section_byname(
+      buf->dl_elf->hdr, buf->dl_elf->shdrs, buf->dl_elf->shstr, ".debug_line");
+   buf->dl_elf->debug_line_addr = elf_load_section(file, buf->dl_elf->hdr,
+      buf->dl_elf->debug_line_head);
+   buf->dl_elf->debug_str_head = elf_find_section_byname(
+      buf->dl_elf->hdr, buf->dl_elf->shdrs, buf->dl_elf->shstr, ".debug_str");
+   buf->dl_elf->debug_str_addr = elf_load_section(file, buf->dl_elf->hdr,
+      buf->dl_elf->debug_str_head);
+   buf->dl_elf->debug_line_str_head = elf_find_section_byname(
+      buf->dl_elf->hdr, buf->dl_elf->shdrs, buf->dl_elf->shstr, ".debug_line_str");
+   buf->dl_elf->debug_line_str_addr = elf_load_section(file, buf->dl_elf->hdr,
+      buf->dl_elf->debug_line_str_head);
+   buf->dl_elf->debug_rnglists_head = elf_find_section_byname(
+      buf->dl_elf->hdr, buf->dl_elf->shdrs, buf->dl_elf->shstr, ".debug_rnglists");
+   buf->dl_elf->debug_rnglists_addr = elf_load_section(file, buf->dl_elf->hdr,
+      buf->dl_elf->debug_rnglists_head);
+   #endif
    printf("%s\n", "OK");
    return 0;
 fail:
