@@ -69,7 +69,7 @@ size_t elf_load_exec(const char* path, Elf_Ehdr* hdr, Elf_Phdr* phdrs, char* exe
 Elf_Shdr* elf_load_shdrs(const char* path, Elf_Ehdr* hdr)
 {
    if (!hdr) {
-      printf(MARK "%s\n", "elf_load_shdrs: hdrs is NULL");
+      printf(MARK "%s\n", "elf_load_shdrs: hdr is NULL");
       return NULL;
    }
    Elf_Shdr* buf = malloc(sizeof(Elf_Shdr) * hdr->e_shnum);
@@ -85,7 +85,7 @@ Elf_Shdr* elf_load_shdrs(const char* path, Elf_Ehdr* hdr)
 int elf_count_section(Elf_Ehdr* hdr, Elf_Shdr* shdrs, unsigned int sh_type)
 {
    if (!hdr || !shdrs) {
-      printf(MARK "%s\n", "elf_load_shdrs: hdrs is NULL");
+      printf(MARK "%s %p %p\n", "elf_count_section: hdrs is NULL", hdr, shdrs);
       return 0;
    }
    int i;
@@ -133,7 +133,7 @@ Elf_Shdr* elf_find_section_byname(Elf_Ehdr* hdr, Elf_Shdr* shdrs, char* shstrs, 
 void* elf_load_section(const char* path, Elf_Ehdr* hdr, Elf_Shdr* shdr)
 {
    if (!hdr || !shdr) {
-      printf(MARK "%s\n", "elf_load_shdrs: hdrs is NULL");
+      printf(MARK "%s %p %p\n", "elf_load_section: hdrs is NULL", hdr, shdr);
       return NULL;
    }
    void* buf = malloc(shdr->sh_size);

@@ -9,14 +9,6 @@ extern char * ld_library_path;
 
 typedef struct {
    Elf_Shdr* head;
-   Elf_Sym* syms;
-   Elf_Shdr* strhead;
-   char* symstr;
-   char dynamic;
-} elfsyms;
-
-typedef struct {
-   Elf_Shdr* head;
    Elf_Rela* relas;
 } elfrelas;
 
@@ -31,10 +23,12 @@ typedef struct {
    Elf_Shdr* shdrs;
    elfrelas** rela;
    tlsrelas** tlsrela;
-   elfsyms ** sym;
    Elf_Shdr* dynsym_hdr;
    Elf_Sym* dynsym_tab;
    char* dynsym_str;
+   Elf_Shdr* symtab_hdr;
+   Elf_Sym* symtab_tab;
+   char* symtab_str;
    Elf_Shdr* dyns;
    Elf_Dyn* dyntab;
    char* dynstr;

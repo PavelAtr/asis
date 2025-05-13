@@ -43,19 +43,8 @@ void elf_free(elf* e)
    }
    if (e->rela)
       free(e->rela);
-   for (ndx = 0; e->sym[ndx]; ndx++) {
-      if (e->sym[ndx]) {
-         if (e->sym[ndx]->syms) {
-            free(e->sym[ndx]->syms);
-         }
-         if (e->sym[ndx]->symstr) {
-            free(e->sym[ndx]->symstr);
-         }
-         free(e->sym[ndx]);
-      }
-   }
-   if (e->sym)
-      free(e->sym);
+   if (e->tlsrela)
+      free(e->tlsrela);
    if (e->dyntab) {
       free(e->dyntab);
    }
@@ -95,8 +84,10 @@ int dl_load(dl* buf, const char* file)
       buf->dl_elf->rela[i] = malloc(sizeof(elfrelas));
       buf->dl_elf->rela[i]->head = elf_find_section_bytype(buf->dl_elf->hdr,
             buf->dl_elf->shdrs, &start_ndx, SHT_RELA);
-      buf->dl_elf->rela[i]->relas = elf_load_section(file, buf->dl_elf->hdr,
+      if (buf->dl_elf->rela[i]->head) {
+         buf->dl_elf->rela[i]->relas = elf_load_section(file, buf->dl_elf->hdr,
             buf->dl_elf->rela[i]->head);
+      }
       start_ndx++;
    }
    buf->dl_elf->rela[i] = NULL;
@@ -110,56 +101,28 @@ int dl_load(dl* buf, const char* file)
    start_ndx = 0;
    buf->dl_elf->dynsym_hdr = elf_find_section_bytype(buf->dl_elf->hdr, buf->dl_elf->shdrs,
       &start_ndx, SHT_DYNSYM);
-   buf->dl_elf->dynsym_tab = (Elf_Sym*)(buf->dl_elf->exec + buf->dl_elf->dynsym_hdr->sh_offset);
-   buf->dl_elf->dynsym_str = buf->dl_elf->exec + buf->dl_elf->shdrs[buf->dl_elf->dynsym_hdr->sh_link].sh_offset;
-  
-   
-/*   int symcnt = elf_count_section(buf->dl_elf->hdr, buf->dl_elf->shdrs,
-         SHT_SYMTAB);*/
-   int symcnt = 0;      
-/*   int dyncnt = elf_count_section(buf->dl_elf->hdr, buf->dl_elf->shdrs,
-         SHT_DYNSYM);*/
-   int dyncnt = 0;      
-   buf->dl_elf->sym = malloc((symcnt + dyncnt + 1) * sizeof(elfsyms*));
-   i = 0;
-/*   start_ndx = 0;
-   for (i = 0; i < symcnt; i++) {
-      buf->dl_elf->sym[i] = malloc(sizeof(elfsyms));
-      buf->dl_elf->sym[i]->head = elf_find_section_bytype(buf->dl_elf->hdr, buf->dl_elf->shdrs,
-            &start_ndx, SHT_SYMTAB);
-      buf->dl_elf->sym[i]->syms = elf_load_section(file, buf->dl_elf->hdr,
-            buf->dl_elf->sym[i]->head);
-      buf->dl_elf->sym[i]->symstr = elf_load_strings(file, buf->dl_elf->hdr,
-            buf->dl_elf->shdrs, buf->dl_elf->sym[i]->head);
-      buf->dl_elf->sym[i]->strhead = elf_string_header(buf->dl_elf->shdrs, buf->dl_elf->sym[i]->head);
-      printf("\nstring section name=%s\n", elf_section_name( buf->dl_elf->sym[i]->strhead, buf->dl_elf->shstr)); // GARBAGE         
-      buf->dl_elf->sym[i]->dynamic = 0;
-      printf("\nsymbol section name=%s\n", elf_section_name( buf->dl_elf->sym[i]->head, buf->dl_elf->shstr)); // GARBAGE
-      start_ndx++;
+   if (buf->dl_elf->dynsym_hdr) {  
+      buf->dl_elf->dynsym_tab = (Elf_Sym*)(buf->dl_elf->exec + buf->dl_elf->dynsym_hdr->sh_offset);
+      buf->dl_elf->dynsym_str = buf->dl_elf->exec + buf->dl_elf->shdrs[buf->dl_elf->dynsym_hdr->sh_link].sh_offset;
    }
    start_ndx = 0;
-   for (i = i; i < symcnt + dyncnt; i++) {
-      buf->dl_elf->sym[i] = malloc(sizeof(elfsyms));
-      buf->dl_elf->sym[i]->head = elf_find_section_bytype(buf->dl_elf->hdr, buf->dl_elf->shdrs,
-            &start_ndx, SHT_DYNSYM);
-      buf->dl_elf->sym[i]->syms = elf_load_section(file, buf->dl_elf->hdr,
-            buf->dl_elf->sym[i]->head);
-      buf->dl_elf->sym[i]->symstr = elf_load_strings(file, buf->dl_elf->hdr,
-            buf->dl_elf->shdrs, buf->dl_elf->sym[i]->head);
-      buf->dl_elf->sym[i]->strhead = elf_string_header(buf->dl_elf->shdrs, buf->dl_elf->sym[i]->head);
-      printf("\nstring section name=%s\n", elf_section_name( buf->dl_elf->sym[i]->strhead, buf->dl_elf->shstr)); // GARBAGE         
-      buf->dl_elf->sym[i]->dynamic = 1;
-      printf("\nsymbol section name=%s\n", elf_section_name( buf->dl_elf->sym[i]->head, buf->dl_elf->shstr)); // GARBAGE         
-      start_ndx++;
-   }*/
-   buf->dl_elf->sym[i] = NULL;
+   buf->dl_elf->symtab_hdr = elf_find_section_bytype(buf->dl_elf->hdr, buf->dl_elf->shdrs,
+      &start_ndx, SHT_SYMTAB);
+   if (buf->dl_elf->symtab_hdr) {
+      buf->dl_elf->symtab_tab = (Elf_Sym*)(buf->dl_elf->exec + buf->dl_elf->symtab_hdr->sh_offset);
+      buf->dl_elf->symtab_str = buf->dl_elf->exec + buf->dl_elf->shdrs[buf->dl_elf->symtab_hdr->sh_link].sh_offset;
+   }
    start_ndx = 0;
    buf->dl_elf->dyns = elf_find_section_bytype(buf->dl_elf->hdr, buf->dl_elf->shdrs,
          &start_ndx, SHT_DYNAMIC);
-   buf->dl_elf->dyntab = elf_load_section(file, buf->dl_elf->hdr,
-      buf->dl_elf->dyns);
-   buf->dl_elf->dynstr = elf_load_strings(file, buf->dl_elf->hdr,
-         buf->dl_elf->shdrs, buf->dl_elf->dyns);
+   /*if (buf->dl_elf->dyns) {
+      buf->dl_elf->dyntab = (Elf_Dyn*)(buf->dl_elf->exec + buf->dl_elf->dyns->sh_offset);
+      buf->dl_elf->dynstr = buf->dl_elf->exec + buf->dl_elf->shdrs[buf->dl_elf->dyns->sh_link].sh_offset;
+   }*/
+   if (buf->dl_elf->dyns) {
+      buf->dl_elf->dyntab = elf_load_section(file, buf->dl_elf->hdr, buf->dl_elf->dyns);
+      buf->dl_elf->dynstr = elf_load_strings(file, buf->dl_elf->hdr, buf->dl_elf->shdrs, buf->dl_elf->dyns);
+   }
    #ifdef USE_SYMBOLFILE
    buf->dl_elf->debug_aranges_head = elf_find_section_byname(
       buf->dl_elf->hdr, buf->dl_elf->shdrs, buf->dl_elf->shstr, ".debug_aranges");
@@ -258,15 +221,10 @@ void *dlopen(const char* filename, int flags)
    #ifdef USE_SYMBOLFILE
    FILE* symfile = fopen("dl.txt", "a");
    fprintf(symfile, "add-symbol-file %s %p ", prog->path, prog->dl_elf->exec);
-   int sym_ndx;
-   for (sym_ndx = 0; prog->dl_elf->sym[sym_ndx]; sym_ndx++) {
-      fprintf(symfile, "-s %s %p ", elf_section_name(
-         prog->dl_elf->sym[sym_ndx]->head, prog->dl_elf->shstr),
-         prog->dl_elf->sym[sym_ndx]->syms);
-      fprintf(symfile, "-s %s %p ", elf_section_name(
-         prog->dl_elf->sym[sym_ndx]->strhead, prog->dl_elf->shstr),
-         prog->dl_elf->sym[sym_ndx]->symstr);
-   }
+   fprintf(symfile, "-s %s %p ", ".symtab", prog->dl_elf->symtab_tab);
+   fprintf(symfile, "-s %s %p ", ".strtab", prog->dl_elf->symtab_str);
+   fprintf(symfile, "-s %s %p ", ".dynsym", prog->dl_elf->dynsym_tab);
+   fprintf(symfile, "-s %s %p ", ".dynstr", prog->dl_elf->dynsym_str);
    if (prog->dl_elf->debug_aranges_head) {
       fprintf(symfile, "-s %s %p ", elf_section_name(
          prog->dl_elf->debug_aranges_head, prog->dl_elf->shstr),
@@ -337,15 +295,10 @@ void *dlopen(const char* filename, int flags)
          #ifdef USE_SYMBOLFILE
             FILE* symfile = fopen("dl.txt", "a");
             fprintf(symfile, "add-symbol-file %s %p ", lib->path, lib->dl_elf->exec);
-            int sym_ndx;
-            for (sym_ndx = 0; lib->dl_elf->sym[sym_ndx]; sym_ndx++) {
-               fprintf(symfile, "-s %s %p ", elf_section_name(
-                  lib->dl_elf->sym[sym_ndx]->head, lib->dl_elf->shstr),
-                  lib->dl_elf->sym[sym_ndx]->syms);
-               fprintf(symfile, "-s %s %p ", elf_section_name(
-                  lib->dl_elf->sym[sym_ndx]->strhead, lib->dl_elf->shstr),
-                  lib->dl_elf->sym[sym_ndx]->symstr);
-            }
+            fprintf(symfile, "-s %s %p ", ".symtab", lib->dl_elf->symtab_tab);
+            fprintf(symfile, "-s %s %p ", ".strtab", lib->dl_elf->symtab_str);
+            fprintf(symfile, "-s %s %p ", ".dynsym", lib->dl_elf->dynsym_tab);
+            fprintf(symfile, "-s %s %p ", ".dynstr", lib->dl_elf->dynsym_str);
             if (prog->dl_elf->debug_aranges_head) {
                fprintf(symfile, "-s %s %p ", elf_section_name(
                   prog->dl_elf->debug_aranges_head, prog->dl_elf->shstr),
