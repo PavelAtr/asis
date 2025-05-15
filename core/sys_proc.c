@@ -52,7 +52,12 @@ NULL,
 };
 
 int sys_dlnlink = 1;
-char* sys_env[COREMAXENV];
+char* sys_env[4] = {
+   "PATH=/tinysys/usr/bin:/tinysys/bin",
+   "CWD=/tinysys",
+   "UMASK=0022",
+   NULL,
+};
 
 AFILE* sysfds[COREMAXFD] = {
 &sys_stdin,
@@ -64,9 +69,6 @@ void init_proc()
 {
    sys.dlnlink = &sys_dlnlink;
    sys.argv = sys_argv;
-   sys_env[0]=strdup("PATH=/tinysys/usr/bin:/tinysys/bin");
-	sys_env[1]=strdup("CWD=/tinysys");
-	sys_env[2]=strdup("UMASK=0022");
    sys.envp = sys_env;
    cpu[0] = &sys;
    current = cpu[0];
@@ -75,7 +77,7 @@ void init_proc()
 
 char** copyenv(char*const* e)
 {
-   char** copy = sys_calloc(1, sizeof(char*) * COREMAXENV + 1);
+   char** copy = sys_calloc(1, sizeof(char*) * (COREMAXENV + 1));
    int_t i;
    if (e) {
       for (i = 0; i < COREMAXENV && e[i]; i++) {
@@ -85,9 +87,7 @@ char** copyenv(char*const* e)
          if (e[i][0] == '\0') {
             copy[i] = e[i];
          } else {
-  	        size_t len = strlen(e[i]) + 1;
-            copy[i] = malloc(len);
-            memcpy(copy[i], e[i], len);
+            copy[i] = strdup(e[i]);
          }
       }
    }

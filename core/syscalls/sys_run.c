@@ -25,15 +25,6 @@ int_t sys_runinit()
    } else {
       int_t ret;
       sys_waitpid(init, &ret, 0);
-      if (sys_env[0]) {
-         sys_free(sys_env[0]);
-      }
-      if (sys_env[1]) {
-         sys_free(sys_env[1]);
-      }
-      if (sys_env[2]) {
-         sys_free(sys_env[2]);
-      }
       return ret;
    }
    return 0;
