@@ -43,10 +43,11 @@ void* sys_malloc(size_t size)
 
 void *sys_calloc(size_t nmemb, size_t size)
 {
-	size_t len = nmemb * size;
+   return calloc(nmemb, size);
+/*	size_t len = nmemb * size;
 	void* ptr = sys_malloc(len);
 	memset(ptr, 0x0, len);
-	return ptr;
+	return ptr;*/
 }
 
 void* sys_realloc(void* ptr, size_t size)

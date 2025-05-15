@@ -326,9 +326,9 @@ void dltls(void* handle, unsigned long module_id)
 {
    dlhandle* j;
    dl* s;
-   for (j = handle; j != NULL; j = j->next) {
+   for (j = handle; j; j = j->next) {
 	  s = j->obj;
-	  printf("DLTLS in %p(%p) elf=%p\n", s, s->path, s->dl_elf);
+	  printf(MARK "DLTLS in %p(%p) elf=%p\n", s, s->path, s->dl_elf);
       int rela_ndx;
       for (rela_ndx = 0; s->dl_elf->rela[rela_ndx]; rela_ndx++) {
          if (s->dl_elf->tlsrela[rela_ndx]->relas) {

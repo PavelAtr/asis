@@ -81,9 +81,6 @@ char** copyenv(char*const* e)
    int_t i;
    if (e) {
       for (i = 0; i < COREMAXENV && e[i]; i++) {
-		 if (!e[i]) {
-			 continue;
-	     }
          if (e[i][0] == '\0') {
             copy[i] = e[i];
          } else {

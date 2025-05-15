@@ -2,6 +2,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 #include <string.h>
+#include <tinysys.h>
 
 namedlist* namedlist_add(namedlist* scope, aobj obj, const char* name)
 {
