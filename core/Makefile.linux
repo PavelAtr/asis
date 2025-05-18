@@ -7,7 +7,6 @@ SYSTEM_LINK = ../drv/tty/*.c \
 ../drv/hostfs/*.c \
 ../drv/blk/*.c \
 ../drv/loop/*.c \
-../drv/weekfs/src/*.c \
 ../drv/hosttrap/*.c \
 syscalls/sys_memory.c \
 sys_printf.c
@@ -30,12 +29,13 @@ sys_trap.c \
 ../userspace/libdl/libdl.c \
 ../userspace/libdl/tinyelf.c \
 ../userspace/libdl/namedlist.c \
-../userspace/libdl/$(ARCH)/relocate.c
+../userspace/libdl/$(ARCH)/relocate.c \
+../userspace/tinylibc/src/stdio.c
 
 
 all:
 	$(CC) $(CFLAGS) -fPIC -g -c  -DELF64  $(SYSTEM_LINK)
-	$(CC) $(CFLAGS) -fPIC -g -c --sysroot=$(PREFIX) -include include/tinysys.h -DELF64 -DUSE_SYMBOLFILE $(TINYSYS_LINK)
+	$(CC) $(CFLAGS) -fPIC -g -c --sysroot=$(PREFIX) -include include/tinysys.h -DELF64 -D__ASYS__ $(TINYSYS_LINK)
 	$(CC) $(CFLAGS) -fPIC -g *.o -o tinysys.linux
 
 clean:

@@ -1,8 +1,6 @@
 #ifndef _TINYSYS_H
 #define _TINYSYS_H
 
-#define __ASYS__
-
 #include "sys/types.h"
 #include <stdarg.h>
 
@@ -27,6 +25,8 @@
 #define free(p) sys_free(p)
 #define calloc(n, s) sys_calloc(n, s)
 #define printf(fmt, ...) sys_printf(fmt, __VA_ARGS__)
+#define mmap(addr, length, prot, flags, fd, offset) sys_mmap(addr, length, prot, flags, fd, offset)
+#define munmap(addr, length) sys_munmap(addr, length)
 #define afread(pth, p, s, o) sys_afread(pth, p, s, o)
 
 int_t sys_exec(char* file, char** argv, char** envp);
@@ -188,7 +188,7 @@ typedef int (*startfunction)
    (int argc, char*** argv, char*** envp, void*** fds,
      void* syscall_func, void* retexit_func);
 
-#define MAXSTACK (512*1024)
+#define MAXSTACK (8192)
 
 #define setsp(addr) __asm__("mov %0, %%rsp\n" \
            : \

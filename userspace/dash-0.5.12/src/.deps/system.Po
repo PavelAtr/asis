@@ -1,9 +1,10 @@
 system.o: system.c ../config.h /tinysys/usr/include/signal.h \
  /tinysys/usr/include/sys/types.h \
  /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h \
- /tinysys/usr/include/pthreadtypes.h /tinysys/usr/include/string.h \
- error.h /tinysys/usr/include/setjmp.h output.h \
- /usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h system.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h \
+ /tinysys/usr/include/stdint.h /tinysys/usr/include/pthreadtypes.h \
+ /tinysys/usr/include/string.h error.h /tinysys/usr/include/setjmp.h \
+ output.h /usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h system.h \
  /usr/lib/gcc/x86_64-linux-gnu/12/include/limits.h \
  /usr/lib/gcc/x86_64-linux-gnu/12/include/syslimits.h \
  /tinysys/usr/include/limits.h /tinysys/usr/include/time.h \
@@ -12,6 +13,8 @@ system.o: system.c ../config.h /tinysys/usr/include/signal.h \
 /tinysys/usr/include/signal.h:
 /tinysys/usr/include/sys/types.h:
 /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h:
+/tinysys/usr/include/stdint.h:
 /tinysys/usr/include/pthreadtypes.h:
 /tinysys/usr/include/string.h:
 error.h:

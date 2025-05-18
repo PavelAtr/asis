@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <sys/types.h>
+#include <stdlib.h>
 
 ssize_t getdelim(char** lineptr, size_t* n, int delim, FILE* stream)
 {

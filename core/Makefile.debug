@@ -27,6 +27,7 @@ syscalls/sys_mount.c \
 syscalls/sys_usleep.c \
 syscalls/sys_rlimit.c \
 ../userspace/libdl/namedlist.c \
+../userspace/tinylibc/src/stdio.c \
 sys_trap.c
 
 all:

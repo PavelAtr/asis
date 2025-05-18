@@ -1,11 +1,15 @@
 priv.o: priv.c ../config.h /tinysys/usr/include/unistd.h \
  /tinysys/usr/include/sys/types.h \
- /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h priv.h var.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h \
+ /tinysys/usr/include/stdint.h priv.h var.h \
  /tinysys/usr/include/inttypes.h
 ../config.h:
 /tinysys/usr/include/unistd.h:
 /tinysys/usr/include/sys/types.h:
 /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h:
+/tinysys/usr/include/stdint.h:
 priv.h:
 var.h:
 /tinysys/usr/include/inttypes.h:

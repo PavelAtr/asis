@@ -4,8 +4,6 @@
 #include <stddef.h>
 #include <stdarg.h>
 #include <sys/types.h>
-#include <string.h>
-#include <stdlib.h>
 
 #define MAXPIPE 512
 
@@ -37,53 +35,9 @@ extern FILE*** core_fds;
 #define stdout (*core_fds)[1]
 #define stderr (*core_fds)[2]
 #define INIT_FDS
-
-static inline void initfile(FILE* src)
-{
-	memset(src, 0x0, sizeof(FILE));
-	src->fd = -1;
-}
-
-static inline void copyfile(FILE* dst, FILE* src)
-{
-   if (!dst || !src) {
-	   return;
-   }
-   memcpy(dst, src, sizeof(FILE));
-   size_t filelen = strlen(src->file) + 1;
-   dst->file = malloc(filelen);
-   memcpy(dst->file, src->file, filelen);
-   
-   if (src->strbuf) {
-      dst->strbuf = malloc(src->size);
-   }
-
-   if (src->pipbuf) {
-      src->pipbuf->nlink++;
-   }
-};
-
-static inline void freefile(FILE* dst)
-{
-   if (!dst) {
-	   return;
-   }
-   if (dst->file) {
-      free(dst->file);
-      dst->file = NULL;
-   }
-   if (dst->strbuf) {
-      dst->strbuf = NULL;
-   }
-   if (dst->pipbuf) {
-      dst->pipbuf->nlink--;
-      if (dst->pipbuf->nlink <= 0) {
-         free(dst->pipbuf);
-         dst->pipbuf = NULL;
-      }
-   }
-   free(dst);
-};
+void initfile(FILE* src);
+void copyfile(FILE* dst, FILE* src);
+void freefile(FILE* dst);
 
 #define FILE_ERROR 0x01
 #define FILE_INFINITY 0x02

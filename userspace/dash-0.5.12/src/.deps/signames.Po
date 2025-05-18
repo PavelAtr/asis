@@ -1,9 +1,12 @@
 signames.o: signames.c ../config.h /tinysys/usr/include/signal.h \
  /tinysys/usr/include/sys/types.h \
  /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h \
- /tinysys/usr/include/pthreadtypes.h
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h \
+ /tinysys/usr/include/stdint.h /tinysys/usr/include/pthreadtypes.h
 ../config.h:
 /tinysys/usr/include/signal.h:
 /tinysys/usr/include/sys/types.h:
 /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h:
+/tinysys/usr/include/stdint.h:
 /tinysys/usr/include/pthreadtypes.h:

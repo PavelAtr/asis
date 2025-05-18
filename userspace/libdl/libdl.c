@@ -3,9 +3,15 @@
 #include <stddef.h>
 #include <string.h>
 #define __off_t_defined
-#include <sys/mman.h>
+#define __time_t_defined
+#define __ssize_t_defined
 #include <sys/stat.h>
 #include <stdio.h>
+#include <sys/mman.h>
+
+#ifdef __ASYS__
+#include <tinysys.h>
+#endif
 
 void elf_free(elf* e)
 {
@@ -201,8 +207,8 @@ void *dlopen(const char* filename, int flags)
       const char* file;
       int dtneed_ndx = 0;
       printf(MARK "Resolving dependencies of %s\n", s->path);
-      while (file = elf_dtneed(s->dl_elf->dyns, s->dl_elf->dyntab,
-                  s->dl_elf->dynstr, &dtneed_ndx)) {
+      while ((file = elf_dtneed(s->dl_elf->dyns, s->dl_elf->dyntab,
+                  s->dl_elf->dynstr, &dtneed_ndx))) {
 		 char* path = ldpath(ld_library_path, file);
 		 if (!path) {
             printf(MARK "%s not found in %s\n", file, ld_library_path);
@@ -342,3 +348,4 @@ void dltls(void* handle, unsigned long module_id)
       s->dl_elf->tls_index = module_id;
    }
 }
+

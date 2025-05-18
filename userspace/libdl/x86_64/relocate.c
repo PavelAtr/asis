@@ -1,5 +1,7 @@
 #include "../tinyelf.h"
 #include <string.h>
+#define __off_t_defined
+#define __ssize_t_defined
 #include <stdio.h>
 
 #define R_IRELATIVE R_X86_64_IRELATIVE

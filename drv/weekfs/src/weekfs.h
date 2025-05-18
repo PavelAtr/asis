@@ -1,10 +1,14 @@
 #ifndef _WEEKFS_H
 #define _WEEKFS_H
 
-#include <stdint.h>
-#include <sys/types.h>
+#ifdef __ASYS__
+#include "../../../core/include/sys/types.h"
+#include "../../../core/include/stdint.h"
+#else
+#include <types.h>
+#endif
 
-#define WEEK_LARGE
+#define WEEK_VLARGE
 
 #ifdef WEEK_SMALL
 typedef uint16_t bnum_t;
@@ -23,10 +27,10 @@ typedef uint32_t counter_t;
 #endif
 
 #ifdef WEEK_VLARGE
-typedef uint64_t bnum_t;
-typedef uint64_t bsize_t;
-typedef uint64_t len_t;
-typedef uint64_t counter_t;
+typedef ulong64_t bnum_t;
+typedef ulong64_t bsize_t;
+typedef ulong64_t len_t;
+typedef ulong64_t counter_t;
 #define WEEK_TYPE "vlarge"
 #endif
 

@@ -1,6 +1,8 @@
 #include "../../core/uefi/uefi.h"
 #include "uefifs.h"
 
+#define PATH_MAX 4096
+
 char tmp[PATH_MAX];
 
 char* calcpath(const char* path)

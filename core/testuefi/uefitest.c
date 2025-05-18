@@ -39,5 +39,6 @@ int main(int argc, char** argv)
     /* You can now call other functions or run your program logic here.
      For example, you could call a function that uses the new stack. */
     rsp = main_rsp;
+    printf("sizeof(long)=%ld\n", sizeof(long));
     return 0;
 }

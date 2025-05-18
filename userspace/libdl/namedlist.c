@@ -1,8 +1,12 @@
 #include "namedlist.h"
+
+#ifdef __ASYS__
+#include <tinysys.h>
+#else
 #include <stddef.h>
 #include <stdlib.h>
+#endif
 #include <string.h>
-#include <tinysys.h>
 
 namedlist* namedlist_add(namedlist* scope, aobj obj, const char* name)
 {

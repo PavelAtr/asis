@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <string.h>
 
 ssize_t piperead(FILE* f, void* buf, size_t count)
 {

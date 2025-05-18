@@ -16,9 +16,9 @@
 int main(int argc, char** argv)
 {
    sys_printf(SYS_INFO "Starting TinySystem\n");
-   void* mem = mmap(NULL, MEMSIZE, PROT_READ | PROT_WRITE | PROT_EXEC,
+/*   void* mem = mmap(NULL, MEMSIZE, PROT_READ | PROT_WRITE | PROT_EXEC,
          MAP_ANONYMOUS|MAP_SHARED, -1, 0);
-   init_memory(mem, MEMSIZE);
+   init_memory(mem, MEMSIZE);*/
    init_proc();
    devices[0].file = "/dev/tty";
    devices[0].type = S_IFCHR;

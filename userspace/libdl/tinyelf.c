@@ -1,9 +1,13 @@
 #include "libdl.h"
 #include "tinyelf.h"
 #include <string.h>
-
-#ifndef __ASYS__
+#define __off_t_defined
+#define __ssize_t_defined
 #include <stdio.h>
+
+#ifdef __ASYS__
+#include <tinysys.h>
+#else
 size_t afread(const char* path, void* ptr, size_t size, size_t off)
 {
 	FILE* f = fopen(path, "r");

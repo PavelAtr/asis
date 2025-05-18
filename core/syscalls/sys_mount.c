@@ -58,9 +58,9 @@ int  _sys_mount(device* dev, mountpoint* mount, const char* fstype,
       return uefifs_mount(dev, mount, options);
    }
 #endif
-   if (strcmp(fstype, "weekfs") == 0) {
+/*   if (strcmp(fstype, "weekfs") == 0) {
       return weekfs_mount(dev, mount, options);
-   }
+   } GARBAGE*/
    return -1;
 }
 

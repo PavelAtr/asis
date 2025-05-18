@@ -2,6 +2,7 @@
 #define _TYPES_H
 
 #include <stddef.h>
+#include <stdint.h>
 
 typedef unsigned int uid_t;
 typedef unsigned int gid_t;
@@ -23,6 +24,8 @@ typedef unsigned long long time_t;
 typedef long long suseconds_t;
 typedef long long long_t;
 typedef unsigned long long ulong_t;
+typedef long long long64_t;
+typedef unsigned long long ulong64_t;
 typedef unsigned long long addr_t;
 #else
 typedef unsigned long size_t;
@@ -33,26 +36,23 @@ typedef long time_t;
 typedef long suseconds_t;
 typedef long long_t;
 typedef unsigned long ulong_t;
+typedef long long64_t;
+typedef unsigned long ulong64_t;
 typedef unsigned long addr_t;
 #endif
 typedef int pid_t;
 typedef unsigned long dev_t;
 
 
-typedef unsigned int len_t;
-typedef unsigned int counter_t;
+typedef ulong64_t len_t;
+typedef ulong64_t counter_t;
 typedef int int_t;
 typedef int errno_t;
 
 typedef unsigned char bool_t;
 typedef unsigned int u_int32_t;
-typedef int int32_t;
-typedef unsigned int uint32_t;
-typedef long int64_t;
-typedef unsigned long uint64_t;
-typedef long intmax_t;
-typedef unsigned long uintmax_t;
 
+#undef SIZE_MAX
 #define SIZE_MAX (size_t)-1
 
 #endif

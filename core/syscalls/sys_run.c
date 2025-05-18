@@ -71,11 +71,13 @@ int_t sys_exec(char* file, char** inargv, char** envp)
       return -1;
    }
    const char* path = sys_calcpath(mount, file);
+   sys_printf(SYS_DEBUG "EXEC %s\n", file); // GARBAGE
    if (!mount->mount_can_execute(mount->sbfs, path, current->uid, current->gid)) {
       current->sys_errno = EPERM;
       current->dlhndl = NULL;
       return -1;
    }
+   sys_printf(SYS_DEBUG "EXEC %s\n", file);//GARBAGE
    struct tinystat st;
    if (sys_stat(file, &st) == -1) {
       current->sys_errno = ENOENT;
@@ -92,7 +94,7 @@ int_t sys_exec(char* file, char** inargv, char** envp)
    } else {
       current->gid = current->gid;
    }
-
+   sys_printf(SYS_DEBUG "EXEC %s\n", file); //GARBAGE
    (*current->dlnlink)--;
    
    current->argc = argc;

@@ -2,15 +2,17 @@ init.o: init.c ../config.h shell.h /tinysys/usr/include/sys/param.h \
  mystring.h /tinysys/usr/include/inttypes.h \
  /tinysys/usr/include/sys/types.h \
  /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h \
- /tinysys/usr/include/string.h init.h eval.h expand.h \
- /tinysys/usr/include/stdio.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h \
+ /tinysys/usr/include/stdint.h /tinysys/usr/include/string.h init.h \
+ eval.h expand.h /tinysys/usr/include/stdio.h \
  /usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h \
- /tinysys/usr/include/stdlib.h /tinysys/usr/include/alloca.h \
- /tinysys/usr/include/unistd.h /tinysys/usr/include/locale.h input.h \
- error.h /tinysys/usr/include/setjmp.h /tinysys/usr/include/signal.h \
+ /tinysys/usr/include/unistd.h input.h error.h \
+ /tinysys/usr/include/setjmp.h /tinysys/usr/include/signal.h \
  /tinysys/usr/include/pthreadtypes.h parser.h token.h redir.h memalloc.h \
- trap.h output.h /tinysys/usr/include/sys/stat.h \
- /tinysys/usr/include/time.h /tinysys/usr/include/sys/time.h cd.h var.h
+ /tinysys/usr/include/stdlib.h /tinysys/usr/include/alloca.h \
+ /tinysys/usr/include/locale.h trap.h output.h \
+ /tinysys/usr/include/sys/stat.h /tinysys/usr/include/time.h \
+ /tinysys/usr/include/sys/time.h cd.h var.h
 ../config.h:
 shell.h:
 /tinysys/usr/include/sys/param.h:
@@ -18,16 +20,15 @@ mystring.h:
 /tinysys/usr/include/inttypes.h:
 /tinysys/usr/include/sys/types.h:
 /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h:
+/tinysys/usr/include/stdint.h:
 /tinysys/usr/include/string.h:
 init.h:
 eval.h:
 expand.h:
 /tinysys/usr/include/stdio.h:
 /usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h:
-/tinysys/usr/include/stdlib.h:
-/tinysys/usr/include/alloca.h:
 /tinysys/usr/include/unistd.h:
-/tinysys/usr/include/locale.h:
 input.h:
 error.h:
 /tinysys/usr/include/setjmp.h:
@@ -37,6 +38,9 @@ parser.h:
 token.h:
 redir.h:
 memalloc.h:
+/tinysys/usr/include/stdlib.h:
+/tinysys/usr/include/alloca.h:
+/tinysys/usr/include/locale.h:
 trap.h:
 output.h:
 /tinysys/usr/include/sys/stat.h:
