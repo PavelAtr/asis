@@ -89,13 +89,13 @@ Elf_Shdr* elf_load_shdrs(const char* path, Elf_Ehdr* hdr)
 int elf_count_section(Elf_Ehdr* hdr, Elf_Shdr* shdrs, unsigned int sh_type)
 {
    if (!hdr || !shdrs) {
-      printf(MARK "%s %p %p\n", "elf_count_section: hdrs is NULL", hdr, shdrs);
+      printf(MARK "%s\n", "elf_count_section: hdrs is NULL");
       return 0;
    }
    int i;
    int ret = 0;
    for (i = 0; i < hdr->e_shnum; i++) {
-      printf(" "); /* GARBAGE */
+      printf("%s", " "); /* GARBAGE */
       if (shdrs[i].sh_type == sh_type) {
          ret ++;
       }
