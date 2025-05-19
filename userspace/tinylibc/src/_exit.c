@@ -2,11 +2,11 @@
 #include <stdlib.h>
 #include <sys/types.h>
 
+void
 #ifdef UEFI_KERNEL
-void __attribute__((ms_abi)) (*retexit)(int ret);
-#else
-void (*retexit)(int ret);
+__attribute__((ms_abi))
 #endif
+(*retexit)(int ret);
 
 void _exit(int status)
 {

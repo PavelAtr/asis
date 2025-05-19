@@ -2,7 +2,12 @@
 #include <string.h>
 #define __off_t_defined
 #define __ssize_t_defined
+
+#ifdef __ASYS__
+#include <tinysys.h>
+#else
 #include <stdio.h>
+#endif
 
 #define R_IRELATIVE R_X86_64_IRELATIVE
 #define R_RELATIVE R_X86_64_RELATIVE
@@ -96,7 +101,7 @@ Elf_Rela* elf_copy_tls_rela(Elf_Shdr* rela, Elf_Rela* relatab, int count)
       switch (ELF_R_TYPE(relatab[j].r_info)) {
       case R_DTPMOD64:
          memcpy(&ret[i++], &relatab[j], sizeof(Elf_Rela));
-//MARK QUESTION         printf(MARK "COPY TLS RELA in %p %p->%p=%p\n" ,ret, &relatab[j], &ret[j], relatab[j].r_offset);
+	 printf(MARK "COPY TLS RELA in %p %p->%p=%p\n" ,ret, &relatab[j], &ret[j], relatab[j].r_offset);
          break;
       default:
          break;

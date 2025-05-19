@@ -97,6 +97,7 @@ int sys_umount(const char* dir)
    sys_free(mount->sbfs);
    mount->sbfs = NULL;
    mount->path = NULL;
+   return 0;
 }
 
 

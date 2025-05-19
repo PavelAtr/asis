@@ -11,6 +11,7 @@
 
 #ifdef __ASYS__
 #include <tinysys.h>
+#define stat(p, s) sys_stat(p, s)
 #endif
 
 void elf_free(elf* e)
@@ -82,10 +83,9 @@ int dl_load(dl* buf, const char* file)
    }
    buf->dl_elf->shstr = elf_load_shstrings(file, buf->dl_elf->hdr, buf->dl_elf->shdrs);
    int start_ndx = 0;
-   int i;
    int relacnt = elf_count_section(buf->dl_elf->hdr, buf->dl_elf->shdrs, SHT_RELA);
-   
    buf->dl_elf->rela = malloc((relacnt + 1) * sizeof(elfrelas*));
+   int i;
    for (i = 0; i < relacnt; i++) {
       buf->dl_elf->rela[i] = malloc(sizeof(elfrelas));
       buf->dl_elf->rela[i]->head = elf_find_section_bytype(buf->dl_elf->hdr,
@@ -97,13 +97,11 @@ int dl_load(dl* buf, const char* file)
       start_ndx++;
    }
    buf->dl_elf->rela[i] = NULL;
-
    buf->dl_elf->tlsrela = malloc((relacnt + 1) * sizeof(tlsrelas*));   
    for (i = 0; i < relacnt; i++) {
       buf->dl_elf->tlsrela[i] = calloc(1, sizeof(elfrelas));
    }
    buf->dl_elf->tlsrela[i] = NULL;
-
    start_ndx = 0;
    buf->dl_elf->dynsym_hdr = elf_find_section_bytype(buf->dl_elf->hdr, buf->dl_elf->shdrs,
       &start_ndx, SHT_DYNSYM);
@@ -168,12 +166,12 @@ char* ldpath(const char* path, const char* file)
       strcpy(rezult, dir);
       strcpy(rezult + strlen(dir), "/");
       strcpy(rezult + strlen(dir) + 1, file);
-      dir =strtok(NULL, ":");
       struct stat st;
       if (stat(rezult, &st) != -1) {
          found = 1;
          break;
       }
+      dir =strtok(NULL, ":");
    }
 end:
    if (system_path) {
@@ -189,11 +187,11 @@ end:
 void *dlopen(const char* filename, int flags)
 {
    dl* prog = calloc(1, sizeof(dl));
-
+   dlhandle* handle = NULL;
    if (dl_load(prog, filename) == -1) {
       goto fail;
    }
-   dlhandle* handle = (dlhandle*)namedlist_add(NULL, prog,  prog->path);
+   handle = (dlhandle*)namedlist_add(NULL, prog,  prog->path);
    #ifdef USE_SYMBOLFILE
    FILE* symfile = fopen("dl.txt", "a");
    fprintf(symfile, "add-symbol-file %s ", prog->path);

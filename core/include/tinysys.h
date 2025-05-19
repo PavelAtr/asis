@@ -188,7 +188,7 @@ typedef int (*startfunction)
    (int argc, char*** argv, char*** envp, void*** fds,
      void* syscall_func, void* retexit_func);
 
-#define MAXSTACK (8192)
+#define MAXSTACK (8192 * 1024)
 
 #define setsp(addr) __asm__("mov %0, %%rsp\n" \
            : \
@@ -203,11 +203,11 @@ extern char* mainsp;
 
 void switch_task();
 
-//MARK#define switch_context \
+#define switch_context \
 	if (current) sys_printf(SYS_DEBUG "switch before stack=%p sp=%p depth=%ld\n", current->ctx.stack, sp, sp - current->ctx.stack); \
 	switch_task(); \
 	sys_printf(SYS_DEBUG "switch after stack=%p sp=%p depth=%ld\n", current->ctx.stack, sp, sp - current->ctx.stack);
-#define switch_context switch_task();
+/* #define switch_context switch_task(); */
 
 void trap_segfault();
 

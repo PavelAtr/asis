@@ -1,10 +1,9 @@
+#include <sys/stat.h>
 #include <tinysys.h>
 #include <sys/capability.h>
 #include <errno.h>
 #include <stddef.h>
 #include <string.h>
-#include <sys/stat.h>
-
 
 len_t sys_afread(const char* path, void* ptr, len_t size, len_t off)
 {

@@ -22,6 +22,7 @@ int_t sys_runinit()
    pid_t init = sys_fork();
    if (init == 0) {
       sys_exec(initargv[0], initargv, NULL);
+      return -1;
    } else {
       int_t ret;
       sys_waitpid(init, &ret, 0);
@@ -71,13 +72,11 @@ int_t sys_exec(char* file, char** inargv, char** envp)
       return -1;
    }
    const char* path = sys_calcpath(mount, file);
-   sys_printf(SYS_DEBUG "EXEC %s\n", file); // GARBAGE
    if (!mount->mount_can_execute(mount->sbfs, path, current->uid, current->gid)) {
       current->sys_errno = EPERM;
       current->dlhndl = NULL;
       return -1;
    }
-   sys_printf(SYS_DEBUG "EXEC %s\n", file);//GARBAGE
    struct tinystat st;
    if (sys_stat(file, &st) == -1) {
       current->sys_errno = ENOENT;
@@ -94,11 +93,11 @@ int_t sys_exec(char* file, char** inargv, char** envp)
    } else {
       current->gid = current->gid;
    }
-   sys_printf(SYS_DEBUG "EXEC %s\n", file); //GARBAGE
    (*current->dlnlink)--;
    
    current->argc = argc;
-   current->argv = inargv;// dupnullable(inargv);
+   current->argv = inargv;
+   /* dupnullable(inargv); GARBAGE */
 
    current->dlhndl = sys_dlopen(file, 0);
    if (!current->dlhndl) {
@@ -138,7 +137,7 @@ int_t sys_exec(char* file, char** inargv, char** envp)
    sys_dltls(current->dlhndl, curpid);
    
    current->flags &= ~PROC_CLONED;
-// MARK   sys_printf(SYS_INFO "freememory=%ld\n", free_memory());
+ /*  sys_printf(SYS_INFO "freememory=%ld\n", free_memory()); GARBAGE */
    int ret = start(argc, &current_argv, &current_envp, (void***)&current_fds, &sys_syscall, &sys_atexit);
    switch_context;
    /* Never reach here */

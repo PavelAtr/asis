@@ -72,7 +72,7 @@ int main(int argc, char** argv)
 #endif
 #ifndef UEFI
    init_hosttrap();
-// MARK   sys_umount("/week");
+/* MARK   sys_umount("/week"); */
 #endif
 /* GARBAGE */
 #ifdef USE_SYMBOLFILE

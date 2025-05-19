@@ -5,7 +5,7 @@
 #include <stdarg.h>
 #endif
 
-#define MAXLOG 256
+#define MAXLOG 1024
 
 char tinylog[MAXLOG];
 

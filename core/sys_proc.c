@@ -136,13 +136,10 @@ void** cloexecfds(void** infds)
 		 if (!fds[i]) {
 		    continue;
 	     }
-	 // MARK
-
-//	 AFILE* dst = fds[i];
-//	 if (dst) {
-//	    sys_printf("infofile=%p file=%p=%s strbuf=%p pipbuf=%p fd=%d\n", dst, dst->file, dst->file, dst->strbuf, dst->pipbuf, dst->fd);
-//     }
-     // MARK
+/*	AFILE* dst = fds[i];
+	 if (dst) {
+	    sys_printf("infofile=%p file=%p=%s strbuf=%p pipbuf=%p fd=%d\n", dst, dst->file, dst->file, dst->strbuf, dst->pipbuf, dst->fd);
+         } GARBAGE */
 
          if (fds[i]->flags & O_CLOEXEC) {
 
@@ -159,12 +156,10 @@ void freefds(proc* task)
    AFILE** fds = (AFILE**)task->fds;
    int_t i;
    for (i = 0; i < COREMAXFD; i++) {
-	 AFILE* dst = fds[i];
-	 // MARK
+/*	 AFILE* dst = fds[i];
 	 if (dst) {
 	    sys_printf("freefile=%p in %s file=%p=%s strbuf=%p pipbuf=%p fd=%d\n", dst, task->argv[0], dst->file, dst->file, dst->strbuf, dst->pipbuf, dst->fd);
-     }
-     // MARK
+         } GARBAGE*/
       freefile(fds[i]);
    }
    sys_free(fds);

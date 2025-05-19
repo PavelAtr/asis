@@ -95,6 +95,7 @@ int elf_count_section(Elf_Ehdr* hdr, Elf_Shdr* shdrs, unsigned int sh_type)
    int i;
    int ret = 0;
    for (i = 0; i < hdr->e_shnum; i++) {
+      printf(" "); /* GARBAGE */
       if (shdrs[i].sh_type == sh_type) {
          ret ++;
       }
@@ -235,7 +236,7 @@ const char* elf_dtneed(Elf_Shdr* dynhdr, Elf64_Dyn* dyntab, const char* dynstr, 
    int counter = 0;
    int i;
    const char* dlname;
-   for (i = 0; i < dynhdr->sh_size / dynhdr->sh_entsize; i++) {
+   for (i = 0; i < (int)(dynhdr->sh_size / dynhdr->sh_entsize); i++) {
       switch(dyntab[i].d_tag) {
       case DT_NEEDED:
          dlname =  &dynstr[dyntab[i].d_un.d_val];
@@ -258,10 +259,8 @@ void elf_init(char* exec, Elf_Shdr* dynhdr, Elf64_Dyn* dyntab)
       printf(MARK "%s\n", "elf_init: hdrs is NULL");
       return;
    }
-   int counter = 0;
    int i;
-   const char* dlname;
-   for (i = 0; i < dynhdr->sh_size / dynhdr->sh_entsize; i++) {
+   for (i = 0; i < (int)(dynhdr->sh_size / dynhdr->sh_entsize); i++) {
       switch(dyntab[i].d_tag) {
       case DT_INIT:
          void (*func)() = (void*)(exec + dyntab[i].d_un.d_ptr);
@@ -276,7 +275,7 @@ void elf_init(char* exec, Elf_Shdr* dynhdr, Elf64_Dyn* dyntab)
    typedef void (*initfunc)();
    initfunc* dt_init_array = NULL;
    int dt_init_arraysz = 0;
-   for (i = 0; i < dynhdr->sh_size / dynhdr->sh_entsize; i++) {
+   for (i = 0; i < (int)(dynhdr->sh_size / dynhdr->sh_entsize); i++) {
       switch(dyntab[i].d_tag) {
       case DT_INIT_ARRAY:
          dt_init_array = (void*)(exec + dyntab[i].d_un.d_ptr);
@@ -288,7 +287,7 @@ void elf_init(char* exec, Elf_Shdr* dynhdr, Elf64_Dyn* dyntab)
          break;
       }
    }
-   for (i = 0; i < dt_init_arraysz / sizeof(void*); i++) {
+   for (i = 0; i < (int)(dt_init_arraysz / sizeof(void*)); i++) {
       dt_init_array[i]();
    }
  }
@@ -299,10 +298,8 @@ void elf_fini(char* exec, Elf_Shdr* dynhdr, Elf64_Dyn* dyntab)
       printf(MARK "%s\n", "elf_init: hdrs is NULL");
       return;
    }
-   int counter = 0;
    int i;
-   const char* dlname;
-   for (i = 0; i < dynhdr->sh_size / dynhdr->sh_entsize; i++) {
+   for (i = 0; i < (int)(dynhdr->sh_size / dynhdr->sh_entsize); i++) {
       switch(dyntab[i].d_tag) {
       case DT_FINI:
          void (*func)() = (void*)(exec + dyntab[i].d_un.d_ptr);
@@ -316,7 +313,7 @@ void elf_fini(char* exec, Elf_Shdr* dynhdr, Elf64_Dyn* dyntab)
    typedef void (*initfunc)();
    initfunc* dt_init_array = NULL;
    int dt_init_arraysz = 0;
-   for (i = 0; i < dynhdr->sh_size / dynhdr->sh_entsize; i++) {
+   for (i = 0; i < (int)(dynhdr->sh_size / dynhdr->sh_entsize); i++) {
       switch(dyntab[i].d_tag) {
       case DT_FINI_ARRAY:
          dt_init_array = (void*)(exec + dyntab[i].d_un.d_ptr);
@@ -328,7 +325,7 @@ void elf_fini(char* exec, Elf_Shdr* dynhdr, Elf64_Dyn* dyntab)
          break;
       }
    }
-   for (i = 0; i < dt_init_arraysz / sizeof(void*); i++) {
+   for (i = 0; i < (int)(dt_init_arraysz / sizeof(void*)); i++) {
       dt_init_array[i]();
    }
  }
