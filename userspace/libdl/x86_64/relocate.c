@@ -7,6 +7,7 @@
 #include <tinysys.h>
 #else
 #include <stdio.h>
+#include <stdlib.h>
 #endif
 
 #define R_IRELATIVE R_X86_64_IRELATIVE

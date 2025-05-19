@@ -8,6 +8,8 @@
 #ifdef __ASYS__
 #include <tinysys.h>
 #else
+#include <stdlib.h>
+
 size_t afread(const char* path, void* ptr, size_t size, size_t off)
 {
 	FILE* f = fopen(path, "r");

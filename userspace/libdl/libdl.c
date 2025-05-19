@@ -12,6 +12,8 @@
 #ifdef __ASYS__
 #include <tinysys.h>
 #define stat(p, s) sys_stat(p, s)
+#else
+#include <stdlib.h>
 #endif
 
 void elf_free(elf* e)
@@ -63,7 +65,7 @@ void elf_free(elf* e)
    }
 }
 
-int dl_load(dl* buf, const char* file)
+int dlload(dl* buf, const char* file)
 {
    printf(MARK "Loading %s ... \n", file);
    buf->path = strdup(file);
@@ -188,7 +190,7 @@ void *dlopen(const char* filename, int flags)
 {
    dl* prog = calloc(1, sizeof(dl));
    dlhandle* handle = NULL;
-   if (dl_load(prog, filename) == -1) {
+   if (dlload(prog, filename) == -1) {
       goto fail;
    }
    handle = (dlhandle*)namedlist_add(NULL, prog,  prog->path);
@@ -213,7 +215,7 @@ void *dlopen(const char* filename, int flags)
 		    goto fail;
 	     }	 
          if (namedlist_get((namedlist*)handle, path)) {
-    	    printf(MARK "NEEDED %s ALREDY\n", path);			  
+    	    printf(MARK "NEEDED %s ALREDY\n", path);
             continue;
          }
          dl* lib;
@@ -222,7 +224,7 @@ void *dlopen(const char* filename, int flags)
 			printf(MARK "InCache %s\n", path);			  
 	      } else {
             lib = calloc(1, sizeof(dl));
-            if (dl_load(lib, path) == -1) {
+            if (dlload(lib, path) == -1) {
                 goto fail;
             }
 #ifdef USE_SYMBOLFILE
