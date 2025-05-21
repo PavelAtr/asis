@@ -73,6 +73,7 @@ int runcommand(char* cmd)
 
 int main(int argc, char** argv)
 {
+   printf("Running shell\n");
    while (1) {
       printf("%s", "> ");
       char* cmd = getcommand();

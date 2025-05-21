@@ -27,20 +27,9 @@ int do_mycat(int argc, char** argv)
    while (1)
    {
       size_t len, len2;
-      while (1)
-      {
-	      len = fread(buf, 1, CHUNK, stdin);
-         if (len != 0) break;
-         if (len == 0 && feof(stdin)) return 0;
-      }
-      while (1)
-      {
-         len2 = 0;
-         size_t len3 = fwrite(buf, 1, len, stdout);
-         len2 += len3;
-         if (len2 == len) break;
-         if (len3 == 0 && feof(stdout)) return 0;
-      }
+      len = freadall(buf, 1, CHUNK, stdin);
+      len2 = fwriteall(buf, 1, len, stdout);
+      if (feof(stdin)) break;
    }
    return 0;
 }

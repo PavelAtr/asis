@@ -184,6 +184,7 @@ extern proc* current;
 pid_t sys_clone(void);
 pid_t sys_fork(void);
 pid_t sys_waitpid(pid_t pid, int* wstatus, int options);
+
 typedef int (*startfunction)
    (int argc, char*** argv, char*** envp, void*** fds,
      void* syscall_func, void* retexit_func);

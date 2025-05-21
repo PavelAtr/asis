@@ -30,7 +30,6 @@ size_t fwrite(const void* ptr, size_t size, size_t nmemb, FILE* stream)
 {
 INIT_FDS
    size_t ret;
-
    if (stream->strbuf) {
       ret = fstrwrite(ptr, size, nmemb, stream);
       goto end;

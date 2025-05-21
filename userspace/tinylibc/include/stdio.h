@@ -50,6 +50,8 @@ FILE *freopen(const char* pathname, const char* mode,
 FILE *fdopen(int fd, const char *mode);
 size_t fread(void* ptr, size_t size, size_t nmemb, FILE* stream);
 size_t fwrite(const void* ptr, size_t size, size_t nmemb, FILE* stream);
+size_t freadall(void* ptr, size_t size, size_t nmemb, FILE* stream);
+size_t fwriteall(const void* ptr, size_t size, size_t nmemb, FILE* stream);
 int fclose(FILE *stream);
 int fseek(FILE* stream, long offset, int whence);
 long ftell(FILE* stream);
