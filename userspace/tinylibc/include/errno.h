@@ -41,5 +41,7 @@ extern int errno;
 #define EOVERFLOW 33
 #define EXDEV 34
 #define EILSEQ 35
+#define ETIMEDOUT 36
+#define ESTALE 37
 
 #endif

@@ -2,6 +2,7 @@
 #define _SYS_INOTIFI_H
 
 #include <sys/types.h>
+#include <stdint.h>
 
 struct inotify_event {
         int           wd;             /* watch descriptor */

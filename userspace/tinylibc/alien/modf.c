@@ -20,6 +20,7 @@
  */
 
 #include <sys/types.h>
+#include <stdint.h>
 #include <machine/endian.h>
 #include <math.h>
 

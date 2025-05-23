@@ -40,6 +40,8 @@ char* errors[40] = {
 "Value too large to be stored in data type ",
 "Invalid cross-device link",
 "Invalid or incomplete multibyte or wide character",
+"Connection timed out",
+"Stale file handle",
 };
 
 char* strerror(int errnum)

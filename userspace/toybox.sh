@@ -18,5 +18,5 @@ ln toybox sh
 ln toybox grep
 ln toybox cat
 ln toybox echo
-
+ln toybox la
 

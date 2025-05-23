@@ -55,9 +55,7 @@ static char *rcsid = "$OpenBSD: getopt_long.c,v 1.16 2004/02/04 18:17:25 millert
 #endif /* LIBC_SCCS and not lint */
 #endif
 #include <sys/cdefs.h>
-__FBSDID("$FreeBSD$");
 
-#include <err.h>
 #include <errno.h>
 #include <getopt.h>
 #include <stdlib.h>
@@ -65,7 +63,7 @@ __FBSDID("$FreeBSD$");
 
 #define GNU_COMPATIBLE		/* Be more compatible, configure's use us! */
 
-#if 0				/* we prefer to keep our getopt(3) */
+#if 1				/* we prefer to keep our getopt(3) */
 #define	REPLACE_GETOPT		/* use this getopt as the system getopt(3) */
 #endif
 
@@ -259,26 +257,26 @@ parse_long_options(char * const *nargv, const char *options,
 	}
 	if (!exact_match && second_partial_match) {
 		/* ambiguous abbreviation */
-		if (PRINT_ERROR)
+/*		if (PRINT_ERROR)
 			warnx(ambig,
 #ifdef GNU_COMPATIBLE
 			     current_dash,
 #endif
 			     (int)current_argv_len,
-			     current_argv);
+			     current_argv);*/
 		optopt = 0;
 		return (BADCH);
 	}
 	if (match != -1) {		/* option found */
 		if (long_options[match].has_arg == no_argument
 		    && has_equal) {
-			if (PRINT_ERROR)
+/*			if (PRINT_ERROR)
 				warnx(noarg,
 #ifdef GNU_COMPATIBLE
 				     current_dash,
 #endif
 				     (int)current_argv_len,
-				     current_argv);
+				     current_argv);*/
 			/*
 			 * XXX: GNU sets optopt to val regardless of flag
 			 */
@@ -310,12 +308,12 @@ parse_long_options(char * const *nargv, const char *options,
 			 * Missing argument; leading ':' indicates no error
 			 * should be generated.
 			 */
-			if (PRINT_ERROR)
+/*			if (PRINT_ERROR)
 				warnx(recargstring,
 #ifdef GNU_COMPATIBLE
 				    current_dash,
 #endif
-				    current_argv);
+				    current_argv);*/
 			/*
 			 * XXX: GNU sets optopt to val regardless of flag
 			 */
@@ -331,12 +329,12 @@ parse_long_options(char * const *nargv, const char *options,
 			--optind;
 			return (-1);
 		}
-		if (PRINT_ERROR)
+/*		if (PRINT_ERROR)
 			warnx(illoptstring,
 #ifdef GNU_COMPATIBLE
 			      current_dash,
 #endif
-			      current_argv);
+			      current_argv);*/
 		optopt = 0;
 		return (BADCH);
 	}
@@ -509,14 +507,14 @@ start:
 			return (-1);
 		if (!*place)
 			++optind;
-#ifdef GNU_COMPATIBLE
+/*#ifdef GNU_COMPATIBLE
 		if (PRINT_ERROR)
 			warnx(posixly_correct ? illoptchar : gnuoptchar,
 			      optchar);
 #else
 		if (PRINT_ERROR)
 			warnx(illoptchar, optchar);
-#endif
+#endif */
 		optopt = optchar;
 		return (BADCH);
 	}
@@ -526,8 +524,8 @@ start:
 			/* NOTHING */;
 		else if (++optind >= nargc) {	/* no arg */
 			place = EMSG;
-			if (PRINT_ERROR)
-				warnx(recargchar, optchar);
+/*			if (PRINT_ERROR)
+				warnx(recargchar, optchar);*/
 			optopt = optchar;
 			return (BADARG);
 		} else				/* white space */
@@ -550,8 +548,8 @@ start:
 		else if (oli[1] != ':') {	/* arg not optional */
 			if (++optind >= nargc) {	/* no arg */
 				place = EMSG;
-				if (PRINT_ERROR)
-					warnx(recargchar, optchar);
+/*				if (PRINT_ERROR)
+					warnx(recargchar, optchar);*/
 				optopt = optchar;
 				return (BADARG);
 			} else

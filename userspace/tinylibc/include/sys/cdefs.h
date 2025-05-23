@@ -12,4 +12,5 @@
 #define __strong_alias(alias, sym)
 #define _Nonnull
 #define weak_alias(alias, sym);
+#define _Nullable
 #endif
