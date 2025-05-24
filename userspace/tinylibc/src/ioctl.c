@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <unistd.h>
 #include <syscall.h>
 
 int ioctl(int fd, unsigned long request, ...)
@@ -13,6 +14,12 @@ int ioctl(int fd, unsigned long request, ...)
    }
    va_list vl;
    va_start(vl, request);
+   switch (request) {
+	case FICLONE:
+	    int srcfd = va_arg(vl, int);
+	    int destfd = fd;
+	    return dup2(srcfd, destfd);
+   }
    long ret = syscall(SYS_IOCTL, fds[fd]->file, request, &vl);
    va_end(vl);
    return ret;

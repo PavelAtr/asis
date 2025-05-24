@@ -13,4 +13,6 @@
 #define _Nonnull
 #define weak_alias(alias, sym);
 #define _Nullable
+#define __FBSDID(r)
+
 #endif

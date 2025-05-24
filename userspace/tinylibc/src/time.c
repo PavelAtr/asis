@@ -45,3 +45,9 @@ struct tm *gmtime_r(const time_t * timep, struct tm * result)
 {
   return result;
 }
+
+time_t time(time_t* tloc)
+{
+   if (tloc) *tloc = 0;
+   return 0;
+}

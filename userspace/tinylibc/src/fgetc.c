@@ -11,3 +11,8 @@ INIT_FDS
    }
    return ret;
 }
+
+int getchar(void)
+{
+   return fgetc(stdin);
+}

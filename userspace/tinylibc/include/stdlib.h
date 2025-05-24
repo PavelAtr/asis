@@ -100,4 +100,9 @@ static inline float strtof_l(const char* __s, char** __end_ptr, locale_t __l) {
   return strtof(__s, __end_ptr);
 }
 
+int mbtowc(wchar_t *pwc, const char s[], size_t n);
+#define mbtowc_with_lock(pwc, s, n)  mbtowc(pwc, s, n) 
+size_t mbstowcs(wchar_t dest[], const char* src, size_t n);
+size_t wcstombs(char dest[], const wchar_t* src, size_t n);
+
 #endif

@@ -4,7 +4,7 @@ CFLAGS?= -g -fPIC -fomit-frame-pointer --sysroot=$(PREFIX)
 all: 
 	make -C init/
 	$(CC) $(CFLAGS) -c alien/*.c alien/ctype/*.c alien/string/*.c \
-alien/regex/*.c init/init.c src/*.c
+alien/regex/*.c alien/multibyte/*.c init/init.c src/*.c
 	$(CC) $(CFLAGS) -g -fPIC -nostdlib -shared *.o init/tls.a -o libtinyc.so
 	ar rcs libtinyc.a *.o init/*.o
 	

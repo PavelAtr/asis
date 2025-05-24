@@ -9,3 +9,10 @@ int chown(const char *pathname, uid_t owner, gid_t group)
    stat(pathname, &st);
    return syscall(SYS_MODNOD, pathname, NULL, owner, group, st.st_mode);
 }
+
+
+/* NOT REALIZED */
+int lchown(const char *pathname, uid_t owner, gid_t group)
+{
+   return 0;
+}

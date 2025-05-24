@@ -35,6 +35,7 @@ gid_t getgid(void);
 #define getegid getgid
 
 int chown(const char *pathname, uid_t owner, gid_t group);
+int lchown(const char *pathname, uid_t owner, gid_t group);
 pid_t fork(void);
 pid_t vfork(void);
 int symlink(const char *target, const char *linkpath);
@@ -92,5 +93,8 @@ pid_t getpgid(pid_t pid);
 pid_t getpgrp(void);
 
 int setgroups(size_t size, const gid_t* list);
+unsigned int alarm(unsigned int seconds);
+
+int rmdir(const char *pathname);
 
 #endif

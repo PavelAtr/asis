@@ -57,6 +57,7 @@ struct tm {
   const char *tm_zone;   /* Timezone abbreviation */
 };
 
+time_t time(time_t* tloc);
 time_t mktime(struct tm *tm);
 size_t strftime(char* s, size_t max, const char* format, const struct tm* tm);
 struct tm *localtime(const time_t *timep);

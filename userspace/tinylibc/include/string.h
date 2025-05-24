@@ -33,6 +33,7 @@ void *rawmemchr(const void* s, int c);
 size_t strspn(const char *s, const char *accept);
 size_t strcspn(const char *s, const char *reject);
 char *strpbrk(const char *s, const char *accept);
+int strcoll(const char *s1, const char *s2);
 
 extern char* sys_siglist[35];
 char *strsignal(int sig);

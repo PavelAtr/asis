@@ -3,7 +3,7 @@
 
 int* errnoptr;
 
-char* errors[40] = {
+char* errors[50] = {
 "Successfully",
 "Insufficient privileges",
 "Access denied",
@@ -42,6 +42,8 @@ char* errors[40] = {
 "Invalid or incomplete multibyte or wide character",
 "Connection timed out",
 "Stale file handle",
+"Text file busy",
+"Too many links",
 };
 
 char* strerror(int errnum)

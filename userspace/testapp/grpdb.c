@@ -2,9 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-FILE* dbpasswd = NULL;
-FILE* dbgroup = NULL;
-
 int main(int argc, char** argv)
 {
    FILE* groupdb = fopen("/etc/group", "r");
