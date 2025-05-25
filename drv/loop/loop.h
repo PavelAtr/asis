@@ -1,6 +1,6 @@
 #ifndef _LOOP_H
 #define _LOOP_H
-#include "../../core/include/tinysys.h"
+#include "../../core/include/asis.h"
 #include <stdarg.h>
 
 typedef struct {

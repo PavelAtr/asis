@@ -1,4 +1,4 @@
-#include <tinysys.h>
+#include <asis.h>
 #include <stddef.h>
 
 void trap_segfault()

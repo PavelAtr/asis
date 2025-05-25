@@ -4,7 +4,7 @@
 #define __ssize_t_defined
 
 #ifdef __ASIS__
-#include <tinysys.h>
+#include <asis.h>
 #else
 #include <stdio.h>
 #include <stdlib.h>

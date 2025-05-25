@@ -1,6 +1,6 @@
 #ifndef _HOSTFS_H
 #define _HOSTFS_H
-#include "../../core/include/tinysys.h"
+#include "../../core/include/asis.h"
 
 #undef fread
 

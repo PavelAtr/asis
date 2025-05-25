@@ -10,7 +10,7 @@
 #include <sys/mman.h>
 
 #ifdef __ASIS__
-#include <tinysys.h>
+#include <asis.h>
 #define stat(p, s) sys_stat(p, s)
 #else
 #include <stdlib.h>

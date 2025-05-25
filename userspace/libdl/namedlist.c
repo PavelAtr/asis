@@ -1,7 +1,7 @@
 #include "namedlist.h"
 
 #ifdef __ASIS__
-#include <tinysys.h>
+#include <asis.h>
 #else
 #include <stddef.h>
 #include <stdlib.h>

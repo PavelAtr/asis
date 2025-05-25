@@ -1,6 +1,6 @@
 #ifndef _UEFIFS_H
 #define _UEFIFS_H
-#include "../../core/include/tinysys.h"
+#include "../../core/include/asis.h"
 
 errno_t uefifs_mknod(void* sbfs, const char *pathname, uid_t uid, gid_t gid, mode_t mode);
 errno_t uefifs_modnod(void* sbfs, const char* pathname, uid_t uid, gid_t gid, mode_t mode);

@@ -1,4 +1,4 @@
-#include "../../core/include/tinysys.h"
+#include "../../core/include/asis.h"
 #include "hosttrap.h"
 #include <signal.h>
 #include <stddef.h>

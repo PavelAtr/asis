@@ -1,4 +1,4 @@
-#include <tinysys.h>
+#include <asis.h>
 #include <string.h>
 #include <errno.h>
 #include <stdio.h>

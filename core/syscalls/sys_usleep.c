@@ -1,4 +1,4 @@
-#include <tinysys.h>
+#include <asis.h>
 
 #ifndef UEFI
 

@@ -1,4 +1,4 @@
-#include <tinysys.h>
+#include <asis.h>
 #include <sys/resource.h>
 
 int sys_getrlimit(int resource, void* r)

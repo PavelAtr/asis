@@ -6,7 +6,7 @@
 #include <stdio.h>
 
 #ifdef __ASIS__
-#include <tinysys.h>
+#include <asis.h>
 #else
 #include <stdlib.h>
 

@@ -1,6 +1,6 @@
 #ifndef _WEEK_TINY_H
 #define _WEEK_TINY_H
-#include "../../../core/include/tinysys.h"
+#include "../../../core/include/asis.h"
 #include "weekfs.h"
 #include <sys/stat.h>
 #include <sys/types.h>

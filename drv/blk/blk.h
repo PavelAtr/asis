@@ -1,6 +1,6 @@
 #ifndef _BLK_H
 #define _BLK_H
-#include "../../core/include/tinysys.h"
+#include "../../core/include/asis.h"
 #include <stdarg.h>
 
 len_t blk_read(void* devsb, void* ptr, len_t size);

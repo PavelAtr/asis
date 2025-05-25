@@ -1,8 +1,8 @@
 #ifdef DEBUG
-#include "include/tinysys.h"
+#include "include/asis.h"
 #include <dlfcn.h>
 #else
-#include <tinysys.h>
+#include <asis.h>
 #include "../userspace/libdl/dlfcn.h"
 #endif
 

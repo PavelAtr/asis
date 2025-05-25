@@ -1,5 +1,5 @@
 #include <sys/stat.h>
-#include <tinysys.h>
+#include <asis.h>
 #include <sys/capability.h>
 #include <errno.h>
 #include <stddef.h>

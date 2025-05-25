@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #endif
 #ifdef __ASIS__
-#include <tinysys.h>
+#include <asis.h>
 #endif
 
 void initfile(FILE* src)
