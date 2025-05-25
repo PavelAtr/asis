@@ -1,0 +1,2 @@
+lib/mbtowc-lock.o: lib/mbtowc-lock.c lib/config.h
+lib/config.h:

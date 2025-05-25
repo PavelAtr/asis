@@ -1,0 +1,13 @@
+lib/libcoreutils_a-sig-handler.o: lib/sig-handler.c lib/config.h \
+ lib/sig-handler.h lib/signal.h lib/sys/types.h \
+ /tinysys/usr/include/sys/types.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h \
+ /tinysys/usr/include/signal.h /tinysys/usr/include/pthreadtypes.h
+lib/config.h:
+lib/sig-handler.h:
+lib/signal.h:
+lib/sys/types.h:
+/tinysys/usr/include/sys/types.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+/tinysys/usr/include/signal.h:
+/tinysys/usr/include/pthreadtypes.h:

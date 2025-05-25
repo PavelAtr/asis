@@ -1,0 +1,59 @@
+lib/libcoreutils_a-getcwd.o: lib/getcwd.c lib/config.h lib/unistd.h \
+ /tinysys/usr/include/unistd.h lib/sys/types.h \
+ /tinysys/usr/include/sys/types.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h lib/stdlib.h \
+ /tinysys/usr/include/stdlib.h lib/alloca.h lib/locale.h \
+ /tinysys/usr/include/locale.h lib/setlocale_null.h lib/arg-nonnull.h \
+ lib/getopt-cdefs.h /tinysys/usr/include/sys/cdefs.h \
+ lib/getopt-pfx-core.h lib/getopt-core.h /tinysys/usr/include/sys/param.h \
+ lib/pathmax.h lib/limits.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/limits.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/syslimits.h \
+ /tinysys/usr/include/limits.h lib/time.h /tinysys/usr/include/time.h \
+ lib/sys/time.h /tinysys/usr/include/sys/time.h \
+ /tinysys/usr/include/errno.h lib/sys/stat.h \
+ /tinysys/usr/include/sys/stat.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h lib/fcntl.h \
+ /tinysys/usr/include/fcntl.h lib/stdio.h /tinysys/usr/include/stdio.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h lib/dirent.h \
+ /tinysys/usr/include/dirent.h lib/string.h /tinysys/usr/include/string.h
+lib/config.h:
+lib/unistd.h:
+/tinysys/usr/include/unistd.h:
+lib/sys/types.h:
+/tinysys/usr/include/sys/types.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+lib/stdlib.h:
+/tinysys/usr/include/stdlib.h:
+lib/alloca.h:
+lib/locale.h:
+/tinysys/usr/include/locale.h:
+lib/setlocale_null.h:
+lib/arg-nonnull.h:
+lib/getopt-cdefs.h:
+/tinysys/usr/include/sys/cdefs.h:
+lib/getopt-pfx-core.h:
+lib/getopt-core.h:
+/tinysys/usr/include/sys/param.h:
+lib/pathmax.h:
+lib/limits.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/limits.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/syslimits.h:
+/tinysys/usr/include/limits.h:
+lib/time.h:
+/tinysys/usr/include/time.h:
+lib/sys/time.h:
+/tinysys/usr/include/sys/time.h:
+/tinysys/usr/include/errno.h:
+lib/sys/stat.h:
+/tinysys/usr/include/sys/stat.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h:
+lib/fcntl.h:
+/tinysys/usr/include/fcntl.h:
+lib/stdio.h:
+/tinysys/usr/include/stdio.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h:
+lib/dirent.h:
+/tinysys/usr/include/dirent.h:
+lib/string.h:
+/tinysys/usr/include/string.h:

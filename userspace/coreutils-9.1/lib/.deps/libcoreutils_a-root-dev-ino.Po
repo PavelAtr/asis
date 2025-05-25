@@ -1,0 +1,38 @@
+lib/libcoreutils_a-root-dev-ino.o: lib/root-dev-ino.c lib/config.h \
+ lib/root-dev-ino.h lib/dev-ino.h lib/sys/types.h \
+ /tinysys/usr/include/sys/types.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h lib/sys/stat.h \
+ lib/time.h /tinysys/usr/include/time.h lib/sys/time.h \
+ /tinysys/usr/include/sys/time.h /tinysys/usr/include/sys/stat.h \
+ lib/same-inode.h lib/stdlib.h /tinysys/usr/include/stdlib.h lib/alloca.h \
+ lib/unistd.h /tinysys/usr/include/unistd.h lib/getopt-cdefs.h \
+ /tinysys/usr/include/sys/cdefs.h lib/getopt-pfx-core.h lib/getopt-core.h \
+ /tinysys/usr/include/sys/param.h lib/locale.h \
+ /tinysys/usr/include/locale.h lib/setlocale_null.h lib/arg-nonnull.h
+lib/config.h:
+lib/root-dev-ino.h:
+lib/dev-ino.h:
+lib/sys/types.h:
+/tinysys/usr/include/sys/types.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+lib/sys/stat.h:
+lib/time.h:
+/tinysys/usr/include/time.h:
+lib/sys/time.h:
+/tinysys/usr/include/sys/time.h:
+/tinysys/usr/include/sys/stat.h:
+lib/same-inode.h:
+lib/stdlib.h:
+/tinysys/usr/include/stdlib.h:
+lib/alloca.h:
+lib/unistd.h:
+/tinysys/usr/include/unistd.h:
+lib/getopt-cdefs.h:
+/tinysys/usr/include/sys/cdefs.h:
+lib/getopt-pfx-core.h:
+lib/getopt-core.h:
+/tinysys/usr/include/sys/param.h:
+lib/locale.h:
+/tinysys/usr/include/locale.h:
+lib/setlocale_null.h:
+lib/arg-nonnull.h:

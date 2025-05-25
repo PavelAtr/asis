@@ -1,0 +1,19 @@
+test-localcharset.o: test-localcharset.c ../lib/config.h \
+ ../lib/localcharset.h ../lib/locale.h /tinysys/usr/include/locale.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h \
+ ../lib/setlocale_null.h ../lib/arg-nonnull.h ../lib/stdio.h \
+ /tinysys/usr/include/stdio.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h ../lib/sys/types.h \
+ /tinysys/usr/include/sys/types.h
+../lib/config.h:
+../lib/localcharset.h:
+../lib/locale.h:
+/tinysys/usr/include/locale.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+../lib/setlocale_null.h:
+../lib/arg-nonnull.h:
+../lib/stdio.h:
+/tinysys/usr/include/stdio.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h:
+../lib/sys/types.h:
+/tinysys/usr/include/sys/types.h:

@@ -1,0 +1,63 @@
+lib/libcoreutils_a-fdopen.o: lib/fdopen.c lib/config.h lib/stdio.h \
+  /tinysys/usr/include/stdio.h \
+  /usr/lib/llvm-14/lib/clang/14.0.6/include/stddef.h \
+  /usr/lib/llvm-14/lib/clang/14.0.6/include/__stddef_max_align_t.h \
+  /usr/lib/llvm-14/lib/clang/14.0.6/include/stdarg.h lib/sys/types.h \
+  /tinysys/usr/include/sys/types.h lib/string.h \
+  /tinysys/usr/include/string.h lib/stdlib.h \
+  /tinysys/usr/include/stdlib.h lib/alloca.h lib/unistd.h \
+  /tinysys/usr/include/unistd.h lib/getopt-cdefs.h \
+  /tinysys/usr/include/sys/cdefs.h lib/getopt-pfx-core.h \
+  lib/getopt-core.h lib/locale.h /tinysys/usr/include/locale.h \
+  lib/setlocale_null.h lib/arg-nonnull.h /tinysys/usr/include/errno.h \
+  lib/msvc-inval.h
+
+lib/config.h:
+
+lib/stdio.h:
+
+/tinysys/usr/include/stdio.h:
+
+/usr/lib/llvm-14/lib/clang/14.0.6/include/stddef.h:
+
+/usr/lib/llvm-14/lib/clang/14.0.6/include/__stddef_max_align_t.h:
+
+/usr/lib/llvm-14/lib/clang/14.0.6/include/stdarg.h:
+
+lib/sys/types.h:
+
+/tinysys/usr/include/sys/types.h:
+
+lib/string.h:
+
+/tinysys/usr/include/string.h:
+
+lib/stdlib.h:
+
+/tinysys/usr/include/stdlib.h:
+
+lib/alloca.h:
+
+lib/unistd.h:
+
+/tinysys/usr/include/unistd.h:
+
+lib/getopt-cdefs.h:
+
+/tinysys/usr/include/sys/cdefs.h:
+
+lib/getopt-pfx-core.h:
+
+lib/getopt-core.h:
+
+lib/locale.h:
+
+/tinysys/usr/include/locale.h:
+
+lib/setlocale_null.h:
+
+lib/arg-nonnull.h:
+
+/tinysys/usr/include/errno.h:
+
+lib/msvc-inval.h:

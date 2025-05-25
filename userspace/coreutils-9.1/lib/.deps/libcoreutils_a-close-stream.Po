@@ -1,0 +1,19 @@
+lib/libcoreutils_a-close-stream.o: lib/close-stream.c lib/config.h \
+ lib/close-stream.h lib/stdio.h /tinysys/usr/include/stdio.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h lib/sys/types.h \
+ /tinysys/usr/include/sys/types.h /tinysys/usr/include/errno.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h lib/fpending.h \
+ lib/unlocked-io.h
+lib/config.h:
+lib/close-stream.h:
+lib/stdio.h:
+/tinysys/usr/include/stdio.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h:
+lib/sys/types.h:
+/tinysys/usr/include/sys/types.h:
+/tinysys/usr/include/errno.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h:
+lib/fpending.h:
+lib/unlocked-io.h:

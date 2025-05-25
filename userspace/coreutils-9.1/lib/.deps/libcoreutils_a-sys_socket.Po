@@ -1,0 +1,14 @@
+lib/libcoreutils_a-sys_socket.o: lib/sys_socket.c lib/config.h \
+ lib/sys/socket.h lib/sys/types.h /tinysys/usr/include/sys/types.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h lib/sys/socket.h \
+ /tinysys/usr/include/sys/socket.h lib/sys/uio.h \
+ /tinysys/usr/include/sys/uio.h
+lib/config.h:
+lib/sys/socket.h:
+lib/sys/types.h:
+/tinysys/usr/include/sys/types.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+lib/sys/socket.h:
+/tinysys/usr/include/sys/socket.h:
+lib/sys/uio.h:
+/tinysys/usr/include/sys/uio.h:

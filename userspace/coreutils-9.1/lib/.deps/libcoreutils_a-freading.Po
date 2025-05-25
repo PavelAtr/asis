@@ -1,0 +1,18 @@
+lib/libcoreutils_a-freading.o: lib/freading.c lib/config.h lib/freading.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h lib/stdio.h \
+ /tinysys/usr/include/stdio.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h lib/sys/types.h \
+ /tinysys/usr/include/sys/types.h lib/stdio-impl.h \
+ /tinysys/usr/include/errno.h
+lib/config.h:
+lib/freading.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h:
+lib/stdio.h:
+/tinysys/usr/include/stdio.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h:
+lib/sys/types.h:
+/tinysys/usr/include/sys/types.h:
+lib/stdio-impl.h:
+/tinysys/usr/include/errno.h:

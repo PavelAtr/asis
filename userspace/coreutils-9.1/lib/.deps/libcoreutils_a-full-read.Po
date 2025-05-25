@@ -1,0 +1,13 @@
+lib/libcoreutils_a-full-read.o: lib/full-read.c lib/full-write.c \
+ lib/config.h lib/full-read.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h \
+ /tinysys/usr/include/errno.h lib/sys/types.h \
+ /tinysys/usr/include/sys/types.h lib/safe-read.h
+lib/full-write.c:
+lib/config.h:
+lib/full-read.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+/tinysys/usr/include/errno.h:
+lib/sys/types.h:
+/tinysys/usr/include/sys/types.h:
+lib/safe-read.h:

@@ -1,0 +1,40 @@
+lib/libcoreutils_a-pselect.o: lib/pselect.c lib/config.h lib/sys/select.h \
+ lib/sys/types.h /tinysys/usr/include/sys/types.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h lib/sys/time.h \
+ /tinysys/usr/include/sys/time.h /tinysys/usr/include/sys/select.h \
+ lib/signal.h /tinysys/usr/include/signal.h \
+ /tinysys/usr/include/pthreadtypes.h lib/time.h \
+ /tinysys/usr/include/time.h /tinysys/usr/include/errno.h lib/unistd.h \
+ /tinysys/usr/include/unistd.h lib/stdlib.h /tinysys/usr/include/stdlib.h \
+ lib/alloca.h lib/locale.h /tinysys/usr/include/locale.h \
+ lib/setlocale_null.h lib/arg-nonnull.h lib/getopt-cdefs.h \
+ /tinysys/usr/include/sys/cdefs.h lib/getopt-pfx-core.h lib/getopt-core.h \
+ /tinysys/usr/include/sys/param.h
+lib/config.h:
+lib/sys/select.h:
+lib/sys/types.h:
+/tinysys/usr/include/sys/types.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+lib/sys/time.h:
+/tinysys/usr/include/sys/time.h:
+/tinysys/usr/include/sys/select.h:
+lib/signal.h:
+/tinysys/usr/include/signal.h:
+/tinysys/usr/include/pthreadtypes.h:
+lib/time.h:
+/tinysys/usr/include/time.h:
+/tinysys/usr/include/errno.h:
+lib/unistd.h:
+/tinysys/usr/include/unistd.h:
+lib/stdlib.h:
+/tinysys/usr/include/stdlib.h:
+lib/alloca.h:
+lib/locale.h:
+/tinysys/usr/include/locale.h:
+lib/setlocale_null.h:
+lib/arg-nonnull.h:
+lib/getopt-cdefs.h:
+/tinysys/usr/include/sys/cdefs.h:
+lib/getopt-pfx-core.h:
+lib/getopt-core.h:
+/tinysys/usr/include/sys/param.h:

@@ -1,0 +1,25 @@
+lib/libcoreutils_a-localeconv.o: lib/localeconv.c lib/config.h \
+ lib/locale.h /tinysys/usr/include/locale.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h lib/setlocale_null.h \
+ lib/arg-nonnull.h lib/limits.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/limits.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/syslimits.h \
+ /tinysys/usr/include/limits.h lib/sys/types.h \
+ /tinysys/usr/include/sys/types.h lib/time.h /tinysys/usr/include/time.h \
+ lib/sys/time.h /tinysys/usr/include/sys/time.h
+lib/config.h:
+lib/locale.h:
+/tinysys/usr/include/locale.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+lib/setlocale_null.h:
+lib/arg-nonnull.h:
+lib/limits.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/limits.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/syslimits.h:
+/tinysys/usr/include/limits.h:
+lib/sys/types.h:
+/tinysys/usr/include/sys/types.h:
+lib/time.h:
+/tinysys/usr/include/time.h:
+lib/sys/time.h:
+/tinysys/usr/include/sys/time.h:

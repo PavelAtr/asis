@@ -1,0 +1,11 @@
+lib/frexpl.o: lib/frexpl.c lib/config.h lib/frexp.c lib/math.h \
+ /tinysys/usr/include/math.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/float.h lib/isnanl-nolibm.h \
+ lib/fpucw.h
+lib/config.h:
+lib/frexp.c:
+lib/math.h:
+/tinysys/usr/include/math.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/float.h:
+lib/isnanl-nolibm.h:
+lib/fpucw.h:

@@ -1,0 +1,3 @@
+lib/glthread/libcoreutils_a-threadlib.o: lib/glthread/threadlib.c \
+ lib/config.h
+lib/config.h:

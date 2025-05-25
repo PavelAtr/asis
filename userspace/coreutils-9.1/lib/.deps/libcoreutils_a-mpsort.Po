@@ -1,0 +1,8 @@
+lib/libcoreutils_a-mpsort.o: lib/mpsort.c lib/config.h lib/mpsort.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h lib/string.h \
+ /tinysys/usr/include/string.h
+lib/config.h:
+lib/mpsort.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+lib/string.h:
+/tinysys/usr/include/string.h:

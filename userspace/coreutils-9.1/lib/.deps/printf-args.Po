@@ -1,0 +1,7 @@
+lib/printf-args.o: lib/printf-args.c lib/config.h lib/printf-args.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h
+lib/config.h:
+lib/printf-args.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h:

@@ -1,0 +1,11 @@
+lib/libcoreutils_a-printf-frexpl.o: lib/printf-frexpl.c lib/config.h \
+ lib/printf-frexp.c lib/printf-frexpl.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/float.h lib/math.h \
+ /tinysys/usr/include/math.h lib/fpucw.h
+lib/config.h:
+lib/printf-frexp.c:
+lib/printf-frexpl.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/float.h:
+lib/math.h:
+/tinysys/usr/include/math.h:
+lib/fpucw.h:

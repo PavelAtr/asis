@@ -1,0 +1,18 @@
+lib/lc-charset-dispatch.o: lib/lc-charset-dispatch.c lib/config.h \
+ lib/lc-charset-dispatch.h lib/wchar.h /tinysys/usr/include/features.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h \
+ /tinysys/usr/include/wchar.h lib/sys/types.h \
+ /tinysys/usr/include/sys/types.h lib/localcharset.h lib/streq.h \
+ lib/string.h /tinysys/usr/include/string.h
+lib/config.h:
+lib/lc-charset-dispatch.h:
+lib/wchar.h:
+/tinysys/usr/include/features.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+/tinysys/usr/include/wchar.h:
+lib/sys/types.h:
+/tinysys/usr/include/sys/types.h:
+lib/localcharset.h:
+lib/streq.h:
+lib/string.h:
+/tinysys/usr/include/string.h:

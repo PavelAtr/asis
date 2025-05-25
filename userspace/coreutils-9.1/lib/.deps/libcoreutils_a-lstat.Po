@@ -1,0 +1,29 @@
+lib/libcoreutils_a-lstat.o: lib/lstat.c lib/config.h lib/sys/types.h \
+ /tinysys/usr/include/sys/types.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h lib/sys/stat.h \
+ /tinysys/usr/include/sys/stat.h lib/time.h /tinysys/usr/include/time.h \
+ lib/sys/time.h /tinysys/usr/include/sys/time.h lib/stat-time.h \
+ lib/intprops.h lib/limits.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/limits.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/syslimits.h \
+ /tinysys/usr/include/limits.h /tinysys/usr/include/errno.h lib/string.h \
+ /tinysys/usr/include/string.h
+lib/config.h:
+lib/sys/types.h:
+/tinysys/usr/include/sys/types.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+lib/sys/stat.h:
+/tinysys/usr/include/sys/stat.h:
+lib/time.h:
+/tinysys/usr/include/time.h:
+lib/sys/time.h:
+/tinysys/usr/include/sys/time.h:
+lib/stat-time.h:
+lib/intprops.h:
+lib/limits.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/limits.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/syslimits.h:
+/tinysys/usr/include/limits.h:
+/tinysys/usr/include/errno.h:
+lib/string.h:
+/tinysys/usr/include/string.h:

@@ -1,0 +1,20 @@
+lib/libcoreutils_a-acl-errno-valid.o: lib/acl-errno-valid.c lib/config.h \
+ lib/acl.h /usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h \
+ lib/sys/types.h /tinysys/usr/include/sys/types.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h lib/sys/stat.h \
+ lib/time.h /tinysys/usr/include/time.h lib/sys/time.h \
+ /tinysys/usr/include/sys/time.h /tinysys/usr/include/sys/stat.h \
+ /tinysys/usr/include/errno.h
+lib/config.h:
+lib/acl.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h:
+lib/sys/types.h:
+/tinysys/usr/include/sys/types.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+lib/sys/stat.h:
+lib/time.h:
+/tinysys/usr/include/time.h:
+lib/sys/time.h:
+/tinysys/usr/include/sys/time.h:
+/tinysys/usr/include/sys/stat.h:
+/tinysys/usr/include/errno.h:

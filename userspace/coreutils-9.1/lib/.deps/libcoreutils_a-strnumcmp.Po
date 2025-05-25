@@ -1,0 +1,7 @@
+lib/libcoreutils_a-strnumcmp.o: lib/strnumcmp.c lib/config.h \
+ lib/strnumcmp-in.h lib/strnumcmp.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h
+lib/config.h:
+lib/strnumcmp-in.h:
+lib/strnumcmp.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:

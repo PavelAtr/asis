@@ -1,0 +1,109 @@
+src/false.o: src/false.c src/true.c lib/config.h lib/stdio.h \
+ /tinysys/usr/include/stdio.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h lib/sys/types.h \
+ /tinysys/usr/include/sys/types.h src/system.h lib/attribute.h \
+ lib/alloca.h lib/sys/stat.h lib/time.h /tinysys/usr/include/time.h \
+ lib/sys/time.h /tinysys/usr/include/sys/time.h \
+ /tinysys/usr/include/sys/stat.h /tinysys/usr/include/sys/param.h \
+ lib/unistd.h /tinysys/usr/include/unistd.h lib/stdlib.h \
+ /tinysys/usr/include/stdlib.h lib/locale.h /tinysys/usr/include/locale.h \
+ lib/setlocale_null.h lib/arg-nonnull.h lib/getopt-cdefs.h \
+ /tinysys/usr/include/sys/cdefs.h lib/getopt-pfx-core.h lib/getopt-core.h \
+ lib/limits.h /usr/lib/gcc/x86_64-linux-gnu/12/include/limits.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/syslimits.h \
+ /tinysys/usr/include/limits.h lib/pathmax.h lib/configmake.h \
+ lib/string.h /tinysys/usr/include/string.h /tinysys/usr/include/errno.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h src/version.h \
+ lib/exitfail.h lib/fcntl.h /tinysys/usr/include/fcntl.h lib/dirent.h \
+ /tinysys/usr/include/dirent.h lib/inttypes.h \
+ /tinysys/usr/include/inttypes.h lib/stdint.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h \
+ /tinysys/usr/include/stdint.h lib/wchar.h \
+ /tinysys/usr/include/features.h /tinysys/usr/include/wchar.h \
+ lib/stat-macros.h lib/timespec.h lib/ctype.h \
+ /tinysys/usr/include/ctype.h /tinysys/usr/include/bits/alltypes.h \
+ lib/gettext.h lib/xalloc.h lib/idx.h lib/intprops.h lib/verify.h \
+ lib/unlocked-io.h lib/same-inode.h lib/dirname.h lib/filename.h \
+ lib/basename-lgpl.h lib/openat.h lib/closein.h lib/closeout.h \
+ lib/version-etc.h lib/propername.h lib/progname.h lib/minmax.h \
+ lib/intprops.h lib/inttostr.h lib/quotearg.h
+src/true.c:
+lib/config.h:
+lib/stdio.h:
+/tinysys/usr/include/stdio.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h:
+lib/sys/types.h:
+/tinysys/usr/include/sys/types.h:
+src/system.h:
+lib/attribute.h:
+lib/alloca.h:
+lib/sys/stat.h:
+lib/time.h:
+/tinysys/usr/include/time.h:
+lib/sys/time.h:
+/tinysys/usr/include/sys/time.h:
+/tinysys/usr/include/sys/stat.h:
+/tinysys/usr/include/sys/param.h:
+lib/unistd.h:
+/tinysys/usr/include/unistd.h:
+lib/stdlib.h:
+/tinysys/usr/include/stdlib.h:
+lib/locale.h:
+/tinysys/usr/include/locale.h:
+lib/setlocale_null.h:
+lib/arg-nonnull.h:
+lib/getopt-cdefs.h:
+/tinysys/usr/include/sys/cdefs.h:
+lib/getopt-pfx-core.h:
+lib/getopt-core.h:
+lib/limits.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/limits.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/syslimits.h:
+/tinysys/usr/include/limits.h:
+lib/pathmax.h:
+lib/configmake.h:
+lib/string.h:
+/tinysys/usr/include/string.h:
+/tinysys/usr/include/errno.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h:
+src/version.h:
+lib/exitfail.h:
+lib/fcntl.h:
+/tinysys/usr/include/fcntl.h:
+lib/dirent.h:
+/tinysys/usr/include/dirent.h:
+lib/inttypes.h:
+/tinysys/usr/include/inttypes.h:
+lib/stdint.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h:
+/tinysys/usr/include/stdint.h:
+lib/wchar.h:
+/tinysys/usr/include/features.h:
+/tinysys/usr/include/wchar.h:
+lib/stat-macros.h:
+lib/timespec.h:
+lib/ctype.h:
+/tinysys/usr/include/ctype.h:
+/tinysys/usr/include/bits/alltypes.h:
+lib/gettext.h:
+lib/xalloc.h:
+lib/idx.h:
+lib/intprops.h:
+lib/verify.h:
+lib/unlocked-io.h:
+lib/same-inode.h:
+lib/dirname.h:
+lib/filename.h:
+lib/basename-lgpl.h:
+lib/openat.h:
+lib/closein.h:
+lib/closeout.h:
+lib/version-etc.h:
+lib/propername.h:
+lib/progname.h:
+lib/minmax.h:
+lib/intprops.h:
+lib/inttostr.h:
+lib/quotearg.h:

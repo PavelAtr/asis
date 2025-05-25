@@ -1,0 +1,35 @@
+lib/libcoreutils_a-fopen-safer.o: lib/fopen-safer.c lib/config.h \
+ lib/stdio-safer.h lib/stdio.h /tinysys/usr/include/stdio.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h lib/sys/types.h \
+ /tinysys/usr/include/sys/types.h /tinysys/usr/include/errno.h \
+ lib/unistd.h /tinysys/usr/include/unistd.h lib/stdlib.h \
+ /tinysys/usr/include/stdlib.h lib/alloca.h lib/locale.h \
+ /tinysys/usr/include/locale.h lib/setlocale_null.h lib/arg-nonnull.h \
+ lib/getopt-cdefs.h /tinysys/usr/include/sys/cdefs.h \
+ lib/getopt-pfx-core.h lib/getopt-core.h /tinysys/usr/include/sys/param.h \
+ lib/unistd-safer.h
+lib/config.h:
+lib/stdio-safer.h:
+lib/stdio.h:
+/tinysys/usr/include/stdio.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h:
+lib/sys/types.h:
+/tinysys/usr/include/sys/types.h:
+/tinysys/usr/include/errno.h:
+lib/unistd.h:
+/tinysys/usr/include/unistd.h:
+lib/stdlib.h:
+/tinysys/usr/include/stdlib.h:
+lib/alloca.h:
+lib/locale.h:
+/tinysys/usr/include/locale.h:
+lib/setlocale_null.h:
+lib/arg-nonnull.h:
+lib/getopt-cdefs.h:
+/tinysys/usr/include/sys/cdefs.h:
+lib/getopt-pfx-core.h:
+lib/getopt-core.h:
+/tinysys/usr/include/sys/param.h:
+lib/unistd-safer.h:

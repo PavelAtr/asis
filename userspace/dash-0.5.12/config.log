@@ -264,7 +264,7 @@ configure:5029: checking for build system compiler
 configure:5036: result: cc
 configure:5040: checking for __attribute__((__alias__()))
 configure:5055: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc conftest.c  >&5
-/usr/bin/ld: warning: type of symbol `t' changed from 1 to 2 in /tmp/cc59yanh.o
+/usr/bin/ld: warning: type of symbol `t' changed from 1 to 2 in /tmp/cclrinG0.o
 configure:5055: $? = 0
 configure:5061: result: yes
 configure:5093: checking for alloca.h
@@ -1380,7 +1380,7 @@ configure:5333: $? = 0
 configure:5333: result: yes
 configure:5339: checking for getpwnam
 configure:5339: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc conftest.c  >&5
-/usr/bin/ld: /tmp/ccVfUCzN.o: in function `main':
+/usr/bin/ld: /tmp/cckkwtNA.o: in function `main':
 /home/PavelAtr/tinysys/userspace/dash-0.5.12/conftest.c:77: undefined reference to `getpwnam'
 collect2: error: ld returned 1 exit status
 configure:5339: $? = 1
@@ -1651,7 +1651,7 @@ configure: failed program was:
 configure:5485: result: no
 configure:5507: checking for glob64
 configure:5507: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc conftest.c  >&5
-/usr/bin/ld: /tmp/cchMm7h0.o: in function `main':
+/usr/bin/ld: /tmp/ccDztExm.o: in function `main':
 /home/PavelAtr/tinysys/userspace/dash-0.5.12/conftest.c:93: undefined reference to `glob64'
 collect2: error: ld returned 1 exit status
 configure:5507: $? = 1
@@ -1755,7 +1755,7 @@ configure: failed program was:
 configure:5507: result: no
 configure:5526: checking for open64
 configure:5526: gcc -o conftest -g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable=   -Wl,--no-undefined --sysroot=/tinysys -nostdlib /tinysys/lib/crt.o /tinysys/lib/tls.a -ltinyc conftest.c  >&5
-/usr/bin/ld: /tmp/ccXO5TUS.o: in function `main':
+/usr/bin/ld: /tmp/cc6iewr5.o: in function `main':
 /home/PavelAtr/tinysys/userspace/dash-0.5.12/conftest.c:96: undefined reference to `open64'
 collect2: error: ld returned 1 exit status
 configure:5526: $? = 1

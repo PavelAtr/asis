@@ -1,0 +1,21 @@
+lib/libcoreutils_a-hash-triple.o: lib/hash-triple.c lib/config.h \
+ lib/hash-triple.h lib/sys/types.h /tinysys/usr/include/sys/types.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h lib/sys/stat.h \
+ lib/time.h /tinysys/usr/include/time.h lib/sys/time.h \
+ /tinysys/usr/include/sys/time.h /tinysys/usr/include/sys/stat.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h lib/same.h \
+ lib/same-inode.h
+lib/config.h:
+lib/hash-triple.h:
+lib/sys/types.h:
+/tinysys/usr/include/sys/types.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+lib/sys/stat.h:
+lib/time.h:
+/tinysys/usr/include/time.h:
+lib/sys/time.h:
+/tinysys/usr/include/sys/time.h:
+/tinysys/usr/include/sys/stat.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h:
+lib/same.h:
+lib/same-inode.h:

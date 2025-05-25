@@ -1,0 +1,23 @@
+lib/libcoreutils_a-c-strncasecmp.o: lib/c-strncasecmp.c lib/config.h \
+ lib/c-strcase.h /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h \
+ lib/limits.h /usr/lib/gcc/x86_64-linux-gnu/12/include/limits.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/syslimits.h \
+ /tinysys/usr/include/limits.h lib/sys/types.h \
+ /tinysys/usr/include/sys/types.h lib/time.h /tinysys/usr/include/time.h \
+ lib/sys/time.h /tinysys/usr/include/sys/time.h lib/c-ctype.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h
+lib/config.h:
+lib/c-strcase.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+lib/limits.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/limits.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/syslimits.h:
+/tinysys/usr/include/limits.h:
+lib/sys/types.h:
+/tinysys/usr/include/sys/types.h:
+lib/time.h:
+/tinysys/usr/include/time.h:
+lib/sys/time.h:
+/tinysys/usr/include/sys/time.h:
+lib/c-ctype.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h:

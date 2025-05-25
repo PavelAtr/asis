@@ -1,0 +1,8 @@
+lib/libcoreutils_a-strnlen1.o: lib/strnlen1.c lib/config.h lib/strnlen1.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h lib/string.h \
+ /tinysys/usr/include/string.h
+lib/config.h:
+lib/strnlen1.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+lib/string.h:
+/tinysys/usr/include/string.h:

@@ -1,0 +1,13 @@
+lib/libcoreutils_a-renameat.o: lib/renameat.c lib/config.h lib/stdio.h \
+ /tinysys/usr/include/stdio.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h lib/sys/types.h \
+ /tinysys/usr/include/sys/types.h lib/renameatu.h
+lib/config.h:
+lib/stdio.h:
+/tinysys/usr/include/stdio.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h:
+lib/sys/types.h:
+/tinysys/usr/include/sys/types.h:
+lib/renameatu.h:

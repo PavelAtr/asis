@@ -1,0 +1,8 @@
+lib/libcoreutils_a-memcmp2.o: lib/memcmp2.c lib/config.h lib/memcmp2.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h lib/string.h \
+ /tinysys/usr/include/string.h
+lib/config.h:
+lib/memcmp2.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+lib/string.h:
+/tinysys/usr/include/string.h:

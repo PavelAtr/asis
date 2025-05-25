@@ -1,0 +1,15 @@
+lib/libcoreutils_a-hard-locale.o: lib/hard-locale.c lib/config.h \
+ lib/hard-locale.h /usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h \
+ lib/locale.h /tinysys/usr/include/locale.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h lib/setlocale_null.h \
+ lib/arg-nonnull.h lib/string.h /tinysys/usr/include/string.h
+lib/config.h:
+lib/hard-locale.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h:
+lib/locale.h:
+/tinysys/usr/include/locale.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+lib/setlocale_null.h:
+lib/arg-nonnull.h:
+lib/string.h:
+/tinysys/usr/include/string.h:
