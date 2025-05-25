@@ -1,8 +1,7 @@
 output.o: output.c ../config.h /tinysys/usr/include/sys/types.h \
  /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h \
- /usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h \
- /tinysys/usr/include/stdint.h /tinysys/usr/include/sys/param.h \
- /tinysys/usr/include/sys/ioctl.h /tinysys/usr/include/stdio.h \
+ /tinysys/usr/include/sys/param.h /tinysys/usr/include/sys/ioctl.h \
+ /tinysys/usr/include/stdio.h \
  /usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h \
  /tinysys/usr/include/string.h /tinysys/usr/include/unistd.h \
  /tinysys/usr/include/stdlib.h /tinysys/usr/include/alloca.h \
@@ -19,8 +18,6 @@ output.o: output.c ../config.h /tinysys/usr/include/sys/types.h \
 ../config.h:
 /tinysys/usr/include/sys/types.h:
 /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
-/usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h:
-/tinysys/usr/include/stdint.h:
 /tinysys/usr/include/sys/param.h:
 /tinysys/usr/include/sys/ioctl.h:
 /tinysys/usr/include/stdio.h:

@@ -115,4 +115,7 @@ int sigsuspend(const sigset_t *mask);
 int sigsetmask(int mask);
 int killpg(int pgrp, int sig);
 
+int pthread_sigmask(int how, const sigset_t *set, sigset_t *oldset);
+
+
 #endif

@@ -10,7 +10,7 @@
 proc sys;
 char* sys_argv[1] = {"system"};
 extern AFILE** current_fds;
-char* ld_library_path = "/tinysys/usr/lib:/tinysys/lib";
+char* ld_library_path = "/tinysys/usr/lib:/tinysys/lib:/tinysys/libexec";
 
 AFILE sys_stdin = {
 "/dev/tty",

@@ -7,6 +7,8 @@
 # define __WINT_TYPE__ unsigned int
 #endif
 
+typedef __WINT_TYPE__ wint_t;
+
 /* Conversion state information.  */
 typedef struct
 {
@@ -32,5 +34,6 @@ int mbsinit(const mbstate_t *ps);
 wchar_t *wcscat(wchar_t *dest, const wchar_t *rc);
 wchar_t *wmemcpy(wchar_t dest[], const wchar_t src[], size_t n);
 int wcsncmp(const wchar_t s1[], const wchar_t s2[], size_t n);
+wint_t btowc(int c);
 
 #endif

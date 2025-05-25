@@ -1,11 +1,12 @@
 bltin/printf.o: bltin/printf.c ../config.h \
  /tinysys/usr/include/sys/types.h \
  /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h \
+ /tinysys/usr/include/ctype.h /tinysys/usr/include/features.h \
+ /tinysys/usr/include/locale.h /tinysys/usr/include/sys/cdefs.h \
+ /tinysys/usr/include/bits/alltypes.h /tinysys/usr/include/errno.h \
+ /tinysys/usr/include/inttypes.h \
  /usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h \
- /tinysys/usr/include/stdint.h /tinysys/usr/include/ctype.h \
- /tinysys/usr/include/features.h /tinysys/usr/include/locale.h \
- /tinysys/usr/include/sys/cdefs.h /tinysys/usr/include/bits/alltypes.h \
- /tinysys/usr/include/errno.h /tinysys/usr/include/inttypes.h \
+ /tinysys/usr/include/stdint.h \
  /usr/lib/gcc/x86_64-linux-gnu/12/include/limits.h \
  /usr/lib/gcc/x86_64-linux-gnu/12/include/syslimits.h \
  /tinysys/usr/include/limits.h /tinysys/usr/include/time.h \
@@ -21,8 +22,6 @@ bltin/printf.o: bltin/printf.c ../config.h \
 ../config.h:
 /tinysys/usr/include/sys/types.h:
 /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
-/usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h:
-/tinysys/usr/include/stdint.h:
 /tinysys/usr/include/ctype.h:
 /tinysys/usr/include/features.h:
 /tinysys/usr/include/locale.h:
@@ -30,6 +29,8 @@ bltin/printf.o: bltin/printf.c ../config.h \
 /tinysys/usr/include/bits/alltypes.h:
 /tinysys/usr/include/errno.h:
 /tinysys/usr/include/inttypes.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h:
+/tinysys/usr/include/stdint.h:
 /usr/lib/gcc/x86_64-linux-gnu/12/include/limits.h:
 /usr/lib/gcc/x86_64-linux-gnu/12/include/syslimits.h:
 /tinysys/usr/include/limits.h:

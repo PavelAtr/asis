@@ -34,6 +34,8 @@ size_t strspn(const char *s, const char *accept);
 size_t strcspn(const char *s, const char *reject);
 char *strpbrk(const char *s, const char *accept);
 int strcoll(const char *s1, const char *s2);
+char *strncat(char * dst, const char src[], size_t sz);
+size_t strxfrm(char dest[], const char src[], size_t n);
 
 extern char* sys_siglist[35];
 char *strsignal(int sig);

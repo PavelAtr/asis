@@ -59,7 +59,7 @@ char *setlocale(int category, const char *locale);
                                  | LC_IDENTIFICATION_MASK \
                                  )
 
-
+#define LC_GLOBAL_LOCALE ((locale_t)-1)
 
 locale_t uselocale(locale_t newloc);
 locale_t newlocale(int category_mask, const char *locale,

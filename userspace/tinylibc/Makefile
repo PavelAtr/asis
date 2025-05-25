@@ -16,6 +16,7 @@ install:
 	mkdir -p $(DESTDIR)$(PREFIX)/lib
 	install init/crt.o $(DESTDIR)$(PREFIX)/lib/crt.o
 	install init/tls.a $(DESTDIR)$(PREFIX)/lib/tls.a
+	install init/crtstub.a $(DESTDIR)$(PREFIX)/lib/crtstub.a
 	install libtinyc.so $(DESTDIR)$(PREFIX)/lib/libtinyc.so
 	install libtinyc.a $(DESTDIR)$(PREFIX)/lib/libtinyc.a
 	mkdir -p $(DESTDIR)$(PREFIX)/usr

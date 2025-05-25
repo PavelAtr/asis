@@ -1,10 +1,10 @@
 bltin/times.o: bltin/times.c ../config.h /tinysys/usr/include/sys/times.h \
  /tinysys/usr/include/unistd.h /tinysys/usr/include/sys/types.h \
- /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h bltin/bltin.h \
+ bltin/../shell.h /tinysys/usr/include/sys/param.h bltin/../mystring.h \
+ /tinysys/usr/include/inttypes.h \
  /usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h \
- /tinysys/usr/include/stdint.h bltin/bltin.h bltin/../shell.h \
- /tinysys/usr/include/sys/param.h bltin/../mystring.h \
- /tinysys/usr/include/inttypes.h /tinysys/usr/include/string.h \
+ /tinysys/usr/include/stdint.h /tinysys/usr/include/string.h \
  bltin/../options.h bltin/../memalloc.h /tinysys/usr/include/stdlib.h \
  /tinysys/usr/include/alloca.h /tinysys/usr/include/locale.h \
  bltin/../output.h /usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h \
@@ -19,13 +19,13 @@ bltin/times.o: bltin/times.c ../config.h /tinysys/usr/include/sys/times.h \
 /tinysys/usr/include/unistd.h:
 /tinysys/usr/include/sys/types.h:
 /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
-/usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h:
-/tinysys/usr/include/stdint.h:
 bltin/bltin.h:
 bltin/../shell.h:
 /tinysys/usr/include/sys/param.h:
 bltin/../mystring.h:
 /tinysys/usr/include/inttypes.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h:
+/tinysys/usr/include/stdint.h:
 /tinysys/usr/include/string.h:
 bltin/../options.h:
 bltin/../memalloc.h:

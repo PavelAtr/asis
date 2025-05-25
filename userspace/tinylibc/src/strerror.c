@@ -44,6 +44,11 @@ char* errors[50] = {
 "Stale file handle",
 "Text file busy",
 "Too many links",
+"Disk quota exceeded",
+"Read-only filesystem",
+"Directory not empty",
+"No child processes",
+"Too many open files in system",
 };
 
 char* strerror(int errnum)

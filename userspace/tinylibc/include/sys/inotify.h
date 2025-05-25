@@ -60,5 +60,6 @@ struct inotify_event {
 
 int inotify_init(void);
 int inotify_add_watch(int fd, const char *pathname, uint32_t mask);
+int inotify_rm_watch(int fd, int wd);
 
 #endif

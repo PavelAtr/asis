@@ -2,14 +2,14 @@ histedit.o: histedit.c ../config.h /tinysys/usr/include/sys/param.h \
  /tinysys/usr/include/paths.h /tinysys/usr/include/stdio.h \
  /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h \
  /usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h \
- /tinysys/usr/include/sys/types.h \
- /usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h \
- /tinysys/usr/include/stdint.h /tinysys/usr/include/stdlib.h \
+ /tinysys/usr/include/sys/types.h /tinysys/usr/include/stdlib.h \
  /tinysys/usr/include/alloca.h /tinysys/usr/include/unistd.h \
  /tinysys/usr/include/locale.h /tinysys/usr/include/getopt.h \
  /tinysys/usr/include/sys/cdefs.h /tinysys/usr/include/bits/getopt.h \
- shell.h parser.h token.h var.h /tinysys/usr/include/inttypes.h options.h \
- main.h /tinysys/usr/include/errno.h output.h mystring.h \
+ shell.h parser.h token.h var.h /tinysys/usr/include/inttypes.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h \
+ /tinysys/usr/include/stdint.h options.h main.h \
+ /tinysys/usr/include/errno.h output.h mystring.h \
  /tinysys/usr/include/string.h error.h /tinysys/usr/include/setjmp.h \
  /tinysys/usr/include/signal.h /tinysys/usr/include/pthreadtypes.h
 ../config.h:
@@ -19,8 +19,6 @@ histedit.o: histedit.c ../config.h /tinysys/usr/include/sys/param.h \
 /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
 /usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h:
 /tinysys/usr/include/sys/types.h:
-/usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h:
-/tinysys/usr/include/stdint.h:
 /tinysys/usr/include/stdlib.h:
 /tinysys/usr/include/alloca.h:
 /tinysys/usr/include/unistd.h:
@@ -33,6 +31,8 @@ parser.h:
 token.h:
 var.h:
 /tinysys/usr/include/inttypes.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h:
+/tinysys/usr/include/stdint.h:
 options.h:
 main.h:
 /tinysys/usr/include/errno.h:

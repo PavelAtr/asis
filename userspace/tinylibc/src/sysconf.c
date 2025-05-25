@@ -9,6 +9,8 @@ long sysconf(int name)
       return syscall(SYS_GETMAXFD);
    case _SC_CLK_TCK:
       return 1000;
+   case _SC_NGROUPS_MAX:
+      return 1000;
    default:
       break;
    }

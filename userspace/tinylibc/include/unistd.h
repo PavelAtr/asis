@@ -9,7 +9,8 @@ int usleep(unsigned long usec);
 int execve(const char* file, char* const * argv,  char* const * envp);
 #define execv(pathname, argv) execve(pathname, argv, NULL)
 #define execvp(file, argv) execve(file, argv, NULL)
-
+int execlp(const char *file, const char *arg, ... /*, (char *) NULL */);
+int execl(const char *pathname, const char *arg, ... /*, (char *) NULL */);
 int chdir(const char *path);
 char *get_current_dir_name(void);
 char *getcwd(char* buf, size_t size);
@@ -63,6 +64,7 @@ int ftruncate(int fd, off_t length);
 long sysconf(int name);
 #define _SC_OPEN_MAX 1
 #define _SC_CLK_TCK 2
+#define _SC_NGROUPS_MAX 3
 
 ssize_t readlinkat(int dirfd, const char* pathname, char* buf, size_t bufsiz);
 ssize_t readlink(const char* pathname, char* buf, size_t bufsiz);
@@ -96,5 +98,10 @@ int setgroups(size_t size, const gid_t* list);
 unsigned int alarm(unsigned int seconds);
 
 int rmdir(const char *pathname);
+
+char *ttyname(int fd);
+int ttyname_r(int fd, char buf[], size_t buflen);
+
+unsigned int sleep(unsigned int seconds);
 
 #endif

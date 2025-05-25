@@ -1,13 +1,14 @@
 expand.o: expand.c ../config.h /tinysys/usr/include/sys/types.h \
  /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h \
- /usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h \
- /tinysys/usr/include/stdint.h /tinysys/usr/include/sys/time.h \
- /tinysys/usr/include/sys/stat.h /tinysys/usr/include/time.h \
- /tinysys/usr/include/dirent.h /tinysys/usr/include/unistd.h \
- /tinysys/usr/include/stdlib.h /tinysys/usr/include/alloca.h \
- /tinysys/usr/include/locale.h /tinysys/usr/include/stdio.h \
+ /tinysys/usr/include/sys/time.h /tinysys/usr/include/sys/stat.h \
+ /tinysys/usr/include/time.h /tinysys/usr/include/dirent.h \
+ /tinysys/usr/include/unistd.h /tinysys/usr/include/stdlib.h \
+ /tinysys/usr/include/alloca.h /tinysys/usr/include/locale.h \
+ /tinysys/usr/include/stdio.h \
  /usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h \
  /tinysys/usr/include/inttypes.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h \
+ /tinysys/usr/include/stdint.h \
  /usr/lib/gcc/x86_64-linux-gnu/12/include/limits.h \
  /usr/lib/gcc/x86_64-linux-gnu/12/include/syslimits.h \
  /tinysys/usr/include/limits.h /tinysys/usr/include/string.h \
@@ -23,8 +24,6 @@ expand.o: expand.c ../config.h /tinysys/usr/include/sys/types.h \
 ../config.h:
 /tinysys/usr/include/sys/types.h:
 /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
-/usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h:
-/tinysys/usr/include/stdint.h:
 /tinysys/usr/include/sys/time.h:
 /tinysys/usr/include/sys/stat.h:
 /tinysys/usr/include/time.h:
@@ -36,6 +35,8 @@ expand.o: expand.c ../config.h /tinysys/usr/include/sys/types.h \
 /tinysys/usr/include/stdio.h:
 /usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h:
 /tinysys/usr/include/inttypes.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h:
+/tinysys/usr/include/stdint.h:
 /usr/lib/gcc/x86_64-linux-gnu/12/include/limits.h:
 /usr/lib/gcc/x86_64-linux-gnu/12/include/syslimits.h:
 /tinysys/usr/include/limits.h:

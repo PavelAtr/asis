@@ -4,7 +4,6 @@
 
 long_t sys_syscall(long_t number, va_list vl)
 {
-   sys_printf("Syscall raised\n");
    char* char1;
    char* char2;
    size_t size1;

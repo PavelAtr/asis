@@ -45,5 +45,10 @@ extern int errno;
 #define ESTALE 37
 #define ETXTBSY 38
 #define EMLINK 39
+#define EDQUOT 40
+#define EROFS 41
+#define ENOTEMPTY 42
+#define ECHILD 43
+#define ENFILE 44
 
 #endif

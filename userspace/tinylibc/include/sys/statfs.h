@@ -19,4 +19,7 @@
                                /* Padding bytes reserved for future use */
            };
 
+int statfs(const char *path, struct statfs *buf);
+int fstatfs(int fd, struct statfs *buf);
+
 #endif

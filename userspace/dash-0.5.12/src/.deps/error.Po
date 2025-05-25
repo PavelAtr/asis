@@ -1,13 +1,14 @@
 error.o: error.c ../config.h /tinysys/usr/include/signal.h \
  /tinysys/usr/include/sys/types.h \
  /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h \
- /usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h \
- /tinysys/usr/include/stdint.h /tinysys/usr/include/pthreadtypes.h \
- /tinysys/usr/include/stdlib.h /tinysys/usr/include/alloca.h \
- /tinysys/usr/include/unistd.h /tinysys/usr/include/locale.h \
- /tinysys/usr/include/string.h /tinysys/usr/include/stdio.h \
+ /tinysys/usr/include/pthreadtypes.h /tinysys/usr/include/stdlib.h \
+ /tinysys/usr/include/alloca.h /tinysys/usr/include/unistd.h \
+ /tinysys/usr/include/locale.h /tinysys/usr/include/string.h \
+ /tinysys/usr/include/stdio.h \
  /usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h jobs.h \
- /tinysys/usr/include/inttypes.h shell.h /tinysys/usr/include/sys/param.h \
+ /tinysys/usr/include/inttypes.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h \
+ /tinysys/usr/include/stdint.h shell.h /tinysys/usr/include/sys/param.h \
  main.h /tinysys/usr/include/errno.h options.h output.h error.h \
  /tinysys/usr/include/setjmp.h show.h eval.h parser.h token.h system.h \
  /usr/lib/gcc/x86_64-linux-gnu/12/include/limits.h \
@@ -18,8 +19,6 @@ error.o: error.c ../config.h /tinysys/usr/include/signal.h \
 /tinysys/usr/include/signal.h:
 /tinysys/usr/include/sys/types.h:
 /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
-/usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h:
-/tinysys/usr/include/stdint.h:
 /tinysys/usr/include/pthreadtypes.h:
 /tinysys/usr/include/stdlib.h:
 /tinysys/usr/include/alloca.h:
@@ -30,6 +29,8 @@ error.o: error.c ../config.h /tinysys/usr/include/signal.h \
 /usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h:
 jobs.h:
 /tinysys/usr/include/inttypes.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h:
+/tinysys/usr/include/stdint.h:
 shell.h:
 /tinysys/usr/include/sys/param.h:
 main.h:

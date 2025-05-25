@@ -1,17 +1,17 @@
 exec.o: exec.c ../config.h /tinysys/usr/include/sys/types.h \
  /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h \
- /usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h \
- /tinysys/usr/include/stdint.h /tinysys/usr/include/sys/stat.h \
- /tinysys/usr/include/time.h /tinysys/usr/include/sys/time.h \
- /tinysys/usr/include/unistd.h /tinysys/usr/include/fcntl.h \
- /tinysys/usr/include/stdio.h \
+ /tinysys/usr/include/sys/stat.h /tinysys/usr/include/time.h \
+ /tinysys/usr/include/sys/time.h /tinysys/usr/include/unistd.h \
+ /tinysys/usr/include/fcntl.h /tinysys/usr/include/stdio.h \
  /usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h \
  /usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h \
  /tinysys/usr/include/stdlib.h /tinysys/usr/include/alloca.h \
  /tinysys/usr/include/locale.h /tinysys/usr/include/paths.h shell.h \
  /tinysys/usr/include/sys/param.h main.h /tinysys/usr/include/errno.h \
  nodes.h parser.h token.h redir.h eval.h exec.h builtins.h var.h \
- /tinysys/usr/include/inttypes.h options.h output.h syntax.h \
+ /tinysys/usr/include/inttypes.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h \
+ /tinysys/usr/include/stdint.h options.h output.h syntax.h \
  /tinysys/usr/include/ctype.h /tinysys/usr/include/features.h \
  /tinysys/usr/include/sys/cdefs.h /tinysys/usr/include/bits/alltypes.h \
  memalloc.h error.h /tinysys/usr/include/setjmp.h \
@@ -23,8 +23,6 @@ exec.o: exec.c ../config.h /tinysys/usr/include/sys/types.h \
 ../config.h:
 /tinysys/usr/include/sys/types.h:
 /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
-/usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h:
-/tinysys/usr/include/stdint.h:
 /tinysys/usr/include/sys/stat.h:
 /tinysys/usr/include/time.h:
 /tinysys/usr/include/sys/time.h:
@@ -50,6 +48,8 @@ exec.h:
 builtins.h:
 var.h:
 /tinysys/usr/include/inttypes.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h:
+/tinysys/usr/include/stdint.h:
 options.h:
 output.h:
 syntax.h:
