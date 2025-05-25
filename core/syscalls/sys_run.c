@@ -3,9 +3,7 @@
 #include <errno.h>
 #include <string.h>
 #include <stdio.h>
-#ifndef DEBUG
 #include "../../userspace/libdl/libdl.h"
-#endif
 
 #undef fds
 
@@ -114,15 +112,8 @@ int_t sys_exec(char* file, char** inargv, char** envp)
       }
    }
    (*current->dlnlink)++;
-#ifdef DEBUG
-   startfunction start = sys_dlsym(current->dlhndl, "_start");
-#else
    startfunction start = (void*)(((dlhandle*)current->dlhndl)->obj->dl_elf->hdr->e_entry + 
       ((dlhandle*)current->dlhndl)->obj->dl_elf->exec);
-#endif
-#ifdef DEBUG
-   current->tlsid = sys_dlsym(current->dlhndl, "tinylibc_tls_id");
-#endif
    if (current->flags & PROC_CLONED) {
       if (envp) {
 		   current->envp = copyenv(envp);
