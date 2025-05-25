@@ -3,7 +3,7 @@
 cd coreutils
 CWD=$(pwd)
 
-export PREFIX="/tinysys"
+export PREFIX="/asis"
 export CFLAGS="-g -fPIC -fomit-frame-pointer --sysroot=${PREFIX} -DSLOW_BUT_NO_HACKS=1 -D__ASIS__=1"
 export LDFLAGS="-Wl,--no-undefined --sysroot=${PREFIX} -nostdlib  ${PREFIX}/lib/crt.o  ${PREFIX}/lib/tls.a -ltinyc"
 export LIBS="-lpwd ${PREFIX}/lib/libgcc.a ${PREFIX}/lib/crtstub.a"

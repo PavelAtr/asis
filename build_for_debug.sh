@@ -3,12 +3,12 @@ set -e
 
 ./clean.sh
 
-make -C userspace/tinylibc install_headers
+make -C userspace/alibc install_headers
 make -C core -f Makefile.debug install_headers
 make -C userspace/libpwd install_headers
 
-make -C userspace/tinylibc
-make -C userspace/tinylibc install
+make -C userspace/alibc
+make -C userspace/alibc install
 make -C userspace/libpwd
 make -C userspace/libpwd install
 make -C userspace/testapp

@@ -1,4 +1,4 @@
-PREFIX?=/tinysys
+PREFIX?=/asis
 CFLAGS?= -g -fPIC -fomit-frame-pointer --sysroot=$(PREFIX)
 
 all: 

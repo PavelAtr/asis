@@ -7,7 +7,7 @@ CWD=$(pwd)
 #./configure
 #make
 
-export PREFIX="/tinysys"
+export PREFIX="/asis"
 export CFLAGS="-g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable= "
 export LDFLAGS="-Wl,--no-undefined --sysroot=/tinysys -nostdlib ${PREFIX}/lib/crt.o ${PREFIX}/lib/tls.a -ltinyc"
 

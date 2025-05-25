@@ -1,6 +1,6 @@
-PREFIX?=/tinysys
+PREFIX?=/asis
 CFLAGS?= -g -fPIC -fomit-frame-pointer --sysroot=$(PREFIX)
-LDFLAGS?= --sysroot=$(PREFIX) -nostdlib -ltinyc -Wl,-fno-undefined -shared
+LDFLAGS?= --sysroot=$(PREFIX) -nostdlib -lac -Wl,-fno-undefined -shared
 
 all: 
 	$(CC) $(CFLAGS) -fPIC -c src/*.c

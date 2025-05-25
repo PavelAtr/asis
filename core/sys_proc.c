@@ -10,7 +10,7 @@
 proc sys;
 char* sys_argv[1] = {"system"};
 extern AFILE** current_fds;
-char* ld_library_path = "/tinysys/usr/lib:/tinysys/lib:/tinysys/libexec";
+char* ld_library_path = "/asis/usr/lib:/asis/lib:/asis/libexec";
 
 AFILE sys_stdin = {
 "/dev/tty",
@@ -53,8 +53,8 @@ NULL,
 
 int sys_dlnlink = 1;
 char* sys_env[4] = {
-   "PATH=/tinysys/usr/bin:/tinysys/bin",
-   "CWD=/tinysys",
+   "PATH=/asis/usr/bin:/asis/bin",
+   "CWD=/asis",
    "UMASK=0022",
    NULL,
 };

@@ -10,11 +10,10 @@ rm -f ./drv/uefifs/*.o
 rm -f ./drv/fbgop/*.o
 rm -f ./drv/tty/*.o
 rm -f ./drv/hosttrap/*.o
-make -C userspace/tinylibc clean 
+make -C userspace/alibc clean 
 make -C userspace/testapp  clean
 make -C userspace/libpwd  clean
 make -C userspace/libdl  clean
 make -C core -f Makefile.linux clean
-make -C userspace/dash-0.5.12  clean
 make -C posix-uefi/uefi clean
 

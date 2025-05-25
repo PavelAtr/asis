@@ -1,9 +1,9 @@
 # define which architecture you're targeting
 ARCH = x86_64
 # define your target file here
-TARGET = tinysys.uefi
+TARGET = asis.uefi
 #define your sources here
-SRCS = $(wildcard  ../userspace/libdl/*.c ../userspace/libdl/x86_64/*.c ../drv/tty/*.c syscalls/*.c ../drv/blk/*.c ../drv/fbgop/*.c ../drv/loop/*.c  ../drv/uefifs/*.c *.c ../userspace/tinylibc/src/stdio.c )
+SRCS = $(wildcard  ../userspace/libdl/*.c ../userspace/libdl/x86_64/*.c ../drv/tty/*.c syscalls/*.c ../drv/blk/*.c ../drv/fbgop/*.c ../drv/loop/*.c  ../drv/uefifs/*.c *.c ../userspace/alibc/src/stdio.c )
 # define your default compiler flags
 #CFLAGS = -Wall -Wextra --ansi -O2 -DUEFI=1 -DELF64 -Wno-unused-parameter -fomit-frame-pointer -I./include -I/usr/include/x86_64-linux-gnu/
 CFLAGS = -Wall -Wextra --ansi -O2 -DUEFI=1 -DELF64 -Wno-unused-parameter -fomit-frame-pointer -DUEFI_KERNEL -D__ASIS__ -I/tinysys/usr/include -I/usr/include/x86_64-linux-gnu/

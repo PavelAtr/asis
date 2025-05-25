@@ -1,7 +1,7 @@
 ARCH?=x86_64
 
 CFLAGS?=-fomit-frame-pointer
-PREFIX?=/tinysys
+PREFIX?=/asis
 
 SYSTEM_LINK = ../drv/tty/*.c \
 ../drv/hostfs/*.c \
@@ -27,13 +27,13 @@ syscalls/sys_mount.c \
 syscalls/sys_usleep.c \
 syscalls/sys_rlimit.c \
 ../userspace/libdl/namedlist.c \
-../userspace/tinylibc/src/stdio.c \
+../userspace/alibc/src/stdio.c \
 sys_trap.c
 
 all:
 	$(CC) $(CFLAGS) -fPIC -g -c -DDEBUG  $(SYSTEM_LINK)
 	$(CC) $(CFLAGS) -fPIC -g -c -DDEBUG  --sysroot=$(PREFIX) -DELF64 $(TINYSYS_LINK)
-	$(CC) $(CFLAGS) -fPIC -g *.o -o tinysys.debug
+	$(CC) $(CFLAGS) -fPIC -g *.o -o asis.debug
 
 clean:
 	rm -f *.o
