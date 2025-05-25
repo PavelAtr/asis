@@ -3,7 +3,7 @@
 #define __off_t_defined
 #define __ssize_t_defined
 
-#ifdef __ASYS__
+#ifdef __ASIS__
 #include <tinysys.h>
 #else
 #include <stdio.h>

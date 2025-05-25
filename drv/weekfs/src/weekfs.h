@@ -1,7 +1,7 @@
 #ifndef _WEEKFS_H
 #define _WEEKFS_H
 
-#ifdef __ASYS__
+#ifdef __ASIS__
 #include "../../../core/include/sys/types.h"
 #include "../../../core/include/stdint.h"
 #else

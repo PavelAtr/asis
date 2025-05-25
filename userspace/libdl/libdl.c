@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include <sys/mman.h>
 
-#ifdef __ASYS__
+#ifdef __ASIS__
 #include <tinysys.h>
 #define stat(p, s) sys_stat(p, s)
 #else

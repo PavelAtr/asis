@@ -1,7 +1,0 @@
-lib/libcoreutils_a-explicit_bzero.o: lib/explicit_bzero.c lib/config.h \
- lib/string.h /tinysys/usr/include/string.h \
- /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h
-lib/config.h:
-lib/string.h:
-/tinysys/usr/include/string.h:
-/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:

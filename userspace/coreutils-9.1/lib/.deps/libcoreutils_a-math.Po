@@ -1,6 +1,0 @@
-lib/libcoreutils_a-math.o: lib/math.c lib/config.h lib/math.h lib/math.h \
- /tinysys/usr/include/math.h
-lib/config.h:
-lib/math.h:
-lib/math.h:
-/tinysys/usr/include/math.h:

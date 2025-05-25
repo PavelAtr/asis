@@ -19,7 +19,7 @@
 #else
 #endif
 
-#define INIT "/tinysys/bin/dash"
+#define INIT "/tinysys/bin/shell"
 
 #define malloc(s) sys_malloc(s)
 #define free(p) sys_free(p)

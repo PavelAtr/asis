@@ -5,7 +5,7 @@
 #define __ssize_t_defined
 #include <stdio.h>
 
-#ifdef __ASYS__
+#ifdef __ASIS__
 #include <tinysys.h>
 #else
 #include <stdlib.h>

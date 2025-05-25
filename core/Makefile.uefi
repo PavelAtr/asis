@@ -6,7 +6,7 @@ TARGET = tinysys.uefi
 SRCS = $(wildcard  ../userspace/libdl/*.c ../userspace/libdl/x86_64/*.c ../drv/tty/*.c syscalls/*.c ../drv/blk/*.c ../drv/fbgop/*.c ../drv/loop/*.c  ../drv/uefifs/*.c *.c ../userspace/tinylibc/src/stdio.c )
 # define your default compiler flags
 #CFLAGS = -Wall -Wextra --ansi -O2 -DUEFI=1 -DELF64 -Wno-unused-parameter -fomit-frame-pointer -I./include -I/usr/include/x86_64-linux-gnu/
-CFLAGS = -Wall -Wextra --ansi -O2 -DUEFI=1 -DELF64 -Wno-unused-parameter -fomit-frame-pointer -DUEFI_KERNEL -D__ASYS__ -I/tinysys/usr/include -I/usr/include/x86_64-linux-gnu/
+CFLAGS = -Wall -Wextra --ansi -O2 -DUEFI=1 -DELF64 -Wno-unused-parameter -fomit-frame-pointer -DUEFI_KERNEL -D__ASIS__ -I/tinysys/usr/include -I/usr/include/x86_64-linux-gnu/
 #-I/usr/include/x86_64-linux-gnu/
 # define your default linker flags
 #LDFLAGS =

@@ -15,5 +15,5 @@ make -C userspace/tinylibc install
 make -C userspace/libpwd
 make -C userspace/libpwd install
 make -C userspace/testapp
-#make -C userspace/testapp install
+make -C userspace/testapp install
 make -C core -f Makefile.linux

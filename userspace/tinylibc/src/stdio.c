@@ -3,7 +3,7 @@
 #ifndef UEFI
 #include <stdlib.h>
 #endif
-#ifdef __ASYS__
+#ifdef __ASIS__
 #include <tinysys.h>
 #endif
 

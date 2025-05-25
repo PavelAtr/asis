@@ -1,6 +1,6 @@
 #include "namedlist.h"
 
-#ifdef __ASYS__
+#ifdef __ASIS__
 #include <tinysys.h>
 #else
 #include <stddef.h>
