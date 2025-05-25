@@ -1,11 +1,11 @@
 #!/bin/sh
 
-cd dash-0.5.12
+cd dash
 CWD=$(pwd)
 
-make clean
-./configure
-make
+#make clean
+#./configure
+#make
 
 export PREFIX="/tinysys"
 export CFLAGS="-g -fPIC -fomit-frame-pointer --sysroot=/tinysys -D_Nullable= "
@@ -13,7 +13,7 @@ export LDFLAGS="-Wl,--no-undefined --sysroot=/tinysys -nostdlib ${PREFIX}/lib/cr
 
 rm -rf src/*.o
 ./configure --host=x86_64-pc-none --build=x86_64-linux-gnu --target=x86_64-linux-gnu --disable-test-workaround --prefix=${PREFIX}
-make V=1
+make V
 make install
 
 

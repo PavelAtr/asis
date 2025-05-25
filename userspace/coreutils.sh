@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cd coreutils-9.1
+cd coreutils
 CWD=$(pwd)
 
 export PREFIX="/tinysys"

@@ -75,4 +75,8 @@ int fchmodat(int dirfd, const char *pathname, mode_t mode, int flags);
 int fchmod(int fd, mode_t mode);
 int fchown(int fd, uid_t owner, gid_t group);
 
+#define fstat64 fstat
+#define lstat64 lstat
+#define stat64 stat
+
 #endif
