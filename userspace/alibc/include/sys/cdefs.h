@@ -14,5 +14,7 @@
 #define weak_alias(alias, sym);
 #define _Nullable
 #define __FBSDID(r)
+#define __INTRODUCED_IN(V)
+#define __RENAME(N)
 
 #endif

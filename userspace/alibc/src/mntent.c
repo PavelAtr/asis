@@ -2,13 +2,16 @@
 
 /* NOT REALIZED */
 
+FILE file;
+struct mntent mntret;
+
 FILE *setmntent(const char *filename, const char *type)
 {
-   return NULL;
+   return &file;
 }
 struct mntent *getmntent(FILE *stream)
 {
-   return NULL;
+   return &mntret;
 }
 
 int addmntent(FILE* stream,

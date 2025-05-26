@@ -55,12 +55,12 @@ size_t fwriteall(const void* ptr, size_t size, size_t nmemb, FILE* stream);
 int fclose(FILE *stream);
 int fseek(FILE* stream, long offset, int whence);
 long ftell(FILE* stream);
+int fseeko(FILE *stream, off_t offset, int whence);
+off_t ftello(FILE *stream);
 void rewind(FILE* stream);
 int fgetc(FILE* stream);
 int getchar(void);
 #define getc(f) fgetc(f)
-int fseeko(FILE *stream, off_t offset, int whence);
-off_t ftello(FILE *stream);
 
 int fputs(const char* s, FILE* stream);
 int puts(const char* s);
