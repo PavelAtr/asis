@@ -22,7 +22,7 @@
 
 Elf_Ehdr* elf_load_hdr(const char* path);
 Elf_Phdr* elf_load_phdrs(const char* path, Elf_Ehdr* hdr);
-size_t elf_load_exec(const char* path, Elf_Ehdr* hdr, Elf_Phdr* phdrs, char* exec, size_t* tls_size);
+size_t elf_load_exec(const char* path, Elf_Ehdr* hdr, Elf_Phdr* phdrs, char* exec, size_t* tls_size, char** tls_initaddr);
 Elf_Shdr* elf_load_shdrs(const char* path, Elf_Ehdr* hdr);
 int elf_count_section(Elf_Ehdr* hdr, Elf_Shdr* shdrs, unsigned int sh_type);
 Elf_Shdr* elf_find_section_bytype(Elf_Ehdr* hdr, Elf_Shdr* shdrs, int* start_ndx, unsigned int sh_type);

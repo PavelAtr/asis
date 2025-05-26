@@ -2,6 +2,7 @@
 #include <syscall.h>
 #include <stdarg.h>
 
+__attribute__((sysv_abi))
 long_t sys_syscall(long_t number, va_list vl)
 {
    char* char1;

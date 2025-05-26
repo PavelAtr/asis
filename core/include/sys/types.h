@@ -26,6 +26,7 @@ typedef unsigned long long ulong_t;
 typedef long long long64_t;
 typedef unsigned long long ulong64_t;
 typedef unsigned long long addr_t;
+typedef unsigned long long u_long;
 #else
 typedef unsigned long size_t;
 typedef long  off_t;
@@ -38,10 +39,11 @@ typedef unsigned long ulong_t;
 typedef long long64_t;
 typedef unsigned long ulong64_t;
 typedef unsigned long addr_t;
+typedef unsigned long u_long;
 #endif
 typedef int pid_t;
 typedef unsigned long dev_t;
-
+typedef unsigned char u_char;
 
 typedef ulong64_t len_t;
 typedef ulong64_t counter_t;

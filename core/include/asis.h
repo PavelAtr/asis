@@ -51,7 +51,7 @@ void* sys_calloc(size_t nmemb, size_t size);
 extern int curmem;
 void sys_free(void *ptr);
 void sys_prog_free(void *ptr);
-long_t sys_syscall(long_t number, va_list vl);
+__attribute__((sysv_abi)) long_t sys_syscall(long_t number, va_list vl);
 int sys_usleep(long_t usecs);
 
 #define MAXDEV 5
@@ -169,7 +169,7 @@ int_t sys_setgid(gid_t gid);
 void** copyfds(void** infds);
 void freefds(proc* task);
 void** cloexecfds(void** infds);
-void sys_atexit(int ret);
+__attribute__((sysv_abi)) void sys_atexit(int ret);
 
 #define MAXPROC 20
 extern proc* cpu[MAXPROC];
@@ -185,7 +185,7 @@ pid_t sys_clone(void);
 pid_t sys_fork(void);
 pid_t sys_waitpid(pid_t pid, int* wstatus, int options);
 
-typedef int (*startfunction)
+typedef __attribute__((sysv_abi)) int (*startfunction)
    (int argc, char*** argv, char*** envp, void*** fds,
      void* syscall_func, void* retexit_func);
 

@@ -1,7 +1,7 @@
 PREFIX?=/asis
 EXTENTION?=
 CFLAGS?=-g -fPIC --sysroot=$(PREFIX) -fomit-frame-pointer
-LDFLAGS=--sysroot=$(PREFIX) -nostdlib $(PREFIX)/lib/crt.o $(PREFIX)/lib/tls.a -lac
+LDFLAGS=--sysroot=$(PREFIX) -nostdlib $(PREFIX)/lib/crt.o $(PREFIX)/lib/tls.o -lac
 
 all:
 	$(CC) $(CFLAGS) -fPIC shell.c $(LDFLAGS) -o shell$(EXTENTION)

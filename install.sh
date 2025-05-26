@@ -4,12 +4,12 @@ ROOT=qemu/root
 
 umask 000
 
-mkdir -p $ROOT/tinysys/bin
-mkdir -p $ROOT/tinysys/lib
+mkdir -p $ROOT/asis/bin
+mkdir -p $ROOT/asis/lib
 mkdir -p $ROOT/dev
-install core/tinysys.uefi $ROOT/tinysys.uefi
+install core/asis.uefi $ROOT/asis.uefi
 
-cp -ar /tinysys $ROOT/
+cp -ar /asis $ROOT/
 
 touch $ROOT/dev/tty
 touch $ROOT/dev/sda

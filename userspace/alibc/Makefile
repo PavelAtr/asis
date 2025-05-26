@@ -5,7 +5,7 @@ all:
 	make -C init/
 	$(CC) $(CFLAGS) -c alien/*.c alien/ctype/*.c alien/string/*.c \
 alien/regex/*.c alien/multibyte/*.c init/init.c src/*.c
-	$(CC) $(CFLAGS) -g -fPIC -nostdlib -shared *.o init/tls.a -o libac.so
+	$(CC) $(CFLAGS) -g -fPIC -nostdlib -shared *.o init/tls.o -o libac.so
 	ar rcs libac.a *.o init/*.o
 	
 clean:
@@ -15,7 +15,7 @@ clean:
 install:
 	mkdir -p $(DESTDIR)$(PREFIX)/lib
 	install init/crt.o $(DESTDIR)$(PREFIX)/lib/crt.o
-	install init/tls.a $(DESTDIR)$(PREFIX)/lib/tls.a
+	install init/tls.o $(DESTDIR)$(PREFIX)/lib/tls.o
 	install init/crtstub.a $(DESTDIR)$(PREFIX)/lib/crtstub.a
 	install libac.so $(DESTDIR)$(PREFIX)/lib/libac.so
 	install libac.a $(DESTDIR)$(PREFIX)/lib/libac.a

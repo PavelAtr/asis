@@ -48,7 +48,7 @@ Elf_Phdr* elf_load_phdrs(const char* path, Elf_Ehdr* hdr)
    return buf;
 }
 
-size_t elf_load_exec(const char* path, Elf_Ehdr* hdr, Elf_Phdr* phdrs, char* exec, size_t* tls_size)
+size_t elf_load_exec(const char* path, Elf_Ehdr* hdr, Elf_Phdr* phdrs, char* exec, size_t* tls_size, char** tls_initaddr)
 {
    size_t size = 0;
    if (!hdr || !phdrs) {
@@ -66,8 +66,9 @@ size_t elf_load_exec(const char* path, Elf_Ehdr* hdr, Elf_Phdr* phdrs, char* exe
          }
       }
       if (phdrs[i].p_type == PT_TLS) {
-		  *tls_size = phdrs[i].p_memsz;
-	  }
+	*tls_size = phdrs[i].p_memsz;
+	*tls_initaddr = exec + phdrs[i].p_vaddr;
+       }
    }
    return size;
 }

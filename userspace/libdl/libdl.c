@@ -73,12 +73,13 @@ int dlload(dl* buf, const char* file)
    buf->dl_elf->hdr = elf_load_hdr(file);
    buf->dl_elf->phdrs = elf_load_phdrs(file, buf->dl_elf->hdr);
    buf->dl_elf->exec_size = elf_load_exec(file, buf->dl_elf->hdr,
-         buf->dl_elf->phdrs, NULL, &buf->dl_elf->tls_size);
+         buf->dl_elf->phdrs, NULL, &buf->dl_elf->tls_size, &buf->dl_elf->tls_initaddr);
    buf->dl_elf->exec = mmap(NULL, buf->dl_elf->exec_size,
          PROT_READ | PROT_WRITE | PROT_EXEC,
          MAP_ANONYMOUS|MAP_SHARED, -1, 0);
    memset(buf->dl_elf->exec, 0x0, buf->dl_elf->exec_size);
-   elf_load_exec(file, buf->dl_elf->hdr, buf->dl_elf->phdrs, buf->dl_elf->exec, &buf->dl_elf->tls_size);
+   elf_load_exec(file, buf->dl_elf->hdr, buf->dl_elf->phdrs, buf->dl_elf->exec, 
+     &buf->dl_elf->tls_size,  &buf->dl_elf->tls_initaddr);
    buf->dl_elf->shdrs = elf_load_shdrs(file, buf->dl_elf->hdr);
    if (!buf->dl_elf->hdr || !buf->dl_elf->phdrs || !buf->dl_elf->shdrs) {
       goto fail;
@@ -221,12 +222,12 @@ void *dlopen(const char* filename, int flags)
          dl* lib;
          if ((lib = namedlist_get((namedlist*)globalscope, path)))
          {
-			printf(MARK "InCache %s\n", path);			  
-	      } else {
+	    printf(MARK "InCache %s\n", path);			  
+	 } else {
             lib = calloc(1, sizeof(dl));
             if (dlload(lib, path) == -1) {
                 goto fail;
-            }
+         }
 #ifdef USE_SYMBOLFILE
             FILE* symfile = fopen("dl.txt", "a");
             fprintf(symfile, "add-symbol-file %s ", lib->path);
@@ -266,10 +267,11 @@ void *dlopen(const char* filename, int flags)
 	  }
       printf(MARK "Init %s\n", s->path);
       elf_init(s->dl_elf->exec, s->dl_elf->dyns, s->dl_elf->dyntab);
-      void* (*allocate_tls)(size_t) = dlsym(j, "allocate_tls");
+      __attribute__((sysv_abi)) void* (*allocate_tls)(size_t, char*) = dlsym(j, "allocate_tls");
       if (allocate_tls) {
-		  allocate_tls(s->dl_elf->tls_size);
-	  }
+	 printf("TLS initaddr=%p size=%ld\n", s->dl_elf->tls_initaddr, s->dl_elf->tls_size); /* GARBAGE */
+	 printf("%p\n", allocate_tls( s->dl_elf->tls_size, s->dl_elf->tls_initaddr)); /* GARBAGE */
+      }
       s->status |= DL_INITED;
    }
    for (j = handle->next; j != NULL; j = j->next) {
@@ -333,8 +335,7 @@ void dltls(void* handle, unsigned long module_id)
    dlhandle* j;
    dl* s;
    for (j = handle; j; j = j->next) {
-	  s = j->obj;
-	  printf(MARK "DLTLS in %p(%p) elf=%p\n", s, s->path, s->dl_elf);
+      s = j->obj;
       int rela_ndx;
       for (rela_ndx = 0; s->dl_elf->rela[rela_ndx]; rela_ndx++) {
          if (s->dl_elf->tlsrela[rela_ndx]->relas) {

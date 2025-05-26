@@ -128,8 +128,6 @@ int_t sys_exec(char* file, char** inargv, char** envp)
    sys_dltls(current->dlhndl, curpid);
    
    current->flags &= ~PROC_CLONED;
-   sys_printf(SYS_INFO "freememory=%ld\n", free_memory());
-   sys_printf(SYS_INFO "Executing start %p (%p)\n", &start, sys_dlsym(current->dlhndl, "_start"));
    int ret = start(argc, &current_argv, &current_envp, (void***)&current_fds, &sys_syscall, &sys_atexit);
    switch_context;
    /* Never reach here */
@@ -254,6 +252,7 @@ end:
    return child;
 }
 
+__attribute__((sysv_abi)) 
 void sys_atexit(int ret)
 {
    sys_printf(SYS_DEBUG "ATEXIT=%d pid=%d prog=%s\n", ret, current->pid, current->argv[0]);

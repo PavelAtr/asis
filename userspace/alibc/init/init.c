@@ -9,11 +9,7 @@ char*** core_environ;
 char*** core_argv;
 int errno;
 
-long
-#ifdef UEFI_KERNEL
-__attribute__((ms_abi))
-#endif
-(*sys_syscall)(long number, va_list args);
+long (*sys_syscall)(long number, va_list args);
 
 long syscall(long number, ...)
 {

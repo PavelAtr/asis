@@ -34,6 +34,7 @@ typedef struct {
    char* dynstr;
    char* shstr;
    size_t exec_size;
+   char* tls_initaddr;
    size_t tls_size;
    char* exec;
    unsigned long tls_index;

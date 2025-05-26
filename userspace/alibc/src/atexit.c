@@ -6,21 +6,19 @@ __thread void (*atexit_func)(void) = NULL;
 
 int atexit(void (*function)(void))
 {
+   printf("SETTING ATEXIT=%p\n", &atexit_func);
    atexit_func = function;
    return 0;
 }
 
-void
-#ifdef UEFI_KERNEL
-__attribute__((ms_abi))
-#endif
-(*retexit)(int ret);
+void (*retexit)(int ret);
 
 void _exit(int status)
 {
-/*    if (atexit_func) {
+    if (atexit_func) {
         atexit_func();
-    } NOT REALIZED */
+    }
+    printf("ATEXIT=%p\n", &atexit_func);
     retexit(status);
     while (1); // Гарантирует, что функция не вернёт управление
 }
