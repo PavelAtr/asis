@@ -51,3 +51,8 @@ time_t time(time_t* tloc)
    if (tloc) *tloc = 0;
    return 0;
 }
+
+int timespec_get(struct timespec* ts, int base)
+{
+   return 0;
+}

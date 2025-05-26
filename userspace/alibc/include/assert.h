@@ -1,6 +1,8 @@
 #ifndef _ASSERT_H
 #define _ASSERT_H
 
-#define  assert(exp) ;
+static inline void assert(int e)
+{
+}
 
 #endif

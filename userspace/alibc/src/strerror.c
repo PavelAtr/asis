@@ -49,6 +49,7 @@ char* errors[50] = {
 "Directory not empty",
 "No child processes",
 "Too many open files in system",
+"Inappropriate I/O control operation ",
 };
 
 char* strerror(int errnum)

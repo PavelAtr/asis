@@ -3,6 +3,7 @@
 
 #include <sys/types.h>
 #include <sys/time.h>
+#include <sys/times.h>
 
 struct timespec {
    time_t     tv_sec;   /* Seconds */
@@ -75,5 +76,8 @@ char *ctime(const time_t *timep);
 char *ctime_r(const time_t * timep,char buf[]);
 struct tm *gmtime(const time_t *timep);
 struct tm *gmtime_r(const time_t * timep, struct tm * result);
+int timespec_get(struct timespec* ts, int base);
+
+clock_t clock(void);
 
 #endif
