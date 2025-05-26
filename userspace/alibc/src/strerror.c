@@ -50,6 +50,7 @@ char* errors[50] = {
 "No child processes",
 "Too many open files in system",
 "Inappropriate I/O control operation ",
+"Resource deadlock avoided ",
 };
 
 char* strerror(int errnum)

@@ -51,5 +51,6 @@ extern int errno;
 #define ECHILD 43
 #define ENFILE 44
 #define ENOTTY 45
+#define EDEADLK 46 
 
 #endif

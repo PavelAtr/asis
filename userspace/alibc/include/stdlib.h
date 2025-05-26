@@ -85,7 +85,6 @@ char *setstate(char *state);
 void qsort(void* base, size_t nmemb, size_t size, int (*compar)(const void*, const void*));
 void *bsearch(const void *key, const void *base, size_t num, size_t width, int (*compare)(const void *, const void *));
 
-extern void (*atexit_func)(void);
 int atexit(void (*function)(void));
 
 long double strtold(const char* nptr, char** endptr);

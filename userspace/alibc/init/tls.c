@@ -22,7 +22,7 @@ typedef struct
 
 __attribute__ ((visibility ("hidden"))) void *__tls_get_addr (tls_index *ti)
 {
-   unsigned long ti_module = (tinylibc_tls_id) ? *tinylibc_tls_id : ti->ti_module;
+   unsigned long ti_module = ti->ti_module;
    unsigned long ti_offset = ti->ti_offset;
    if (!dtv) {
       struct rlimit r;
