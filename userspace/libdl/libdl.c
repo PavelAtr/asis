@@ -23,21 +23,17 @@ void elf_free(elf *e)
       return;
    }
    if (e->hdr)
-   {
       free(e->hdr);
-   }
+   e->hdr = NULL;
    if (e->phdrs)
-   {
       free(e->phdrs);
-   }
+   e->phdrs;
    if (e->shdrs)
-   {
-      free(e->shdrs);
-   }
+       free(e->shdrs);
+   e->shdrs = NULL;
    if (e->shstr)
-   {
       free(e->shstr);
-   }
+   e->shstr = NULL;
    int ndx;
    for (ndx = 0; e->rela[ndx]; ndx++)
    {
@@ -46,8 +42,10 @@ void elf_free(elf *e)
          if (e->rela[ndx]->relas)
          {
             free(e->rela[ndx]->relas);
+            e->rela[ndx]->relas = NULL;
          }
          free(e->rela[ndx]);
+         e->rela[ndx] = NULL;
       }
    }
    for (ndx = 0; e->rela[ndx]; ndx++)
@@ -57,27 +55,29 @@ void elf_free(elf *e)
          if (e->tlsrela[ndx]->relas)
          {
             free(e->tlsrela[ndx]->relas);
+            e->tlsrela[ndx]->relas = NULL;
          }
          free(e->tlsrela[ndx]);
+         e->tlsrela[ndx] = NULL;
       }
    }
    if (e->rela)
       free(e->rela);
+   e->rela = NULL;
    if (e->tlsrela)
       free(e->tlsrela);
+   e->tlsrela = NULL;   
    if (e->dyntab)
-   {
       free(e->dyntab);
-   }
+   e->dyntab = NULL;
    if (e->dynstr)
-   {
       free(e->dynstr);
-   }
+   e->dynstr = NULL;
    if (e->exec)
-   {
       munmap(e->exec, e->exec_size);
-   }
+   e->exec = NULL;
 }
+   
 
 int dlload(dl *buf, const char *file)
 {
@@ -375,11 +375,13 @@ int dlclose(void *hndl)
       if (s->nlink <= 0)
       {
          printf(MARK "Dlclose %s\n", s->path);
+         list_rm((list*) globalscope, s);
          elf_fini(s->dl_elf->exec, s->dl_elf->dyns, s->dl_elf->dyntab);
-         list_rm((list *)globalscope, s);
          elf_free(s->dl_elf);
          free(s->dl_elf);
+         s->dl_elf = NULL;
          free(s);
+         s = NULL;
       }
       free(j);
       j = next;

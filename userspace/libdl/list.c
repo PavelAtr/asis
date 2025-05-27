@@ -27,21 +27,22 @@ list* list_rm(list* scope, aobj obj)
     if (scope == NULL) {
 		return NULL;
     }
-	list* j;
-	list* prev = scope;
-	for (j = scope; j; j = j->next) {
-		if (j->obj == obj)
-		{
-			prev->next = j->next;
-			if (j == scope) {
-				scope = j->next;
-				free(j);
-				break;;
-	 	    }
-			free(j);
-			break;
-	    }
-	    prev = j;
+    if (scope->obj == obj)
+    {
+	scope = scope->next;
+	free(scope);
     }
+    list* prev;
+    list* cur;
+    list* tofree = NULL;;
+    for (prev = scope, cur = scope->next; cur; prev = cur, cur = cur->next)
+    {
+	if (cur->obj == obj)
+	{
+	    prev->next = cur->next;
+	    tofree = cur;
+	}
+    }
+    if (tofree) free(tofree);
     return scope;
 }
