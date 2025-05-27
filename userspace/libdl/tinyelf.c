@@ -275,13 +275,12 @@ void elf_init(char* exec, Elf_Shdr* dynhdr, Elf64_Dyn* dyntab)
       }
    }
 
-   typedef void (*initfunc)();
-   initfunc* dt_init_array = NULL;
+   long_t* dt_init_array = NULL;
    int dt_init_arraysz = 0;
    for (i = 0; i < (int)(dynhdr->sh_size / dynhdr->sh_entsize); i++) {
       switch(dyntab[i].d_tag) {
       case DT_INIT_ARRAY:
-         dt_init_array = (void*)(exec + dyntab[i].d_un.d_ptr);
+         dt_init_array = (long_t*)(exec + dyntab[i].d_un.d_ptr);
          break;
       case DT_INIT_ARRAYSZ:
           dt_init_arraysz = dyntab[i].d_un.d_val;
@@ -290,8 +289,9 @@ void elf_init(char* exec, Elf_Shdr* dynhdr, Elf64_Dyn* dyntab)
          break;
       }
    }
-   for (i = 0; i < (int)(dt_init_arraysz / sizeof(void*)); i++) {
-      dt_init_array[i]();
+   for (i = 0; i < (int)(dt_init_arraysz / sizeof(long_t)); i++) {
+      void (*func)() = (void*)(dt_init_array[i]);
+      func();
    }
  }
 
@@ -312,24 +312,24 @@ void elf_fini(char* exec, Elf_Shdr* dynhdr, Elf64_Dyn* dyntab)
          break;
       }
    }
-
-   typedef void (*initfunc)();
-   initfunc* dt_init_array = NULL;
-   int dt_init_arraysz = 0;
+   long_t* dt_fini_array = NULL;
+   int dt_fini_arraysz = 0;
    for (i = 0; i < (int)(dynhdr->sh_size / dynhdr->sh_entsize); i++) {
       switch(dyntab[i].d_tag) {
       case DT_FINI_ARRAY:
-         dt_init_array = (void*)(exec + dyntab[i].d_un.d_ptr);
+         dt_fini_array = (long_t*)(exec + dyntab[i].d_un.d_ptr);
          break;
       case DT_FINI_ARRAYSZ:
-          dt_init_arraysz = dyntab[i].d_un.d_val;
+          dt_fini_arraysz = dyntab[i].d_un.d_val;
           break;
       default :
          break;
       }
    }
-   for (i = 0; i < (int)(dt_init_arraysz / sizeof(void*)); i++) {
-      dt_init_array[i]();
+   for (i = 0; i < (int)(dt_fini_arraysz / sizeof(long_t)); i++) {
+      void (*func)() = (void*)(dt_fini_array[i]);
+      printf("FINI=%p\n", dt_fini_array[i] - (long_t) exec); /* GARBAGE */
+      func();
    }
  }
  
