@@ -98,7 +98,7 @@ int elf_count_section(Elf_Ehdr* hdr, Elf_Shdr* shdrs, unsigned int sh_type)
    int i;
    int ret = 0;
    for (i = 0; i < hdr->e_shnum; i++) {
-      printf("%s", " "); /* GARBAGE */
+      printf("%s", " "); /* GARBAGE STUB!!!! */
       if (shdrs[i].sh_type == sh_type) {
          ret ++;
       }
@@ -328,11 +328,10 @@ void elf_fini(char* exec, Elf_Shdr* dynhdr, Elf64_Dyn* dyntab)
    }
    for (i = 0; i < (int)(dt_fini_arraysz / sizeof(long_t)); i++) {
       void (*func)() = (void*)(dt_fini_array[i]);
-      printf("FINI=%p\n", dt_fini_array[i] - (long_t) exec); /* GARBAGE */
       func();
    }
  }
- 
+
 void elf_print_sections_symbols(void* file, char* exec, Elf_Ehdr* hdr, Elf_Shdr* shdrs, char* shstrs)
 {
    int i;
@@ -345,8 +344,10 @@ void elf_print_sections_symbols(void* file, char* exec, Elf_Ehdr* hdr, Elf_Shdr*
       {
          char* section_addr = exec + shdrs[i].sh_addr;
          char* section_name = &shstrs[shdrs[i].sh_name];
+         if (strcmp(section_name, ".text") != 0) {
+            continue; // Skip common sections
+         }
          fprintf(file, " -s %s %p", section_name, section_addr);
       }
    } 
 }
-

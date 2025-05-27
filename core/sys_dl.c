@@ -26,6 +26,7 @@ extern void** current_fds;
 
 void sys_dltls(void* handle, unsigned long module_id)
 {
-	sys_printf(SYS_DEBUG "Set TLS modid=%ld in %p\n", module_id, handle);
+    if (module_id == 0 || !handle) return;
+	sys_printf(SYS_DEBUG "Set TLS modid=%ld in %p\n", module_id, handle);  
 	dltls(handle, module_id);
 }

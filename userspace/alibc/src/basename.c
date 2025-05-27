@@ -1,4 +1,5 @@
 #include <string.h>
+char* origin = "libac.so"; /* GARBAGE */
 
 char* basename(char* path)
 {

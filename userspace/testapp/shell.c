@@ -8,6 +8,8 @@
 #include <sys/stat.h>
 #include <sys/wait.h>
 
+char* origin = "shell"; /* GARBAGE */
+
 char command[256];
 
 char* getcommand()

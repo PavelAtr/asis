@@ -3,6 +3,8 @@
 #include <string.h>
 #include <errno.h>
 
+char* origin = "hello"; /* GARBAGE */
+
 void _atexit(void)
 {
 }

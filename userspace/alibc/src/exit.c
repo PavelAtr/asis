@@ -6,7 +6,6 @@ __thread void (*atexit_func)(void) = NULL;
 
 int atexit(void (*function)(void))
 {
-   printf("SETTING ATEXIT=%p\n", &atexit_func);
    atexit_func = function;
    return 0;
 }
@@ -18,7 +17,6 @@ void _exit(int status)
     if (atexit_func) {
         atexit_func();
     }
-    printf("ATEXIT=%p\n", &atexit_func);
     retexit(status);
     while (1); // Гарантирует, что функция не вернёт управление
 }

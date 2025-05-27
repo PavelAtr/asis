@@ -269,8 +269,7 @@ void *dlopen(const char* filename, int flags)
       elf_init(s->dl_elf->exec, s->dl_elf->dyns, s->dl_elf->dyntab);
       __attribute__((sysv_abi)) void* (*allocate_tls)(size_t, char*) = dlsym(j, "allocate_tls");
       if (allocate_tls) {
-	 printf("TLS initaddr=%p size=%ld\n", s->dl_elf->tls_initaddr, s->dl_elf->tls_size); /* GARBAGE */
-	 printf("%p\n", allocate_tls( s->dl_elf->tls_size, s->dl_elf->tls_initaddr)); /* GARBAGE */
+	 allocate_tls(s->dl_elf->tls_size, s->dl_elf->tls_initaddr);
       }
       s->status |= DL_INITED;
    }
