@@ -295,16 +295,16 @@ void *dlopen(const char *filename, int flags)
       }
    }
    relascope = handle;
-   for (j = handle; j; j = j->next)
+    list_geteach(handle)
    {
-      dl *s = j->obj;
+      dl *s = fndlist->obj;
       if (s->status & DL_RELOCATED)
       {
          printf(MARK "Alredy relocated %s\n", s->path);
          continue;
       }
       printf(MARK "Relocate %s\n", s->path);
-      selfscope = j;
+      selfscope = (dlhandle*) fndlist;
       int rela_ndx;
       for (rela_ndx = 0; s->dl_elf->rela[rela_ndx]; rela_ndx++)
       {
@@ -318,9 +318,9 @@ void *dlopen(const char *filename, int flags)
       }
       s->status |= DL_RELOCATED;
    }
-   for (j = handle; j != NULL; j = j->next)
+    list_geteach(handle)
    {
-      dl *s = j->obj;
+      dl *s = fndlist->obj;
       if (s->status & DL_INITED)
       {
          continue;
