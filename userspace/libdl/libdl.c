@@ -226,7 +226,6 @@ void *dlopen(const char *filename, int flags)
       goto fail;
    }
    handle = (dlhandle *)list_add(NULL, prog);
-   printf(MARK "handle %p\n", handle);
 #ifdef USE_SYMBOLFILE
    FILE *symfile = fopen("dl.txt", "a");
    fprintf(symfile, "add-symbol-file %s ", prog->path);
@@ -250,38 +249,44 @@ void *dlopen(const char *filename, int flags)
             printf(MARK "%s not found in %s\n", file, ld_library_path);
             goto fail;
          }
+         char found = 0;
          list_geteach(handle)
          {
-            printf(MARK "Checking %s\n", ((dl *)fndlist->obj)->path);
             if (strcmp(((dl *)fndlist->obj)->path, path) == 0)
             {
-               printf(MARK "NEEDED %s ALREDY\n", path);
-               continue;
+               printf(MARK "Needed %s alredy\n", path);
+               found = 1;
+               break;
             }
-            dl *lib;
-            list_geteach(globalscope)
+         }
+         if (found)
+            continue;
+         dl *lib;
+         found = 0;
+         list_geteach(globalscope)
+         {
+            if (strcmp(((dl *)fndlist->obj)->path, path) == 0)
             {
-               if (strcmp(((dl *)fndlist->obj)->path, path) == 0)
-               {
-                  printf(MARK "InCache %s\n", path);
-               }
-               else
-               {
-                  lib = calloc(1, sizeof(dl));
-                  if (dlload(lib, path) == -1)
-                     goto fail;
-                  lib->nlink++;
-                  printf(MARK "NEEDED %s\n", path);
-                  free(path);
-#ifdef USE_SYMBOLFILE
-                  FILE *symfile = fopen("dl.txt", "a");
-                  fprintf(symfile, "add-symbol-file %s ", lib->path);
-                  elf_print_sections_symbols(symfile, lib->dl_elf->exec, lib->dl_elf->hdr, lib->dl_elf->shdrs, lib->dl_elf->shstr);
-                  fprintf(symfile, "\n");
-                  fclose(symfile);
-#endif
-               }
+               printf(MARK "InCache %s\n", path);
+               found = 1;
+               break;
             }
+         }
+         if (!found)
+         {
+            lib = calloc(1, sizeof(dl));
+            if (dlload(lib, path) == -1)
+               goto fail;
+            lib->nlink++;
+            handle = (dlhandle *)list_add((list*)handle, lib);
+            free(path);
+#ifdef USE_SYMBOLFILE
+            FILE *symfile = fopen("dl.txt", "a");
+            fprintf(symfile, "add-symbol-file %s ", lib->path);
+            elf_print_sections_symbols(symfile, lib->dl_elf->exec, lib->dl_elf->hdr, lib->dl_elf->shdrs, lib->dl_elf->shstr);
+            fprintf(symfile, "\n");
+            fclose(symfile);
+#endif
          }
       }
    }
@@ -327,15 +332,18 @@ void *dlopen(const char *filename, int flags)
    for (j = handle->next; j != NULL; j = j->next)
    {
       dl *s = j->obj;
+      char found = 0;
       list_geteach(globalscope)
       {
          if (strcmp(((dl *)fndlist->obj)->path, s->path) == 0)
          {
-            continue;
+            found = 1;
          }
-         printf(MARK "Add to global scope %s\n", s->path);
-         globalscope = (dlhandle *)list_add((list *)globalscope, s);
       }
+      if (!found)
+         continue;
+      printf(MARK "Add to global scope %s\n", s->path);
+      globalscope = (dlhandle *)list_add((list *)globalscope, s);
    }
    return handle;
 fail:
