@@ -239,7 +239,6 @@ void *dlopen(const char *filename, int flags)
       dl *s = j->obj;
       const char *file;
       int dtneed_ndx = 0;
-      printf(MARK "Resolving dependencies of %s\n", s->path);
       while ((file = elf_dtneed(s->dl_elf->dyns, s->dl_elf->dyntab,
                                 s->dl_elf->dynstr, &dtneed_ndx)))
       {
@@ -261,24 +260,29 @@ void *dlopen(const char *filename, int flags)
          }
          if (found)
             continue;
-         dl *lib;
-         found = 0;
+         dl* lib;
+	 dl* glib = NULL;
          list_geteach(globalscope)
          {
             if (strcmp(((dl *)fndlist->obj)->path, path) == 0)
             {
                printf(MARK "InCache %s\n", path);
-               found = 1;
+               glib = fndlist->obj;
                break;
             }
          }
-         if (!found)
+         if (glib)
+	{
+	    handle = (dlhandle *)list_add((list*) handle, glib);
+	}
+	else
          {
             lib = calloc(1, sizeof(dl));
             if (dlload(lib, path) == -1)
                goto fail;
             lib->nlink++;
             handle = (dlhandle *)list_add((list*)handle, lib);
+            globalscope = (dlhandle *)list_add((list *)globalscope, lib);
             free(path);
 #ifdef USE_SYMBOLFILE
             FILE *symfile = fopen("dl.txt", "a");
@@ -296,6 +300,7 @@ void *dlopen(const char *filename, int flags)
       dl *s = j->obj;
       if (s->status & DL_RELOCATED)
       {
+         printf(MARK "Alredy relocated %s\n", s->path);
          continue;
       }
       printf(MARK "Relocate %s\n", s->path);
@@ -329,22 +334,7 @@ void *dlopen(const char *filename, int flags)
       }
       s->status |= DL_INITED;
    }
-   for (j = handle->next; j != NULL; j = j->next)
-   {
-      dl *s = j->obj;
-      char found = 0;
-      list_geteach(globalscope)
-      {
-         if (strcmp(((dl *)fndlist->obj)->path, s->path) == 0)
-         {
-            found = 1;
-         }
-      }
-      if (!found)
-         continue;
-      printf(MARK "Add to global scope %s\n", s->path);
-      globalscope = (dlhandle *)list_add((list *)globalscope, s);
-   }
+
    return handle;
 fail:
    printf(MARK "DLOPEN ERROR %s\n", prog->path);
