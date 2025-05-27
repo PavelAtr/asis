@@ -2,7 +2,7 @@
 #define _LIBDL_H
 
 #include "tinyelf.h"
-#include "namedlist.h"
+#include "list.h"
 #include <sys/types.h>
 
 extern char * ld_library_path;
