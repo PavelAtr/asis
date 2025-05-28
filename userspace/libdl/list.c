@@ -14,13 +14,11 @@ list* list_add(list* scope, aobj obj)
 	new->obj = obj;
 	new->next = NULL;
 	if (scope == NULL) {
-	printf("list added %p\n", new);
 		return new;
         }
 	list* j;
 	for (j = scope; j->next; j = j->next);
 	j->next = new;
-	printf("list added %p\n", new);
 	return scope;
 	
 }
