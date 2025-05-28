@@ -20,6 +20,7 @@ int_t sys_runinit()
    pid_t init = sys_fork();
    if (init == 0) {
       sys_exec(initargv[0], initargv, NULL);
+      return -1;
    } else {
       int_t ret;
       sys_waitpid(init, &ret, 0);

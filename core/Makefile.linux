@@ -13,7 +13,7 @@ sys_printf.c
 
 
 
-TINYSYS_LINK = sys_dev.c \
+ASIS_LINK = sys_dev.c \
 sys_sched.c \
 main.c \
 syscalls/sys_run.c \
@@ -26,16 +26,18 @@ syscalls/sys_usleep.c \
 syscalls/sys_rlimit.c \
 sys_dl.c \
 sys_trap.c \
-../userspace/libdl/libdl.c \
-../userspace/libdl/tinyelf.c \
-../userspace/libdl/list.c \
 ../userspace/libdl/$(ARCH)/relocate.c \
 ../userspace/alibc/src/stdio.c
+
+NOCHECK = ../userspace/libdl/libdl.c \
+../userspace/libdl/tinyelf.c \
+../userspace/libdl/list.c 
 
 
 all:
 	$(CC) $(CFLAGS) -fPIC -g -c  -DELF64  $(SYSTEM_LINK)
-	$(CC) $(CFLAGS) -fPIC -g -c --sysroot=$(PREFIX) -include include/asis.h -DELF64 -D__ASIS__ -DUSE_SYMBOLFILE $(TINYSYS_LINK)
+	$(CC) $(CFLAGS) -fPIC -g -c --sysroot=$(PREFIX) -include include/asis.h -DELF64 -D__ASIS__ -DUSE_SYMBOLFILE $(ASIS_LINK)
+	$(CC) $(CFLAGS) -fPIC -g -c --sysroot=$(PREFIX) -Wno-incompatible-pointer-types -include include/asis.h -DELF64 -D__ASIS__ -DUSE_SYMBOLFILE $(NOCHECK)
 	$(CC) $(CFLAGS) -fPIC -g *.o -o asis.linux
 
 clean:

@@ -22,18 +22,10 @@ void elf_free(elf *e)
    {
       return;
    }
-   if (e->hdr)
-      free(e->hdr);
-   e->hdr = NULL;
-   if (e->phdrs)
-      free(e->phdrs);
-   e->phdrs;
-   if (e->shdrs)
-       free(e->shdrs);
-   e->shdrs = NULL;
-   if (e->shstr)
-      free(e->shstr);
-   e->shstr = NULL;
+      freenull(&e->hdr);
+      freenull(&e->phdrs);
+       freenull(&e->shdrs);
+      freenull(&e->shstr);
    int ndx;
    for (ndx = 0; e->rela[ndx]; ndx++)
    {
@@ -41,11 +33,9 @@ void elf_free(elf *e)
       {
          if (e->rela[ndx]->relas)
          {
-            free(e->rela[ndx]->relas);
-            e->rela[ndx]->relas = NULL;
+            freenull(&e->rela[ndx]->relas);
          }
-         free(e->rela[ndx]);
-         e->rela[ndx] = NULL;
+         freenull(&e->rela[ndx]);
       }
    }
    for (ndx = 0; e->rela[ndx]; ndx++)
@@ -54,25 +44,15 @@ void elf_free(elf *e)
       {
          if (e->tlsrela[ndx]->relas)
          {
-            free(e->tlsrela[ndx]->relas);
-            e->tlsrela[ndx]->relas = NULL;
+            freenull(&e->tlsrela[ndx]->relas);
          }
-         free(e->tlsrela[ndx]);
-         e->tlsrela[ndx] = NULL;
+         freenull(&e->tlsrela[ndx]);
       }
    }
-   if (e->rela)
-      free(e->rela);
-   e->rela = NULL;
-   if (e->tlsrela)
-      free(e->tlsrela);
-   e->tlsrela = NULL;   
-   if (e->dyntab)
-      free(e->dyntab);
-   e->dyntab = NULL;
-   if (e->dynstr)
-      free(e->dynstr);
-   e->dynstr = NULL;
+      freenull(&e->rela);
+      freenull(&e->tlsrela);
+      freenull(&e->dyntab);
+      freenull(&e->dynstr);
    if (e->exec)
       munmap(e->exec, e->exec_size);
    e->exec = NULL;
@@ -274,13 +254,14 @@ void *dlopen(const char *filename, int flags)
          if (glib)
 	{
 	    handle = (dlhandle *)list_add((list*) handle, glib);
+	    glib->nlink++;
 	}
 	else
          {
             lib = calloc(1, sizeof(dl));
             if (dlload(lib, path) == -1)
                goto fail;
-            lib->nlink++;
+            lib->nlink = 1;
             handle = (dlhandle *)list_add((list*)handle, lib);
             globalscope = (dlhandle *)list_add((list *)globalscope, lib);
             free(path);
@@ -365,6 +346,7 @@ int dlclose(void *hndl)
    dlhandle *j = hndl;
    dl *s;
    dlhandle *next = j;
+   dlhandle *copy = j;
    while (next)
    {
       next = j->next;
@@ -374,16 +356,18 @@ int dlclose(void *hndl)
       s->nlink--;
       if (s->nlink <= 0)
       {
-         printf(MARK "Dlclose %s\n", s->path);
-         list_rm((list*) globalscope, s);
+         printf(MARK "Dlclose %s nlink=%d\n", s->path, s->nlink);
+         list_geteach(globalscope)
+	    printf("globalscope list=%p\n", fndlist);
+         globalscope = list_rm((list*) globalscope, s);
+         list_geteach(copy)
+	    printf("copy list=%p\n", fndlist);
+	 copy = list_rm((list*) copy, s);
          elf_fini(s->dl_elf->exec, s->dl_elf->dyns, s->dl_elf->dyntab);
          elf_free(s->dl_elf);
-         free(s->dl_elf);
-         s->dl_elf = NULL;
-         free(s);
-         s = NULL;
+         freenull(&s->dl_elf);
+         freenull(&s);
       }
-      free(j);
       j = next;
    }
    return 0;

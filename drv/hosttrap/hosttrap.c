@@ -14,5 +14,5 @@ void segfault_handler (int signum)
 
 void init_hosttrap()
 {
-   signal(SIGSEGV, segfault_handler);
+/*   signal(SIGSEGV, segfault_handler); BUG*/
 }
