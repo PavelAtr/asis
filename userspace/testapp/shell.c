@@ -63,6 +63,7 @@ int runcommand(char* cmd)
    pid_t child = fork();
    if (child == 0) {
       execve(myargv[0], myargv, NULL);
+      exit(-1);
    } else if(child == -1) {
       puts(strerror(errno));
       puts("\n");
