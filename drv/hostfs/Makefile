@@ -12,4 +12,6 @@ all:
 	for src in $(HYPVSR_LINK) ; do \
 	    $(CC) -c $(CFLAGS) -DELF64 $$src -o $(BUILD_DIR)/$$src.o; \
 	done
+else
+all:
 endif

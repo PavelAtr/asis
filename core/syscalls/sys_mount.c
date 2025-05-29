@@ -1,7 +1,13 @@
 #include <asis.h>
+
+#ifdef CONFIG_HOSTFS
 #include "../../drv/hostfs/hostfs.h"
+#endif
+
+#ifdef CONFIG_UEFIFS
 #include "../../drv/uefifs/uefifs.h"
-#include "../../drv/weekfs/src/week_tiny.h"
+#endif
+
 #include <string.h>
 #include <errno.h>
 #include <sys/stat.h>
@@ -18,6 +24,7 @@ mountpoint* sys_get_mountpoint(const char* file)
    }
    for (i = 0; i < MAXMOUNT; i++)
       if (mountpoints[i].path) {
+	printf("%d mountpoint = %s\n", i, mountpoints[i].path);
          if (strstr(file, mountpoints[i].path) == file) {
             size_t len = strlen(mountpoints[i].path);
             if (len > best) {
@@ -48,16 +55,18 @@ mountpoint* _get_free_mountpoint()
 int  _sys_mount(device* dev, mountpoint* mount, const char* fstype,
    const char* options)
 {
-#ifndef UEFI
+#ifdef CONFIG_HOSTFS
    if (strcmp(fstype, "hostfs") == 0) {
       return hostfs_mount(dev, mount, options);
    }
 #endif
-#ifdef UEFI
+
+#ifdef CONFIG_UEFIFS
    if (strcmp(fstype, "uefifs") == 0) {
       return uefifs_mount(dev, mount, options);
    }
 #endif
+
 /*   if (strcmp(fstype, "weekfs") == 0) {
       return weekfs_mount(dev, mount, options);
    } GARBAGE*/
@@ -87,8 +96,10 @@ int sys_mount(const char* blk, const char* dir, const char* fstype,
       return -1;
    }
 mount:
-   mount->path = dir;
-   return _sys_mount(dev, mount, fstype, options);
+   int ret = _sys_mount(dev, mount, fstype, options);
+   if (!ret) mount->path = dir;
+
+   return ret;
 }
 
 int sys_umount(const char* dir)

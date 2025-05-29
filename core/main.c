@@ -5,8 +5,9 @@
 #ifdef CONFIG_DUMMYBLK
 #include "../drv/dummyblk/dummyblk.h"
 #endif
-
+#ifdef CONFIG_LOOP
 #include "../drv/loop/loop.h"
+#endif
 
 #ifdef UEFI
 #include "../drv/fbgop/fbgop.h"
@@ -27,6 +28,8 @@ int main(int argc, char** argv)
 {
    sys_printf(SYS_INFO "Starting TinySystem\n");
    init_proc();
+
+#ifdef CONFIG_TTY
    devices[0].file = "/dev/tty";
    devices[0].type = S_IFCHR;
    devices[0].devparams = NULL;
@@ -34,6 +37,9 @@ int main(int argc, char** argv)
    devices[0].dev_write = &tty_write;
    devices[0].dev_seek = &tty_seek;
    devices[0].dev_ioctl = &tty_ioctl;
+#endif
+
+#ifdef CONFIG_LOOP
    devices[1].file = "/dev/sda";
    devices[1].type = S_IFBLK;
    devices[1].devparams = NULL;
@@ -41,7 +47,9 @@ int main(int argc, char** argv)
    devices[1].dev_write = &blk_write;
    devices[1].dev_seek = &blk_seek;
    devices[1].dev_ioctl = &blk_ioctl;
-#ifndef UEFI
+#endif
+
+#ifdef CONFIG_LOOP
    loop l;
    l.filename = "/home/pavel/проекты/tinysys/drv/weekfs/virtualhda";
    l.offset = 0;
@@ -54,6 +62,7 @@ int main(int argc, char** argv)
    devices[2].dev_seek = &loop_seek;
    devices[2].dev_ioctl = &loop_ioctl;
 #endif
+
 #ifdef UEFI
    fbgop fb;
    devices[3].file = "/dev/fb0";
@@ -65,19 +74,23 @@ int main(int argc, char** argv)
    devices[3].dev_ioctl = &fbgop_ioctl;
    /*	fbgop_init(&fb); */
 #endif
-#ifndef UEFI
+
+#ifdef CONFIG_LINUX
    if (sys_mount("/dev/sda", "/", "hostfs", "")) {
       sys_printf(SYS_ERROR "Error mount /\n");
    }
 /*  MARK   if (sys_mount("/dev/loop0", "/week", "weekfs", "")) {
       sys_printf(SYS_ERROR "Error mount /week\n");
    }*/
-#else
+#endif
+
+#ifdef CONFIG_UEFI
    if (sys_mount("/dev/sda", "/", "uefifs", "")) {
       sys_printf(SYS_ERROR "Error mount /\n");
    }
 #endif
-#ifndef UEFI
+
+#ifdef CONFIG_LINTRAP
    init_hosttrap();
 /* MARK   sys_umount("/week"); */
 #endif
