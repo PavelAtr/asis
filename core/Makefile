@@ -1,14 +1,6 @@
 include ../.config
 
-ifeq ($(CONFIG_X86_64), y)
-    export ARCH=x86_64
-endif
-ifeq ($(CONFIG_LINUX), y)
-    export CFLAGS?= -fPIC -g -fomit-frame-pointer -D__ASIS__
-endif
-export PREFIX=/asis
-
-SYSTEM_LINK = \
+HYPERV_LINK = \
 syscalls/sys_memory.c \
 sys_printf.c
 
@@ -49,16 +41,16 @@ objs: clean
 
 	make -C ../drv -f Makefile
 
-	for src in $(SYSTEM_LINK) ; do \
+	for src in $(HYPERV_LINK) ; do \
 	    $(CC) -c $(CFLAGS) -DELF64 $$src -o ../build/$$src.o; \
 	done
 
 	for src in $(ASIS_LINK) ; do \
-	    $(CC) -c $(CFLAGS) --sysroot=$(PREFIX) -DUSE_SYMBOLFILE $$src -o ../build/$$src.o; \
+	    $(CC) -c $(CFLAGS) $(SYSROOT) -D__ASIS__ -DUSE_SYMBOLFILE $$src -o ../build/$$src.o; \
 	done
 
 	for src in $(EXTLIBS) ; do \
-	    $(CC) -c $(CFLAGS) --sysroot=$(PREFIX) -include include/asis.h -DELF64 -DUSE_SYMBOLFILE $$src -o ../build/$$src.o; \
+	    $(CC) -c $(CFLAGS) $(SYSROOT) -D__ASIS__ -include include/asis.h -DELF64 -DUSE_SYMBOLFILE $$src -o ../build/$$src.o; \
 	done
 clean:
 	rm -rf ../build/*

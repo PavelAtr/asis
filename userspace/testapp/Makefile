@@ -1,28 +1,29 @@
 PREFIX?=/asis
 EXTENTION?=
-CFLAGS?=-g -fPIC -fomit-frame-pointer
-LDFLAGS=-nostdlib $(PREFIX)/lib/crt.o $(PREFIX)/lib/tls.o -lac
+CFLAGS?= -g -fPIC -fomit-frame-pointer
+LDFLAGS?= -nostdlib $(PREFIX)/lib/crt.o $(PREFIX)/lib/tls.o -lac
+SYSROOT?= --sysroot=$(PREFIX)
 
 all:
-	$(CC) --sysroot=$(PREFIX) $(CFLAGS) -fPIC shell.c $(LDFLAGS) -o shell$(EXTENTION)
-	$(CC) --sysroot=$(PREFIX) $(CFLAGS) -fPIC hello.c $(LDFLAGS) -o hello$(EXTENTION)
-	$(CC) --sysroot=$(PREFIX) $(CFLAGS) -fPIC ls.c $(LDFLAGS) -o ls$(EXTENTION)
-	$(CC) --sysroot=$(PREFIX) $(CFLAGS) -fPIC stat.c $(LDFLAGS) -o stat$(EXTENTION)
-	$(CC) --sysroot=$(PREFIX) $(CFLAGS) -fPIC mkdir.c $(LDFLAGS) -o mkdir$(EXTENTION)
-	$(CC) --sysroot=$(PREFIX) $(CFLAGS) -fPIC touch.c $(LDFLAGS) -o touch$(EXTENTION)
-	$(CC) --sysroot=$(PREFIX) $(CFLAGS) -fPIC unlink.c $(LDFLAGS) -o unlink$(EXTENTION)
-	$(CC) --sysroot=$(PREFIX) $(CFLAGS) -fPIC wallpaper.c $(LDFLAGS) -o wallpaper$(EXTENTION)
-	$(CC) --sysroot=$(PREFIX) $(CFLAGS) -fPIC id.c $(LDFLAGS) -o id$(EXTENTION)
-	$(CC) --sysroot=$(PREFIX) $(CFLAGS) -fPIC chmod.c $(LDFLAGS) -o chmod$(EXTENTION)
-	$(CC) --sysroot=$(PREFIX) $(CFLAGS) -fPIC chown.c $(LDFLAGS) -o chown$(EXTENTION)
-	$(CC) --sysroot=$(PREFIX) $(CFLAGS) -fPIC testfork.c $(LDFLAGS) -o testfork$(EXTENTION)
-	$(CC) --sysroot=$(PREFIX) $(CFLAGS) -fPIC segfault.c $(LDFLAGS)  -o segfault$(EXTENTION)
-	$(CC) --sysroot=$(PREFIX) $(CFLAGS) -fPIC passdb.c $(LDFLAGS) -lpwd -o passdb$(EXTENTION)
-	$(CC) --sysroot=$(PREFIX) $(CFLAGS) -fPIC grpdb.c $(LDFLAGS) -lpwd -o grpdb$(EXTENTION)
-	$(CC) --sysroot=$(PREFIX) $(CFLAGS) -fPIC _exit.c $(LDFLAGS) -o _exit$(EXTENTION)
-	$(CC) --sysroot=$(PREFIX) $(CFLAGS) -fPIC jmp.c $(LDFLAGS) -o jmp$(EXTENTION)
-	$(CC) --sysroot=$(PREFIX) $(CFLAGS) -fPIC fds.c $(LDFLAGS) -o fds$(EXTENTION)
-	$(CC) --sysroot=$(PREFIX) $(CFLAGS) -fPIC mycat.c $(LDFLAGS) -o mycat$(EXTENTION)
+	$(CC) $(SYSROOT) $(CFLAGS) -fPIC shell.c $(LDFLAGS) -o shell$(EXTENTION)
+	$(CC) $(SYSROOT) $(CFLAGS) -fPIC hello.c $(LDFLAGS) -o hello$(EXTENTION)
+	$(CC) $(SYSROOT) $(CFLAGS) -fPIC ls.c $(LDFLAGS) -o ls$(EXTENTION)
+	$(CC) $(SYSROOT) $(CFLAGS) -fPIC stat.c $(LDFLAGS) -o stat$(EXTENTION)
+	$(CC) $(SYSROOT) $(CFLAGS) -fPIC mkdir.c $(LDFLAGS) -o mkdir$(EXTENTION)
+	$(CC) $(SYSROOT) $(CFLAGS) -fPIC touch.c $(LDFLAGS) -o touch$(EXTENTION)
+	$(CC) $(SYSROOT) $(CFLAGS) -fPIC unlink.c $(LDFLAGS) -o unlink$(EXTENTION)
+	$(CC) $(SYSROOT) $(CFLAGS) -fPIC wallpaper.c $(LDFLAGS) -o wallpaper$(EXTENTION)
+	$(CC) $(SYSROOT) $(CFLAGS) -fPIC id.c $(LDFLAGS) -o id$(EXTENTION)
+	$(CC) $(SYSROOT) $(CFLAGS) -fPIC chmod.c $(LDFLAGS) -o chmod$(EXTENTION)
+	$(CC) $(SYSROOT) $(CFLAGS) -fPIC chown.c $(LDFLAGS) -o chown$(EXTENTION)
+	$(CC) $(SYSROOT) $(CFLAGS) -fPIC testfork.c $(LDFLAGS) -o testfork$(EXTENTION)
+	$(CC) $(SYSROOT) $(CFLAGS) -fPIC segfault.c $(LDFLAGS)  -o segfault$(EXTENTION)
+	$(CC) $(SYSROOT) $(CFLAGS) -fPIC passdb.c $(LDFLAGS) -lpwd -o passdb$(EXTENTION)
+	$(CC) $(SYSROOT) $(CFLAGS) -fPIC grpdb.c $(LDFLAGS) -lpwd -o grpdb$(EXTENTION)
+	$(CC) $(SYSROOT) $(CFLAGS) -fPIC _exit.c $(LDFLAGS) -o _exit$(EXTENTION)
+	$(CC) $(SYSROOT) $(CFLAGS) -fPIC jmp.c $(LDFLAGS) -o jmp$(EXTENTION)
+	$(CC) $(SYSROOT) $(CFLAGS) -fPIC fds.c $(LDFLAGS) -o fds$(EXTENTION)
+	$(CC) $(SYSROOT) $(CFLAGS) -fPIC mycat.c $(LDFLAGS) -o mycat$(EXTENTION)
 
 #	$(CC) -g test1.c -o test1
 #	$(CC) -g -I../libpwd/include/ ../libpwd/libpwd.a test2.c -o test2

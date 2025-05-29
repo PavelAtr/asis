@@ -1,12 +1,14 @@
 include .config
 
+export PREFIX=/asis
 ifeq ($(CONFIG_X86_64), y)
     export ARCH=x86_64
 endif
 ifeq ($(CONFIG_LINUX), y)
-    export CFLAGS?= -fPIC -g -fomit-frame-pointer -D__ASIS__
+    export CFLAGS= -fPIC -g -fomit-frame-pointer
+    export SYSROOT=--sysroot=$(PREFIX)
 endif
-export PREFIX=/asis
+
 
 all: headers
 	make -C core
