@@ -15,3 +15,6 @@ userspace/libpwd/*.o
 userspace/alibc/init/crtstub.a
 userspace/libpwd/libpwd.a
 userspace/libpwd/libpwd.so
+userspace/libdl/libdl.a
+userspace/libdl/*.o
+userspace/libdl/libdl.so
