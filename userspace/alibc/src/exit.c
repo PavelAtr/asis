@@ -14,9 +14,9 @@ void (*retexit)(int ret);
 
 void _exit(int status)
 {
-    if (atexit_func) {
+/*    if (atexit_func) {
         atexit_func();
-    }
+    }  BUG NEED WORK NOT REALIZED*/
     retexit(status);
     while (1); // Гарантирует, что функция не вернёт управление
 }
