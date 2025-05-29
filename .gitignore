@@ -1,0 +1,8 @@
+.config
+.config.old
+.vscode/
+config.h
+core/asis.uefi
+dl.txt
+qemu/
+

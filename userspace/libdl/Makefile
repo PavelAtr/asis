@@ -10,7 +10,7 @@ all:
 	ar rcs libdl.a *.o
 	
 clean:
-	rm -f *.o *.a *.so
+	rm -f *.o *.a *.so x86_64/*.o
 	
 install:
 	mkdir -p $(DESTDIR)$(PREFIX)/lib
