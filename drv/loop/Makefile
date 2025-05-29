@@ -1,13 +1,5 @@
 include ../../.config
 
-ARCH?=x86_64
-
-ifeq ($(CONFIG_LINUX), y)
-    CFLAGS?= -fPIC -g -fomit-frame-pointer -D__ASIS__
-endif
-
-PREFIX?=/asis
-
 HYPVSR_LINK = \
 loop.c
 

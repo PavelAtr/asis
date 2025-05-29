@@ -7,14 +7,31 @@ config UEFI
     bool "UEFI as hypervisor"
 endchoice
 
+
+
 menu "Core"
+
+choice ARCHITECTURE
+    prompt "Select architecture"
+    default X86_64
+config X86_64
+    bool "AMD64 architecture"
+config OTHER_ARCH
+    bool "Other architectures (not supported)"
+endchoice
+
 endmenu
+
+
+
 
 menu "Drivers"
 
 source "drv/hostfs/Kconfig"
 source "drv/tty/Kconfig"
 source "drv/loop/Kconfig"
+source "drv/dummyblk/Kconfig"
+source "drv/lintrap/Kconfig"
 
 endmenu
 

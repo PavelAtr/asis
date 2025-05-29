@@ -1,5 +1,5 @@
 #include "../../core/include/asis.h"
-#include "hosttrap.h"
+#include "lintrap.h"
 #include <signal.h>
 #include <stddef.h>
 

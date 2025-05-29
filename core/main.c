@@ -1,11 +1,21 @@
 #include <asis.h>
+#include "../config.h"
 #include "../drv/tty/tty.h"
-#include "../drv/blk/blk.h"
+
+#ifdef CONFIG_DUMMYBLK
+#include "../drv/dummyblk/dummyblk.h"
+#endif
+
 #include "../drv/loop/loop.h"
+
 #ifdef UEFI
 #include "../drv/fbgop/fbgop.h"
 #else
-#include "../drv/hosttrap/hosttrap.h"
+
+#ifdef CONFIG_LINTRAP
+#include "../drv/lintrap/lintrap.h"
+#endif
+
 #include "sys/mman.h"
 #include "../drv/hostfs/hostfs.h"
 #endif

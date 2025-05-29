@@ -1,0 +1,7 @@
+config LINTRAP
+      bool "Trap linux signals"
+      depends on LINUX
+      default y
+      help
+        Trap linux signals as SIGSEGV SIGABRT ... and proxy to current
+	guest application.

@@ -1,11 +1,11 @@
 include ../../.config
 
 HYPVSR_LINK = \
-tty.c
+dummyblk.c
 
-BUILD_DIR = ../../build/tty
+BUILD_DIR = ../../build/dummyblk
 
-ifeq ($(CONFIG_TTY), y)
+ifeq ($(CONFIG_DUMMYBLK), y)
 all:
 	mkdir -p $(BUILD_DIR)
 

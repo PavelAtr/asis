@@ -1,0 +1,5 @@
+config DUMMYBLK
+      bool "Dummy block device"
+      default y
+      help
+        Dummy block device (for hostfs uefifs for example).

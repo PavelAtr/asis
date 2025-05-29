@@ -1,4 +1,4 @@
-#include "blk.h"
+#include "dummyblk.h"
 
 len_t blk_read(void* devsb, void* ptr, len_t size)
 {
