@@ -7,7 +7,7 @@ endif
 ifeq ($(CONFIG_LINUX), y)
     export CFLAGS= -fPIC -g -fomit-frame-pointer
     export CFLAGS_CORE= -fPIC -g -fomit-frame-pointer
-    export LDFLAGS_CORE="-o ../build/asis.linux"
+    export LDFLAGS_CORE=-o ../build/asis.linux
     export SYSROOT=--sysroot=$(PREFIX)
     export LD=$(CC)
 endif
