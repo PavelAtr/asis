@@ -18,3 +18,4 @@ userspace/libpwd/libpwd.so
 userspace/libdl/libdl.a
 userspace/libdl/*.o
 userspace/libdl/libdl.so
+userspace/testapp/build/

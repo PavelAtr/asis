@@ -5,25 +5,26 @@ LDFLAGS?= -nostdlib $(PREFIX)/lib/crt.o $(PREFIX)/lib/tls.o -lac
 SYSROOT?= --sysroot=$(PREFIX)
 
 all:
-	$(CC) $(SYSROOT) $(CFLAGS) -fPIC shell.c $(LDFLAGS) -o shell$(EXTENTION)
-	$(CC) $(SYSROOT) $(CFLAGS) -fPIC hello.c $(LDFLAGS) -o hello$(EXTENTION)
-	$(CC) $(SYSROOT) $(CFLAGS) -fPIC ls.c $(LDFLAGS) -o ls$(EXTENTION)
-	$(CC) $(SYSROOT) $(CFLAGS) -fPIC stat.c $(LDFLAGS) -o stat$(EXTENTION)
-	$(CC) $(SYSROOT) $(CFLAGS) -fPIC mkdir.c $(LDFLAGS) -o mkdir$(EXTENTION)
-	$(CC) $(SYSROOT) $(CFLAGS) -fPIC touch.c $(LDFLAGS) -o touch$(EXTENTION)
-	$(CC) $(SYSROOT) $(CFLAGS) -fPIC unlink.c $(LDFLAGS) -o unlink$(EXTENTION)
-	$(CC) $(SYSROOT) $(CFLAGS) -fPIC wallpaper.c $(LDFLAGS) -o wallpaper$(EXTENTION)
-	$(CC) $(SYSROOT) $(CFLAGS) -fPIC id.c $(LDFLAGS) -o id$(EXTENTION)
-	$(CC) $(SYSROOT) $(CFLAGS) -fPIC chmod.c $(LDFLAGS) -o chmod$(EXTENTION)
-	$(CC) $(SYSROOT) $(CFLAGS) -fPIC chown.c $(LDFLAGS) -o chown$(EXTENTION)
-	$(CC) $(SYSROOT) $(CFLAGS) -fPIC testfork.c $(LDFLAGS) -o testfork$(EXTENTION)
-	$(CC) $(SYSROOT) $(CFLAGS) -fPIC segfault.c $(LDFLAGS)  -o segfault$(EXTENTION)
-	$(CC) $(SYSROOT) $(CFLAGS) -fPIC passdb.c $(LDFLAGS) -lpwd -o passdb$(EXTENTION)
-	$(CC) $(SYSROOT) $(CFLAGS) -fPIC grpdb.c $(LDFLAGS) -lpwd -o grpdb$(EXTENTION)
-	$(CC) $(SYSROOT) $(CFLAGS) -fPIC _exit.c $(LDFLAGS) -o _exit$(EXTENTION)
-	$(CC) $(SYSROOT) $(CFLAGS) -fPIC jmp.c $(LDFLAGS) -o jmp$(EXTENTION)
-	$(CC) $(SYSROOT) $(CFLAGS) -fPIC fds.c $(LDFLAGS) -o fds$(EXTENTION)
-	$(CC) $(SYSROOT) $(CFLAGS) -fPIC mycat.c $(LDFLAGS) -o mycat$(EXTENTION)
+	mkdir build
+	$(CC) $(SYSROOT) $(CFLAGS) -fPIC shell.c $(LDFLAGS) -o build/shell$(EXTENTION)
+	$(CC) $(SYSROOT) $(CFLAGS) -fPIC hello.c $(LDFLAGS) -o build/hello$(EXTENTION)
+	$(CC) $(SYSROOT) $(CFLAGS) -fPIC ls.c $(LDFLAGS) -o build/ls$(EXTENTION)
+	$(CC) $(SYSROOT) $(CFLAGS) -fPIC stat.c $(LDFLAGS) -o build/stat$(EXTENTION)
+	$(CC) $(SYSROOT) $(CFLAGS) -fPIC mkdir.c $(LDFLAGS) -o build/mkdir$(EXTENTION)
+	$(CC) $(SYSROOT) $(CFLAGS) -fPIC touch.c $(LDFLAGS) -o build/touch$(EXTENTION)
+	$(CC) $(SYSROOT) $(CFLAGS) -fPIC unlink.c $(LDFLAGS) -o build/unlink$(EXTENTION)
+	$(CC) $(SYSROOT) $(CFLAGS) -fPIC wallpaper.c $(LDFLAGS) -o build/wallpaper$(EXTENTION)
+	$(CC) $(SYSROOT) $(CFLAGS) -fPIC id.c $(LDFLAGS) -o build/id$(EXTENTION)
+	$(CC) $(SYSROOT) $(CFLAGS) -fPIC chmod.c $(LDFLAGS) -o build/chmod$(EXTENTION)
+	$(CC) $(SYSROOT) $(CFLAGS) -fPIC chown.c $(LDFLAGS) -o build/chown$(EXTENTION)
+	$(CC) $(SYSROOT) $(CFLAGS) -fPIC testfork.c $(LDFLAGS) -o build/testfork$(EXTENTION)
+	$(CC) $(SYSROOT) $(CFLAGS) -fPIC segfault.c $(LDFLAGS)  -o build/segfault$(EXTENTION)
+	$(CC) $(SYSROOT) $(CFLAGS) -fPIC passdb.c $(LDFLAGS) -lpwd -o build/passdb$(EXTENTION)
+	$(CC) $(SYSROOT) $(CFLAGS) -fPIC grpdb.c $(LDFLAGS) -lpwd -o build/grpdb$(EXTENTION)
+	$(CC) $(SYSROOT) $(CFLAGS) -fPIC _exit.c $(LDFLAGS) -o build/_exit$(EXTENTION)
+	$(CC) $(SYSROOT) $(CFLAGS) -fPIC jmp.c $(LDFLAGS) -o build/jmp$(EXTENTION)
+	$(CC) $(SYSROOT) $(CFLAGS) -fPIC fds.c $(LDFLAGS) -o build/fds$(EXTENTION)
+	$(CC) $(SYSROOT) $(CFLAGS) -fPIC mycat.c $(LDFLAGS) -o build/mycat$(EXTENTION)
 
 #	$(CC) -g test1.c -o test1
 #	$(CC) -g -I../libpwd/include/ ../libpwd/libpwd.a test2.c -o test2
@@ -32,33 +33,30 @@ all:
 #	$(CC) -g jmp.c -o test4
 
 clean:
-	rm -f shell$(EXTENTION) hello$(EXTENTION) test$(EXTENTION) touch$(EXTENTION) wallpaper$(EXTENTION) \
-              ls$(EXTENTION) stat$(EXTENTION) unlink$(EXTENTION) id$(EXTENTION) mkdir$(EXTENTION) chown$(EXTENTION) \
-              chmod$(EXTENTION) testfork$(EXTENTION) segfault$(EXTENTION) passdb$(EXTENTION) grpdb$(EXTENTION) _exit$(EXTENTION) \
-              test1$(EXTENTION) test2$(EXTENTION) test3$(EXTENTION) jmp$(EXTENTION) fds$(EXTENTION) mycat$(EXTENTION)
+	rm -f build/*
 
 install:
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
-	install shell$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/shell$(EXTENTION)
-	install hello$(EXTENTION) $(DESTDIR)$(PREFIX)/bin//hello$(EXTENTION)
-#	install ls$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/ls$(EXTENTION)
-#	install stat$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/stat$(EXTENTION)
-#	install mkdir$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/mkdir$(EXTENTION)
-#	install touch$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/touch$(EXTENTION)
-#	install unlink$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/unlink$(EXTENTION)
-	install wallpaper$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/wallpaper$(EXTENTION)
+	install build/shell$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/shell$(EXTENTION)
+	install build/hello$(EXTENTION) $(DESTDIR)$(PREFIX)/bin//hello$(EXTENTION)
+#	install build/ls$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/ls$(EXTENTION)
+#	install build/stat$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/stat$(EXTENTION)
+#	install build/mkdir$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/mkdir$(EXTENTION)
+#	install build/touch$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/touch$(EXTENTION)
+#	install build/unlink$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/unlink$(EXTENTION)
+	install build/wallpaper$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/wallpaper$(EXTENTION)
 	install wallpaper.raw $(DESTDIR)$(PREFIX)/wallpaper.raw
-#	install id$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/id$(EXTENTION)
-#	install chmod$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/chmod$(EXTENTION)
-#	install chown$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/chown$(EXTENTION)
-	install testfork$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/testfork$(EXTENTION)
-	install segfault$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/segfault$(EXTENTION)
-	install passdb$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/passdb$(EXTENTION)
-	install grpdb$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/grpdb$(EXTENTION)
-	install _exit$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/_exit$(EXTENTION)
-	install jmp$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/jmp$(EXTENTION)
-	install fds$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/fds$(EXTENTION)
-	install mycat$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/mycat$(EXTENTION)
+#	install build/id$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/id$(EXTENTION)
+#	install build/chmod$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/chmod$(EXTENTION)
+#	install build/chown$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/chown$(EXTENTION)
+	install build/testfork$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/testfork$(EXTENTION)
+	install build/segfault$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/segfault$(EXTENTION)
+	install build/passdb$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/passdb$(EXTENTION)
+	install build/grpdb$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/grpdb$(EXTENTION)
+	install build/_exit$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/_exit$(EXTENTION)
+	install build/jmp$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/jmp$(EXTENTION)
+	install build/fds$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/fds$(EXTENTION)
+	install build/mycat$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/mycat$(EXTENTION)
 
 
 
