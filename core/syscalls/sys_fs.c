@@ -46,6 +46,7 @@ len_t sys_afread(const char* path, void* ptr, len_t size, len_t off)
    default:
       break;
    }
+   current->sys_errno = ENOTSUP;
    return 0;
 }
 
@@ -90,6 +91,7 @@ len_t sys_afwrite(const char* path, const void* ptr, len_t size, len_t off)
    default:
       break;
    }
+   current->sys_errno = ENOTSUP;
    return 0;
 }
 

@@ -5,14 +5,12 @@ void* sys_dlopen(const char *filename, int flags)
 {
     void* handle;
     handle = dlopen(filename, 0);
-    printf("(list) dlopen %p\n", handle);
     return handle;
 }
 
 
 int sys_dlclose(void *handle)
 {
-   printf("(list) dlclose %p\n", handle);
    if (!handle) {
 	  return -1;
    }

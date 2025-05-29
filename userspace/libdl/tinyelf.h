@@ -3,7 +3,6 @@
 
 #include "elf.h"
 #include <sys/types.h>
-#include <stdlib.h>
 
 #ifndef MARK
 #define MARK "dldebug:\t"

@@ -1,8 +1,4 @@
-#include "../../core/uefi/uefi.h"
-#include "../../core/include/sys/types.h"
 #include "fbgop.h"
-
-
 
 int_t fbgop_init(fbgop* devparams)
 {
@@ -53,7 +49,7 @@ void fbgop_seek(void* devparam, len_t offset)
 {
 }
 
-int_t fbgop_ioctl(void* devparam, ulong_t request, ...)
+int_t fbgop_ioctl(void* devparam, ulong_t request, va_list vl)
 {
    return 0;
 }

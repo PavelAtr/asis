@@ -61,7 +61,6 @@ void rewind(FILE* stream);
 int fgetc(FILE* stream);
 int getchar(void);
 #define getc(f) fgetc(f)
-
 int fputs(const char* s, FILE* stream);
 int puts(const char* s);
 int putchar(int c);

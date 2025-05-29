@@ -5,21 +5,23 @@
 #ifdef CONFIG_DUMMYBLK
 #include "../drv/dummyblk/dummyblk.h"
 #endif
+
 #ifdef CONFIG_LOOP
 #include "../drv/loop/loop.h"
 #endif
 
-#ifdef UEFI
+#ifdef CONFIG_FBGOP
 #include "../drv/fbgop/fbgop.h"
-#else
+#endif
 
 #ifdef CONFIG_LINTRAP
 #include "../drv/lintrap/lintrap.h"
 #endif
 
-#include "sys/mman.h"
+#ifdef CONFIG_HOSTFS
 #include "../drv/hostfs/hostfs.h"
 #endif
+
 #include <stddef.h>
 #include <sys/stat.h>
 #include <stdio.h>
@@ -39,7 +41,7 @@ int main(int argc, char** argv)
    devices[0].dev_ioctl = &tty_ioctl;
 #endif
 
-#ifdef CONFIG_LOOP
+#ifdef CONFIG_DUMMYBLK
    devices[1].file = "/dev/sda";
    devices[1].type = S_IFBLK;
    devices[1].devparams = NULL;
@@ -63,7 +65,7 @@ int main(int argc, char** argv)
    devices[2].dev_ioctl = &loop_ioctl;
 #endif
 
-#ifdef UEFI
+#ifdef CONFIG_FBGOP
    fbgop fb;
    devices[3].file = "/dev/fb0";
    devices[3].type = S_IFCHR;
@@ -77,9 +79,9 @@ int main(int argc, char** argv)
 
 #ifdef CONFIG_LINUX
    if (sys_mount("/dev/sda", "/", "hostfs", "")) {
-      sys_printf(SYS_ERROR "Error mount /\n");
+      sys_printf(SYS_ERROR "Error mount / %d!\n", current->sys_errno);
    }
-/*  MARK   if (sys_mount("/dev/loop0", "/week", "weekfs", "")) {
+/* GARBAGE   if (sys_mount("/dev/loop0", "/week", "weekfs", "")) {
       sys_printf(SYS_ERROR "Error mount /week\n");
    }*/
 #endif
@@ -92,7 +94,6 @@ int main(int argc, char** argv)
 
 #ifdef CONFIG_LINTRAP
    init_hosttrap();
-/* MARK   sys_umount("/week"); */
 #endif
 
 /* GARBAGE */

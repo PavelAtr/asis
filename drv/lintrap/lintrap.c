@@ -5,14 +5,19 @@
 
 sigset_t ss;
 
-void segfault_handler (int signum)
+void resetsignals(void)
 {
    sigemptyset(&ss);
    sigprocmask(SIG_SETMASK, &ss, NULL);
+}
+
+void segfault_handler (int signum)
+{
+   resetsignals();
    trap_segfault();
 }
 
 void init_hosttrap()
 {
-/*   signal(SIGSEGV, segfault_handler); BUG*/
+   signal(SIGSEGV, segfault_handler);
 }

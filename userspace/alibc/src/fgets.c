@@ -11,6 +11,9 @@ INIT_FDS
       if (c == '\n') {
          break;
       }
+      if (c == EOF) {
+         break;
+      }
       if (feof(stream)) {
          return NULL;
       }

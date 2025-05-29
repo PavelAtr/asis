@@ -5,6 +5,7 @@
 #include <alloca.h>
 #include <unistd.h>
 #include <locale.h>
+#include <wchar.h>
 
 void* malloc(size_t size);
 void free(void *ptr);

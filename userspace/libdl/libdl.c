@@ -214,6 +214,7 @@ void *dlopen(const char *filename, int flags)
    fclose(symfile);
 #endif
    dlhandle *j;
+   list_geteach_once;
    for (j = handle; j; j = j->next)
    {
       dl *s = j->obj;

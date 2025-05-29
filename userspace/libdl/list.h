@@ -15,7 +15,9 @@ list* list_add(list* scope, aobj obj);
 
 list* list_rm(list* scope, aobj obj);
 
+#define list_geteach_once \
+    list* fndlist
 #define list_geteach(lst) \
-    for (list* fndlist = (list*)lst; fndlist; fndlist = fndlist->next)
+    for (fndlist = (list*)lst; fndlist; fndlist = fndlist->next)
 
 #endif

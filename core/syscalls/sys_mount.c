@@ -1,4 +1,5 @@
 #include <asis.h>
+#include "../../config.h"
 
 #ifdef CONFIG_HOSTFS
 #include "../../drv/hostfs/hostfs.h"
@@ -24,7 +25,6 @@ mountpoint* sys_get_mountpoint(const char* file)
    }
    for (i = 0; i < MAXMOUNT; i++)
       if (mountpoints[i].path) {
-	printf("%d mountpoint = %s\n", i, mountpoints[i].path);
          if (strstr(file, mountpoints[i].path) == file) {
             size_t len = strlen(mountpoints[i].path);
             if (len > best) {
@@ -70,6 +70,7 @@ int  _sys_mount(device* dev, mountpoint* mount, const char* fstype,
 /*   if (strcmp(fstype, "weekfs") == 0) {
       return weekfs_mount(dev, mount, options);
    } GARBAGE*/
+   current->sys_errno = ENOTSUP;
    return -1;
 }
 

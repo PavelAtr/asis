@@ -102,7 +102,6 @@ Elf_Rela* elf_copy_tls_rela(Elf_Shdr* rela, Elf_Rela* relatab, int count)
       switch (ELF_R_TYPE(relatab[j].r_info)) {
       case R_DTPMOD64:
          memcpy(&ret[i++], &relatab[j], sizeof(Elf_Rela));
-	 printf(MARK "COPY TLS RELA in %p %p->%p=%p\n" ,ret, &relatab[j], &ret[j], relatab[j].r_offset);
          break;
       default:
          break;

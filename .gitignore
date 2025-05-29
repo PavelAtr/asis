@@ -3,6 +3,7 @@
 .vscode/
 config.h
 core/asis.uefi
+core/*.o
 dl.txt
 qemu/
 userspace/alibc/*.o

@@ -15,6 +15,7 @@ char command[256];
 char* getcommand()
 {
    fgets(command, 256, stdin);
+   if (command[0] == EOF) exit(-1);
    command[strlen(command) - 1] = '\0';
    return command;
 }
