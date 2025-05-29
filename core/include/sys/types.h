@@ -1,8 +1,6 @@
 #ifndef _TYPES_H
 #define _TYPES_H
 
-#include <stddef.h>
-
 typedef unsigned int uid_t;
 typedef unsigned int gid_t;
 typedef unsigned int mode_t;
@@ -29,10 +27,10 @@ typedef unsigned long long addr_t;
 typedef unsigned long long u_long;
 #else
 typedef unsigned long size_t;
-typedef long  off_t;
-typedef long  off64_t;
+typedef unsigned long  off_t;
+typedef unsigned long  off64_t;
 typedef long ssize_t;
-typedef long time_t;
+typedef unsigned  long time_t;
 typedef long suseconds_t;
 typedef long long_t;
 typedef unsigned long ulong_t;

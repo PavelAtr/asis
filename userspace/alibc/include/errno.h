@@ -1,8 +1,6 @@
 #ifndef _ERRNO_H
 #define _ERRNO_H
 
-#include <sys/types.h>
-
 extern int errno;
 
 #define ESUCCESS 0

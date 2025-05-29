@@ -1,13 +1,18 @@
-#ifndef UEFI
-#include <stdio.h>
-#else
+#include "../../config.h"
+
+#ifdef CONFIG_UEFI
 #include "../../core/uefi/uefi.h"
 #endif
 
+#ifdef CONFIG_LINUX
+#include <stdio.h>
+#endif
+
 #include "tty.h"
-#include <termios.h>
-#include <sys/ioctl.h>
-#include <errno.h>
+#include "../../userspace/alibc/include/termios.h"
+#include "../../userspace/alibc/include/sys/ioctl.h"
+#include "../../userspace/alibc/include/errno.h"
+
 
 len_t tty_read(void* devsb, void* ptr, len_t size)
 {
@@ -27,9 +32,10 @@ void tty_seek(void* devsb, len_t offset)
 
 errno_t tty_ioctl(void* devsb, ulong_t request, va_list vl)
 {
+   struct winsize* ws;
    switch(request) {
       case TIOCGWINSZ:
-         struct winsize* ws = va_arg(vl, struct winsize*);
+         ws = va_arg(vl, struct winsize*);
          ws->ws_row = 25;
          ws->ws_col = 80;
          ws->ws_xpixel = 640;

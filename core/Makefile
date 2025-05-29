@@ -34,7 +34,7 @@ BUILD_DIRS = \
 
 all: objs
 
-	$(CC) $(LDFLAGS) $(shell find ../build -name '*.o') -o ../build/asis.linux
+	$(LD) $(LDFLAGS_CORE) $(shell find ../build -name '*.o')
 
 objs: clean
 	mkdir -p $(BUILD_DIRS)
@@ -42,15 +42,15 @@ objs: clean
 	make -C ../drv -f Makefile
 
 	for src in $(HYPERV_LINK) ; do \
-	    $(CC) -c $(CFLAGS) -DELF64 $$src -o ../build/$$src.o; \
+	    $(CC) -c $(CFLAGS_CORE) $$src -o ../build/$$src.o; \
 	done
 
 	for src in $(ASIS_LINK) ; do \
-	    $(CC) -c $(CFLAGS) $(SYSROOT) -D__ASIS__ -DUSE_SYMBOLFILE $$src -o ../build/$$src.o; \
+	    $(CC) -c $(CFLAGS_CORE) $(SYSROOT) -D__ASIS__ -DUSE_SYMBOLFILE $$src -o ../build/$$src.o; \
 	done
 
 	for src in $(EXTLIBS) ; do \
-	    $(CC) -c $(CFLAGS) $(SYSROOT) -D__ASIS__ -include include/asis.h -DELF64 -DUSE_SYMBOLFILE $$src -o ../build/$$src.o; \
+	    $(CC) -c $(CFLAGS_CORE) $(SYSROOT) -D__ASIS__ $$src -o ../build/$$src.o; \
 	done
 clean:
 	rm -rf ../build/*
