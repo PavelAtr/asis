@@ -357,8 +357,8 @@ int dlclose(void *hndl)
       if (s->nlink <= 0)
       {
          printf(MARK "Dlclose %s nlink=%d\n", s->path, s->nlink);
-         globalscope = list_rm((list*) globalscope, s);
-	 copy = list_rm((list*) copy, s);
+         globalscope = (dlhandle*) list_rm((list*) globalscope, s);
+	 copy = (dlhandle*) list_rm((list*) copy, s);
          elf_fini(s->dl_elf->exec, s->dl_elf->dyns, s->dl_elf->dyntab);
          elf_free(s->dl_elf);
          freenull(&s->dl_elf);

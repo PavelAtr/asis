@@ -1,9 +1,6 @@
-[submodule "userspace/freebsd-src"]
-	path = userspace/freebsd-src
-	url = https://git.freebsd.org/src.git
-[submodule "userspace/dash"]
-	path = userspace/dash
-	url = https://github.com/nyuichi/dash.git
 [submodule "userspace/coreutils"]
 	path = userspace/coreutils
 	url = https://github.com/coreutils/coreutils.git
+[submodule "userspace/dash"]
+	path = userspace/dash
+	url = https://git.kernel.org/pub/scm/utils/dash/dash.git

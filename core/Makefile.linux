@@ -1,19 +1,19 @@
+include ../.config
+
 ARCH?=x86_64
 
-CFLAGS?=-fomit-frame-pointer
+ifeq ($(CONFIG_LINUX), y)
+    CFLAGS?= -fPIC -g -fomit-frame-pointer -D__ASIS__
+endif
+
 PREFIX?=/asis
 
-SYSTEM_LINK = ../drv/tty/*.c \
-../drv/hostfs/*.c \
-../drv/blk/*.c \
-../drv/loop/*.c \
-../drv/hosttrap/*.c \
+SYSTEM_LINK = \
 syscalls/sys_memory.c \
 sys_printf.c
 
-
-
-ASIS_LINK = sys_dev.c \
+ASIS_LINK = \
+sys_dev.c \
 sys_sched.c \
 main.c \
 syscalls/sys_run.c \
@@ -25,20 +25,41 @@ syscalls/sys_mount.c \
 syscalls/sys_usleep.c \
 syscalls/sys_rlimit.c \
 sys_dl.c \
-sys_trap.c \
-../userspace/libdl/$(ARCH)/relocate.c \
-../userspace/alibc/src/stdio.c
-
-NOCHECK = ../userspace/libdl/libdl.c \
-../userspace/libdl/tinyelf.c \
-../userspace/libdl/list.c 
+sys_trap.c 
 
 
-all:
-	$(CC) $(CFLAGS) -fPIC -g -c  -DELF64  $(SYSTEM_LINK)
-	$(CC) $(CFLAGS) -fPIC -g -c --sysroot=$(PREFIX) -include include/asis.h -DELF64 -D__ASIS__ -DUSE_SYMBOLFILE $(ASIS_LINK)
-	$(CC) $(CFLAGS) -fPIC -g -c --sysroot=$(PREFIX) -Wno-incompatible-pointer-types -include include/asis.h -DELF64 -D__ASIS__ -DUSE_SYMBOLFILE $(NOCHECK)
-	$(CC) $(CFLAGS) -fPIC -g *.o -o asis.linux
+EXTLIBS = \
+userspace/libdl/libdl.c \
+userspace/libdl/tinyelf.c \
+userspace/libdl/$(ARCH)/relocate.c \
+userspace/libdl/list.c \
+userspace/alibc/src/stdio.c
+
+BUILD_DIRS = \
+../build/syscalls \
+../build/userspace/alibc/src \
+../build/userspace/libdl/$(ARCH)
+
+all: objs
+
+	$(CC) $(LDFLAGS) $(shell find ../build -name '*.o') -o ../build/asis.linux
+
+objs:
+	mkdir -p $(BUILD_DIRS)
+
+	make -C ../drv -f Makefile
+
+	for src in $(SYSTEM_LINK) ; do \
+	    $(CC) -c $(CFLAGS) -DELF64 $$src -o ../build/$$src.o; \
+	done
+
+	for src in $(ASIS_LINK) ; do \
+	    $(CC) -c $(CFLAGS) --sysroot=$(PREFIX) -DUSE_SYMBOLFILE $$src -o ../build/$$src.o; \
+	done
+
+	for src in $(EXTLIBS) ; do \
+	    $(CC) -c $(CFLAGS) --sysroot=$(PREFIX) -include include/asis.h -DELF64 -DUSE_SYMBOLFILE $$src -o ../build/$$src.o; \
+	done
 
 clean:
 	rm -f *.o

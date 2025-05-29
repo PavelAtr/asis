@@ -57,13 +57,6 @@ void sys_free(void *ptr)
    free(ptr);
 }
 
-void sys_freenull(void**  ptr)
-{
-    if (*ptr)
-	free(*ptr);
-    *ptr = NULL;
-}
-
 size_t free_memory(void)
 {
    return 0;

@@ -4,9 +4,7 @@
 #include <syscall.h>
 #include <errno.h>
 
-char** environ = (char*[]){
-    NULL,
-};
+char** environ;
 
 int envid(const char *name)
 {

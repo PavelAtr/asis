@@ -1,0 +1,5 @@
+config LOOP
+      bool "Simple loop"
+      default y
+      help
+	Simple loop file as blk device

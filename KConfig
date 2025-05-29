@@ -1,0 +1,20 @@
+choice HYPERVISOR
+    prompt "Select hypervisor for run on"
+    default LINUX
+config LINUX
+    bool "Linux as hypervisor"
+config UEFI
+    bool "UEFI as hypervisor"
+endchoice
+
+menu "Core"
+endmenu
+
+menu "Drivers"
+
+source "drv/hostfs/Kconfig"
+source "drv/tty/Kconfig"
+source "drv/loop/Kconfig"
+
+endmenu
+

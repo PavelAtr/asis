@@ -3,6 +3,7 @@
 
 #include "elf.h"
 #include <sys/types.h>
+#include <stdlib.h>
 
 #ifndef MARK
 #define MARK "dldebug:\t"
@@ -40,4 +41,15 @@ Elf_Rela* elf_copy_tls_rela(Elf_Shdr* rela, Elf_Rela* relatab, int count);
 void elf_init(char* exec, Elf_Shdr* dynhdr, Elf64_Dyn* dyntab);
 void elf_fini(char* exec, Elf_Shdr* dynhdr, Elf64_Dyn* dyntab);
 void elf_print_sections_symbols(void* file /* out txt FILE* */,  char* exec, Elf_Ehdr* hdr, Elf_Shdr* shdrs, char* shstrs);
+
+#ifndef __ASIS__
+
+#define freenull(pp) \
+    if (*pp) { \
+	free((void*)*pp); \
+	*pp = NULL; \
+    }
+
+#endif
+
 #endif

@@ -23,12 +23,16 @@
 
 #define malloc(s) sys_malloc(s)
 #define free(p) sys_free(p)
-#define freenull(pp) sys_freenull(pp)
 #define calloc(n, s) sys_calloc(n, s)
 #define printf(fmt, ...) sys_printf(fmt, __VA_ARGS__)
 #define mmap(addr, length, prot, flags, fd, offset) sys_mmap(addr, length, prot, flags, fd, offset)
 #define munmap(addr, length) sys_munmap(addr, length)
 #define afread(pth, p, s, o) sys_afread(pth, p, s, o)
+#define freenull(pp) \
+    if (*pp) { \
+    free((void*)*pp); \
+    *pp = NULL; \
+    }
 
 int_t sys_exec(char* file, char** argv, char** envp);
 int_t sys_runinit();
@@ -49,7 +53,6 @@ void* sys_mmap(void* addr, size_t length, int prot, int flags, int f, off_t offs
 int sys_munmap(void* addr, size_t length);
 void* sys_malloc(size_t size);
 void* sys_calloc(size_t nmemb, size_t size);
-void sys_freenull(void**  ptr);
 extern int curmem;
 void sys_free(void *ptr);
 void sys_prog_free(void *ptr);

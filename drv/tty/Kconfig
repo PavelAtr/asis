@@ -1,0 +1,6 @@
+config TTY
+      bool "Simple console"
+      default y
+      help
+        Proxy tty to core main executable stdin stdout stderr
+	e.g. hypervisor console
