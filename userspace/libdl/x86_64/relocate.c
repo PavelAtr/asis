@@ -30,7 +30,7 @@ void elf_relocate(Elf_Ehdr* hdr, Elf_Shdr* rela, Elf_Rela* relatab,
       return ;
    }
    int j;
-   for(j = 0; j < rela->sh_size / rela->sh_entsize; j ++) {
+   for(j = 0; j < (int)(rela->sh_size / rela->sh_entsize); j ++) {
       void* symaddr;
       const char* symname = &symstr[symtab[ELF_R_SYM(relatab[j].r_info)].st_name];
       if (resolve) {
@@ -98,7 +98,7 @@ Elf_Rela* elf_copy_tls_rela(Elf_Shdr* rela, Elf_Rela* relatab, int count)
    Elf_Rela* ret = malloc(sizeof(Elf_Rela) * count);
    int j;
    int i = 0;
-   for(j = 0; j < rela->sh_size / rela->sh_entsize; j ++) {
+   for(j = 0; j < (int)(rela->sh_size / rela->sh_entsize); j ++) {
       switch (ELF_R_TYPE(relatab[j].r_info)) {
       case R_DTPMOD64:
          memcpy(&ret[i++], &relatab[j], sizeof(Elf_Rela));

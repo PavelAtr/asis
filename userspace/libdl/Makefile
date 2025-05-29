@@ -6,20 +6,20 @@ LDLAGS?= -lac -Wl,-fno-undefined -nostdlib
 SYSROOT?= --sysroot=$(PREFIX)
 
 all: 
-	$(CC) $(SYSROOT) $(CFLAGS) -c $(ARCH)/*.c *.c
-	$(CC) $(SYSROOT) $(LDFLAGS) -shared *.o -o libdl.so
-	ar rcs libdl.a *.o
+	mkdir -p build
+	cd build; $(CC) $(SYSROOT) $(CFLAGS) -c ../$(ARCH)/*.c ../*.c
+	cd build; $(CC) $(SYSROOT) $(LDFLAGS) -shared *.o -o libdl.so
+	cd build; ar rcs libdl.a *.o
 	
 clean:
-	rm -f *.o *.a *.so x86_64/*.o
+	rm -f build/*
 	
 install:
 	mkdir -p $(DESTDIR)$(PREFIX)/lib
-	install libdl.so $(DESTDIR)$(PREFIX)/lib/libdl.so
-	install libdl.a $(DESTDIR)$(PREFIX)/lib/libdl.a
-	mkdir -p $(DESTDIR)$(PREFIX)/usr
-	cp -r dlfcn.h $(DESTDIR)$(PREFIX)/usr/include/
+	install build/libdl.so $(DESTDIR)$(PREFIX)/lib/libdl.so
+	install build/libdl.a $(DESTDIR)$(PREFIX)/lib/libdl.a
+	make install_headers
 
 install_headers:
-	mkdir -p $(DESTDIR)$(PREFIX)/usr
+	mkdir -p $(DESTDIR)$(PREFIX)/usr/include
 	cp -r dlfcn.h $(DESTDIR)$(PREFIX)/usr/include/

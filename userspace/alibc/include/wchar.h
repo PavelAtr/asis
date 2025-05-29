@@ -2,6 +2,7 @@
 #define _WCHAR_H
 
 #include <sys/types.h>
+#include <stddef.h>
 
 #ifndef __WINT_TYPE__
 # define __WINT_TYPE__ unsigned int

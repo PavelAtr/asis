@@ -32,6 +32,7 @@
 // 
 
 #include <sys/types.h>
+#include <stddef.h>
 
 void *bsearch(const void *key, const void *base, size_t num, size_t width, int (*compare)(const void *, const void *)) {
   char *lo = (char *) base;

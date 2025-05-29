@@ -23,10 +23,7 @@ install:
 	install init/crtstub.a $(DESTDIR)$(PREFIX)/lib/crtstub.a
 	install build/libac.so $(DESTDIR)$(PREFIX)/lib/libac.so
 	install build/libac.a $(DESTDIR)$(PREFIX)/lib/libac.a
-	mkdir -p $(DESTDIR)$(PREFIX)/usr
-	cp -r include $(DESTDIR)$(PREFIX)/usr/
-	cp -r include_stub/* $(DESTDIR)$(PREFIX)/usr/include/
-	cp -r alien/include $(DESTDIR)$(PREFIX)/usr/
+	make install_headers
 
 install_headers:
 	mkdir -p $(DESTDIR)$(PREFIX)/usr
