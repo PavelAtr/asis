@@ -60,7 +60,6 @@ objs: clean
 	for src in $(EXTLIBS) ; do \
 	    $(CC) -c $(CFLAGS) --sysroot=$(PREFIX) -include include/asis.h -DELF64 -DUSE_SYMBOLFILE $$src -o ../build/$$src.o; \
 	done
-
 clean:
 	rm -rf ../build/*
 

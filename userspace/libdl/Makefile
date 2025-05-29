@@ -1,12 +1,12 @@
 PREFIX?=/asis
 ARCH?=x86_64
 
-CFLAGS?= -g -fPIC -fomit-frame-pointer --sysroot=$(PREFIX) -DELF64
-LDLAGS?= --sysroot=$(PREFIX) -lac -Wl,-fno-undefined -nostdlib 
+CFLAGS= -g -fPIC -fomit-frame-pointer -DELF64
+LDLAGS= -lac -Wl,-fno-undefined -nostdlib 
 
 all: 
-	$(CC) $(CFLAGS) -fPIC -c $(ARCH)/*.c *.c
-	$(CC) $(CFLAGS) -fPIC  $(LDFLAGS) -nostdlib -shared *.o -o libdl.so
+	$(CC) --sysroot=$(PREFIX) $(CFLAGS) -c $(ARCH)/*.c *.c
+	$(CC) --sysroot=$(PREFIX) $(LDFLAGS) -shared *.o -o libdl.so
 	ar rcs libdl.a *.o
 	
 clean:

@@ -5,13 +5,11 @@ dummyblk.c
 
 BUILD_DIR = ../../build/dummyblk
 
-ifeq ($(CONFIG_DUMMYBLK), y)
 all:
+ifeq ($(CONFIG_DUMMYBLK), y)
 	mkdir -p $(BUILD_DIR)
 
 	for src in $(HYPVSR_LINK) ; do \
 	    $(CC) -c $(CFLAGS) -DELF64 $$src -o $(BUILD_DIR)/$$src.o; \
 	done
-else
-all:
 endif

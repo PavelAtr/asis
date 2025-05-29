@@ -1,0 +1,23 @@
+config ALIBC
+      bool "ASIS libc"
+      default y
+      help
+        ASIS libc for core syscalls.
+
+config LIBDL
+      bool "ASIS elf loader library"
+      default y
+      help
+        ASIS elf loader library.
+
+config LIBPWD
+      bool "ASIS passwd library"
+      default y
+      help
+        ASIS passwd library for /etc/passwd /etc/group.
+
+config TESTAPP
+      bool "ASIS own simple binaries"
+      default y
+      help
+        ASIS own simple binaries.

@@ -1,10 +1,10 @@
 PREFIX?=/asis
-CFLAGS?= -g -fPIC -fomit-frame-pointer --sysroot=$(PREFIX)
-LDFLAGS?= --sysroot=$(PREFIX) -nostdlib -lac -Wl,-fno-undefined -shared
+CFLAGS= -g -fPIC -fomit-frame-pointer
+LDFLAGS= -nostdlib -lac -Wl,-fno-undefined -shared
 
 all: 
-	$(CC) $(CFLAGS) -fPIC -c src/*.c
-	$(CC) $(CFLAGS) -fPIC  $(LDFLAGS) *.o -o libpwd.so
+	$(CC) --sysroot=$(PREFIX) $(CFLAGS) -fPIC -c src/*.c
+	$(CC) --sysroot=$(PREFIX)  -fPIC  $(LDFLAGS) *.o -o libpwd.so
 	ar rcs libpwd.a *.o
 	
 clean:

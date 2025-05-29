@@ -35,3 +35,9 @@ source "drv/lintrap/Kconfig"
 
 endmenu
 
+
+
+menu "Userspace"
+source "userspace/Kconfig"
+endmenu
+

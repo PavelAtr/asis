@@ -1,12 +1,13 @@
 PREFIX?=/asis
-CFLAGS?= -g -fPIC -fomit-frame-pointer --sysroot=$(PREFIX)
+CFLAGS= -g -fPIC -fomit-frame-pointer
+LDLAGS= -Wl,-fno-undefined -nostdlib
 
 all: 
 	make -C init/
-	$(CC) $(CFLAGS) -c alien/*.c alien/ctype/*.c alien/string/*.c \
-alien/regex/*.c alien/multibyte/*.c init/init.c src/*.c
-	$(CC) $(CFLAGS) -g -fPIC -nostdlib -shared *.o init/tls.o -o libac.so
-	ar rcs libac.a *.o init/*.o
+	$(CC) $(CFLAGS) --sysroot=$(PREFIX) -c alien/*.c alien/ctype/*.c alien/string/*.c \
+alien/regex/*.c alien/multibyte/*.c init/init.c src/*.c $(LDFLAGS)
+	$(CC) --sysroot=$(PREFIX) -nostdlib -shared *.o init/tls.o -o libac.so
+	ar rcs libac.a *.o init/*.o $(LDFLAGS)
 	
 clean:
 	make -C init/ clean
