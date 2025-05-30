@@ -1,6 +1,9 @@
 #include <asis.h>
 #include "../config.h"
+
+#ifdef CONFIG_TTY
 #include "../drv/tty/tty.h"
+#endif
 
 #ifdef CONFIG_DUMMYBLK
 #include "../drv/dummyblk/dummyblk.h"
@@ -22,9 +25,15 @@
 #include "../drv/hostfs/hostfs.h"
 #endif
 
+#ifdef CONFIG_LINUX
 #include <stddef.h>
 #include <sys/stat.h>
 #include <stdio.h>
+#endif
+
+#ifdef CONFIG_UEFI
+#include "uefi/uefi.h"
+#endif
 
 int main(int argc, char** argv)
 {

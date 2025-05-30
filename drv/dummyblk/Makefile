@@ -10,6 +10,6 @@ ifeq ($(CONFIG_DUMMYBLK), y)
 	mkdir -p $(BUILD_DIR)
 
 	for src in $(HYPVSR_LINK) ; do \
-	    $(CC) -c $(CFLAGS_CORE) $$src -o $(BUILD_DIR)/$$src.o; \
+	    $(CC_CORE) -c $(CFLAGS_CORE) $$src -o $(BUILD_DIR)/$$src.o; \
 	done
 endif

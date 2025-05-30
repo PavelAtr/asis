@@ -128,6 +128,7 @@ int_t sys_exec(char* file, char** inargv, char** envp)
    sys_dltls(current->dlhndl, curpid);
    
    current->flags &= ~PROC_CLONED;
+   printf ("Starting %p\n", &start); /* GARBAGE */
    int ret = start(argc, &current_argv, &current_envp, (void***)&current_fds, &sys_syscall, &sys_atexit);
    switch_context;
    /* Never reach here */
@@ -166,7 +167,7 @@ void freeproc(pid_t pid)
       freeenv(cpu[pid]->envp);
    }
    freefds(cpu[pid]);
-   sys_free(cpu[pid]->ctx.stack);
+   free_stack(cpu[pid]->ctx.stack, MAXSTACK);
    sys_free(cpu[pid]);
    cpu[pid] = NULL;
 }
@@ -184,7 +185,7 @@ pid_t sys_clone(void)
    cpu[ret]->pid = ret;
    cpu[ret]->parentpid = curpid;
    (*current->dlnlink)++;
-   cpu[ret]->ctx.stack = sys_malloc(MAXSTACK);
+   cpu[ret]->ctx.stack = alloc_stack(MAXSTACK);
    cpu[ret]->fds = copyfds(current->fds);
    sys_printf(SYS_DEBUG "CLONE newpid=%d in %d=%s, nlink %p=%d\n", ret, current->pid, current->argv[0], current->dlnlink, *current->dlnlink);
    return ret;
@@ -200,9 +201,8 @@ pid_t sys_fork()
    }
    cpu[current->forkret]->forkret = 0;
    cpu[current->forkret]->ret = -1;
-   sys_printf(SYS_DEBUG "SWITCH pid=%d prog=%s\n", current->pid, current->argv[0]);
+   sys_printf(SYS_DEBUG "SWITCH pid=%d prog=%s forkret=%d\n", current->pid, current->argv[0], (int)current->forkret);
    switch_context;
-   sys_printf(SYS_DEBUG "forkret=%d\n", (int)current->forkret);
    return current->forkret;
 }
 

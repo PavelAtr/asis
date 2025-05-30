@@ -1,6 +1,15 @@
 #include "../../core/uefi/uefi.h"
 #include "uefifs.h"
 
+int (*uefi_stat)(const char* pathname, struct stat* statbuf) = &stat;
+
+#define stat astat
+#define tm atm
+#define mktime a_mktime
+#define localtime alocaltime
+#define fstat afstat
+#include "../../userspace/alibc/include/sys/stat.h"
+
 #define PATH_MAX 4096
 
 char tmp[PATH_MAX];
@@ -75,9 +84,9 @@ len_t uefifs_fwrite(void* sbfs, const char* path, const void* ptr, len_t size,
 errno_t uefifs_stat(void* sbfs, const char* path, void* statbuf)
 {
    struct stat st;
-   struct tinystat* tst = statbuf;
+   struct astat* tst = statbuf;
    char* pathname = calcpath(path);
-   errno_t ret = stat(pathname, &st);
+   errno_t ret = uefi_stat(pathname, &st);
    tst->st_mode = st.st_mode;
    tst->st_size = st.st_size;
    if (strcmp(pathname, "\\dev\\tty") == 0) {

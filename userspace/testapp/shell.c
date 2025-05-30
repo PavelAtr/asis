@@ -7,6 +7,7 @@
 #include <errno.h>
 #include <sys/stat.h>
 #include <sys/wait.h>
+#include <syscall.h>
 
 char* origin = "shell"; /* GARBAGE */
 
@@ -76,6 +77,7 @@ int runcommand(char* cmd)
 
 int main(int argc, char** argv)
 {
+   syscall(SYS_DBG, 1,2,3,4);
    printf("Running shell\n");
    while (1) {
       printf("%s", "> ");

@@ -4,12 +4,9 @@
 #include "sys/types.h"
 #include <stdarg.h>
 
-#ifdef UEFI
 #define S_ISUID  04000
 #define S_ISGID  02000
 #define S_ISVTX  01000
-#else
-#endif
 
 #define INIT "/asis/bin/shell"
 
@@ -235,5 +232,7 @@ extern char** current_envp;
 extern char** current_argv;
 
 errno_t sys_geterrno();
+void* alloc_stack(size_t size);
+void free_stack(void* stackbase, size_t size);
 
 #endif

@@ -7,7 +7,7 @@ umask 000
 mkdir -p $ROOT/asis/bin
 mkdir -p $ROOT/asis/lib
 mkdir -p $ROOT/dev
-install core/asis.uefi $ROOT/asis.uefi
+install build/asis.uefi $ROOT/asis.uefi
 
 cp -ar /asis $ROOT/
 

@@ -2,11 +2,11 @@
 .config.old
 .vscode/
 config.h
-core/asis.uefi
-core/*.o
 dl.txt
 qemu/
 build/
+userspace/alibc/init/*.o
+userspace/alibc/init/*.a
 userspace/alibc/build
 userspace/testapp/build/
 posix-uefi/

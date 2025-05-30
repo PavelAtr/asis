@@ -1,9 +1,8 @@
+#include "../../config.h"
 #include <asis.h>
 
-#ifndef UEFI
-
+#ifdef CONFIG_LINUX
 #include <unistd.h>
-
 #endif
 
 int sys_usleep(long_t usec)

@@ -1,6 +1,10 @@
-#ifdef UEFI
+#include "../config.h"
+
+#ifdef CONFIG_UEFI
 #include "uefi/uefi.h"
-#else
+#endif
+
+#ifdef CONFIG_LINUX
 #include <stdio.h>
 #include <stdarg.h>
 #endif

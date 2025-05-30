@@ -5,7 +5,7 @@ LDFLAGS?= -nostdlib $(PREFIX)/lib/crt.o $(PREFIX)/lib/tls.o -lac
 SYSROOT?= --sysroot=$(PREFIX)
 
 all:
-	mkdir build
+	mkdir -p build
 	$(CC) $(SYSROOT) $(CFLAGS) -fPIC shell.c $(LDFLAGS) -o build/shell$(EXTENTION)
 	$(CC) $(SYSROOT) $(CFLAGS) -fPIC hello.c $(LDFLAGS) -o build/hello$(EXTENTION)
 	$(CC) $(SYSROOT) $(CFLAGS) -fPIC ls.c $(LDFLAGS) -o build/ls$(EXTENTION)

@@ -1,12 +1,12 @@
 include ../../.config
 
 HYPVSR_LINK = \
-tty.c
+uefifs.c
 
-BUILD_DIR = ../../build/tty
+BUILD_DIR = ../../build/uefifs
 
 all:
-ifeq ($(CONFIG_TTY), y)
+ifeq ($(CONFIG_UEFIFS), y)
 	mkdir -p $(BUILD_DIR)
 
 	for src in $(HYPVSR_LINK) ; do \

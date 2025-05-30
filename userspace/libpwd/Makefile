@@ -4,19 +4,19 @@ LDFLAGS?= -nostdlib -lac -Wl,-fno-undefined -shared
 SYSROOT?= --sysroot=$(PREFIX)
 
 all: 
-	$(CC) $(SYSROOT) $(CFLAGS) -fPIC -c src/*.c
-	$(CC) $(SYSROOT) -fPIC $(LDFLAGS) *.o -o libpwd.so
-	ar rcs libpwd.a *.o
+	mkdir -p build
+	cd build; $(CC) $(SYSROOT) $(CFLAGS) -fPIC -c ../src/*.c
+	cd build; $(CC) $(SYSROOT) -fPIC $(LDFLAGS) *.o -o libpwd.so
+	cd build; ar rcs libpwd.a *.o
 	
 clean:
-	rm -f *.o *.a *.so
+	rm -f build/*
 	
 install:
 	mkdir -p $(DESTDIR)$(PREFIX)/lib
-	install libpwd.so $(DESTDIR)$(PREFIX)/lib/libpwd.so
-	install libpwd.a $(DESTDIR)$(PREFIX)/lib/libpwd.a
-	mkdir -p $(DESTDIR)$(PREFIX)/usr
-	cp -r include $(DESTDIR)$(PREFIX)/usr/
+	install build/libpwd.so $(DESTDIR)$(PREFIX)/lib/libpwd.so
+	install build/libpwd.a $(DESTDIR)$(PREFIX)/lib/libpwd.a
+	make install_headers
 
 install_headers:
 	mkdir -p $(DESTDIR)$(PREFIX)/usr

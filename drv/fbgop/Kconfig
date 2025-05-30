@@ -1,0 +1,6 @@
+config FBGOP
+      bool "Framebuffer via UEFI GOP"
+      depends on UEFI
+      default y
+      help
+        Framebuffer via UEFI GOP.

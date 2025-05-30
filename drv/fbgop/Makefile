@@ -1,12 +1,12 @@
 include ../../.config
 
 HYPVSR_LINK = \
-lintrap.c
+fbgop.c
 
-BUILD_DIR = ../../build/lintrap
+BUILD_DIR = ../../build/fbgop
 
 all:
-ifeq ($(CONFIG_LINTRAP), y)
+ifeq ($(CONFIG_FBGOP), y)
 	mkdir -p $(BUILD_DIR)
 
 	for src in $(HYPVSR_LINK) ; do \

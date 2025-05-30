@@ -1,9 +1,20 @@
 #include <asis.h>
+#include "../config.h"
 #include <syscall.h>
+
+/*#ifdef CONFIG_LINUX
+#include <stdarg.h>
+#endif
+
+#ifdef CONFIG_UEFI
+#include "uefi/uefi.h"
+#endif GARBAGE */
+
 #include <stdarg.h>
 
 __attribute__((sysv_abi)) long_t sys_syscall(long_t number, va_list vl)
 {
+   printf("Syscall %ld\n", number); /* GARBAGE */
    char* char1;
    char* char2;
    size_t size1;
@@ -52,6 +63,7 @@ __attribute__((sysv_abi)) long_t sys_syscall(long_t number, va_list vl)
       ptr1 = va_arg(vl, void*);
       size1 = va_arg(vl, size_t);
       size2 = va_arg(vl, size_t);
+      sys_printf("sys_afwrite(%s, %p, %ld, %ld)\n", char1, ptr1, size1, size2);
       return sys_afwrite(char1, ptr1, size1, size2);
       break;
    case SYS_FREAD:
@@ -59,6 +71,7 @@ __attribute__((sysv_abi)) long_t sys_syscall(long_t number, va_list vl)
       ptr1 = va_arg(vl, void*);
       size1 = va_arg(vl, size_t);
       size2 = va_arg(vl, size_t);
+      sys_printf("sys_afread(%s, %p, %ld, %ld)\n", char1, ptr1, size1, size2);
       return sys_afread(char1, ptr1, size1, size2);
       break;
    case SYS_FSTAT:
@@ -67,7 +80,11 @@ __attribute__((sysv_abi)) long_t sys_syscall(long_t number, va_list vl)
       return sys_stat(char1, ptr1);
       break;
    case SYS_DBG:
-      ptr1 = va_arg(vl, void*);
+      int a = va_arg(vl, int);
+      int b = va_arg(vl, int);
+      int c = va_arg(vl, int);
+      int d = va_arg(vl, int);
+      sys_printf("%d %d %d %d\n", a, b, c, d);
       sys_printf(SYS_INFO "sys_debug %p\n", ptr1);
       break;
    case SYS_USLEEP:
