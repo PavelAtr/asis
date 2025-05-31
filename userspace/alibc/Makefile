@@ -1,7 +1,6 @@
 PREFIX?=/asis
 LDLAGS=-Wl,-fno-undefined -nostdlib
-CFLAGS?=-g -fPIC
-SYSROOT?= --sysroot=$(PREFIX)
+CFLAGS?=-g -fPIC -I$(PREFIX)/usr/include
 
 all: 
 	make -C init/

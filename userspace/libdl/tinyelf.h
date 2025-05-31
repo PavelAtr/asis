@@ -8,6 +8,11 @@
 #define MARK "dldebug:\t"
 #endif
 
+#ifdef STANDALONE
+typedef long long_t;
+typedef long addr_t;
+#endif
+
 /* #ifdef ELF64 MARK*/
 #define Elf_Ehdr Elf64_Ehdr
 #define Elf_Phdr Elf64_Phdr

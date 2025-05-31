@@ -1,6 +1,7 @@
+ARCH?=x86_64
 PREFIX?=/asis
 LDLAGS=-Wl,-fno-undefined -nostdlib 
-CFLAGS?=-fPIC
+CFLAGS?=-fPIC -DSTANDALONE
 LD=$(CC)
 
 all: 
