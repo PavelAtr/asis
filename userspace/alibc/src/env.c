@@ -13,7 +13,6 @@ int envid(const char *name)
    }
    int i;
    for(i = 0; environ[i]; i++) {
-   printf("environ[%d]=%s\n", i, environ[i]);
       if (strstr(environ[i], name) == environ[i]
          && (environ[i])[strlen(name)] == '=') {
          return i;

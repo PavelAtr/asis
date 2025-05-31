@@ -9,7 +9,6 @@ char *getenv(const char *name)
 {
    INIT_ENVIRON
    int i = envid(name);
-   printf("getenv: name=%s, i=%d\n", name, i);
    if (i == -1) {
       return NULL;
    }

@@ -3,6 +3,7 @@
 
 void printenv()
 {
+   INIT_ENVIRON;
    if (!environ) {
       printf("Environment is not initialized.\n");
       return;
