@@ -37,7 +37,7 @@ void switch_task()
       }
       break;
    }
-   sys_printf(SYS_DEBUG "SWITCH at %d=%s to %d=%s flags=%b\n",
+   sys_printf(SYS_DEBUG "SWITCH_TASK at %d=%s to %d=%s flags=%b\n",
       prevpid, current->argv[0] ,curpid, cpu[curpid]->argv[0], cpu[curpid]->flags);
    current = cpu[curpid];
    current_fds = (AFILE**)current->fds;

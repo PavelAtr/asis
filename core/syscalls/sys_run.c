@@ -190,7 +190,6 @@ pid_t sys_fork()
    }
    cpu[current->forkret]->forkret = 0;
    cpu[current->forkret]->ret = -1;
-   sys_printf(SYS_DEBUG "SWITCH pid=%d prog=%s forkret=%d\n", current->pid, current->argv[0], (int)current->forkret);
    switch_context;
    return current->forkret;
 }

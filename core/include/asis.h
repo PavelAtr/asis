@@ -1,5 +1,5 @@
-#ifndef _TINYSYS_H
-#define _TINYSYS_H
+#ifndef _ASIS_H
+#define _ASIS_H
 
 #include "sys/types.h"
 #include <stdarg.h>
@@ -184,7 +184,7 @@ typedef __attribute__((sysv_abi)) int (*startfunction)
    (int argc, char*** argv, char*** envp, void*** fds,
      void* syscall_func, void* retexit_func);
 
-#define MAXSTACK (8192 * 1024)
+#define MAXSTACK (1024 * 32)
 
 #define setsp(addr) __asm__("mov %0, %%rsp\n" \
            : \

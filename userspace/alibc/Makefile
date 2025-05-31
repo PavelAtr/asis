@@ -1,6 +1,6 @@
 PREFIX?=/asis
-CFLAGS?= -g -fPIC -fomit-frame-pointer
-LDLAGS?= -Wl,-fno-undefined -nostdlib
+LDLAGS=-Wl,-fno-undefined -nostdlib
+CFLAGS?=-g -fPIC
 SYSROOT?= --sysroot=$(PREFIX)
 
 all: 
@@ -9,8 +9,8 @@ all:
 	
 	cd build; $(CC) $(SYSROOT) $(CFLAGS) -c ../alien/*.c ../alien/ctype/*.c ../alien/string/*.c \
 ../alien/regex/*.c ../alien/multibyte/*.c ../init/init.c ../src/*.c
-	cd build; $(CC) $(SYSROOT) -nostdlib -shared *.o ../init/tls.o -o libac.so
-	cd build; ar rcs libac.a *.o ../init/*.o $(LDFLAGS)
+	cd build; $(LD) $(SYSROOT) -shared -nostdlib *.o ../init/tls.o -o libac.so
+	cd build; ar rcs libac.a *.o ../init/*.o
 	
 clean:
 	make -C init/ clean

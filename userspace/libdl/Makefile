@@ -1,14 +1,12 @@
 PREFIX?=/asis
-ARCH?=x86_64
-
-CFLAGS?= -g -fPIC -fomit-frame-pointer -DELF64
-LDLAGS?= -lac -Wl,-fno-undefined -nostdlib 
-SYSROOT?= --sysroot=$(PREFIX)
+LDLAGS=-Wl,-fno-undefined -nostdlib 
+CFLAGS?=-fPIC
+LD=$(CC)
 
 all: 
 	mkdir -p build
 	cd build; $(CC) $(SYSROOT) $(CFLAGS) -c ../$(ARCH)/*.c ../*.c
-	cd build; $(CC) $(SYSROOT) $(LDFLAGS) -shared *.o -o libdl.so
+	cd build; $(LD) $(SYSROOT) $(LDFLAGS) -shared *.o -o libdl.so
 	cd build; ar rcs libdl.a *.o
 	
 clean:

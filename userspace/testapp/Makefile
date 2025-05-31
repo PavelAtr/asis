@@ -1,8 +1,7 @@
 PREFIX?=/asis
 EXTENTION?=
-CFLAGS?= -g -fPIC -fomit-frame-pointer
-LDFLAGS?= -nostdlib $(PREFIX)/lib/crt.o $(PREFIX)/lib/tls.o -lac
-SYSROOT?= --sysroot=$(PREFIX)
+CFLAGS?= -g -fPIC
+
 
 all:
 	mkdir -p build

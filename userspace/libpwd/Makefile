@@ -1,12 +1,12 @@
 PREFIX?=/asis
-CFLAGS?= -g -fPIC -fomit-frame-pointer
-LDFLAGS?= -nostdlib -lac -Wl,-fno-undefined -shared
-SYSROOT?= --sysroot=$(PREFIX)
+CFLAGS?=-g -fPIC
+LDFLAGS=-nostdlib -Wl,-fno-undefined
+LD=$(CC)
 
 all: 
 	mkdir -p build
 	cd build; $(CC) $(SYSROOT) $(CFLAGS) -fPIC -c ../src/*.c
-	cd build; $(CC) $(SYSROOT) -fPIC $(LDFLAGS) *.o -o libpwd.so
+	cd build; $(LD) $(SYSROOT) -fPIC $(LDFLAGS) -shared *.o -o libpwd.so
 	cd build; ar rcs libpwd.a *.o
 	
 clean:

@@ -1,4 +1,5 @@
 include ../../.config
+include ../../make.conf
 
 HYPVSR_LINK = \
 dummyblk.c

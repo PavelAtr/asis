@@ -1,5 +1,5 @@
 PREFIX?=/asis
-CFLAGS?= -g -fPIC -fomit-frame-pointer --sysroot=$(PREFIX)
+CFLAGS?= -g -fPIC --sysroot=$(PREFIX)
 
 all: 
 	$(CC) $(CFLAGS) -g -fPIC -c crt.c

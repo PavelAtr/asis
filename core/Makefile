@@ -1,4 +1,5 @@
 include ../.config
+include ../make.conf
 
 PREFIX?=/asis
 
