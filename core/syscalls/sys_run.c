@@ -146,6 +146,7 @@ void freeproc(pid_t pid)
       return;
    }
    (*cpu[pid]->dlnlink)--;
+   
    if ((*cpu[pid]->dlnlink) <= 0) {
       sys_printf(SYS_DEBUG "FREEPROC DEALLOC %d dlnlink %p=%d\n", pid, cpu[pid]->dlnlink, *cpu[pid]->dlnlink);
       sys_dlclose(cpu[pid]->dlhndl);

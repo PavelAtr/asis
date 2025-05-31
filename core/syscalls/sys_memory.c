@@ -19,26 +19,31 @@ void init_memory(void* base, size_t size)
 }
 
 
+#ifdef CONFIG_LINUX
 void *sys_mmap(void* addr, size_t size, int prot, int flags, int f,
    off_t offset)
 {
-#ifdef CONFIG_UEFI
-   return malloc(size);
-#else
    return mmap(addr, size, prot, flags, f, offset);
-#endif
 }
 
 int sys_munmap(void* addr, size_t length)
 {
-#ifdef CONFIG_UEFI
-   free(addr);
-   return 0;
-#endif
-#ifdef CONFIG_LINUX
    return munmap(addr, length);
-#endif
 }
+#endif
+#ifdef CONFIG_UEFI
+void* sys_mmap(void* addr, size_t size, int prot, int flags, int f,
+   off_t offset)
+{
+   return malloc(size);
+}  
+int sys_munmap(void* addr, size_t length)
+{
+   free(addr);
+   return 0; // Success
+}
+#endif
+
 
 
 void* sys_malloc(size_t size)

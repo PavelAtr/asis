@@ -16,7 +16,7 @@ endif
 
 ifeq ($(CONFIG_UEFI), y)
     export CFLAGS= -fPIC -g -fomit-frame-pointer -DUEFI_KERNEL
-    export CFLAGS_CORE= -Wall -Wextra --ansi -O2 -Wno-unused-parameter -DUEFI\
+    export CFLAGS_CORE= -Wall -Wextra --ansi -O0 -Wno-unused-parameter -DUEFI\
                         -fomit-frame-pointer -I/asis/usr/include -I/usr/include/x86_64-linux-gnu/ \
                         -fshort-wchar -fno-strict-aliasing -ffreestanding -fno-stack-protector \
                         -fno-stack-check -I. -I./uefi -I/usr/include -I/usr/include/efi \
