@@ -1,7 +1,6 @@
 #include <fcntl.h>
 #include <stdarg.h>
 #include <errno.h>
-#include <syscall.h>
 #include <unistd.h>
 
 int fcntl(int fd, int cmd, ... /* arg */ )

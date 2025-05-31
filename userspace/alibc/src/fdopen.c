@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <fcntl.h>
-#include <syscall.h>
 
 FILE *fdopen(int fd, const char *mode)
 {

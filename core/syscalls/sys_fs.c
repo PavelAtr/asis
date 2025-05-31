@@ -24,6 +24,7 @@ len_t sys_afread(const char* path, void* ptr, len_t size, len_t off)
       return 0;
    }
    mode_t devtype = st.st_mode & S_IFMT;
+
    switch (devtype) {
    case S_IFBLK:
    case S_IFCHR:

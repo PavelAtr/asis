@@ -2,5 +2,5 @@
 
 void free(void *ptr)
 {
-   syscall(SYS_FREE, ptr);
+   asyscall(SYS_FREE, ptr, 0, 0, 0, 0, 0);
 }

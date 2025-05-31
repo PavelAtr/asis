@@ -18,7 +18,7 @@ int execlp(const char *file, const char *arg, ...
 	argv[i] = a;
    argv[i] = NULL;
 
-   return syscall(SYS_EXECVE, file, argv, NULL);
+   return asyscall(SYS_EXECVE, file, argv, NULL, 0, 0, 0);
 }
 
 int execl(const char *pathname, const char *arg, ... /*, (char *) NULL */) __attribute__((alias("execlp")));

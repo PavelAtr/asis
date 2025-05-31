@@ -51,10 +51,8 @@ void* sys_calloc(size_t nmemb, size_t size)
    return calloc(nmemb, size);
 }
 
-
-void* sys_realloc(void* ptr, size_t size)
-{
-	return realloc(ptr, size);
+void* sys_realloc(void* ptr, size_t new_size) {
+    return realloc(ptr, new_size);
 }
 
 void sys_free(void *ptr)

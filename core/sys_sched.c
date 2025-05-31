@@ -18,6 +18,7 @@ void switch_task()
       current->ctx.sp = sp;
    }
    pid_t prevpid = curpid;
+   current->envp = current_envp;
    while(1) {
       curpid++;
       if (curpid == MAXPROC) {

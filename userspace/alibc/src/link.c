@@ -2,5 +2,5 @@
 
 int link(const char *oldpath, const char *newpath)
 {
-   return syscall(SYS_LINK, oldpath, newpath);
+   return asyscall(SYS_LINK, oldpath, newpath, 0, 0, 0, 0);
 }

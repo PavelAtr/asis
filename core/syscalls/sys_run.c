@@ -31,18 +31,6 @@ int_t sys_runinit()
 
 extern AFILE** current_fds;
 
-/*char** dupnullable(char** inargv)
-{
-	int argc;
-	for (argc = 0; inargv[argc]; argc++);
-	char** ret = sys_calloc(1, sizeof(char*) * (argc + 1));
-	for (argc = 0; inargv[argc]; argc++)
-	{
-		ret[argc] = strdup(inargv[argc]);
-    }
-	return ret;
-}*/
-
 int_t* new_dlnlink(void* dlhandle)
 {
    int_t i;

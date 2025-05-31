@@ -1,14 +1,15 @@
 #include <string.h>
 #include <stdlib.h>
 #include <errno.h>
+#include <stdio.h>
 
 int envid(const char *name);
-int envnewid();
 
 char *getenv(const char *name)
 {
    INIT_ENVIRON
    int i = envid(name);
+   printf("getenv: name=%s, i=%d\n", name, i);
    if (i == -1) {
       return NULL;
    }

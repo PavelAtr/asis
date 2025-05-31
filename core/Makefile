@@ -1,5 +1,7 @@
 include ../.config
 
+PREFIX?=/asis
+
 HYPERV_LINK = \
 syscalls/sys_memory.c \
 sys_printf.c
@@ -50,7 +52,7 @@ objs: clean
 	done
 
 	for src in $(EXTLIBS) ; do \
-	    $(CC_CORE) -c $(CFLAGS_CORE) $(SYSROOT) -D__ASIS__ $$src -o ../build/$$src.o; \
+	    $(CC_CORE) -c $(CFLAGS_CORE) $(SYSROOT) -D__ASIS__ -DUSE_SYMBOLFILE $$src -o ../build/$$src.o; \
 	done
 clean:
 	rm -rf ../build/*

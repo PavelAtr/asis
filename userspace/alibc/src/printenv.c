@@ -9,8 +9,6 @@ void printenv()
    }
    int i;
    for (i = 0; environ[i]; i++) {
-      if ((environ[i])[0] != '\0') {
          printf("%s\n", environ[i]);
-      }
    }
 }

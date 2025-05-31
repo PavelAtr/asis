@@ -3,5 +3,5 @@
 
 pid_t vfork(void)
 {
-   return syscall(SYS_FORK);
+   return asyscall(SYS_FORK, 0, 0, 0, 0, 0, 0);
 }

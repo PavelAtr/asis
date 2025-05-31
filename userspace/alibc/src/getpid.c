@@ -3,11 +3,11 @@
 
 pid_t getpid(void)
 {
-   return syscall(SYS_GETPID);
+   return asyscall(SYS_GETPID, 0, 0, 0, 0, 0, 0);
 }
 
 pid_t getppid(void)
 {
-   return syscall(SYS_GETPPID);
+   return asyscall(SYS_GETPPID, 0, 0, 0, 0, 0, 0);
 }
 

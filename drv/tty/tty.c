@@ -21,10 +21,25 @@ len_t tty_read(void* devsb, void* ptr, len_t size)
    return 1;
 }
 
+#ifdef CONFIG_LINUX
 len_t tty_write(void* devsb, const void* ptr, len_t size)
 {
-   return fwrite(ptr, 1, size, stdout);
+   size_t ret = fwrite(ptr, 1, size, stdout);
+   return ret;
 }
+#endif
+
+#ifdef CONFIG_UEFI
+len_t tty_write(void* devsb, const void* ptr, len_t size)
+{
+    const char* buf = ptr;
+    size_t i;
+    for (i = 0; i < size; ++i) {
+	putchar(buf[i]);
+    }
+    return size;
+}
+#endif
 
 void tty_seek(void* devsb, len_t offset)
 {

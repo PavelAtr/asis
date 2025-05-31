@@ -3,5 +3,5 @@
 
 int usleep(unsigned long usec)
 {
-   return syscall(SYS_USLEEP, usec);
+   return asyscall(SYS_USLEEP, usec, 0, 0, 0, 0, 0);
 }

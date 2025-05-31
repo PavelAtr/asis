@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
-#include <stdarg.h>
 #include <syscall.h>
 
 FILE*** core_fds;
@@ -9,14 +8,15 @@ char*** core_environ;
 char*** core_argv;
 int errno;
 
-long (*sys_syscall)(long number, va_list args);
+#ifdef UEFI_KERNEL
+__attribute__((ms_abi)) 
+#endif
+long64_t (*sys_syscall)(int number, long64_t arg1, long64_t arg2, long64_t arg3, long64_t arg4, long64_t arg5, long64_t arg6);
 
-long syscall(long number, ...)
+long64_t syscall(int number, long64_t arg1, long64_t arg2, long64_t arg3, long64_t arg4, long64_t arg5, long64_t arg6)
 {
-   va_list vl;
-   va_start(vl, number);
-   long ret = sys_syscall(number, vl);
-   errno = sys_syscall(SYS_GETERRNO, NULL);
+   long ret = sys_syscall(number, arg1, arg2, arg3, arg4 , arg5, arg6);
+   errno = sys_syscall(SYS_GETERRNO, 0, 0, 0, 0, 0, 0);
    return ret;
 }
 

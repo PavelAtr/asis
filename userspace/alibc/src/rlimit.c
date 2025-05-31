@@ -4,7 +4,7 @@
 
 int getrlimit(int resource, struct rlimit *rlim)
 {
-   return syscall(SYS_GETRLIMIT, resource, rlim);
+   return asyscall(SYS_GETRLIMIT, resource, rlim, 0, 0, 0, 0);
 }
 
 /* NOT REALIZED */

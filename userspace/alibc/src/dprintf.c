@@ -2,7 +2,6 @@
 #include <stdarg.h>
 #include <fcntl.h>
 #include <errno.h>
-#include <syscall.h>
 
 int dprintf(int fd, const char* format, ...)
 {

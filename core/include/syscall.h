@@ -1,6 +1,8 @@
 #ifndef _SYSCALL_H
 #define _SYSCALL_H
 
+#include <sys/types.h>
+
 #define SYS_DBG 0
 #define SYS_FWRITE 1
 #define SYS_FREAD 2
@@ -37,6 +39,7 @@
 #define SYS_GETRLIMIT 33
 #define SYS_GETERRNO 34
 
-long syscall(long number, ...);
+long64_t syscall(int number, long64_t arg1, long64_t arg2, long64_t arg3, long64_t arg4, long64_t arg5, long64_t arg6);
+#define asyscall(n, a, b, c, d, e, f) syscall(n, (long64_t)(a), (long64_t)(b), (long64_t)(c), (long64_t)(d), (long64_t)(e), (long64_t)(f))
 
 #endif

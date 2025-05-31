@@ -3,5 +3,5 @@
 
 unsigned int sleep(unsigned int seconds)
 {
-   return syscall(SYS_USLEEP, (unsigned long)(1000000 * seconds));
+   return asyscall(SYS_USLEEP, (unsigned long)(1000000 * seconds), 0, 0, 0, 0, 0);
 }

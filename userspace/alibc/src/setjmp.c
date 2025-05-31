@@ -4,7 +4,7 @@
 
 int setjmp(jmp_buf env)
 {
-   return syscall(SYS_SETJMP, env);
+   return asyscall(SYS_SETJMP, env, 0, 0, 0, 0, 0);
 }
 
 int sigsetjmp(sigjmp_buf env, int savesigs)
@@ -16,7 +16,7 @@ int sigsetjmp(sigjmp_buf env, int savesigs)
 
 void longjmp(jmp_buf env, int val)
 {
-   syscall(SYS_LONGJMP, env);
+   asyscall(SYS_LONGJMP, env, 0, 0, 0, 0, 0);
 }
 
 void siglongjmp(sigjmp_buf env, int val)

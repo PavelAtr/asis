@@ -23,6 +23,7 @@ char* getcommand()
 
 int runcommand(char* cmd)
 {
+   printf("Running command: %s\n", cmd);
    const char * cmd2 = "pwd";
    if (strstr(cmd, cmd2) == cmd) {
       puts(get_current_dir_name());
@@ -59,9 +60,13 @@ int runcommand(char* cmd)
       return 0;
    }
    char* myargv[5];
+   printf("Running command2: %s\n", cmd);
    int myargc = calcargv(cmd, myargv);
+   printf("Running command3: %s\n", cmd);
    myargv[0] = execpath(getenv("PATH"), myargv[0]);
+   printf("Running command4: %s\n", cmd);
    pid_t child = fork();
+   printf("Running command5: %s\n", cmd);
    if (child == 0) {
       execve(myargv[0], myargv, NULL);
       exit(-1);
@@ -77,8 +82,11 @@ int runcommand(char* cmd)
 
 int main(int argc, char** argv)
 {
-   syscall(SYS_DBG, 1,2,3,4);
+   asyscall(SYS_DBG, 1,2,3,4,5,6);
    printf("Running shell\n");
+   setenv("TEST", "value", 0);
+   printenv();
+   printf("%s\n", getenv("PATH"));
    while (1) {
       printf("%s", "> ");
       char* cmd = getcommand();

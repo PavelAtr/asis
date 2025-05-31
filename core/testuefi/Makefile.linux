@@ -1,2 +1,0 @@
-all:
-	$(CC) -g  -fomit-frame-pointer -D_LINUX_ uefitest.c -o uefitest.linux

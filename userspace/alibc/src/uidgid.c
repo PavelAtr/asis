@@ -3,20 +3,20 @@
 
 int setuid(uid_t uid)
 {
-   return syscall(SYS_SETUID, uid);
+   return asyscall(SYS_SETUID, uid, 0, 0, 0, 0, 0);
 }
 
 int setgid(gid_t gid)
 {
-   return syscall(SYS_SETGID, gid);
+   return asyscall(SYS_SETGID, gid, 0, 0, 0, 0, 0);
 }
 
 uid_t getuid(void)
 {
-   return syscall(SYS_GETUID);
+   return asyscall(SYS_GETUID, 0, 0, 0, 0, 0, 0);
 }
 
 gid_t getgid(void)
 {
-   return syscall(SYS_GETGID);
+   return asyscall(SYS_GETGID, 0, 0, 0, 0, 0, 0);
 }

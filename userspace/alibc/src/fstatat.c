@@ -24,5 +24,5 @@ int fstatat(int f, const char* pathname,
    {
       dir = get_current_dir_name();
    }
-   return syscall(SYS_FSTAT, fullpath(dir, file), statbuf);
+   return asyscall(SYS_FSTAT, fullpath(dir, file), statbuf, 0, 0, 0, 0);
 }

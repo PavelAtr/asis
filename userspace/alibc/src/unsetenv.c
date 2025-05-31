@@ -5,7 +5,6 @@
 #include <errno.h>
 
 int envid(const char *name);
-int envnewid();
 
 int unsetenv(const char *name)
 {

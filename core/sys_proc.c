@@ -59,7 +59,7 @@ char* sys_env[4] = {
    NULL,
 };
 
-AFILE* sysfds[COREMAXFD] = {
+AFILE* sys_fds[COREMAXFD] = {
 &sys_stdin,
 &sys_stdout,
 &sys_stderr,
@@ -67,47 +67,56 @@ AFILE* sysfds[COREMAXFD] = {
 
 void init_proc()
 {
-   sys.dlnlink = &sys_dlnlink;
    sys.argv = sys_argv;
    sys.envp = sys_env;
+   sys.fds = (void**) sys_fds;
    cpu[0] = &sys;
    current = cpu[0];
-   sys.fds = (void**) sysfds;
+   current_fds = (AFILE**)current->fds;
+   current_envp = current->envp;
+   current_argv = current->argv;
+   current->pid = 0;
+   current->parentpid = 0;
+   current->pgid = 0;
+   current->uid = 0;
+   current->gid = 0;
+   current->flags = PROC_RUNNING | PROC_NEW;
+   current->sys_errno = 0;
+   current->dlhndl = NULL;
+   current->dlnlink = &sys_dlnlink;
+   current->parent = &sys;
 }
 
-char** copyenv(char*const* e)
+char** dupnullable(char** inargv)
 {
-   char** copy = sys_calloc(1, sizeof(char*) * (COREMAXENV + 1));
-   int_t i;
-   if (e) {
-      for (i = 0; i < COREMAXENV && e[i]; i++) {
-         if (e[i][0] == '\0') {
-            copy[i] = e[i];
-         } else {
-            copy[i] = strdup(e[i]);
-         }
-      }
+	int argc;
+	for (argc = 0; inargv[argc]; argc++);
+	char** ret = sys_calloc(1, sizeof(char*) * (argc + 1));
+	for (argc = 0; inargv[argc]; argc++)
+	{
+		ret[argc] = strdup(inargv[argc]);
    }
-   for (i = 0; i < COREMAXENV; i++) {
-	   if (!copy[i]) {
-		   copy[i] = "";
-       }
-   }
+   ret[argc] = NULL;
+	return ret;
+}
+
+char** copyenv(char** e)
+{
+   char** copy = dupnullable(e);
    return copy;
 }
-void freeenv(char* const* e)
+void freeenv(char** e)
 {
-   int_t i;
-   if (e) {
-      for (i = 0; i < COREMAXENV; i++) {
-		 if (e[i]) {
-            if (e[i][0] != '\0'){
-               sys_free(e[i]);
-            }
-	     }
+   if (!e) {
+      return;
+   }
+   int argc;
+	for (argc = 0; e[argc]; argc++){
+      if (e[argc]) {
+         sys_free(e[argc]);
       }
-      sys_free((void*)e);
-   } 
+   }
+   sys_free((void*)e);
 }
 
 void** copyfds(void** infds)

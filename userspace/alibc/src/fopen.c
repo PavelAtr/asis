@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>
-#include <syscall.h>
 #include <errno.h>
 #include <unistd.h>
 #include <errno.h>

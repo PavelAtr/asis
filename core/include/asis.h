@@ -45,7 +45,7 @@ void* sys_calloc(size_t nmemb, size_t size);
 extern int curmem;
 void sys_free(void *ptr);
 void sys_prog_free(void *ptr);
-__attribute__((sysv_abi)) long_t sys_syscall(long_t number, va_list vl);
+long64_t sys_syscall(int number, long64_t arg1, long64_t arg2, long64_t arg3, long64_t arg4, long64_t arg5, long64_t arg6);
 int sys_usleep(long_t usecs);
 
 #define MAXDEV 5
@@ -130,8 +130,8 @@ extern proc* systask;
 
 void init_proc();
 
-char** copyenv(char*const* e);
-void freeenv(char*const* envp);
+char** copyenv(char** e);
+void freeenv(char** envp);
 
 struct tinystat {
   mode_t	st_mode;     /* File type and mode */

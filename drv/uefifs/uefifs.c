@@ -1,14 +1,33 @@
 #include "../../core/uefi/uefi.h"
 #include "uefifs.h"
 
-int (*uefi_stat)(const char* pathname, struct stat* statbuf) = &stat;
+struct atimespec {
+   long long     tv_sec;   /* Seconds */
+   long long  tv_nsec;  /* Nanoseconds [0, 999'999'999] */
+};
 
-#define stat astat
-#define tm atm
-#define mktime a_mktime
-#define localtime alocaltime
-#define fstat afstat
-#include "../../userspace/alibc/include/sys/stat.h"
+struct astat {
+  unsigned int        st_mode;     /* File type and mode */
+  unsigned int st_uid;      /* User ID of owner */
+  unsigned int st_gid;      /* Group ID of owner */
+  unsigned long long        st_size;
+  int st_nlink;
+  short st_major;
+  short st_minor;
+  unsigned long long st_dev;
+  unsigned long long st_rdev;
+  long long  st_ino;
+  long long st_blksize;
+  long long st_blocks;
+  long long      st_atime;
+  long long      st_mtime;
+  long long      st_ctime;
+  struct  atimespec st_atim;       /* time of last access */
+  struct  atimespec st_mtim;       /* time of last data modification */
+  struct  atimespec st_ctim;       /* time of last file status change */
+  struct  atimespec st_birthtim;   /* time of file creation */
+};
+
 
 #define PATH_MAX 4096
 
@@ -86,7 +105,7 @@ errno_t uefifs_stat(void* sbfs, const char* path, void* statbuf)
    struct stat st;
    struct astat* tst = statbuf;
    char* pathname = calcpath(path);
-   errno_t ret = uefi_stat(pathname, &st);
+   errno_t ret = stat(pathname, &st);
    tst->st_mode = st.st_mode;
    tst->st_size = st.st_size;
    if (strcmp(pathname, "\\dev\\tty") == 0) {
