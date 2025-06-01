@@ -1,14 +1,16 @@
 PREFIX?=/asis
 LDLAGS=-Wl,-fno-undefined -nostdlib
-CFLAGS?=-g -fPIC -I$(PREFIX)/usr/include
+CFLAGS?=-g -fPIC -fomit-frame-pointer
+SYSROOT?=--sysroot=$(PREFIX)
+
 
 all: 
 	make -C init/
 	mkdir -p build
 	
 	cd build; $(CC) $(SYSROOT) $(CFLAGS) -c ../alien/*.c ../alien/ctype/*.c ../alien/string/*.c \
-../alien/regex/*.c ../alien/multibyte/*.c ../init/init.c ../src/*.c
-	cd build; $(LD) $(SYSROOT) -shared -nostdlib *.o ../init/tls.o -o libac.so
+../alien/regex/*.c ../alien/multibyte/*.c ../src/*.c
+	cd build; $(LD) $(SYSROOT) -shared -nostdlib *.o -o libac.so
 	cd build; ar rcs libac.a *.o ../init/*.o
 	
 clean:
@@ -18,7 +20,6 @@ clean:
 install:
 	mkdir -p $(DESTDIR)$(PREFIX)/lib
 	install init/crt.o $(DESTDIR)$(PREFIX)/lib/crt.o
-	install init/tls.o $(DESTDIR)$(PREFIX)/lib/tls.o
 	install init/crtstub.a $(DESTDIR)$(PREFIX)/lib/crtstub.a
 	install build/libac.so $(DESTDIR)$(PREFIX)/lib/libac.so
 	install build/libac.a $(DESTDIR)$(PREFIX)/lib/libac.a

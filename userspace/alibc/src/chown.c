@@ -7,7 +7,7 @@ int chown(const char *pathname, uid_t owner, gid_t group)
 {
    struct stat st;
    stat(pathname, &st);
-   return asyscall(SYS_MODNOD, pathname, NULL, owner, group, st.st_mode, 0);
+   return (int)asyscall(SYS_MODNOD, pathname, NULL, owner, group, st.st_mode, 0);
 }
 
 

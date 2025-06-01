@@ -13,5 +13,5 @@ int chmod(const char *pathname, mode_t mode)
       errno = ENOENT;
       return -1;
    }
-   return asyscall(SYS_MODNOD, file, st.st_uid, st.st_gid, mode, 0, 0);
+   return (int)asyscall(SYS_MODNOD, file, st.st_uid, st.st_gid, mode, 0, 0);
 }

@@ -1,23 +1,8 @@
-#include <stdio.h>
-#include <setjmp.h>
 
-jmp_buf env;
-
-void function(void)
-{
-   setjmp(env);
-   puts("Jump!\n");
-}
-
-void function2(void)
-{
-   longjmp(env, 1);
-}
+__thread int a;
 
 int main(int argc, char** argv)
 {
-   function();
-   function2();
-
+    a = 5;
    return 0;
 }

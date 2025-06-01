@@ -20,7 +20,8 @@ syscalls/sys_mount.c \
 syscalls/sys_usleep.c \
 syscalls/sys_rlimit.c \
 sys_dl.c \
-sys_trap.c 
+sys_trap.c \
+sys_tls.c
 
 
 EXTLIBS = \

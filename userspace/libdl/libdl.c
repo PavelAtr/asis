@@ -131,6 +131,7 @@ int dlload(dl *buf, const char *file)
       buf->dl_elf->dyntab = elf_load_section(file, buf->dl_elf->hdr, buf->dl_elf->dyns);
       buf->dl_elf->dynstr = elf_load_strings(file, buf->dl_elf->hdr, buf->dl_elf->shdrs, buf->dl_elf->dyns);
    }
+   buf->module_id = max_module_count++;
    printf("%s\n", "OK");
    return 0;
 fail:
@@ -141,6 +142,7 @@ fail:
 dlhandle *relascope;
 dlhandle *selfscope;
 dlhandle *globalscope = NULL;
+int max_module_count = 0;
 
 void *resolve(const char *symname)
 {
@@ -298,6 +300,18 @@ void *dlopen(const char *filename, int flags)
          s->dl_elf->tlsrela[rela_ndx]->relas = elf_copy_tls_rela(s->dl_elf->rela[rela_ndx]->head,
                                                                  s->dl_elf->rela[rela_ndx]->relas, tls_relas_count);
       }
+      for (rela_ndx = 0; s->dl_elf->rela[rela_ndx]; rela_ndx++)
+      {
+         if (s->dl_elf->tlsrela[rela_ndx]->relas)
+         {
+            int i;
+            for (i = 0; i < s->dl_elf->tlsrela[rela_ndx]->count; i++)
+            {
+               *(Elf_Xword *)(s->dl_elf->exec + s->dl_elf->tlsrela[rela_ndx]->relas[i].r_offset) = s->module_id;
+            }
+         }
+   }
+   s->tls_size = s->dl_elf->tls_size;
       s->status |= DL_RELOCATED;
    }
     list_geteach(handle)
@@ -309,11 +323,6 @@ void *dlopen(const char *filename, int flags)
       }
       printf(MARK "Init %s\n", s->path);
       elf_init(s->dl_elf->exec, s->dl_elf->dyns, s->dl_elf->dyntab);
-      __attribute__((sysv_abi)) void *(*allocate_tls)(size_t, char *) = dlsym(j, "allocate_tls");
-      if (allocate_tls)
-      {
-         allocate_tls(s->dl_elf->tls_size, s->dl_elf->tls_initaddr);
-      }
       s->status |= DL_INITED;
    }
 
@@ -336,6 +345,7 @@ void *dlsym(void *hndl, const char *symbol)
                        s->dl_elf->dynsym_str, s->dl_elf->exec, symbol);
       if (sym)
       {
+         printf(MARK "Found symbol %s in %s\n", symbol, s->path);
          return sym;
       }
    }
@@ -370,25 +380,11 @@ int dlclose(void *hndl)
    return 0;
 }
 
-void dltls(void *handle, unsigned long module_id)
+void tls_init(dl* s, char* dest, size_t tls_size)
 {
-   dlhandle *j;
-   dl *s;
-   for (j = handle; j; j = j->next)
+   if (!s->dl_elf->tls_initaddr)
    {
-      s = j->obj;
-      int rela_ndx;
-      for (rela_ndx = 0; s->dl_elf->rela[rela_ndx]; rela_ndx++)
-      {
-         if (s->dl_elf->tlsrela[rela_ndx]->relas)
-         {
-            int i;
-            for (i = 0; i < s->dl_elf->tlsrela[rela_ndx]->count; i++)
-            {
-               *(Elf_Xword *)(s->dl_elf->exec + s->dl_elf->tlsrela[rela_ndx]->relas[i].r_offset) = module_id;
-            }
-         }
-      }
-      s->dl_elf->tls_index = module_id;
+      return;
    }
+   memcpy(dest, s->dl_elf->tls_initaddr, s->tls_size);
 }

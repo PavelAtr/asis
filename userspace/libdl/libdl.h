@@ -37,7 +37,6 @@ typedef struct {
    char* tls_initaddr;
    size_t tls_size;
    char* exec;
-   unsigned long tls_index;
 } elf;
 
 typedef struct {
@@ -46,7 +45,11 @@ typedef struct {
    int flags;
    int status;
    int nlink;
+   size_t tls_size;
+   int module_id;
 } dl;
+
+extern int max_module_count;
 
 typedef struct {
    NAMED_LIST_ESSENTIAL
@@ -56,5 +59,8 @@ typedef struct {
 /* sl->status field */
 #define DL_RELOCATED 0x01
 #define DL_INITED 0x02
+
+void tls_init(dl* s, char* dest, size_t tls_size);
+
 
 #endif

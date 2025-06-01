@@ -11,9 +11,9 @@ int errno;
 #ifdef UEFI_KERNEL
 __attribute__((ms_abi)) 
 #endif
-long64_t (*sys_syscall)(int number, long64_t arg1, long64_t arg2, long64_t arg3, long64_t arg4, long64_t arg5, long64_t arg6);
+void* (*sys_syscall)(int number, void* arg1, void* arg2, void* arg3, void* arg4, void* arg5, void* arg6);
 
-long64_t syscall(int number, long64_t arg1, long64_t arg2, long64_t arg3, long64_t arg4, long64_t arg5, long64_t arg6)
+void* syscall(int number, void* arg1, void* arg2, void* arg3, void* arg4, void* arg5, void* arg6)
 {
    long ret = sys_syscall(number, arg1, arg2, arg3, arg4 , arg5, arg6);
    errno = sys_syscall(SYS_GETERRNO, 0, 0, 0, 0, 0, 0);

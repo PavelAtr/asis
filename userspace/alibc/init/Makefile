@@ -2,9 +2,8 @@ PREFIX?=/asis
 CFLAGS?= -g -fPIC --sysroot=$(PREFIX)
 
 all: 
-	$(CC) $(CFLAGS) -g -fPIC -c crt.c
-	$(CC) $(CFLAGS) -g -fPIC -c tls.c
-	$(CC) $(CFLAGS) -g -fPIC -c crtstub.c
+	$(CC) $(CFLAGS) -c crt.c
+	$(CC) $(CFLAGS) -c crtstub.c
 	ar rcs crtstub.a crtstub.o
 	
 clean:

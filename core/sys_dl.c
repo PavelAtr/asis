@@ -23,10 +23,3 @@ void* sys_dlsym(void * handle, const char * symbol)
 }
 
 extern void** current_fds;
-
-void sys_dltls(void* handle, unsigned long module_id)
-{
-    if (module_id == 0 || !handle) return;
-	sys_printf(SYS_DEBUG "Set TLS modid=%ld in %p\n", module_id, handle);  
-	dltls(handle, module_id);
-}

@@ -45,7 +45,7 @@ void* sys_calloc(size_t nmemb, size_t size);
 extern int curmem;
 void sys_free(void *ptr);
 void sys_prog_free(void *ptr);
-long64_t sys_syscall(int number, long64_t arg1, long64_t arg2, long64_t arg3, long64_t arg4, long64_t arg5, long64_t arg6);
+void* sys_syscall(int number, void* arg1, void* arg2, void* arg3, void* arg4, void* arg5, void* arg6);
 int sys_usleep(long_t usecs);
 
 #define MAXDEV 5
@@ -117,7 +117,7 @@ typedef struct {
   int_t ret;
   pid_t forkret;
   pid_t pgid;
-  addr_t* tlsid;
+  char** dtv;
 } proc;
 
 #define PROC_RUNNING 0x01
@@ -225,7 +225,6 @@ int_t sys_longjmp(long_t* env);
 void* sys_dlopen(const char *filename, int flags);
 int sys_dlclose(void *handle);
 void* sys_dlsym(void * handle, const char * symbol);
-void sys_dltls(void* handle, unsigned long module_id);
 int sys_getrlimit(int resource, void* r);
 
 extern char** current_envp;
@@ -234,5 +233,9 @@ extern char** current_argv;
 errno_t sys_geterrno();
 void* alloc_stack(size_t size);
 void free_stack(void* stackbase, size_t size);
+
+int init_tls(proc* task);
+int deinit_tls(proc* task);
+void* sys_tlsaddr(unsigned long int ti_module, unsigned long int ti_offset);
 
 #endif

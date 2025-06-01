@@ -38,8 +38,9 @@
 #define SYS_LONGJMP 32
 #define SYS_GETRLIMIT 33
 #define SYS_GETERRNO 34
+#define SYS_TLSADDR 35
 
-long64_t syscall(int number, long64_t arg1, long64_t arg2, long64_t arg3, long64_t arg4, long64_t arg5, long64_t arg6);
-#define asyscall(n, a, b, c, d, e, f) syscall(n, (long64_t)(a), (long64_t)(b), (long64_t)(c), (long64_t)(d), (long64_t)(e), (long64_t)(f))
+void* syscall(int number, void* arg1, void* arg2, void* arg3, void* arg4, void* arg5, void* arg6);
+#define asyscall(n, a, b, c, d, e, f) syscall(n, (void*)(a), (void*)(b), (void*)(c), (void*)(d), (void*)(e), (void*)(f))
 
 #endif

@@ -43,7 +43,6 @@ void switch_task()
    current_fds = (AFILE**)current->fds;
    current_envp = current->envp;
    current_argv = current->argv;
-   sys_dltls(current->dlhndl, curpid);
 
    if (current->flags & PROC_NEW) {
       current->flags &= ~PROC_NEW;

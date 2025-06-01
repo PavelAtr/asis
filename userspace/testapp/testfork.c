@@ -3,26 +3,30 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
-__thread int a;
+char* origin = "testfork"; /* GARBAGE */
+
+__thread int a = 5;
 
 int main(int argc, char** argv)
 {
    pid_t child1 = fork();
    if (child1 == 0) {
+      printf("CHILD1 POINT\n");
       int i;
-      a = 1;
       for (i = 0; i < 10; i++) {
          printf("Child1 %d\n", a);
+         a = 1;
          usleep(1);
       }
       return 0;
    } else {
       pid_t child2 = fork();
       if (child2 == 0) {
+         printf("CHILD2 POINT\n");
          int i;
-         a = 2;
          for (i = 0; i < 10; i++) {
             printf("Child2 %d\n", a);
+            a = 2;
             usleep(1);
          }
          return 0;

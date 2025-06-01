@@ -100,6 +100,8 @@ int_t sys_exec(char* file, char** inargv, char** envp)
       }
    }
    (*current->dlnlink)++;
+   deinit_tls(current);
+   init_tls(current);
    startfunction start = (void*)(((dlhandle*)current->dlhndl)->obj->dl_elf->hdr->e_entry + 
       ((dlhandle*)current->dlhndl)->obj->dl_elf->exec);
    if (current->flags & PROC_CLONED) {
@@ -113,7 +115,6 @@ int_t sys_exec(char* file, char** inargv, char** envp)
    current_fds = (AFILE**)current->fds;
    current_envp = current->envp;
    current_argv = current->argv;
-   sys_dltls(current->dlhndl, curpid);
    
    current->flags &= ~PROC_CLONED;
    printf ("Starting %p\n", &start); /* GARBAGE */
@@ -145,8 +146,8 @@ void freeproc(pid_t pid)
    if (!cpu[pid]) {
       return;
    }
+   deinit_tls(cpu[pid]);
    (*cpu[pid]->dlnlink)--;
-   
    if ((*cpu[pid]->dlnlink) <= 0) {
       sys_printf(SYS_DEBUG "FREEPROC DEALLOC %d dlnlink %p=%d\n", pid, cpu[pid]->dlnlink, *cpu[pid]->dlnlink);
       sys_dlclose(cpu[pid]->dlhndl);
@@ -176,6 +177,13 @@ pid_t sys_clone(void)
    (*current->dlnlink)++;
    cpu[ret]->ctx.stack = alloc_stack(MAXSTACK);
    cpu[ret]->fds = copyfds(current->fds);
+   init_tls(cpu[ret]);
+   if (!cpu[ret]->ctx.stack || !cpu[ret]->fds) {
+      sys_printf(SYS_ERROR "CLONE alloc stack or fds failed\n");
+      freeproc(ret);
+      current->sys_errno = ENOMEM;
+      return -1;
+   }
    sys_printf(SYS_DEBUG "CLONE newpid=%d in %d=%s, nlink %p=%d\n", ret, current->pid, current->argv[0], current->dlnlink, *current->dlnlink);
    return ret;
 }
@@ -185,7 +193,6 @@ pid_t sys_fork()
    current->forkret = sys_clone();
    sys_printf(SYS_DEBUG "FORK in %s child=%d\n", current->argv[0], current->forkret);
    if (current->forkret == -1) {
-      current->sys_errno = ENOMEM;
       return -1;
    }
    cpu[current->forkret]->forkret = 0;
