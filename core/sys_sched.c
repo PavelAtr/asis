@@ -8,9 +8,6 @@
 proc* cpu[MAXPROC];
 int_t curpid = 0;
 proc* current;
-AFILE** current_fds;
-char** current_envp;
-char** current_argv;
 
 void switch_task()
 {
@@ -18,7 +15,6 @@ void switch_task()
       current->ctx.sp = sp;
    }
    pid_t prevpid = curpid;
-   current->envp = current_envp;
    while(1) {
       curpid++;
       if (curpid == MAXPROC) {
@@ -40,9 +36,6 @@ void switch_task()
    sys_printf(SYS_DEBUG "SWITCH_TASK at %d=%s to %d=%s flags=%b\n",
       prevpid, current->argv[0] ,curpid, cpu[curpid]->argv[0], cpu[curpid]->flags);
    current = cpu[curpid];
-   current_fds = (AFILE**)current->fds;
-   current_envp = current->envp;
-   current_argv = current->argv;
 
    if (current->flags & PROC_NEW) {
       current->flags &= ~PROC_NEW;

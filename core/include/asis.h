@@ -225,9 +225,6 @@ int sys_dlclose(void *handle);
 void* sys_dlsym(void * handle, const char * symbol);
 int sys_getrlimit(int resource, void* r);
 
-extern char** current_envp;
-extern char** current_argv;
-
 errno_t sys_geterrno();
 void* alloc_stack(size_t size);
 void free_stack(void* stackbase, size_t size);

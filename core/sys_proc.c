@@ -72,9 +72,6 @@ void init_proc()
    sys.fds = (void**) sys_fds;
    cpu[0] = &sys;
    current = cpu[0];
-   current_fds = (AFILE**)current->fds;
-   current_envp = current->envp;
-   current_argv = current->argv;
    current->pid = 0;
    current->parentpid = 0;
    current->pgid = 0;

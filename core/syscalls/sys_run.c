@@ -112,10 +112,6 @@ int_t sys_exec(char* file, char** inargv, char** envp)
       }
    }
    current->fds = cloexecfds(current->fds);
-   current_fds = (AFILE**)current->fds;
-   current_envp = current->envp;
-   current_argv = current->argv;
-   
    current->flags &= ~PROC_CLONED;
    printf ("Starting %p\n", &start); /* GARBAGE */
    int ret = start(argc, current->argv, current->envp, (void**)current->fds, &sys_syscall, &sys_atexit);
