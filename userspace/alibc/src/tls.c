@@ -11,9 +11,6 @@ void* __tls_get_addr (tls_index *ti)
 {
    unsigned long ti_module = ti->ti_module;
    unsigned long ti_offset = ti->ti_offset;
-   printf("TLSADDR: module=%lu offset=%lu\n", ti_module, ti_offset);
-   void* ret = asyscall(SYS_TLSADDR, ti_module, ti_offset, 0, 0, 0, 0);
-   printf("TLSADDR: ret=%p\n", ret);
-   return ret;
+   return asyscall(SYS_TLSADDR, ti_module, ti_offset, 0, 0, 0, 0);
 }
    

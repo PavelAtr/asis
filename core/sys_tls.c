@@ -2,9 +2,7 @@
 #include <asis.h>
 #include "../userspace/libdl/libdl.h"
 
-#ifdef CONFIG_LINUX
 #include <stddef.h>
-#endif
 
 
 

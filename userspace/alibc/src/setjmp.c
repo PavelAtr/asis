@@ -4,7 +4,7 @@
 
 int setjmp(jmp_buf env)
 {
-   return asyscall(SYS_SETJMP, env, 0, 0, 0, 0, 0);
+   return (int)asyscall(SYS_SETJMP, env, 0, 0, 0, 0, 0);
 }
 
 int sigsetjmp(sigjmp_buf env, int savesigs)

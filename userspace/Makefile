@@ -18,6 +18,13 @@ ifeq ($(CONFIG_TESTAPP), y)
 	make -C testapp
 	make -C testapp install
 endif
+ifeq ($(CONFIG_DASH), y)
+	cd scripts; ./dash.sh
+endif
+ifeq ($(CONFIG_COREUTILS), y)
+	cd scripts; ./coreutils.sh
+endif
+
 
 
 

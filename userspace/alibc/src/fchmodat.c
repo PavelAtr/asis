@@ -29,5 +29,5 @@ int fchmodat(int f, const char *pathname, mode_t mode, int flags)
       errno = ENOENT;
       return -1;
    }
-   return asyscall(SYS_MODNOD, path, st.st_uid, st.st_gid, mode, 0, 0);
+   return (int)asyscall(SYS_MODNOD, path, st.st_uid, st.st_gid, mode, 0, 0);
 }

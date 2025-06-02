@@ -3,12 +3,11 @@ LDLAGS=-Wl,-fno-undefined -nostdlib
 CFLAGS?=-g -fPIC -fomit-frame-pointer
 SYSROOT?=--sysroot=$(PREFIX)
 
-
 all: 
 	make -C init/
 	mkdir -p build
 	
-	cd build; $(CC) $(SYSROOT) $(CFLAGS) -c ../alien/*.c ../alien/ctype/*.c ../alien/string/*.c \
+	cd build; $(CC) $(SYSROOT) $(CFLAGS) -Wno-pointer-to-int-cast -c ../alien/*.c ../alien/ctype/*.c ../alien/string/*.c \
 ../alien/regex/*.c ../alien/multibyte/*.c ../src/*.c
 	cd build; $(LD) $(SYSROOT) -shared -nostdlib *.o -o libac.so
 	cd build; ar rcs libac.a *.o ../init/*.o

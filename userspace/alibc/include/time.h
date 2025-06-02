@@ -80,4 +80,6 @@ int timespec_get(struct timespec* ts, int base);
 
 clock_t clock(void);
 
+typedef long timezone_t; /* UNREALIZED */
+
 #endif

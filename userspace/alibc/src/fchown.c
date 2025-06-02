@@ -18,6 +18,6 @@ int fchown(int f, uid_t owner, gid_t group)
       errno = ENOENT;
       return -1;
    }
-   return asyscall(SYS_MODNOD, fds[f]->file, owner, group, st.st_mode, 0, 0);
+   return (int)asyscall(SYS_MODNOD, fds[f]->file, owner, group, st.st_mode, 0, 0);
 }
 

@@ -20,7 +20,7 @@ int ioctl(int fd, unsigned long request, ...)
 	    int destfd = fd;
 	    return dup2(srcfd, destfd);
    }
-   long ret = asyscall(SYS_IOCTL, fds[fd]->file, request, &vl, 0, 0, 0);
+   int ret = (int)asyscall(SYS_IOCTL, fds[fd]->file, request, &vl, 0, 0, 0);
    va_end(vl);
    return ret;
 }

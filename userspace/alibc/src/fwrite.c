@@ -41,7 +41,7 @@ INIT_FDS
          goto end;
       }
    }
-   ret = asyscall(SYS_FWRITE, stream->file, ptr, size * nmemb, stream->pos, 0, 0);
+   ret = (size_t)asyscall(SYS_FWRITE, stream->file, ptr, size * nmemb, stream->pos, 0, 0);
 end:
    stream->pos += ret;
    if (stream->pos >= stream->size) {

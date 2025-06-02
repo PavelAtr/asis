@@ -6,7 +6,7 @@ int get_free_fd()
 {
    INIT_FDS
    int i;
-   for (i = 0; i < asyscall(SYS_GETMAXFD, 0, 0, 0, 0, 0, 0); i++)
+   for (i = 0; i < (int)asyscall(SYS_GETMAXFD, 0, 0, 0, 0, 0, 0); i++)
       if (fds[i] == NULL) {
          return i;
       }
@@ -14,7 +14,7 @@ int get_free_fd()
 }
 
 char fd_is_valid(int fd) {
-   if ((unsigned int)fd < asyscall(SYS_GETMAXFD, 0, 0, 0, 0, 0, 0))
+   if ((unsigned int)fd < (int)asyscall(SYS_GETMAXFD, 0, 0, 0, 0, 0, 0))
    {
       if (fds[fd]) {
          return 1;

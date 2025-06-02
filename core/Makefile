@@ -50,7 +50,7 @@ objs: clean
 	done
 
 	for src in $(ASIS_LINK) ; do \
-	    $(CC_CORE) -c $(CFLAGS_CORE) $(SYSROOT) -D__ASIS__ -DUSE_SYMBOLFILE $$src -o ../build/$$src.o; \
+	    $(CC_CORE) -c $(CFLAGS_CORE) -Wno-pointer-to-int-cast -Wno-int-to-pointer-cast $(SYSROOT) -D__ASIS__ -DUSE_SYMBOLFILE $$src -o ../build/$$src.o; \
 	done
 
 	for src in $(EXTLIBS) ; do \

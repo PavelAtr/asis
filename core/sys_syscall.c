@@ -3,9 +3,7 @@
 #include "../config.h"
 #include <syscall.h>
 
-#ifdef CONFIG_LINUX
 #include <stddef.h>
-#endif
 
 void* sys_syscall(int number, void* arg1, void* arg2, void* arg3, void* arg4, void* arg5, void* arg6)
 {

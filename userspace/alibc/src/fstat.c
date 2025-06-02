@@ -13,6 +13,6 @@ int fstat(int f, struct stat *statbuf)
       errno = EBADFD;
       return -1;
    }
-   return asyscall(SYS_FSTAT, fds[f]->file, statbuf, 0, 0, 0, 0);
+   return (int)asyscall(SYS_FSTAT, fds[f]->file, statbuf, 0, 0, 0, 0);
 }
 

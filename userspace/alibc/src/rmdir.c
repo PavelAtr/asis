@@ -4,5 +4,5 @@
 
 int rmdir(const char *pathname)
 {
-   return asyscall(SYS_UNLINK, pathname, 0, 0, 0, 0, 0);
+   return (int)asyscall(SYS_UNLINK, pathname, 0, 0, 0, 0, 0);
 }

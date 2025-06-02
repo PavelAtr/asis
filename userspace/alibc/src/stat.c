@@ -6,7 +6,7 @@
 
 int stat(const char* path, struct stat* statbuf)
 {
-   return asyscall(SYS_FSTAT, fullpath(get_current_dir_name(), path), statbuf, 0, 0, 0, 0);
+   return (int)asyscall(SYS_FSTAT, fullpath(get_current_dir_name(), path), statbuf, 0, 0, 0, 0);
 }
 
 int lstat(const char* pathname, struct stat* statbuf)

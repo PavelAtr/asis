@@ -21,3 +21,16 @@ config TESTAPP
       default y
       help
         ASIS own simple binaries.
+
+config DASH
+      bool "dash"
+      default y
+      help
+        Dash shell.
+
+config COREUTILS
+      bool "coreutils"
+      default y
+      help
+        Coreutils suite of programs.
+

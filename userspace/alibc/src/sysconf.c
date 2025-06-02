@@ -6,7 +6,7 @@ long sysconf(int name)
 {
    switch (name) {
    case _SC_OPEN_MAX:
-      return asyscall(SYS_GETMAXFD, 0, 0, 0, 0, 0, 0);
+      return (long)asyscall(SYS_GETMAXFD, 0, 0, 0, 0, 0, 0);
    case _SC_CLK_TCK:
       return 1000;
    case _SC_NGROUPS_MAX:

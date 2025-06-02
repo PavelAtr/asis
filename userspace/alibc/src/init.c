@@ -15,8 +15,8 @@ void* (*sys_syscall)(int number, void* arg1, void* arg2, void* arg3, void* arg4,
 
 void* syscall(int number, void* arg1, void* arg2, void* arg3, void* arg4, void* arg5, void* arg6)
 {
-   long ret = sys_syscall(number, arg1, arg2, arg3, arg4 , arg5, arg6);
-   errno = sys_syscall(SYS_GETERRNO, 0, 0, 0, 0, 0, 0);
+   void* ret = sys_syscall(number, arg1, arg2, arg3, arg4 , arg5, arg6);
+   errno = (int)sys_syscall(SYS_GETERRNO, 0, 0, 0, 0, 0, 0);
    return ret;
 }
 

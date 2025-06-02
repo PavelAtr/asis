@@ -5,5 +5,5 @@
 
 int truncate(const char *path, off_t length)
 {
-   return asyscall(SYS_TRUNCATE, path, length, 0, 0, 0, 0);
+   return (int)asyscall(SYS_TRUNCATE, path, length, 0, 0, 0, 0);
 }

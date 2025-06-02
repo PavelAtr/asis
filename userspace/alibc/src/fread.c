@@ -45,7 +45,7 @@ INIT_FDS
          goto end;
       }
    }
-   ret = asyscall(SYS_FREAD, stream->file, ptr, size * nmemb, stream->pos, 0, 0);
+   ret = (size_t)asyscall(SYS_FREAD, stream->file, ptr, size * nmemb, stream->pos, 0, 0);
 end:
    stream->pos += ret;
    if (!ret) switchtask;
