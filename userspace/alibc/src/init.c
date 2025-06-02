@@ -3,10 +3,8 @@
 #include <sys/types.h>
 #include <syscall.h>
 
-FILE*** core_fds;
-char*** core_environ;
-char*** core_argv;
 int errno;
+__thread char** aargv;
 
 __thread int test = 10;
 
@@ -22,12 +20,15 @@ void* syscall(int number, void* arg1, void* arg2, void* arg3, void* arg4, void* 
    return ret;
 }
 
-void libtinyc_init(FILE*** cfds, char*** cenviron, char*** cargv, void* csyscall, void* cretexit)
+void libtinyc_init(FILE** cfds, char** cenviron, char** cargv, void* csyscall, void* cretexit)
 {
-   core_fds = cfds;
-   core_environ = cenviron;
-   core_argv = cargv;
    sys_syscall = csyscall;
    retexit = cretexit;
+
+   fds = cfds;
+   environ = cenviron;
+   aargv = cargv;
+   errno = 0;
+   printf("libtinyc_init called %p\n", sys_syscall);
 }
 

@@ -2,5 +2,5 @@
 
 const char * getprogname (void)
 {
-   return (*core_argv)[0];
+   return aargv[0];
 }

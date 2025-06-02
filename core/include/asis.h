@@ -180,9 +180,7 @@ pid_t sys_clone(void);
 pid_t sys_fork(void);
 pid_t sys_waitpid(pid_t pid, int* wstatus, int options);
 
-typedef __attribute__((sysv_abi)) int (*startfunction)
-   (int argc, char*** argv, char*** envp, void*** fds,
-     void* syscall_func, void* retexit_func);
+typedef __attribute__((sysv_abi)) int (*startfunction) (int argc, char** cargv, char** cenvp, void** cfds, void* syscall_func, void* retexit_func);
 
 #define MAXSTACK (1024 * 32)
 

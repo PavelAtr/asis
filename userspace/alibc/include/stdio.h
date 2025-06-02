@@ -29,11 +29,10 @@ typedef struct {
 
 typedef FILE AFILE;
 
-extern FILE*** core_fds;
-#define fds (*core_fds)
-#define stdin (*core_fds)[0]
-#define stdout (*core_fds)[1]
-#define stderr (*core_fds)[2]
+extern __thread  FILE** fds;
+#define stdin fds[0]
+#define stdout fds[1]
+#define stderr fds[2]
 #define INIT_FDS
 void initfile(FILE* src);
 void copyfile(FILE* dst, FILE* src);

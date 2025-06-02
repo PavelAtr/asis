@@ -58,6 +58,5 @@ int deinit_tls(proc* task) {
  
 void* sys_tlsaddr(unsigned long int ti_module, unsigned long int ti_offset) {
     void* ret = current->dtv[ti_module] + ti_offset;
-    printf("TLSADDR: module=%lu offset=%lu ret=%p\n", ti_module, ti_offset, ret);
     return ret;
 }

@@ -7,6 +7,8 @@
 #include <asis.h>
 #endif
 
+__thread FILE** fds;
+
 void initfile(FILE* src)
 {
         memset(src, 0x0, sizeof(FILE));

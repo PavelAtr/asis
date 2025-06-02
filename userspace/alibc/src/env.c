@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <errno.h>
 
-char** environ;
+__thread char** environ;
 
 int envid(const char *name)
 {

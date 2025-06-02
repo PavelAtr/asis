@@ -1,6 +1,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <errno.h>
+#include <syscall.h>
 
 int envid(const char *name);
 
@@ -31,8 +32,8 @@ int setenv(const char *name, const char *value, int overwrite)
    } else {
       int i;
       for (i = 0; environ[i]; i++);
-      *core_environ = realloc_environment(*core_environ, i, i + 1);
-      INIT_ENVIRON;
+      environ = realloc_environment(environ, i, i + 1);
+      asyscall(SYS_SETENV, environ, 0, 0, 0, 0, 0);
       if (!environ) {
          return -1; // Memory allocation failed
       }

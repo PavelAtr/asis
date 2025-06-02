@@ -16,16 +16,15 @@ char *getenv(const char *name);
 int setenv(const char *name, const char *value, int overwrite);
 int unsetenv(const char *name);
 
-extern char*** core_environ;
-extern char** environ;
-#define INIT_ENVIRON environ = *core_environ;
-extern char*** core_argv;
+extern __thread char** environ;
+#define INIT_ENVIRON
+extern __thread char** aargv;
 
 long long atoll(const char *str);
 #define atol(s) (long)atoll(s)
 #define atoi(s) (int)atoll(s)
 
-#define Exit(s) _exit(s);
+#define Exit(s) _exit(s)
 static inline void exit(int status)
 {
     _exit(status);

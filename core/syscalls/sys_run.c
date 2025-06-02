@@ -118,7 +118,7 @@ int_t sys_exec(char* file, char** inargv, char** envp)
    
    current->flags &= ~PROC_CLONED;
    printf ("Starting %p\n", &start); /* GARBAGE */
-   int ret = start(argc, &current_argv, &current_envp, (void***)&current_fds, &sys_syscall, &sys_atexit);
+   int ret = start(argc, current->argv, current->envp, (void**)current->fds, &sys_syscall, &sys_atexit);
    switch_context;
    /* Never reach here */
    sys_printf(SYS_DEBUG "EXEC END (NOTREACHEBLE)\n");
