@@ -212,7 +212,7 @@ char* elf_section_name(Elf_Shdr* shdr, char* shstr)
    return &shstr[shdr->sh_name];
 }
 
-void* elf_symbol(Elf_Shdr* symhdr, Elf_Sym* symtab, const char* symstr,
+Elf_Sym* elf_symbol(Elf_Shdr* symhdr, Elf_Sym* symtab, const char* symstr,
    const char* exec, const char* symname)
 {
    if (!symhdr || !symtab || !symstr) {
@@ -223,7 +223,7 @@ void* elf_symbol(Elf_Shdr* symhdr, Elf_Sym* symtab, const char* symstr,
    for (i = 0; i < symhdr->sh_size / symhdr->sh_entsize; i++) {
       if (strcmp(symname, &symstr[symtab[i].st_name]) == 0) {
          if (symtab[i].st_shndx != STN_UNDEF) {
-            return (void*)(exec + symtab[i].st_value);
+            return &symtab[i];
          }
       }
    }

@@ -144,6 +144,47 @@ dlhandle *selfscope;
 dlhandle *globalscope = NULL;
 int max_module_count = 0;
 
+
+Elf_Sym* dlsym2(void *hndl, const char *symbol, dl** out)
+{
+   dl *s;
+   Elf_Sym* sym;
+   dlhandle *j;
+   for (j = hndl; j != NULL; j = j->next)
+   {
+      s = j->obj;
+      sym = elf_symbol(s->dl_elf->dynsym_hdr, s->dl_elf->dynsym_tab,
+                       s->dl_elf->dynsym_str, s->dl_elf->exec, symbol);
+      if (sym)
+      {
+         printf(MARK "Found symbol %s in %s\n", symbol, s->path);
+         *out = s;
+         return sym;
+      }
+   }
+   out = NULL;
+   return NULL;
+}
+
+void *dlsym(void *hndl, const char *symbol)
+{
+   dl *s;
+   Elf_Sym* sym;
+   dlhandle *j;
+   for (j = hndl; j != NULL; j = j->next)
+   {
+      s = j->obj;
+      sym = elf_symbol(s->dl_elf->dynsym_hdr, s->dl_elf->dynsym_tab,
+                       s->dl_elf->dynsym_str, s->dl_elf->exec, symbol);
+      if (sym)
+      {
+         printf(MARK "Found symbol %s in %s\n", symbol, s->path);
+         return s->dl_elf->exec + sym->st_value;
+      }
+   }
+   return NULL;
+}
+
 void *resolve(const char *symname)
 {
    void *addr = dlsym(selfscope, symname);
@@ -153,6 +194,17 @@ void *resolve(const char *symname)
    }
    return dlsym(relascope, symname);
 }
+
+Elf_Sym* resolve2(const char *symname, dl** out)
+{
+   Elf_Sym* sym= dlsym2(selfscope, symname, out);
+   if (sym)
+   {
+      return sym;
+   }
+   return dlsym2(relascope, symname , out);
+}
+
 
 char *ldpath(const char *path, const char *file)
 {
@@ -296,21 +348,9 @@ void *dlopen(const char *filename, int flags)
          elf_relocate(s->dl_elf->hdr, s->dl_elf->rela[rela_ndx]->head,
                       s->dl_elf->rela[rela_ndx]->relas, s->dl_elf->dynsym_tab,
                       s->dl_elf->dynsym_str, &tls_relas_count, s->dl_elf->exec, &resolve);
-         s->dl_elf->tlsrela[rela_ndx]->count = tls_relas_count;
-         s->dl_elf->tlsrela[rela_ndx]->relas = elf_copy_tls_rela(s->dl_elf->rela[rela_ndx]->head,
-                                                                 s->dl_elf->rela[rela_ndx]->relas, tls_relas_count);
+         elf_relocate_tls(s->dl_elf->rela[rela_ndx]->head, s->dl_elf->rela[rela_ndx]->relas,
+            s, &resolve2);
       }
-      for (rela_ndx = 0; s->dl_elf->rela[rela_ndx]; rela_ndx++)
-      {
-         if (s->dl_elf->tlsrela[rela_ndx]->relas)
-         {
-            int i;
-            for (i = 0; i < s->dl_elf->tlsrela[rela_ndx]->count; i++)
-            {
-               *(Elf_Xword *)(s->dl_elf->exec + s->dl_elf->tlsrela[rela_ndx]->relas[i].r_offset) = s->module_id;
-            }
-         }
-   }
    s->tls_size = s->dl_elf->tls_size;
       s->status |= DL_RELOCATED;
    }
@@ -330,25 +370,6 @@ void *dlopen(const char *filename, int flags)
 fail:
    printf(MARK "DLOPEN ERROR %s\n", prog->path);
    dlclose(handle);
-   return NULL;
-}
-
-void *dlsym(void *hndl, const char *symbol)
-{
-   dl *s;
-   void *sym;
-   dlhandle *j;
-   for (j = hndl; j != NULL; j = j->next)
-   {
-      s = j->obj;
-      sym = elf_symbol(s->dl_elf->dynsym_hdr, s->dl_elf->dynsym_tab,
-                       s->dl_elf->dynsym_str, s->dl_elf->exec, symbol);
-      if (sym)
-      {
-         printf(MARK "Found symbol %s in %s\n", symbol, s->path);
-         return sym;
-      }
-   }
    return NULL;
 }
 
@@ -388,3 +409,53 @@ void tls_init(dl* s, char* dest, size_t tls_size)
    }
    memcpy(dest, s->dl_elf->tls_initaddr, s->tls_size);
 }
+
+#define R_DTPMOD64 R_X86_64_DTPMOD64
+#define R_DTPOFF64 R_X86_64_DTPOFF64
+
+
+void elf_relocate_tls(Elf_Shdr* rela, Elf_Rela* relatab, dl* s, Elf_Sym* (*resolve2)(const char *symname, dl** out))
+{
+   int j;
+   Elf_Sym* sym;
+   dl* out;
+   const char* symname;
+   if (!rela || !relatab || !s || !s->dl_elf || !s->dl_elf->exec)
+   {
+      printf(MARK "%s  %p %p %p\n", "elf_relocate_tls: hdrs is NULL",
+         rela, relatab, s);
+      return;
+   }
+   for(j = 0; j < (int)(rela->sh_size / rela->sh_entsize); j ++) {
+      switch (ELF_R_TYPE(relatab[j].r_info)) {
+         case R_DTPMOD64:
+            symname = &s->dl_elf->dynsym_str[s->dl_elf->dynsym_tab[ELF_R_SYM(relatab[j].r_info)].st_name];
+            if (resolve2) {
+               sym = resolve2(symname, &out);
+            }
+            if (!out) {
+               break;
+            }
+            printf(MARK "Relocating TLS %s in %s from %s\n", symname, s->path, out->path);
+            *(Elf_Xword *)(s->dl_elf->exec + relatab[j].r_offset) = out->module_id;
+            break;
+         case R_DTPOFF64:
+            symname = &s->dl_elf->dynsym_str[s->dl_elf->dynsym_tab[ELF_R_SYM(relatab[j].r_info)].st_name];
+            if (resolve2) {
+               sym = resolve2(symname, &out);
+            }
+            printf(MARK "Relocating TLS %s in %s from %s\n", symname, s->path, out->path);
+            if (!sym) {
+               break;
+            }
+            if (sym->st_shndx == SHN_UNDEF) {
+               break;
+            }
+            *(Elf_Xword *)(s->dl_elf->exec + relatab[j].r_offset) = sym->st_value;
+            break;
+         default:
+            break;
+      }	   
+   }
+}
+

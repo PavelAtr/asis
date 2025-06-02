@@ -8,6 +8,8 @@ char*** core_environ;
 char*** core_argv;
 int errno;
 
+__thread int test = 10;
+
 #ifdef UEFI_KERNEL
 __attribute__((ms_abi)) 
 #endif

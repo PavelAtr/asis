@@ -59,7 +59,7 @@ typedef struct {
 /* sl->status field */
 #define DL_RELOCATED 0x01
 #define DL_INITED 0x02
-
+void elf_relocate_tls(Elf_Shdr* rela, Elf_Rela* relatab, dl* s, Elf_Sym* (*resolve2)(const char *symname, dl** out));
 void tls_init(dl* s, char* dest, size_t tls_size);
 
 
