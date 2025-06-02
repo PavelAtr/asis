@@ -3,7 +3,7 @@
 #include <sys/types.h>
 #include <syscall.h>
 
-int errno;
+__thread int errno;
 __thread char** aargv;
 
 __thread int test = 10;
