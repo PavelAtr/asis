@@ -39,6 +39,7 @@
 #define SYS_GETRLIMIT 33
 #define SYS_GETERRNO 34
 #define SYS_TLSADDR 35
+#define SYS_SETENV 36
 
 void* syscall(int number, void* arg1, void* arg2, void* arg3, void* arg4, void* arg5, void* arg6);
 #define asyscall(n, a, b, c, d, e, f) syscall(n, (void*)(a), (void*)(b), (void*)(c), (void*)(d), (void*)(e), (void*)(f))

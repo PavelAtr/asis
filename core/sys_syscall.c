@@ -95,7 +95,10 @@ void* sys_syscall(int number, void* arg1, void* arg2, void* arg3, void* arg4, vo
       return (void*)sys_geterrno();
    case SYS_TLSADDR:
      printf(SYS_INFO "SYS_TLSADDR: arg1=%ld, arg2=%ld\n", arg1, arg2);
-      return sys_tlsaddr((unsigned long int)arg1, (unsigned long int)arg2);  
+      return sys_tlsaddr((unsigned long int)arg1, (unsigned long int)arg2);
+   case SYS_SETENV:
+      current->envp = (char**)arg1;
+      break;
    default:
       sys_printf(SYS_INFO "Unsupported syscall %d\n", number);
       break;
