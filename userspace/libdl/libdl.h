@@ -13,16 +13,10 @@ typedef struct {
 } elfrelas;
 
 typedef struct {
-   Elf_Rela* relas;
-   int count;
-} tlsrelas;
-
-typedef struct {
    Elf_Ehdr* hdr;
    Elf_Phdr* phdrs;
    Elf_Shdr* shdrs;
    elfrelas** rela;
-   tlsrelas** tlsrela;
    Elf_Shdr* dynsym_hdr;
    Elf_Sym* dynsym_tab;
    char* dynsym_str;

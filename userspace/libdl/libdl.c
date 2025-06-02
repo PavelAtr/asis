@@ -38,19 +38,7 @@ void elf_free(elf *e)
          freenull(&e->rela[ndx]);
       }
    }
-   for (ndx = 0; e->rela[ndx]; ndx++)
-   {
-      if (e->tlsrela[ndx])
-      {
-         if (e->tlsrela[ndx]->relas)
-         {
-            freenull(&e->tlsrela[ndx]->relas);
-         }
-         freenull(&e->tlsrela[ndx]);
-      }
-   }
       freenull(&e->rela);
-      freenull(&e->tlsrela);
       freenull(&e->dyntab);
       freenull(&e->dynstr);
    if (e->exec)
@@ -97,12 +85,6 @@ int dlload(dl *buf, const char *file)
       start_ndx++;
    }
    buf->dl_elf->rela[i] = NULL;
-   buf->dl_elf->tlsrela = malloc((relacnt + 1) * sizeof(tlsrelas *));
-   for (i = 0; i < relacnt; i++)
-   {
-      buf->dl_elf->tlsrela[i] = calloc(1, sizeof(elfrelas));
-   }
-   buf->dl_elf->tlsrela[i] = NULL;
    start_ndx = 0;
    buf->dl_elf->dynsym_hdr = elf_find_section_bytype(buf->dl_elf->hdr, buf->dl_elf->shdrs,
                                                      &start_ndx, SHT_DYNSYM);
