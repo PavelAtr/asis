@@ -19,6 +19,7 @@
 #define R_JUMP_SLOT R_X86_64_JUMP_SLOT
 #define R_DTPMOD64 R_X86_64_DTPMOD64
 #define R_DTPOFF64 R_X86_64_DTPOFF64
+#define R_TPOFF64 R_X86_64_TPOFF64
 
 void elf_relocate(Elf_Ehdr* hdr, Elf_Shdr* rela, Elf_Rela* relatab,
    Elf_Sym* symtab, const char* symstr, int* tls_relas_count, char* exec,
@@ -76,11 +77,8 @@ void elf_relocate(Elf_Ehdr* hdr, Elf_Shdr* rela, Elf_Rela* relatab,
          *(Elf_Xword*)(exec + relatab[j].r_offset) = (Elf_Xword) symaddr;
          break;
       case R_DTPMOD64:
-         (*tls_relas_count)++;
          break;
       case R_DTPOFF64:
-         *(Elf_Xword*)(exec + relatab[j].r_offset) = symtab[ELF_R_SYM(
-                     relatab[j].r_info)].st_value + relatab[j].r_addend;
          break;
       default:
          printf(MARK "UNREALIZED RELA %s %ld \n", symname,

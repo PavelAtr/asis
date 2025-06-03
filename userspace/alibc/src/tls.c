@@ -6,17 +6,38 @@ __attribute__((ms_abi))
 #endif
 extern void* (*sys_syscall)(int number, void* arg1, void* arg2, void* arg3, void* arg4, void* arg5, void* arg6);
 
-
+char** dtv;
+void __tls_init(char** dtv_ptr)
+{
+   if (dtv_ptr == NULL) {
+      return; // Invalid pointer
+   }
+   dtv = (char**)dtv_ptr;
+}
 typedef struct
 {
    unsigned long int ti_module;
    unsigned long int ti_offset;
 } tls_index;
 
+extern char quiet;
+
+#ifdef UEFI_KERNEL
+__attribute__((ms_abi)) 
+#endif
+extern void* (*sys_syscall)(int number, void* arg1, void* arg2, void* arg3, void* arg4, void* arg5, void* arg6);
+
 void* __tls_get_addr (tls_index *ti)
 {
    unsigned long ti_module = ti->ti_module;
    unsigned long ti_offset = ti->ti_offset;
-   return sys_syscall(SYS_TLSADDR, (void*)ti_module, (void*)ti_offset, NULL, NULL, NULL, NULL);
+   void* ret = dtv[ti_module] + ti_offset;
+   char buf[150];
+   if (quiet) {
+      return ret;
+   }  
+   sprintf(buf, "TLS: ti_module=%lu, ti_offset=%lu, ret=%p\n", ti_module, ti_offset, ret);
+   sys_syscall(SYS_DBG, (void*)buf, (void*)0, (void*)0, (void*)0, (void*)0, (void*)0);
+   return ret;
 }
    

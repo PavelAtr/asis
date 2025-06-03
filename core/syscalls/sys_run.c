@@ -85,6 +85,7 @@ int_t sys_exec(char* file, char** inargv, char** envp)
    current->argv = inargv;
    /* dupnullable(inargv); GARBAGE */
 
+   deinit_tls(current);
    current->dlhndl = sys_dlopen(file, 0);
    if (!current->dlhndl) {
 	  sys_printf(SYS_ERROR "EXEC dlopen %s FAILED\n", file);
@@ -100,8 +101,8 @@ int_t sys_exec(char* file, char** inargv, char** envp)
       }
    }
    (*current->dlnlink)++;
-   deinit_tls(current);
    init_tls(current);
+   tls_switch(current);
    startfunction start = (void*)(((dlhandle*)current->dlhndl)->obj->dl_elf->hdr->e_entry + 
       ((dlhandle*)current->dlhndl)->obj->dl_elf->exec);
    if (current->flags & PROC_CLONED) {
@@ -113,7 +114,8 @@ int_t sys_exec(char* file, char** inargv, char** envp)
    }
    current->fds = cloexecfds(current->fds);
    current->flags &= ~PROC_CLONED;
-   printf ("Starting %p\n", &start); /* GARBAGE */
+   printf("EXEC START %s argv=%p envp=%p fds=%p syscall=%p retexit=%p\n", 
+      file, current->argv, current->envp, current->fds, &sys_syscall, &sys_atexit);
    int ret = start(argc, current->argv, current->envp, (void**)current->fds, &sys_syscall, &sys_atexit);
    switch_context;
    /* Never reach here */

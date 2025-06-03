@@ -3,6 +3,8 @@
 #include <sys/types.h>
 #include <syscall.h>
 
+char quiet = 0;
+
 __thread int errno;
 __thread char** aargv;
 
@@ -20,15 +22,15 @@ void* syscall(int number, void* arg1, void* arg2, void* arg3, void* arg4, void* 
    return ret;
 }
 
-void libtinyc_init(FILE** cfds, char** cenviron, char** cargv, void* csyscall, void* cretexit)
+void libtinyc_init(char** cargv, char** cenviron, FILE** cfds, void* csyscall, void* cretexit)
 {
+   quiet = 1; // Disable debug output by default
    sys_syscall = csyscall;
    retexit = cretexit;
-
    fds = cfds;
    environ = cenviron;
    aargv = cargv;
    errno = 0;
-   printf("libtinyc_init called %p\n", sys_syscall);
+   quiet = 0; // Enable debug output
 }
 

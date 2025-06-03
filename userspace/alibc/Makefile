@@ -2,6 +2,7 @@ PREFIX?=/asis
 LDLAGS=-Wl,-fno-undefined -nostdlib
 CFLAGS?=-g -fPIC -fomit-frame-pointer
 SYSROOT?=--sysroot=$(PREFIX)
+LD=$(CC)
 
 all: 
 	make -C init/

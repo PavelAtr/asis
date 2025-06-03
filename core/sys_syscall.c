@@ -30,7 +30,7 @@ void* sys_syscall(int number, void* arg1, void* arg2, void* arg3, void* arg4, vo
       return (void*)sys_stat((const char*)arg1, (void*)arg2);
       break;
    case SYS_DBG:
-      sys_printf("%d %d %d %d %d %d\n", (int) arg1, (int) arg2, (int) arg3, (int) arg4, (int) arg5, (int) arg6);
+      sys_printf((char*)arg1);
       break;
    case SYS_USLEEP:
       return (void*)sys_usleep((long_t)arg1);
@@ -93,8 +93,6 @@ void* sys_syscall(int number, void* arg1, void* arg2, void* arg3, void* arg4, vo
       return (void*)sys_getrlimit((int)arg1, (void*)arg2);
    case SYS_GETERRNO:
       return (void*)sys_geterrno();
-   case SYS_TLSADDR:
-      return sys_tlsaddr((unsigned long int)arg1, (unsigned long int)arg2);
    case SYS_SETENV:
       current->envp = (char**)arg1;
       break;

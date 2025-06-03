@@ -394,6 +394,7 @@ void tls_init(dl* s, char* dest, size_t tls_size)
 
 #define R_DTPMOD64 R_X86_64_DTPMOD64
 #define R_DTPOFF64 R_X86_64_DTPOFF64
+#define R_TPOFF64 R_X86_64_TPOFF64
 
 
 void elf_relocate_tls(Elf_Shdr* rela, Elf_Rela* relatab, dl* s, Elf_Sym* (*resolve2)(const char *symname, dl** out))
@@ -426,14 +427,28 @@ void elf_relocate_tls(Elf_Shdr* rela, Elf_Rela* relatab, dl* s, Elf_Sym* (*resol
             if (resolve2) {
                sym = resolve2(symname, &out);
             }
-            printf(MARK "Relocating TLS %s in %s from %s\n", symname, s->path, out->path);
             if (!sym) {
                break;
             }
             if (sym->st_shndx == SHN_UNDEF) {
                break;
             }
+            printf(MARK "Relocating TLS %s=%ld in %s from %s\n", symname, sym->st_value, s->path, out->path);
             *(Elf_Xword *)(s->dl_elf->exec + relatab[j].r_offset) = sym->st_value;
+            break;
+         case R_TPOFF64:
+            symname = &s->dl_elf->dynsym_str[s->dl_elf->dynsym_tab[ELF_R_SYM(relatab[j].r_info)].st_name];
+            if (resolve2) {
+               sym = resolve2(symname, &out);
+            }
+            if (!sym) {
+               break;
+            }
+            if (sym->st_shndx == SHN_UNDEF) {
+               break;
+            }
+            printf(MARK "Relocating TLS %s=%ld in %s from %s\n", symname, sym->st_value, s->path, out->path);
+            *(Elf_Xword *)(s->dl_elf->exec + relatab[j].r_offset) = sym->st_value + relatab[j].r_addend;
             break;
          default:
             break;

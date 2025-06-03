@@ -232,5 +232,5 @@ void free_stack(void* stackbase, size_t size);
 int init_tls(proc* task);
 int deinit_tls(proc* task);
 void* sys_tlsaddr(unsigned long int ti_module, unsigned long int ti_offset);
-
+void tls_switch(proc* task);
 #endif

@@ -1,6 +1,6 @@
 #include <string.h>
-#include <stdio.h>
 #ifndef UEFI
+#include <stdio.h>
 #include <stdlib.h>
 #endif
 #ifdef __ASIS__

@@ -46,6 +46,7 @@ void switch_task()
       sys_printf(SYS_DEBUG "initcontext %d newstack=%p newsp=%p depth=%ld\n",
          curpid, current->ctx.stack, current->ctx.sp, current->ctx.sp - current->ctx.stack);
    }
+   tls_switch(current);
    sp = current->ctx.sp;
 }
 

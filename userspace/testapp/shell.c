@@ -77,9 +77,15 @@ int runcommand(char* cmd)
 
 int main(int argc, char** argv)
 {
-   asyscall(SYS_DBG, 1,2,3,4,5,6);
    printenv();
    printf("%s\n", getenv("PATH"));
+   printf("START DEBUG\n");
+   FILE** myfds = fds;
+   char** myeniron = environ;
+   char** myargv = aargv;
+   printf("fds=%p\n", myfds);
+   printf("environ=%p\n", myeniron);
+   printf("argv=%p\n", myargv);
    while (1) {
       printf("%s", "> ");
       char* cmd = getcommand();
