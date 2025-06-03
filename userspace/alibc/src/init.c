@@ -5,7 +5,7 @@
 
 char quiet = 0;
 
-__thread int errno;
+int errno;
 __thread char** aargv;
 
 __thread int test = 10;

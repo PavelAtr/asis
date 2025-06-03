@@ -31,6 +31,7 @@ void* sys_syscall(int number, void* arg1, void* arg2, void* arg3, void* arg4, vo
       break;
    case SYS_DBG:
       sys_printf((char*)arg1);
+      sys_printf("arg2=%p\n", arg2);
       break;
    case SYS_USLEEP:
       return (void*)sys_usleep((long_t)arg1);

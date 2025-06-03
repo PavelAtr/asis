@@ -102,6 +102,7 @@ int_t sys_exec(char* file, char** inargv, char** envp)
    }
    (*current->dlnlink)++;
    init_tls(current);
+   current->__tls_init = sys_dlsym(current->dlhndl, "__tls_init");
    tls_switch(current);
    startfunction start = (void*)(((dlhandle*)current->dlhndl)->obj->dl_elf->hdr->e_entry + 
       ((dlhandle*)current->dlhndl)->obj->dl_elf->exec);

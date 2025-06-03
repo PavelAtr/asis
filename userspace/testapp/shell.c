@@ -79,13 +79,9 @@ int main(int argc, char** argv)
 {
    printenv();
    printf("%s\n", getenv("PATH"));
-   printf("START DEBUG\n");
-   FILE** myfds = fds;
-   char** myeniron = environ;
-   char** myargv = aargv;
-   printf("fds=%p\n", myfds);
-   printf("environ=%p\n", myeniron);
-   printf("argv=%p\n", myargv);
+   printf("fds=%p\n", fds);
+   printf("environ=%p\n", environ);
+   printf("argv=%p\n", aargv);
    while (1) {
       printf("%s", "> ");
       char* cmd = getcommand();

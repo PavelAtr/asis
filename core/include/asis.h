@@ -118,6 +118,7 @@ typedef struct {
   pid_t forkret;
   pid_t pgid;
   char** dtv;
+  void (*__tls_init)(char** dtv_ptr);
 } proc;
 
 #define PROC_RUNNING 0x01

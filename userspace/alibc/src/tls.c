@@ -32,12 +32,12 @@ void* __tls_get_addr (tls_index *ti)
    unsigned long ti_module = ti->ti_module;
    unsigned long ti_offset = ti->ti_offset;
    void* ret = dtv[ti_module] + ti_offset;
-   char buf[150];
    if (quiet) {
       return ret;
    }  
-   sprintf(buf, "TLS: ti_module=%lu, ti_offset=%lu, ret=%p\n", ti_module, ti_offset, ret);
-   sys_syscall(SYS_DBG, (void*)buf, (void*)0, (void*)0, (void*)0, (void*)0, (void*)0);
+   char buf[150];
+   sprintf(buf, "ti_module=%lu, ti_offset=%lu\n", ti_module, ti_offset);
+   sys_syscall(SYS_DBG, (void*)buf, ret, (void*)0, (void*)0, (void*)0, (void*)0);
    return ret;
 }
    
