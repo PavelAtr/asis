@@ -8,6 +8,7 @@
 #include <sys/stat.h>
 #include <stdio.h>
 #include <sys/mman.h>
+#include "modid.h"
 
 #ifdef __ASIS__
 #include <asis.h>
@@ -113,7 +114,7 @@ int dlload(dl *buf, const char *file)
       buf->dl_elf->dyntab = elf_load_section(file, buf->dl_elf->hdr, buf->dl_elf->dyns);
       buf->dl_elf->dynstr = elf_load_strings(file, buf->dl_elf->hdr, buf->dl_elf->shdrs, buf->dl_elf->dyns);
    }
-   buf->module_id = max_module_count++;
+   buf->module_id = get_modid();
    printf("%s\n", "OK");
    return 0;
 fail:
@@ -124,7 +125,6 @@ fail:
 dlhandle *relascope;
 dlhandle *selfscope;
 dlhandle *globalscope = NULL;
-int max_module_count = 0;
 
 
 Elf_Sym* dlsym2(void *hndl, const char *symbol, dl** out)
@@ -371,6 +371,7 @@ int dlclose(void *hndl)
       if (s->nlink <= 0)
       {
          printf(MARK "Dlclose %s nlink=%d\n", s->path, s->nlink);
+	 unget_modid(s->module_id);
          globalscope = (dlhandle*) list_rm((list*) globalscope, s);
 	 copy = (dlhandle*) list_rm((list*) copy, s);
          elf_fini(s->dl_elf->exec, s->dl_elf->dyns, s->dl_elf->dyntab);

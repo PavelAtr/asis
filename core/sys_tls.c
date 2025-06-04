@@ -7,9 +7,19 @@
 
 
 int init_tls(proc* task) {
-    dlhandle* hndl = (dlhandle*)task->dlhndl;   
-    task->dtv = sys_calloc(max_module_count, sizeof(char*));
+    dlhandle* hndl = (dlhandle*)task->dlhndl;
+    unsigned int max_module_id = 0;
     dlhandle* j;
+    for (j = hndl; j; j = j->next) {
+        dl* s = j->obj;
+        if (!s) {
+            continue;
+        }
+        if (s->module_id > max_module_id) {
+            max_module_id = s->module_id; // Find the highest module ID
+        }
+    }
+    task->dtv = sys_calloc(max_module_id + 1, sizeof(char*));
     for (j = hndl; j; j = j->next) {
         dl* s = j->obj;
         if (!s) {

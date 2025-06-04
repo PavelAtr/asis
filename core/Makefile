@@ -29,6 +29,7 @@ userspace/libdl/libdl.c \
 userspace/libdl/tinyelf.c \
 userspace/libdl/$(ARCH)/relocate.c \
 userspace/libdl/list.c \
+userspace/libdl/modid.c \
 userspace/alibc/src/stdio.c
 
 BUILD_DIRS = \

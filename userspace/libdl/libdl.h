@@ -43,8 +43,6 @@ typedef struct {
    int module_id;
 } dl;
 
-extern int max_module_count;
-
 typedef struct {
    NAMED_LIST_ESSENTIAL
    dl* obj;
