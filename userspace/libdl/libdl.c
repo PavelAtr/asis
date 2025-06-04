@@ -115,6 +115,8 @@ int dlload(dl *buf, const char *file)
       buf->dl_elf->dynstr = elf_load_strings(file, buf->dl_elf->hdr, buf->dl_elf->shdrs, buf->dl_elf->dyns);
    }
    buf->module_id = get_modid();
+   if (buf->module_id == -1)
+     goto fail;
    printf("%s\n", "OK");
    return 0;
 fail:

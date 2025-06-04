@@ -40,7 +40,7 @@ typedef struct {
    int status;
    int nlink;
    size_t tls_size;
-   int module_id;
+   unsigned int module_id;
 } dl;
 
 typedef struct {
