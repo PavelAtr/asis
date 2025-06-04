@@ -102,9 +102,7 @@ int_t sys_exec(char* file, char** inargv, char** envp)
    }
    (*current->dlnlink)++;
    init_tls(current);
-   current->__tls_init = sys_dlsym(current->dlhndl, "__tls_init");
-   tls_switch(current);
-   startfunction start = (void*)(((dlhandle*)current->dlhndl)->obj->dl_elf->hdr->e_entry + 
+   current->start = (void*)(((dlhandle*)current->dlhndl)->obj->dl_elf->hdr->e_entry + 
       ((dlhandle*)current->dlhndl)->obj->dl_elf->exec);
    if (current->flags & PROC_CLONED) {
       if (envp) {
@@ -115,9 +113,9 @@ int_t sys_exec(char* file, char** inargv, char** envp)
    }
    current->fds = cloexecfds(current->fds);
    current->flags &= ~PROC_CLONED;
-   printf("EXEC START %s argv=%p envp=%p fds=%p syscall=%p retexit=%p\n", 
-      file, current->argv, current->envp, current->fds, &sys_syscall, &sys_atexit);
-   int ret = start(argc, current->argv, current->envp, (void**)current->fds, &sys_syscall, &sys_atexit);
+   printf("EXEC START %s argv=%p envp=%p fds=%p syscall=%p retexit=%p dtv=%p\n", 
+      file, current->argv, current->envp, current->fds, &sys_syscall, &sys_atexit, current->dtv);
+   int ret = current->start(argc, current->argv, current->envp, (void**)current->fds, &sys_syscall, &sys_atexit, current->dtv, 0);
    switch_context;
    /* Never reach here */
    sys_printf(SYS_DEBUG "EXEC END (NOTREACHEBLE)\n");
@@ -177,6 +175,8 @@ pid_t sys_clone(void)
    cpu[ret]->ctx.stack = alloc_stack(MAXSTACK);
    cpu[ret]->fds = copyfds(current->fds);
    init_tls(cpu[ret]);
+   if (current->start)
+	current->start(0, NULL, NULL, (void**)cpu[ret]->fds, NULL, NULL, cpu[ret]->dtv, 1);
    if (!cpu[ret]->ctx.stack || !cpu[ret]->fds) {
       sys_printf(SYS_ERROR "CLONE alloc stack or fds failed\n");
       freeproc(ret);

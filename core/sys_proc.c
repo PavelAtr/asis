@@ -82,6 +82,7 @@ void init_proc()
    current->dlhndl = NULL;
    current->dlnlink = &sys_dlnlink;
    current->parent = &sys;
+   current->start = NULL;
 }
 
 char** dupnullable(char** inargv)

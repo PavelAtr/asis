@@ -15,6 +15,7 @@ int main(int argc, char** argv)
 {
    errno = ENOTSUP;
    printf("TEST\n");
+   puts("TEST2\n");
    printf("progname=%s\n", getprogname());
    printf("test=%d\n", test);
    test = 1;

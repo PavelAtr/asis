@@ -60,7 +60,6 @@ void tls_switch(proc* task) {
     if (!task || !task->dtv) {
         return; // Invalid task or DTV
     }
-    if (current->__tls_init) {
-        current->__tls_init(task->dtv);
-    }
+    if (task->start)
+	task->start(0, NULL, NULL, NULL, NULL, NULL, current->dtv, 1);
 }   

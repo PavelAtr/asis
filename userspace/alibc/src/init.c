@@ -22,15 +22,17 @@ void* syscall(int number, void* arg1, void* arg2, void* arg3, void* arg4, void* 
    return ret;
 }
 
-void libtinyc_init(char** cargv, char** cenviron, FILE** cfds, void* csyscall, void* cretexit)
+extern char** dtv;
+
+void libtinyc_init(char** cargv, char** cenviron, FILE** cfds, void* csyscall, void* cretexit, char** cdtv)
 {
    quiet = 1; // Disable debug output by default
-   sys_syscall = csyscall;
-   retexit = cretexit;
-   fds = cfds;
-   environ = cenviron;
-   aargv = cargv;
-   errno = 0;
+   if (cdtv) dtv = cdtv;
+   if (csyscall) sys_syscall = csyscall;
+   if (cretexit) retexit = cretexit;
+   if (cfds) fds = cfds;
+   if (cenviron) environ = cenviron;
+   if (cargv) aargv = cargv;
    quiet = 0; // Enable debug output
 }
 

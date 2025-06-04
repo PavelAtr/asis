@@ -99,6 +99,8 @@ typedef struct {
   char* sp;
 } context;
 
+typedef __attribute__((sysv_abi)) int (*startfunction) (int argc, char** cargv, char** cenvp, void** cfds, void* syscall_func, void* retexit_func, char** dtv, char onlyinit);
+
 typedef struct {
   int argc;
   char**  argv;
@@ -118,7 +120,8 @@ typedef struct {
   pid_t forkret;
   pid_t pgid;
   char** dtv;
-  void (*__tls_init)(char** dtv_ptr);
+  startfunction start;
+  __attribute__((sysv_abi)) void (*__tls_init)(char** dtv_ptr);
 } proc;
 
 #define PROC_RUNNING 0x01
@@ -181,7 +184,7 @@ pid_t sys_clone(void);
 pid_t sys_fork(void);
 pid_t sys_waitpid(pid_t pid, int* wstatus, int options);
 
-typedef __attribute__((sysv_abi)) int (*startfunction) (int argc, char** cargv, char** cenvp, void** cfds, void* syscall_func, void* retexit_func);
+
 
 #define MAXSTACK (1024 * 32)
 
