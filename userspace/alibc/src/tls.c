@@ -1,19 +1,9 @@
 #include <syscall.h>
 #include <stdio.h>
 
-#ifdef UEFI_KERNEL
-__attribute__((ms_abi)) 
-#endif
-extern void* (*sys_syscall)(int number, void* arg1, void* arg2, void* arg3, void* arg4, void* arg5, void* arg6);
+extern char*** core_dtv;
+#define dtv (*core_dtv)
 
-char** dtv;
-void __tls_init(char** dtv_ptr)
-{
-   if (dtv_ptr == NULL) {
-      return; // Invalid pointer
-   }
-   dtv = (char**)dtv_ptr;
-}
 typedef struct
 {
    unsigned long int ti_module;

@@ -29,7 +29,8 @@ typedef struct {
 
 typedef FILE AFILE;
 
-extern __thread FILE** fds;
+extern FILE*** core_fds;
+#define fds (*core_fds)
 #define stdin fds[0]
 #define stdout fds[1]
 #define stderr fds[2]

@@ -9,7 +9,7 @@
 
 proc sys;
 char* sys_argv[1] = {"system"};
-extern AFILE** current_fds;
+extern void** current_fds;
 char* ld_library_path = "/asis/usr/lib:/asis/lib:/asis/libexec";
 
 AFILE sys_stdin = {

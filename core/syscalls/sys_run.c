@@ -29,8 +29,6 @@ int_t sys_runinit()
    return 0;
 }
 
-extern AFILE** current_fds;
-
 int_t* new_dlnlink(void* dlhandle)
 {
    int_t i;
@@ -113,9 +111,11 @@ int_t sys_exec(char* file, char** inargv, char** envp)
    }
    current->fds = cloexecfds(current->fds);
    current->flags &= ~PROC_CLONED;
+   current_fds = current->fds;
+   current_dtv = current->dtv;
    printf("EXEC START %s argv=%p envp=%p fds=%p syscall=%p retexit=%p dtv=%p\n", 
       file, current->argv, current->envp, current->fds, &sys_syscall, &sys_atexit, current->dtv);
-   int ret = current->start(argc, current->argv, current->envp, (void**)current->fds, &sys_syscall, &sys_atexit, current->dtv, 0);
+   int ret = current->start(argc, current->argv, current->envp, &current_fds, &sys_syscall, &sys_atexit, &current_dtv);
    switch_context;
    /* Never reach here */
    sys_printf(SYS_DEBUG "EXEC END (NOTREACHEBLE)\n");
@@ -175,8 +175,8 @@ pid_t sys_clone(void)
    cpu[ret]->ctx.stack = alloc_stack(MAXSTACK);
    cpu[ret]->fds = copyfds(current->fds);
    init_tls(cpu[ret]);
-   if (current->start)
-	current->start(0, NULL, NULL, (void**)cpu[ret]->fds, NULL, NULL, cpu[ret]->dtv, 1);
+   current_fds = current->fds;
+   current_dtv = current->dtv;
    if (!cpu[ret]->ctx.stack || !cpu[ret]->fds) {
       sys_printf(SYS_ERROR "CLONE alloc stack or fds failed\n");
       freeproc(ret);

@@ -7,8 +7,9 @@ char quiet = 0;
 
 int errno;
 __thread char** aargv;
+FILE*** core_fds;
+char*** core_dtv;
 
-__thread int test = 10;
 
 #ifdef UEFI_KERNEL
 __attribute__((ms_abi)) 
@@ -24,15 +25,15 @@ void* syscall(int number, void* arg1, void* arg2, void* arg3, void* arg4, void* 
 
 extern char** dtv;
 
-void libtinyc_init(char** cargv, char** cenviron, FILE** cfds, void* csyscall, void* cretexit, char** cdtv)
+void libtinyc_init(char** cargv, char** cenviron, FILE*** cfds, void* csyscall, void* cretexit, char*** cdtv)
 {
    quiet = 1; // Disable debug output by default
-   if (cdtv) dtv = cdtv;
-   if (csyscall) sys_syscall = csyscall;
-   if (cretexit) retexit = cretexit;
-   if (cfds) fds = cfds;
-   if (cenviron) environ = cenviron;
-   if (cargv) aargv = cargv;
+   core_dtv = cdtv;
+   sys_syscall = csyscall;
+   retexit = cretexit;
+   core_fds = cfds;
+   environ = cenviron;
+   aargv = cargv;
    quiet = 0; // Enable debug output
 }
 

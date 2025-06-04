@@ -99,7 +99,10 @@ typedef struct {
   char* sp;
 } context;
 
-typedef __attribute__((sysv_abi)) int (*startfunction) (int argc, char** cargv, char** cenvp, void** cfds, void* syscall_func, void* retexit_func, char** dtv, char onlyinit);
+typedef __attribute__((sysv_abi)) int (*startfunction) (int argc, char** cargv, char** cenvp, void*** cfds, void* syscall_func, void* retexit_func, char*** cdtv);
+extern void** current_fds;
+extern char** current_dtv;
+
 
 typedef struct {
   int argc;
@@ -235,6 +238,4 @@ void free_stack(void* stackbase, size_t size);
 
 int init_tls(proc* task);
 int deinit_tls(proc* task);
-void* sys_tlsaddr(unsigned long int ti_module, unsigned long int ti_offset);
-void tls_switch(proc* task);
 #endif

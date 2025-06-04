@@ -8,6 +8,8 @@
 proc* cpu[MAXPROC];
 int_t curpid = 0;
 proc* current;
+char** current_dtv;
+void** current_fds;
 
 void switch_task()
 {
@@ -46,7 +48,8 @@ void switch_task()
       sys_printf(SYS_DEBUG "initcontext %d newstack=%p newsp=%p depth=%ld\n",
          curpid, current->ctx.stack, current->ctx.sp, current->ctx.sp - current->ctx.stack);
    }
-   tls_switch(current);
+   current_dtv = current->dtv;
+   current_fds = current->fds;
    sp = current->ctx.sp;
 }
 

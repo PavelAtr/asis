@@ -419,7 +419,7 @@ void elf_relocate_tls(Elf_Shdr* rela, Elf_Rela* relatab, dl* s, Elf_Sym* (*resol
             if (resolve2) {
                sym = resolve2(symname, &out);
             }
-            if (!out) {
+            if (!sym) {
                break;
             }
             printf(MARK "Relocating TLS %s in %s from %s\n", symname, s->path, out->path);
