@@ -20,6 +20,8 @@ int fgetgrent_r(FILE* stream, struct group* gbuf,
    char* tok;
    if ((tok = strtok(NULL, ":")))
        gbuf->gr_gid = atoi(tok);
+   else 
+       gbuf->gr_gid = -1;
    gbuf->gr_mem = strtok(NULL, ":");
    *gbufp = gbuf;
    return 0;
