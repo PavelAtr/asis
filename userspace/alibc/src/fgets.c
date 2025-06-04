@@ -18,7 +18,7 @@ INIT_FDS
       }
       #endif
       if (c == EOF) {
-         i--;
+         if (i) i--;
          break;
       }
       if (feof(stream)) {
@@ -31,6 +31,6 @@ INIT_FDS
       #endif
    }
    s[i + 1] = '\0';
-   if (s[0] == '\0') return NULL;
+   if (s[0] == '\0' || s[0] == EOF) return NULL;
    return s;
 }
