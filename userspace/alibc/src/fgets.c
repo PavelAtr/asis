@@ -30,5 +30,6 @@ INIT_FDS
       #endif
    }
    s[i + 1] = '\0';
+   if (s[0] == EOF) return NULL;
    return s;
 }
