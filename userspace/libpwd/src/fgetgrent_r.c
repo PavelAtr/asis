@@ -17,7 +17,9 @@ int fgetgrent_r(FILE* stream, struct group* gbuf,
    buf[strlen(buf) - 1] = '\0';
    gbuf->gr_name = strtok(buf, ":");
    gbuf->gr_passwd = strtok(NULL, ":");
-   gbuf->gr_gid = atoi(strtok(NULL, ":"));
+   char* tok;
+   if ((tok = strtok(NULL, ":")))
+       gbuf->gr_gid = atoi(tok);
    gbuf->gr_mem = strtok(NULL, ":");
    *gbufp = gbuf;
    return 0;
