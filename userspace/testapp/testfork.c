@@ -10,7 +10,6 @@ __thread int a = 5;
 
 int main(int argc, char** argv)
 {
-   asyscall(SYS_DBG, "FDS=", fds, 0, 0, 0, 0);
    pid_t child1 = fork();
    if (child1 == 0) {
       int i;

@@ -35,9 +35,9 @@ void* __tls_get_addr (tls_index *ti)
    if (quiet) {
       return ret;
    }  
-   char buf[150];
+/*   char buf[150];
    sprintf(buf, "ti_module=%lu, ti_offset=%lu ret=", ti_module, ti_offset);
-   sys_syscall(SYS_DBG, (void*)buf, ret, (void*)0, (void*)0, (void*)0, (void*)0);
+   sys_syscall(SYS_DBG, (void*)buf, ret, (void*)0, (void*)0, (void*)0, (void*)0);*/
    return ret;
 }
    
