@@ -1,0 +1,24 @@
+lib/libcoreutils_a-close-stream.o: lib/close-stream.c \
+ /home/PavelAtr/asis/userspace/coreutils-9.1/../scripts/coreutils.h \
+ lib/config.h lib/close-stream.h lib/stdio.h /asis/usr/include/stdio.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h lib/sys/types.h \
+ /asis/usr/include/sys/types.h /asis/usr/include/errno.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h lib/fpending.h \
+ /asis/usr/include/stdio_ext.h /asis/usr/include/sys/cdefs.h \
+ lib/unlocked-io.h
+/home/PavelAtr/asis/userspace/coreutils-9.1/../scripts/coreutils.h:
+lib/config.h:
+lib/close-stream.h:
+lib/stdio.h:
+/asis/usr/include/stdio.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h:
+lib/sys/types.h:
+/asis/usr/include/sys/types.h:
+/asis/usr/include/errno.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h:
+lib/fpending.h:
+/asis/usr/include/stdio_ext.h:
+/asis/usr/include/sys/cdefs.h:
+lib/unlocked-io.h:

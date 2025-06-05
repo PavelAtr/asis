@@ -1,0 +1,62 @@
+lib/libcoreutils_a-sha256-stream.o: lib/sha256-stream.c \
+ /home/PavelAtr/asis/userspace/coreutils-9.1/../scripts/coreutils.h \
+ lib/config.h lib/sha256.h lib/stdio.h /asis/usr/include/stdio.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h lib/sys/types.h \
+ /asis/usr/include/sys/types.h lib/stdint.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h \
+ /asis/usr/include/stdint.h lib/limits.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/limits.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/syslimits.h \
+ /asis/usr/include/limits.h lib/time.h /asis/usr/include/time.h \
+ lib/sys/time.h /asis/usr/include/sys/time.h \
+ /asis/usr/include/sys/times.h lib/inttypes.h \
+ /asis/usr/include/inttypes.h lib/wchar.h /asis/usr/include/features.h \
+ /asis/usr/include/wchar.h lib/stdlib.h /asis/usr/include/stdlib.h \
+ lib/alloca.h lib/unistd.h /asis/usr/include/unistd.h lib/getopt-cdefs.h \
+ /asis/usr/include/sys/cdefs.h lib/getopt-pfx-core.h lib/getopt-core.h \
+ lib/locale.h /asis/usr/include/locale.h lib/setlocale_null.h \
+ lib/arg-nonnull.h lib/unlocked-io.h lib/af_alg.h \
+ /asis/usr/include/errno.h
+/home/PavelAtr/asis/userspace/coreutils-9.1/../scripts/coreutils.h:
+lib/config.h:
+lib/sha256.h:
+lib/stdio.h:
+/asis/usr/include/stdio.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h:
+lib/sys/types.h:
+/asis/usr/include/sys/types.h:
+lib/stdint.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h:
+/asis/usr/include/stdint.h:
+lib/limits.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/limits.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/syslimits.h:
+/asis/usr/include/limits.h:
+lib/time.h:
+/asis/usr/include/time.h:
+lib/sys/time.h:
+/asis/usr/include/sys/time.h:
+/asis/usr/include/sys/times.h:
+lib/inttypes.h:
+/asis/usr/include/inttypes.h:
+lib/wchar.h:
+/asis/usr/include/features.h:
+/asis/usr/include/wchar.h:
+lib/stdlib.h:
+/asis/usr/include/stdlib.h:
+lib/alloca.h:
+lib/unistd.h:
+/asis/usr/include/unistd.h:
+lib/getopt-cdefs.h:
+/asis/usr/include/sys/cdefs.h:
+lib/getopt-pfx-core.h:
+lib/getopt-core.h:
+lib/locale.h:
+/asis/usr/include/locale.h:
+lib/setlocale_null.h:
+lib/arg-nonnull.h:
+lib/unlocked-io.h:
+lib/af_alg.h:
+/asis/usr/include/errno.h:

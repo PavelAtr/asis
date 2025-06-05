@@ -1,0 +1,36 @@
+lib/libcoreutils_a-memcasecmp.o: lib/memcasecmp.c \
+ /home/PavelAtr/asis/userspace/coreutils-9.1/../scripts/coreutils.h \
+ lib/config.h lib/memcasecmp.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h lib/ctype.h \
+ /asis/usr/include/ctype.h /asis/usr/include/features.h lib/locale.h \
+ /asis/usr/include/locale.h lib/setlocale_null.h lib/arg-nonnull.h \
+ /asis/usr/include/sys/cdefs.h /asis/usr/include/bits/alltypes.h \
+ lib/limits.h /usr/lib/gcc/x86_64-linux-gnu/12/include/limits.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/syslimits.h \
+ /asis/usr/include/limits.h lib/sys/types.h /asis/usr/include/sys/types.h \
+ lib/time.h /asis/usr/include/time.h lib/sys/time.h \
+ /asis/usr/include/sys/time.h /asis/usr/include/sys/times.h
+/home/PavelAtr/asis/userspace/coreutils-9.1/../scripts/coreutils.h:
+lib/config.h:
+lib/memcasecmp.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+lib/ctype.h:
+/asis/usr/include/ctype.h:
+/asis/usr/include/features.h:
+lib/locale.h:
+/asis/usr/include/locale.h:
+lib/setlocale_null.h:
+lib/arg-nonnull.h:
+/asis/usr/include/sys/cdefs.h:
+/asis/usr/include/bits/alltypes.h:
+lib/limits.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/limits.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/syslimits.h:
+/asis/usr/include/limits.h:
+lib/sys/types.h:
+/asis/usr/include/sys/types.h:
+lib/time.h:
+/asis/usr/include/time.h:
+lib/sys/time.h:
+/asis/usr/include/sys/time.h:
+/asis/usr/include/sys/times.h:

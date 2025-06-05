@@ -1,0 +1,41 @@
+lib/libcoreutils_a-filevercmp.o: lib/filevercmp.c \
+ /home/PavelAtr/asis/userspace/coreutils-9.1/../scripts/coreutils.h \
+ lib/config.h lib/filevercmp.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h lib/c-ctype.h \
+ lib/limits.h /usr/lib/gcc/x86_64-linux-gnu/12/include/limits.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/syslimits.h \
+ /asis/usr/include/limits.h lib/sys/types.h /asis/usr/include/sys/types.h \
+ lib/time.h /asis/usr/include/time.h lib/sys/time.h \
+ /asis/usr/include/sys/time.h /asis/usr/include/sys/times.h lib/idx.h \
+ lib/stdint.h /usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h \
+ /asis/usr/include/stdint.h lib/inttypes.h /asis/usr/include/inttypes.h \
+ lib/wchar.h /asis/usr/include/features.h /asis/usr/include/wchar.h \
+ lib/verify.h
+/home/PavelAtr/asis/userspace/coreutils-9.1/../scripts/coreutils.h:
+lib/config.h:
+lib/filevercmp.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h:
+lib/c-ctype.h:
+lib/limits.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/limits.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/syslimits.h:
+/asis/usr/include/limits.h:
+lib/sys/types.h:
+/asis/usr/include/sys/types.h:
+lib/time.h:
+/asis/usr/include/time.h:
+lib/sys/time.h:
+/asis/usr/include/sys/time.h:
+/asis/usr/include/sys/times.h:
+lib/idx.h:
+lib/stdint.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h:
+/asis/usr/include/stdint.h:
+lib/inttypes.h:
+/asis/usr/include/inttypes.h:
+lib/wchar.h:
+/asis/usr/include/features.h:
+/asis/usr/include/wchar.h:
+lib/verify.h:

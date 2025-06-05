@@ -1,0 +1,21 @@
+lib/libcoreutils_a-gethrxtime.o: lib/gethrxtime.c \
+ /home/PavelAtr/asis/userspace/coreutils-9.1/../scripts/coreutils.h \
+ lib/config.h lib/gethrxtime.h lib/xtime.h lib/sys/time.h \
+ /asis/usr/include/sys/time.h lib/sys/types.h \
+ /asis/usr/include/sys/types.h lib/timespec.h lib/time.h \
+ /asis/usr/include/time.h /asis/usr/include/sys/times.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h lib/arg-nonnull.h
+/home/PavelAtr/asis/userspace/coreutils-9.1/../scripts/coreutils.h:
+lib/config.h:
+lib/gethrxtime.h:
+lib/xtime.h:
+lib/sys/time.h:
+/asis/usr/include/sys/time.h:
+lib/sys/types.h:
+/asis/usr/include/sys/types.h:
+lib/timespec.h:
+lib/time.h:
+/asis/usr/include/time.h:
+/asis/usr/include/sys/times.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+lib/arg-nonnull.h:

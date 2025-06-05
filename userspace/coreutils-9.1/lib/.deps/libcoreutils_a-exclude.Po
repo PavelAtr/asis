@@ -1,0 +1,85 @@
+lib/libcoreutils_a-exclude.o: lib/exclude.c \
+ /home/PavelAtr/asis/userspace/coreutils-9.1/../scripts/coreutils.h \
+ lib/config.h /usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h \
+ lib/ctype.h /asis/usr/include/ctype.h /asis/usr/include/features.h \
+ lib/locale.h /asis/usr/include/locale.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h lib/setlocale_null.h \
+ lib/arg-nonnull.h /asis/usr/include/sys/cdefs.h \
+ /asis/usr/include/bits/alltypes.h /asis/usr/include/errno.h lib/stdio.h \
+ /asis/usr/include/stdio.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h lib/sys/types.h \
+ /asis/usr/include/sys/types.h lib/stdlib.h /asis/usr/include/stdlib.h \
+ lib/alloca.h lib/unistd.h /asis/usr/include/unistd.h lib/getopt-cdefs.h \
+ lib/getopt-pfx-core.h lib/getopt-core.h lib/wchar.h \
+ /asis/usr/include/wchar.h lib/string.h /asis/usr/include/string.h \
+ lib/wctype.h /asis/usr/include/wctype.h lib/regex.h lib/limits.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/limits.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/syslimits.h \
+ /asis/usr/include/limits.h lib/time.h /asis/usr/include/time.h \
+ lib/sys/time.h /asis/usr/include/sys/time.h \
+ /asis/usr/include/sys/times.h lib/exclude.h lib/hash.h lib/mbuiter.h \
+ /asis/usr/include/assert.h lib/mbchar.h lib/strnlen1.h lib/fnmatch.h \
+ lib/xalloc.h lib/stdint.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h \
+ /asis/usr/include/stdint.h lib/inttypes.h /asis/usr/include/inttypes.h \
+ lib/idx.h lib/intprops.h lib/verify.h lib/filename.h
+/home/PavelAtr/asis/userspace/coreutils-9.1/../scripts/coreutils.h:
+lib/config.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h:
+lib/ctype.h:
+/asis/usr/include/ctype.h:
+/asis/usr/include/features.h:
+lib/locale.h:
+/asis/usr/include/locale.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+lib/setlocale_null.h:
+lib/arg-nonnull.h:
+/asis/usr/include/sys/cdefs.h:
+/asis/usr/include/bits/alltypes.h:
+/asis/usr/include/errno.h:
+lib/stdio.h:
+/asis/usr/include/stdio.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h:
+lib/sys/types.h:
+/asis/usr/include/sys/types.h:
+lib/stdlib.h:
+/asis/usr/include/stdlib.h:
+lib/alloca.h:
+lib/unistd.h:
+/asis/usr/include/unistd.h:
+lib/getopt-cdefs.h:
+lib/getopt-pfx-core.h:
+lib/getopt-core.h:
+lib/wchar.h:
+/asis/usr/include/wchar.h:
+lib/string.h:
+/asis/usr/include/string.h:
+lib/wctype.h:
+/asis/usr/include/wctype.h:
+lib/regex.h:
+lib/limits.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/limits.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/syslimits.h:
+/asis/usr/include/limits.h:
+lib/time.h:
+/asis/usr/include/time.h:
+lib/sys/time.h:
+/asis/usr/include/sys/time.h:
+/asis/usr/include/sys/times.h:
+lib/exclude.h:
+lib/hash.h:
+lib/mbuiter.h:
+/asis/usr/include/assert.h:
+lib/mbchar.h:
+lib/strnlen1.h:
+lib/fnmatch.h:
+lib/xalloc.h:
+lib/stdint.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h:
+/asis/usr/include/stdint.h:
+lib/inttypes.h:
+/asis/usr/include/inttypes.h:
+lib/idx.h:
+lib/intprops.h:
+lib/verify.h:
+lib/filename.h:

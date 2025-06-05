@@ -1,0 +1,19 @@
+lib/libcoreutils_a-getopt1.o: lib/getopt1.c \
+ /home/PavelAtr/asis/userspace/coreutils-9.1/../scripts/coreutils.h \
+ lib/config.h lib/getopt.h lib/getopt.h /asis/usr/include/getopt.h \
+ /asis/usr/include/sys/cdefs.h /asis/usr/include/bits/getopt.h \
+ lib/getopt-cdefs.h lib/getopt-pfx-core.h lib/getopt-core.h \
+ lib/getopt-pfx-ext.h lib/getopt-ext.h lib/getopt_int.h
+/home/PavelAtr/asis/userspace/coreutils-9.1/../scripts/coreutils.h:
+lib/config.h:
+lib/getopt.h:
+lib/getopt.h:
+/asis/usr/include/getopt.h:
+/asis/usr/include/sys/cdefs.h:
+/asis/usr/include/bits/getopt.h:
+lib/getopt-cdefs.h:
+lib/getopt-pfx-core.h:
+lib/getopt-core.h:
+lib/getopt-pfx-ext.h:
+lib/getopt-ext.h:
+lib/getopt_int.h:

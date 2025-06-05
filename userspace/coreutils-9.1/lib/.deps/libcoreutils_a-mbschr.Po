@@ -1,0 +1,45 @@
+lib/libcoreutils_a-mbschr.o: lib/mbschr.c \
+ /home/PavelAtr/asis/userspace/coreutils-9.1/../scripts/coreutils.h \
+ lib/config.h lib/string.h /asis/usr/include/string.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h lib/mbuiter.h \
+ /asis/usr/include/assert.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h lib/stdlib.h \
+ /asis/usr/include/stdlib.h lib/alloca.h lib/unistd.h \
+ /asis/usr/include/unistd.h lib/sys/types.h /asis/usr/include/sys/types.h \
+ lib/getopt-cdefs.h /asis/usr/include/sys/cdefs.h lib/getopt-pfx-core.h \
+ lib/getopt-core.h lib/locale.h /asis/usr/include/locale.h \
+ lib/setlocale_null.h lib/arg-nonnull.h lib/wchar.h \
+ /asis/usr/include/features.h /asis/usr/include/wchar.h lib/mbchar.h \
+ lib/wctype.h /asis/usr/include/wctype.h \
+ /asis/usr/include/bits/alltypes.h lib/strnlen1.h
+/home/PavelAtr/asis/userspace/coreutils-9.1/../scripts/coreutils.h:
+lib/config.h:
+lib/string.h:
+/asis/usr/include/string.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+lib/mbuiter.h:
+/asis/usr/include/assert.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h:
+lib/stdlib.h:
+/asis/usr/include/stdlib.h:
+lib/alloca.h:
+lib/unistd.h:
+/asis/usr/include/unistd.h:
+lib/sys/types.h:
+/asis/usr/include/sys/types.h:
+lib/getopt-cdefs.h:
+/asis/usr/include/sys/cdefs.h:
+lib/getopt-pfx-core.h:
+lib/getopt-core.h:
+lib/locale.h:
+/asis/usr/include/locale.h:
+lib/setlocale_null.h:
+lib/arg-nonnull.h:
+lib/wchar.h:
+/asis/usr/include/features.h:
+/asis/usr/include/wchar.h:
+lib/mbchar.h:
+lib/wctype.h:
+/asis/usr/include/wctype.h:
+/asis/usr/include/bits/alltypes.h:
+lib/strnlen1.h:

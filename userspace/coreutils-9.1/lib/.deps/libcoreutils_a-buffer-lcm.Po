@@ -1,0 +1,8 @@
+lib/libcoreutils_a-buffer-lcm.o: lib/buffer-lcm.c \
+ /home/PavelAtr/asis/userspace/coreutils-9.1/../scripts/coreutils.h \
+ lib/config.h lib/buffer-lcm.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h
+/home/PavelAtr/asis/userspace/coreutils-9.1/../scripts/coreutils.h:
+lib/config.h:
+lib/buffer-lcm.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:

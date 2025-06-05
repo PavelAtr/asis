@@ -1,0 +1,11 @@
+lib/libcoreutils_a-memcmp2.o: lib/memcmp2.c \
+ /home/PavelAtr/asis/userspace/coreutils-9.1/../scripts/coreutils.h \
+ lib/config.h lib/memcmp2.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h lib/string.h \
+ /asis/usr/include/string.h
+/home/PavelAtr/asis/userspace/coreutils-9.1/../scripts/coreutils.h:
+lib/config.h:
+lib/memcmp2.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+lib/string.h:
+/asis/usr/include/string.h:

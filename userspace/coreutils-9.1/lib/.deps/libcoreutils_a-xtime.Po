@@ -1,0 +1,6 @@
+lib/libcoreutils_a-xtime.o: lib/xtime.c \
+ /home/PavelAtr/asis/userspace/coreutils-9.1/../scripts/coreutils.h \
+ lib/config.h lib/xtime.h
+/home/PavelAtr/asis/userspace/coreutils-9.1/../scripts/coreutils.h:
+lib/config.h:
+lib/xtime.h:

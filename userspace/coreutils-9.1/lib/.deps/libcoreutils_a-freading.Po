@@ -1,0 +1,23 @@
+lib/libcoreutils_a-freading.o: lib/freading.c \
+ /home/PavelAtr/asis/userspace/coreutils-9.1/../scripts/coreutils.h \
+ lib/config.h lib/freading.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h lib/stdio.h \
+ /asis/usr/include/stdio.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h lib/sys/types.h \
+ /asis/usr/include/sys/types.h /asis/usr/include/stdio_ext.h \
+ /asis/usr/include/sys/cdefs.h lib/stdio-impl.h /asis/usr/include/errno.h
+/home/PavelAtr/asis/userspace/coreutils-9.1/../scripts/coreutils.h:
+lib/config.h:
+lib/freading.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h:
+lib/stdio.h:
+/asis/usr/include/stdio.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h:
+lib/sys/types.h:
+/asis/usr/include/sys/types.h:
+/asis/usr/include/stdio_ext.h:
+/asis/usr/include/sys/cdefs.h:
+lib/stdio-impl.h:
+/asis/usr/include/errno.h:

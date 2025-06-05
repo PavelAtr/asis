@@ -1,0 +1,36 @@
+lib/libcoreutils_a-c-strtod.o: lib/c-strtod.c \
+ /home/PavelAtr/asis/userspace/coreutils-9.1/../scripts/coreutils.h \
+ lib/config.h lib/c-strtod.h /asis/usr/include/errno.h lib/locale.h \
+ /asis/usr/include/locale.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h lib/setlocale_null.h \
+ lib/arg-nonnull.h lib/stdlib.h /asis/usr/include/stdlib.h lib/alloca.h \
+ lib/unistd.h /asis/usr/include/unistd.h lib/sys/types.h \
+ /asis/usr/include/sys/types.h lib/getopt-cdefs.h \
+ /asis/usr/include/sys/cdefs.h lib/getopt-pfx-core.h lib/getopt-core.h \
+ lib/wchar.h /asis/usr/include/features.h /asis/usr/include/wchar.h \
+ lib/string.h /asis/usr/include/string.h
+/home/PavelAtr/asis/userspace/coreutils-9.1/../scripts/coreutils.h:
+lib/config.h:
+lib/c-strtod.h:
+/asis/usr/include/errno.h:
+lib/locale.h:
+/asis/usr/include/locale.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+lib/setlocale_null.h:
+lib/arg-nonnull.h:
+lib/stdlib.h:
+/asis/usr/include/stdlib.h:
+lib/alloca.h:
+lib/unistd.h:
+/asis/usr/include/unistd.h:
+lib/sys/types.h:
+/asis/usr/include/sys/types.h:
+lib/getopt-cdefs.h:
+/asis/usr/include/sys/cdefs.h:
+lib/getopt-pfx-core.h:
+lib/getopt-core.h:
+lib/wchar.h:
+/asis/usr/include/features.h:
+/asis/usr/include/wchar.h:
+lib/string.h:
+/asis/usr/include/string.h:

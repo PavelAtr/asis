@@ -1,0 +1,67 @@
+lib/libcoreutils_a-chdir-long.o: lib/chdir-long.c \
+ /home/PavelAtr/asis/userspace/coreutils-9.1/../scripts/coreutils.h \
+ lib/config.h lib/chdir-long.h lib/unistd.h /asis/usr/include/unistd.h \
+ lib/sys/types.h /asis/usr/include/sys/types.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h lib/stdlib.h \
+ /asis/usr/include/stdlib.h lib/alloca.h lib/locale.h \
+ /asis/usr/include/locale.h lib/setlocale_null.h lib/arg-nonnull.h \
+ lib/wchar.h /asis/usr/include/features.h /asis/usr/include/wchar.h \
+ lib/getopt-cdefs.h /asis/usr/include/sys/cdefs.h lib/getopt-pfx-core.h \
+ lib/getopt-core.h lib/limits.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/limits.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/syslimits.h \
+ /asis/usr/include/limits.h lib/time.h /asis/usr/include/time.h \
+ lib/sys/time.h /asis/usr/include/sys/time.h \
+ /asis/usr/include/sys/times.h lib/pathmax.h /asis/usr/include/errno.h \
+ lib/fcntl.h lib/sys/stat.h /asis/usr/include/sys/stat.h \
+ /asis/usr/include/fcntl.h lib/stdio.h /asis/usr/include/stdio.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h lib/string.h \
+ /asis/usr/include/string.h lib/assure.h /asis/usr/include/assert.h \
+ lib/verify.h
+/home/PavelAtr/asis/userspace/coreutils-9.1/../scripts/coreutils.h:
+lib/config.h:
+lib/chdir-long.h:
+lib/unistd.h:
+/asis/usr/include/unistd.h:
+lib/sys/types.h:
+/asis/usr/include/sys/types.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+lib/stdlib.h:
+/asis/usr/include/stdlib.h:
+lib/alloca.h:
+lib/locale.h:
+/asis/usr/include/locale.h:
+lib/setlocale_null.h:
+lib/arg-nonnull.h:
+lib/wchar.h:
+/asis/usr/include/features.h:
+/asis/usr/include/wchar.h:
+lib/getopt-cdefs.h:
+/asis/usr/include/sys/cdefs.h:
+lib/getopt-pfx-core.h:
+lib/getopt-core.h:
+lib/limits.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/limits.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/syslimits.h:
+/asis/usr/include/limits.h:
+lib/time.h:
+/asis/usr/include/time.h:
+lib/sys/time.h:
+/asis/usr/include/sys/time.h:
+/asis/usr/include/sys/times.h:
+lib/pathmax.h:
+/asis/usr/include/errno.h:
+lib/fcntl.h:
+lib/sys/stat.h:
+/asis/usr/include/sys/stat.h:
+/asis/usr/include/fcntl.h:
+lib/stdio.h:
+/asis/usr/include/stdio.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h:
+lib/string.h:
+/asis/usr/include/string.h:
+lib/assure.h:
+/asis/usr/include/assert.h:
+lib/verify.h:

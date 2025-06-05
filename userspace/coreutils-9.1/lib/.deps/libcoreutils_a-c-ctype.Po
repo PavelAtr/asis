@@ -1,0 +1,8 @@
+lib/libcoreutils_a-c-ctype.o: lib/c-ctype.c \
+ /home/PavelAtr/asis/userspace/coreutils-9.1/../scripts/coreutils.h \
+ lib/config.h lib/c-ctype.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h
+/home/PavelAtr/asis/userspace/coreutils-9.1/../scripts/coreutils.h:
+lib/config.h:
+lib/c-ctype.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdbool.h:
