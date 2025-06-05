@@ -1,0 +1,51 @@
+init.o: init.c ../config.h shell.h /asis/usr/include/sys/param.h \
+ mystring.h /asis/usr/include/inttypes.h /asis/usr/include/sys/types.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h \
+ /asis/usr/include/stdint.h /asis/usr/include/string.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h init.h eval.h expand.h \
+ /asis/usr/include/stdio.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h \
+ /asis/usr/include/unistd.h input.h error.h /asis/usr/include/setjmp.h \
+ /asis/usr/include/signal.h /asis/usr/include/pthreadtypes.h parser.h \
+ token.h redir.h memalloc.h /asis/usr/include/stdlib.h \
+ /asis/usr/include/alloca.h /asis/usr/include/locale.h \
+ /asis/usr/include/wchar.h trap.h output.h /asis/usr/include/sys/stat.h \
+ /asis/usr/include/time.h /asis/usr/include/sys/time.h \
+ /asis/usr/include/sys/times.h cd.h var.h
+../config.h:
+shell.h:
+/asis/usr/include/sys/param.h:
+mystring.h:
+/asis/usr/include/inttypes.h:
+/asis/usr/include/sys/types.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h:
+/asis/usr/include/stdint.h:
+/asis/usr/include/string.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+init.h:
+eval.h:
+expand.h:
+/asis/usr/include/stdio.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h:
+/asis/usr/include/unistd.h:
+input.h:
+error.h:
+/asis/usr/include/setjmp.h:
+/asis/usr/include/signal.h:
+/asis/usr/include/pthreadtypes.h:
+parser.h:
+token.h:
+redir.h:
+memalloc.h:
+/asis/usr/include/stdlib.h:
+/asis/usr/include/alloca.h:
+/asis/usr/include/locale.h:
+/asis/usr/include/wchar.h:
+trap.h:
+output.h:
+/asis/usr/include/sys/stat.h:
+/asis/usr/include/time.h:
+/asis/usr/include/sys/time.h:
+/asis/usr/include/sys/times.h:
+cd.h:
+var.h:

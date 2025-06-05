@@ -1,0 +1,6 @@
+signames.o: signames.c ../config.h /asis/usr/include/signal.h \
+ /asis/usr/include/sys/types.h /asis/usr/include/pthreadtypes.h
+../config.h:
+/asis/usr/include/signal.h:
+/asis/usr/include/sys/types.h:
+/asis/usr/include/pthreadtypes.h:

@@ -1,0 +1,56 @@
+bltin/printf.o: bltin/printf.c ../config.h /asis/usr/include/sys/types.h \
+ /asis/usr/include/ctype.h /asis/usr/include/features.h \
+ /asis/usr/include/locale.h /asis/usr/include/sys/cdefs.h \
+ /asis/usr/include/bits/alltypes.h /asis/usr/include/errno.h \
+ /asis/usr/include/inttypes.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h \
+ /asis/usr/include/stdint.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/limits.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/syslimits.h \
+ /asis/usr/include/limits.h /asis/usr/include/time.h \
+ /asis/usr/include/sys/time.h /asis/usr/include/sys/times.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h \
+ /asis/usr/include/stdlib.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h \
+ /asis/usr/include/alloca.h /asis/usr/include/unistd.h \
+ /asis/usr/include/wchar.h /asis/usr/include/string.h bltin/bltin.h \
+ bltin/../shell.h /asis/usr/include/sys/param.h bltin/../mystring.h \
+ bltin/../options.h bltin/../memalloc.h bltin/../output.h \
+ bltin/../error.h /asis/usr/include/setjmp.h /asis/usr/include/signal.h \
+ /asis/usr/include/pthreadtypes.h system.h
+../config.h:
+/asis/usr/include/sys/types.h:
+/asis/usr/include/ctype.h:
+/asis/usr/include/features.h:
+/asis/usr/include/locale.h:
+/asis/usr/include/sys/cdefs.h:
+/asis/usr/include/bits/alltypes.h:
+/asis/usr/include/errno.h:
+/asis/usr/include/inttypes.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h:
+/asis/usr/include/stdint.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/limits.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/syslimits.h:
+/asis/usr/include/limits.h:
+/asis/usr/include/time.h:
+/asis/usr/include/sys/time.h:
+/asis/usr/include/sys/times.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h:
+/asis/usr/include/stdlib.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+/asis/usr/include/alloca.h:
+/asis/usr/include/unistd.h:
+/asis/usr/include/wchar.h:
+/asis/usr/include/string.h:
+bltin/bltin.h:
+bltin/../shell.h:
+/asis/usr/include/sys/param.h:
+bltin/../mystring.h:
+bltin/../options.h:
+bltin/../memalloc.h:
+bltin/../output.h:
+bltin/../error.h:
+/asis/usr/include/setjmp.h:
+/asis/usr/include/signal.h:
+/asis/usr/include/pthreadtypes.h:
+system.h:

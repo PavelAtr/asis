@@ -1,0 +1,50 @@
+redir.o: redir.c ../config.h /asis/usr/include/sys/stat.h \
+ /asis/usr/include/sys/types.h /asis/usr/include/time.h \
+ /asis/usr/include/sys/time.h /asis/usr/include/sys/times.h \
+ /asis/usr/include/sys/param.h /asis/usr/include/signal.h \
+ /asis/usr/include/pthreadtypes.h /asis/usr/include/string.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h \
+ /asis/usr/include/fcntl.h /asis/usr/include/stdio.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h \
+ /asis/usr/include/unistd.h /asis/usr/include/stdlib.h \
+ /asis/usr/include/alloca.h /asis/usr/include/locale.h \
+ /asis/usr/include/wchar.h main.h /asis/usr/include/errno.h shell.h \
+ nodes.h jobs.h /asis/usr/include/inttypes.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h \
+ /asis/usr/include/stdint.h options.h expand.h redir.h output.h \
+ memalloc.h error.h /asis/usr/include/setjmp.h trap.h
+../config.h:
+/asis/usr/include/sys/stat.h:
+/asis/usr/include/sys/types.h:
+/asis/usr/include/time.h:
+/asis/usr/include/sys/time.h:
+/asis/usr/include/sys/times.h:
+/asis/usr/include/sys/param.h:
+/asis/usr/include/signal.h:
+/asis/usr/include/pthreadtypes.h:
+/asis/usr/include/string.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+/asis/usr/include/fcntl.h:
+/asis/usr/include/stdio.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h:
+/asis/usr/include/unistd.h:
+/asis/usr/include/stdlib.h:
+/asis/usr/include/alloca.h:
+/asis/usr/include/locale.h:
+/asis/usr/include/wchar.h:
+main.h:
+/asis/usr/include/errno.h:
+shell.h:
+nodes.h:
+jobs.h:
+/asis/usr/include/inttypes.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h:
+/asis/usr/include/stdint.h:
+options.h:
+expand.h:
+redir.h:
+output.h:
+memalloc.h:
+error.h:
+/asis/usr/include/setjmp.h:
+trap.h:

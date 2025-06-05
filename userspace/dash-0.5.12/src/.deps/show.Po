@@ -1,0 +1,24 @@
+show.o: show.c ../config.h /asis/usr/include/stdio.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h \
+ /asis/usr/include/sys/types.h shell.h /asis/usr/include/sys/param.h \
+ parser.h token.h nodes.h mystring.h /asis/usr/include/inttypes.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h \
+ /asis/usr/include/stdint.h /asis/usr/include/string.h show.h options.h
+../config.h:
+/asis/usr/include/stdio.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h:
+/asis/usr/include/sys/types.h:
+shell.h:
+/asis/usr/include/sys/param.h:
+parser.h:
+token.h:
+nodes.h:
+mystring.h:
+/asis/usr/include/inttypes.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h:
+/asis/usr/include/stdint.h:
+/asis/usr/include/string.h:
+show.h:
+options.h:

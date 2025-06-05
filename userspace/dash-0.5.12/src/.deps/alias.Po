@@ -1,0 +1,36 @@
+alias.o: alias.c ../config.h /asis/usr/include/stdlib.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h \
+ /asis/usr/include/alloca.h /asis/usr/include/unistd.h \
+ /asis/usr/include/sys/types.h /asis/usr/include/locale.h \
+ /asis/usr/include/wchar.h shell.h /asis/usr/include/sys/param.h input.h \
+ output.h /usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h error.h \
+ /asis/usr/include/setjmp.h /asis/usr/include/signal.h \
+ /asis/usr/include/pthreadtypes.h memalloc.h mystring.h \
+ /asis/usr/include/inttypes.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h \
+ /asis/usr/include/stdint.h /asis/usr/include/string.h alias.h options.h
+../config.h:
+/asis/usr/include/stdlib.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+/asis/usr/include/alloca.h:
+/asis/usr/include/unistd.h:
+/asis/usr/include/sys/types.h:
+/asis/usr/include/locale.h:
+/asis/usr/include/wchar.h:
+shell.h:
+/asis/usr/include/sys/param.h:
+input.h:
+output.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h:
+error.h:
+/asis/usr/include/setjmp.h:
+/asis/usr/include/signal.h:
+/asis/usr/include/pthreadtypes.h:
+memalloc.h:
+mystring.h:
+/asis/usr/include/inttypes.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h:
+/asis/usr/include/stdint.h:
+/asis/usr/include/string.h:
+alias.h:
+options.h:

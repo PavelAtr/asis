@@ -1,0 +1,50 @@
+trap.o: trap.c ../config.h /asis/usr/include/signal.h \
+ /asis/usr/include/sys/types.h /asis/usr/include/pthreadtypes.h \
+ /asis/usr/include/unistd.h /asis/usr/include/stdlib.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h \
+ /asis/usr/include/alloca.h /asis/usr/include/locale.h \
+ /asis/usr/include/wchar.h /asis/usr/include/string.h shell.h \
+ /asis/usr/include/sys/param.h main.h /asis/usr/include/errno.h nodes.h \
+ eval.h init.h jobs.h /asis/usr/include/inttypes.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h \
+ /asis/usr/include/stdint.h show.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h options.h syntax.h \
+ /asis/usr/include/ctype.h /asis/usr/include/features.h \
+ /asis/usr/include/sys/cdefs.h /asis/usr/include/bits/alltypes.h output.h \
+ memalloc.h error.h /asis/usr/include/setjmp.h trap.h mystring.h
+../config.h:
+/asis/usr/include/signal.h:
+/asis/usr/include/sys/types.h:
+/asis/usr/include/pthreadtypes.h:
+/asis/usr/include/unistd.h:
+/asis/usr/include/stdlib.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+/asis/usr/include/alloca.h:
+/asis/usr/include/locale.h:
+/asis/usr/include/wchar.h:
+/asis/usr/include/string.h:
+shell.h:
+/asis/usr/include/sys/param.h:
+main.h:
+/asis/usr/include/errno.h:
+nodes.h:
+eval.h:
+init.h:
+jobs.h:
+/asis/usr/include/inttypes.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h:
+/asis/usr/include/stdint.h:
+show.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h:
+options.h:
+syntax.h:
+/asis/usr/include/ctype.h:
+/asis/usr/include/features.h:
+/asis/usr/include/sys/cdefs.h:
+/asis/usr/include/bits/alltypes.h:
+output.h:
+memalloc.h:
+error.h:
+/asis/usr/include/setjmp.h:
+trap.h:
+mystring.h:

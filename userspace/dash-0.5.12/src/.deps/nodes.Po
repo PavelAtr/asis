@@ -1,0 +1,40 @@
+nodes.o: nodes.c ../config.h /asis/usr/include/stdlib.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h \
+ /asis/usr/include/alloca.h /asis/usr/include/unistd.h \
+ /asis/usr/include/sys/types.h /asis/usr/include/locale.h \
+ /asis/usr/include/wchar.h shell.h /asis/usr/include/sys/param.h nodes.h \
+ memalloc.h machdep.h mystring.h /asis/usr/include/inttypes.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h \
+ /asis/usr/include/stdint.h /asis/usr/include/string.h system.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/limits.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/syslimits.h \
+ /asis/usr/include/limits.h /asis/usr/include/time.h \
+ /asis/usr/include/sys/time.h /asis/usr/include/sys/times.h \
+ /asis/usr/include/signal.h /asis/usr/include/pthreadtypes.h
+../config.h:
+/asis/usr/include/stdlib.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+/asis/usr/include/alloca.h:
+/asis/usr/include/unistd.h:
+/asis/usr/include/sys/types.h:
+/asis/usr/include/locale.h:
+/asis/usr/include/wchar.h:
+shell.h:
+/asis/usr/include/sys/param.h:
+nodes.h:
+memalloc.h:
+machdep.h:
+mystring.h:
+/asis/usr/include/inttypes.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h:
+/asis/usr/include/stdint.h:
+/asis/usr/include/string.h:
+system.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/limits.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/syslimits.h:
+/asis/usr/include/limits.h:
+/asis/usr/include/time.h:
+/asis/usr/include/sys/time.h:
+/asis/usr/include/sys/times.h:
+/asis/usr/include/signal.h:
+/asis/usr/include/pthreadtypes.h:

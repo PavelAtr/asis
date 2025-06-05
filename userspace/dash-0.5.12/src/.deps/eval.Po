@@ -1,0 +1,60 @@
+eval.o: eval.c ../config.h /asis/usr/include/stdlib.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h \
+ /asis/usr/include/alloca.h /asis/usr/include/unistd.h \
+ /asis/usr/include/sys/types.h /asis/usr/include/locale.h \
+ /asis/usr/include/wchar.h /asis/usr/include/signal.h \
+ /asis/usr/include/pthreadtypes.h init.h main.h /asis/usr/include/errno.h \
+ shell.h /asis/usr/include/sys/param.h nodes.h syntax.h \
+ /asis/usr/include/ctype.h /asis/usr/include/features.h \
+ /asis/usr/include/sys/cdefs.h /asis/usr/include/bits/alltypes.h expand.h \
+ /asis/usr/include/inttypes.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h \
+ /asis/usr/include/stdint.h parser.h token.h jobs.h eval.h builtins.h \
+ options.h exec.h redir.h input.h output.h \
+ /usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h trap.h var.h \
+ memalloc.h error.h /asis/usr/include/setjmp.h show.h mystring.h \
+ /asis/usr/include/string.h
+../config.h:
+/asis/usr/include/stdlib.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stddef.h:
+/asis/usr/include/alloca.h:
+/asis/usr/include/unistd.h:
+/asis/usr/include/sys/types.h:
+/asis/usr/include/locale.h:
+/asis/usr/include/wchar.h:
+/asis/usr/include/signal.h:
+/asis/usr/include/pthreadtypes.h:
+init.h:
+main.h:
+/asis/usr/include/errno.h:
+shell.h:
+/asis/usr/include/sys/param.h:
+nodes.h:
+syntax.h:
+/asis/usr/include/ctype.h:
+/asis/usr/include/features.h:
+/asis/usr/include/sys/cdefs.h:
+/asis/usr/include/bits/alltypes.h:
+expand.h:
+/asis/usr/include/inttypes.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdint.h:
+/asis/usr/include/stdint.h:
+parser.h:
+token.h:
+jobs.h:
+eval.h:
+builtins.h:
+options.h:
+exec.h:
+redir.h:
+input.h:
+output.h:
+/usr/lib/gcc/x86_64-linux-gnu/12/include/stdarg.h:
+trap.h:
+var.h:
+memalloc.h:
+error.h:
+/asis/usr/include/setjmp.h:
+show.h:
+mystring.h:
+/asis/usr/include/string.h:
