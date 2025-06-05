@@ -472,44 +472,44 @@ NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = x86_64-pc-linux-gnu
-host_triplet = x86_64-pc-none
+host_triplet = x86_64-pc-linux-gnu
 #am__append_1 = lib/btowc.c
 am__append_2 = lib/chdir-long.c
-am__append_3 = lib/chown.c
+#am__append_3 = lib/chown.c
 #am__append_4 = lib/fchown-stub.c
-am__append_5 = lib/close.c
+#am__append_5 = lib/close.c
 #am__append_6 = lib/closedir.c
-am__append_7 = lib/copy-file-range.c
+#am__append_7 = lib/copy-file-range.c
 #am__append_8 = lib/dirfd.c
-am__append_9 = lib/dup.c
+#am__append_9 = lib/dup.c
 #am__append_10 = lib/dup2.c
 #am__append_11 = lib/error.c
 #am__append_12 = lib/euidaccess.c
 #am__append_13 = lib/explicit_bzero.c
-am__append_14 = lib/faccessat.c
+#am__append_14 = lib/faccessat.c
 #am__append_15 = lib/fchdir.c
-am__append_16 = lib/fchmodat.c
-am__append_17 = lib/fchownat.c
+#am__append_16 = lib/fchmodat.c
+#am__append_17 = lib/fchownat.c
 am__append_18 = lib/fclose.c
 am__append_19 = lib/fcntl.c
 #am__append_20 = lib/fdatasync.c
-am__append_21 = lib/fdopen.c
-am__append_22 = lib/fdopendir.c
+#am__append_21 = lib/fdopen.c
+#am__append_22 = lib/fdopendir.c
 am__append_23 = lib/fflush.c
 #am__append_24 = lib/fileblocks.c
 #am__append_25 = lib/float.c
 #am__append_26 = lib/itold.c
 #am__append_27 = lib/fpending.c
 am__append_28 = lib/fpurge.c
-#am__append_29 = lib/freadahead.c
-#am__append_30 = lib/freadptr.c
-am__append_31 = lib/free.c
+am__append_29 = lib/freadahead.c
+am__append_30 = lib/freadptr.c
+#am__append_31 = lib/free.c
 #am__append_32 = lib/freopen.c
 am__append_33 = lib/fseek.c
 am__append_34 = lib/fseeko.c
-#am__append_35 = lib/fseterr.c
+am__append_35 = lib/fseterr.c
 #am__append_36 = lib/fstat.c
-am__append_37 = lib/fstatat.c
+#am__append_37 = lib/fstatat.c
 am__append_38 = lib/fsusage.c
 #am__append_39 = lib/fsync.c
 #am__append_40 = lib/ftell.c
@@ -519,63 +519,63 @@ am__append_43 = lib/fts.c
 #am__append_44 = lib/futimens.c
 #am__append_45 = lib/getaddrinfo.c
 #am__append_46 = lib/gai_strerror.c
-am__append_47 = lib/getcwd.c
-am__append_48 = lib/getcwd-lgpl.c
+#am__append_47 = lib/getcwd.c
+#am__append_48 = lib/getcwd-lgpl.c
 #am__append_49 = lib/getdelim.c
-am__append_50 = lib/getdtablesize.c
-am__append_51 = lib/getgroups.c
+#am__append_50 = lib/getdtablesize.c
+#am__append_51 = lib/getgroups.c
 #am__append_52 = lib/gethostname.c
 #am__append_53 = lib/getline.c
 #am__append_54 = lib/getloadavg.c
 #am__append_55 = lib/getlogin.c
-am__append_56 = lib/getopt.c lib/getopt1.c
+#am__append_56 = lib/getopt.c lib/getopt1.c
 #am__append_57 = lib/getpagesize.c
-am__append_58 = lib/getrandom.c
+#am__append_58 = lib/getrandom.c
 #am__append_59 = lib/gettimeofday.c
 #am__append_60 = lib/getusershell.c
 #am__append_61 = lib/group-member.c
 #am__append_62 = lib/iconv_open.c
 #am__append_63 = lib/iconv.c lib/iconv_close.c
 #am__append_64 = lib/inet_ntop.c
-#am__append_65 = lib/isapipe.c
+am__append_65 = lib/isapipe.c
 #am__append_66 = lib/isatty.c
 #am__append_67 = lib/isblank.c
 #am__append_68 = lib/iswblank.c
 #am__append_69 = lib/iswdigit.c
 #am__append_70 = lib/iswxdigit.c
 #am__append_71 = lib/lchmod.c
-am__append_72 = lib/lchown.c
+#am__append_72 = lib/lchown.c
 am__append_73 = lib/mini-gmp-gnulib.c
-am__append_74 = lib/link.c
-am__append_75 = lib/linkat.c
-am__append_76 = lib/localeconv.c
+#am__append_74 = lib/link.c
+#am__append_75 = lib/linkat.c
+#am__append_76 = lib/localeconv.c
 #am__append_77 = lib/lseek.c
-am__append_78 = lib/lstat.c
+#am__append_78 = lib/lstat.c
 am__append_79 = lib/mbrlen.c
 am__append_80 = lib/mbrtowc.c
 #am__append_81 = lib/mbsinit.c
 #am__append_82 = lib/mbsrtowcs.c
 #am__append_83 = lib/mbtowc.c
-am__append_84 = lib/memchr.c
+#am__append_84 = lib/memchr.c
 #am__append_85 = lib/mempcpy.c
 #am__append_86 = lib/memrchr.c
-am__append_87 = lib/mkdir.c
+#am__append_87 = lib/mkdir.c
 #am__append_88 = lib/mkdirat.c
-am__append_89 = lib/mkfifo.c
-am__append_90 = lib/mkfifoat.c
-am__append_91 = lib/mknodat.c
-am__append_92 = lib/mknod.c
+#am__append_89 = lib/mkfifo.c
+#am__append_90 = lib/mkfifoat.c
+#am__append_91 = lib/mknodat.c
+#am__append_92 = lib/mknod.c
 #am__append_93 = lib/mkostemp.c
-am__append_94 = lib/mkstemp.c
+#am__append_94 = lib/mkstemp.c
 am__append_95 = lib/mountlist.c
-am__append_96 = lib/msvc-inval.c
-am__append_97 = lib/msvc-nothrow.c
+#am__append_96 = lib/msvc-inval.c
+#am__append_97 = lib/msvc-nothrow.c
 am__append_98 = lib/nanosleep.c
-am__append_99 = lib/nl_langinfo.c
+#am__append_99 = lib/nl_langinfo.c
 #am__append_100 = lib/nl_langinfo-lock.c
 am__append_101 = lib/obstack.c
 #am__append_102 = lib/open.c
-am__append_103 = lib/openat.c
+#am__append_103 = lib/openat.c
 #am__append_104 = lib/opendir.c
 #am__append_105 = lib/pipe.c
 
@@ -589,72 +589,72 @@ am__append_103 = lib/openat.c
 #	$(AM_V_at)mv $@-t $@
 #EXTRA_DIST += script.in
 #MOSTLYCLEANFILES += script script-t
-am__append_106 = lib/posix_memalign.c
-am__append_107 = lib/pselect.c
-am__append_108 = lib/pthread-cond.c
-am__append_109 = lib/pthread-mutex.c
-am__append_110 = lib/pthread-thread.c
+#am__append_106 = lib/posix_memalign.c
+#am__append_107 = lib/pselect.c
+#am__append_108 = lib/pthread-cond.c
+#am__append_109 = lib/pthread-mutex.c
+#am__append_110 = lib/pthread-thread.c
 #am__append_111 = lib/pthread_mutex_timedlock.c
-am__append_112 = lib/pthread_sigmask.c
-am__append_113 = lib/putenv.c
-am__append_114 = lib/raise.c
+#am__append_112 = lib/pthread_sigmask.c
+#am__append_113 = lib/putenv.c
+#am__append_114 = lib/raise.c
 #am__append_115 = lib/rawmemchr.c
-am__append_116 = lib/read.c
+#am__append_116 = lib/read.c
 #am__append_117 = lib/readdir.c
-am__append_118 = lib/readlink.c
-am__append_119 = lib/readlinkat.c
-#am__append_120 = lib/readutmp.c
+#am__append_118 = lib/readlink.c
+#am__append_119 = lib/readlinkat.c
+am__append_120 = lib/readutmp.c
 #am__append_121 = lib/reallocarray.c
-am__append_122 = lib/regex.c
-am__append_123 = lib/remove.c
-am__append_124 = lib/rename.c
-am__append_125 = lib/renameat.c
+#am__append_122 = lib/regex.c
+#am__append_123 = lib/remove.c
+#am__append_124 = lib/rename.c
+#am__append_125 = lib/renameat.c
 #am__append_126 = lib/rewinddir.c
-am__append_127 = lib/rmdir.c
+#am__append_127 = lib/rmdir.c
 #am__append_128 = lib/rpmatch.c
-am__append_129 = lib/select.c
+#am__append_129 = lib/select.c
 #am__append_130 = lib/getfilecon.c
-am__append_131 = lib/setenv.c
+#am__append_131 = lib/setenv.c
 #am__append_132 = lib/setlocale-lock.c
-#am__append_133 = lib/sig2str.c
+am__append_133 = lib/sig2str.c
 #am__append_134 = lib/sigaction.c
-am__append_135 = lib/signbitf.c lib/signbitd.c lib/signbitl.c
+#am__append_135 = lib/signbitf.c lib/signbitd.c lib/signbitl.c
 #am__append_136 = lib/sigprocmask.c
-am__append_137 = lib/stat.c
+#am__append_137 = lib/stat.c
 #am__append_138 = lib/stdio-read.c
 #am__append_139 = lib/stdio-write.c
 #am__append_140 = lib/stpcpy.c
 #am__append_141 = lib/stpncpy.c
 #am__append_142 = lib/strdup.c
-am__append_143 = lib/strerror.c
-am__append_144 = lib/strerror-override.c
+#am__append_143 = lib/strerror.c
+#am__append_144 = lib/strerror-override.c
 #am__append_145 = lib/strncat.c
 #am__append_146 = lib/strnlen.c
 #am__append_147 = lib/strsignal.c
 #am__append_148 = lib/strtod.c
 #am__append_149 = lib/strtoimax.c
 #am__append_150 = lib/strtold.c
-am__append_151 = lib/strtoll.c
-am__append_152 = lib/strtoull.c
+#am__append_151 = lib/strtoll.c
+#am__append_152 = lib/strtoull.c
 #am__append_153 = lib/strtoumax.c
-am__append_154 = lib/symlink.c
-am__append_155 = lib/symlinkat.c
+#am__append_154 = lib/symlink.c
+#am__append_155 = lib/symlinkat.c
 #am__append_156 = lib/time_r.c
-#am__append_157 = lib/time_rz.c
-am__append_158 = lib/timegm.c
+am__append_157 = lib/time_rz.c
+#am__append_158 = lib/timegm.c
 #am__append_159 = lib/tzset.c
 #am__append_160 = lib/uname.c
 am__append_161 = lib/unistr/u8-mbtoucr.c
 am__append_162 = lib/unistr/u8-uctomb.c lib/unistr/u8-uctomb-aux.c
 am__append_163 = lib/uniwidth/width.c
-am__append_164 = lib/unlink.c
-am__append_165 = lib/unlinkat.c
-am__append_166 = lib/unsetenv.c
-am__append_167 = lib/utime.c
-am__append_168 = lib/utimensat.c
+#am__append_164 = lib/unlink.c
+#am__append_165 = lib/unlinkat.c
+#am__append_166 = lib/unsetenv.c
+#am__append_167 = lib/utime.c
+#am__append_168 = lib/utimensat.c
 #am__append_169 = lib/wcrtomb.c
-am__append_170 = lib/wcswidth.c
-am__append_171 = lib/wcwidth.c
+#am__append_170 = lib/wcswidth.c
+#am__append_171 = lib/wcwidth.c
 #am__append_172 = lib/windows-cond.c
 #am__append_173 = lib/windows-mutex.c
 #am__append_174 = lib/windows-once.c
@@ -666,7 +666,7 @@ am__append_171 = lib/wcwidth.c
 #am__append_180 = lib/windows-tls.c
 #am__append_181 = lib/wmemchr.c
 #am__append_182 = lib/wmempcpy.c
-am__append_183 = lib/write.c
+#am__append_183 = lib/write.c
 EXTRA_PROGRAMS = $(am__EXEEXT_1) $(am__EXEEXT_2) $(am__EXEEXT_3)
 noinst_PROGRAMS = src/getlimits$(EXEEXT) src/make-prime-list$(EXEEXT)
 am__append_184 = src/libcksum_pclmul.a
@@ -1339,36 +1339,36 @@ am__lib_libcoreutils_a_SOURCES_DIST = lib/copy-acl.c lib/set-acl.c \
 #am__objects_1 =  \
 #	lib/libcoreutils_a-btowc.$(OBJEXT)
 am__objects_2 = lib/libcoreutils_a-chdir-long.$(OBJEXT)
-am__objects_3 =  \
-	lib/libcoreutils_a-chown.$(OBJEXT)
+#am__objects_3 =  \
+#	lib/libcoreutils_a-chown.$(OBJEXT)
 #am__objects_4 = lib/libcoreutils_a-fchown-stub.$(OBJEXT)
-am__objects_5 =  \
-	lib/libcoreutils_a-close.$(OBJEXT)
+#am__objects_5 =  \
+#	lib/libcoreutils_a-close.$(OBJEXT)
 #am__objects_6 = lib/libcoreutils_a-closedir.$(OBJEXT)
-am__objects_7 = lib/libcoreutils_a-copy-file-range.$(OBJEXT)
+#am__objects_7 = lib/libcoreutils_a-copy-file-range.$(OBJEXT)
 #am__objects_8 =  \
 #	lib/libcoreutils_a-dirfd.$(OBJEXT)
-am__objects_9 =  \
-	lib/libcoreutils_a-dup.$(OBJEXT)
+#am__objects_9 =  \
+#	lib/libcoreutils_a-dup.$(OBJEXT)
 #am__objects_10 =  \
 #	lib/libcoreutils_a-dup2.$(OBJEXT)
 #am__objects_11 =  \
 #	lib/libcoreutils_a-error.$(OBJEXT)
 #am__objects_12 = lib/libcoreutils_a-euidaccess.$(OBJEXT)
 #am__objects_13 = lib/libcoreutils_a-explicit_bzero.$(OBJEXT)
-am__objects_14 = lib/libcoreutils_a-faccessat.$(OBJEXT)
+#am__objects_14 = lib/libcoreutils_a-faccessat.$(OBJEXT)
 #am__objects_15 =  \
 #	lib/libcoreutils_a-fchdir.$(OBJEXT)
-am__objects_16 = lib/libcoreutils_a-fchmodat.$(OBJEXT)
-am__objects_17 = lib/libcoreutils_a-fchownat.$(OBJEXT)
+#am__objects_16 = lib/libcoreutils_a-fchmodat.$(OBJEXT)
+#am__objects_17 = lib/libcoreutils_a-fchownat.$(OBJEXT)
 am__objects_18 =  \
 	lib/libcoreutils_a-fclose.$(OBJEXT)
 am__objects_19 =  \
 	lib/libcoreutils_a-fcntl.$(OBJEXT)
 #am__objects_20 = lib/libcoreutils_a-fdatasync.$(OBJEXT)
-am__objects_21 =  \
-	lib/libcoreutils_a-fdopen.$(OBJEXT)
-am__objects_22 = lib/libcoreutils_a-fdopendir.$(OBJEXT)
+#am__objects_21 =  \
+#	lib/libcoreutils_a-fdopen.$(OBJEXT)
+#am__objects_22 = lib/libcoreutils_a-fdopendir.$(OBJEXT)
 am__objects_23 =  \
 	lib/libcoreutils_a-fflush.$(OBJEXT)
 #am__objects_24 = lib/libcoreutils_a-fileblocks.$(OBJEXT)
@@ -1379,19 +1379,19 @@ am__objects_23 =  \
 #am__objects_27 = lib/libcoreutils_a-fpending.$(OBJEXT)
 am__objects_28 =  \
 	lib/libcoreutils_a-fpurge.$(OBJEXT)
-#am__objects_29 = lib/libcoreutils_a-freadahead.$(OBJEXT)
-#am__objects_30 = lib/libcoreutils_a-freadptr.$(OBJEXT)
-am__objects_31 =  \
-	lib/libcoreutils_a-free.$(OBJEXT)
+am__objects_29 = lib/libcoreutils_a-freadahead.$(OBJEXT)
+am__objects_30 = lib/libcoreutils_a-freadptr.$(OBJEXT)
+#am__objects_31 =  \
+#	lib/libcoreutils_a-free.$(OBJEXT)
 #am__objects_32 = lib/libcoreutils_a-freopen.$(OBJEXT)
 am__objects_33 =  \
 	lib/libcoreutils_a-fseek.$(OBJEXT)
 am__objects_34 =  \
 	lib/libcoreutils_a-fseeko.$(OBJEXT)
-#am__objects_35 = lib/libcoreutils_a-fseterr.$(OBJEXT)
+am__objects_35 = lib/libcoreutils_a-fseterr.$(OBJEXT)
 #am__objects_36 =  \
 #	lib/libcoreutils_a-fstat.$(OBJEXT)
-am__objects_37 = lib/libcoreutils_a-fstatat.$(OBJEXT)
+#am__objects_37 = lib/libcoreutils_a-fstatat.$(OBJEXT)
 am__objects_38 = lib/libcoreutils_a-fsusage.$(OBJEXT)
 #am__objects_39 =  \
 #	lib/libcoreutils_a-fsync.$(OBJEXT)
@@ -1405,21 +1405,21 @@ am__objects_43 =  \
 #am__objects_44 = lib/libcoreutils_a-futimens.$(OBJEXT)
 #am__objects_45 = lib/libcoreutils_a-getaddrinfo.$(OBJEXT)
 #am__objects_46 = lib/libcoreutils_a-gai_strerror.$(OBJEXT)
-am__objects_47 =  \
-	lib/libcoreutils_a-getcwd.$(OBJEXT)
-am__objects_48 = lib/libcoreutils_a-getcwd-lgpl.$(OBJEXT)
+#am__objects_47 =  \
+#	lib/libcoreutils_a-getcwd.$(OBJEXT)
+#am__objects_48 = lib/libcoreutils_a-getcwd-lgpl.$(OBJEXT)
 #am__objects_49 = lib/libcoreutils_a-getdelim.$(OBJEXT)
-am__objects_50 = lib/libcoreutils_a-getdtablesize.$(OBJEXT)
-am__objects_51 = lib/libcoreutils_a-getgroups.$(OBJEXT)
+#am__objects_50 = lib/libcoreutils_a-getdtablesize.$(OBJEXT)
+#am__objects_51 = lib/libcoreutils_a-getgroups.$(OBJEXT)
 #am__objects_52 = lib/libcoreutils_a-gethostname.$(OBJEXT)
 #am__objects_53 = lib/libcoreutils_a-getline.$(OBJEXT)
 #am__objects_54 = lib/libcoreutils_a-getloadavg.$(OBJEXT)
 #am__objects_55 = lib/libcoreutils_a-getlogin.$(OBJEXT)
-am__objects_56 =  \
-	lib/libcoreutils_a-getopt.$(OBJEXT) \
-	lib/libcoreutils_a-getopt1.$(OBJEXT)
+#am__objects_56 =  \
+#	lib/libcoreutils_a-getopt.$(OBJEXT) \
+#	lib/libcoreutils_a-getopt1.$(OBJEXT)
 #am__objects_57 = lib/libcoreutils_a-getpagesize.$(OBJEXT)
-am__objects_58 = lib/libcoreutils_a-getrandom.$(OBJEXT)
+#am__objects_58 = lib/libcoreutils_a-getrandom.$(OBJEXT)
 #am__objects_59 = lib/libcoreutils_a-gettimeofday.$(OBJEXT)
 #am__objects_60 = lib/libcoreutils_a-getusershell.$(OBJEXT)
 #am__objects_61 = lib/libcoreutils_a-group-member.$(OBJEXT)
@@ -1428,7 +1428,7 @@ am__objects_58 = lib/libcoreutils_a-getrandom.$(OBJEXT)
 #	lib/libcoreutils_a-iconv.$(OBJEXT) \
 #	lib/libcoreutils_a-iconv_close.$(OBJEXT)
 #am__objects_64 = lib/libcoreutils_a-inet_ntop.$(OBJEXT)
-#am__objects_65 = lib/libcoreutils_a-isapipe.$(OBJEXT)
+am__objects_65 = lib/libcoreutils_a-isapipe.$(OBJEXT)
 #am__objects_66 =  \
 #	lib/libcoreutils_a-isatty.$(OBJEXT)
 #am__objects_67 = lib/libcoreutils_a-isblank.$(OBJEXT)
@@ -1437,18 +1437,18 @@ am__objects_58 = lib/libcoreutils_a-getrandom.$(OBJEXT)
 #am__objects_70 = lib/libcoreutils_a-iswxdigit.$(OBJEXT)
 #am__objects_71 =  \
 #	lib/libcoreutils_a-lchmod.$(OBJEXT)
-am__objects_72 =  \
-	lib/libcoreutils_a-lchown.$(OBJEXT)
+#am__objects_72 =  \
+#	lib/libcoreutils_a-lchown.$(OBJEXT)
 am__objects_73 = lib/libcoreutils_a-mini-gmp-gnulib.$(OBJEXT)
-am__objects_74 =  \
-	lib/libcoreutils_a-link.$(OBJEXT)
-am__objects_75 =  \
-	lib/libcoreutils_a-linkat.$(OBJEXT)
-am__objects_76 = lib/libcoreutils_a-localeconv.$(OBJEXT)
+#am__objects_74 =  \
+#	lib/libcoreutils_a-link.$(OBJEXT)
+#am__objects_75 =  \
+#	lib/libcoreutils_a-linkat.$(OBJEXT)
+#am__objects_76 = lib/libcoreutils_a-localeconv.$(OBJEXT)
 #am__objects_77 =  \
 #	lib/libcoreutils_a-lseek.$(OBJEXT)
-am__objects_78 =  \
-	lib/libcoreutils_a-lstat.$(OBJEXT)
+#am__objects_78 =  \
+#	lib/libcoreutils_a-lstat.$(OBJEXT)
 am__objects_79 =  \
 	lib/libcoreutils_a-mbrlen.$(OBJEXT)
 am__objects_80 = lib/libcoreutils_a-mbrtowc.$(OBJEXT)
@@ -1456,79 +1456,79 @@ am__objects_80 = lib/libcoreutils_a-mbrtowc.$(OBJEXT)
 #am__objects_82 = lib/libcoreutils_a-mbsrtowcs.$(OBJEXT)
 #am__objects_83 =  \
 #	lib/libcoreutils_a-mbtowc.$(OBJEXT)
-am__objects_84 =  \
-	lib/libcoreutils_a-memchr.$(OBJEXT)
+#am__objects_84 =  \
+#	lib/libcoreutils_a-memchr.$(OBJEXT)
 #am__objects_85 = lib/libcoreutils_a-mempcpy.$(OBJEXT)
 #am__objects_86 = lib/libcoreutils_a-memrchr.$(OBJEXT)
-am__objects_87 =  \
-	lib/libcoreutils_a-mkdir.$(OBJEXT)
+#am__objects_87 =  \
+#	lib/libcoreutils_a-mkdir.$(OBJEXT)
 #am__objects_88 = lib/libcoreutils_a-mkdirat.$(OBJEXT)
-am__objects_89 =  \
-	lib/libcoreutils_a-mkfifo.$(OBJEXT)
-am__objects_90 = lib/libcoreutils_a-mkfifoat.$(OBJEXT)
-am__objects_91 = lib/libcoreutils_a-mknodat.$(OBJEXT)
-am__objects_92 =  \
-	lib/libcoreutils_a-mknod.$(OBJEXT)
+#am__objects_89 =  \
+#	lib/libcoreutils_a-mkfifo.$(OBJEXT)
+#am__objects_90 = lib/libcoreutils_a-mkfifoat.$(OBJEXT)
+#am__objects_91 = lib/libcoreutils_a-mknodat.$(OBJEXT)
+#am__objects_92 =  \
+#	lib/libcoreutils_a-mknod.$(OBJEXT)
 #am__objects_93 = lib/libcoreutils_a-mkostemp.$(OBJEXT)
-am__objects_94 = lib/libcoreutils_a-mkstemp.$(OBJEXT)
+#am__objects_94 = lib/libcoreutils_a-mkstemp.$(OBJEXT)
 am__objects_95 = lib/libcoreutils_a-mountlist.$(OBJEXT)
-am__objects_96 = lib/libcoreutils_a-msvc-inval.$(OBJEXT)
-am__objects_97 = lib/libcoreutils_a-msvc-nothrow.$(OBJEXT)
+#am__objects_96 = lib/libcoreutils_a-msvc-inval.$(OBJEXT)
+#am__objects_97 = lib/libcoreutils_a-msvc-nothrow.$(OBJEXT)
 am__objects_98 = lib/libcoreutils_a-nanosleep.$(OBJEXT)
-am__objects_99 = lib/libcoreutils_a-nl_langinfo.$(OBJEXT)
+#am__objects_99 = lib/libcoreutils_a-nl_langinfo.$(OBJEXT)
 #am__objects_100 = lib/libcoreutils_a-nl_langinfo-lock.$(OBJEXT)
 am__objects_101 = lib/libcoreutils_a-obstack.$(OBJEXT)
 #am__objects_102 =  \
 #	lib/libcoreutils_a-open.$(OBJEXT)
-am__objects_103 =  \
-	lib/libcoreutils_a-openat.$(OBJEXT)
+#am__objects_103 =  \
+#	lib/libcoreutils_a-openat.$(OBJEXT)
 #am__objects_104 = lib/libcoreutils_a-opendir.$(OBJEXT)
 #am__objects_105 =  \
 #	lib/libcoreutils_a-pipe.$(OBJEXT)
-am__objects_106 = lib/libcoreutils_a-posix_memalign.$(OBJEXT)
-am__objects_107 = lib/libcoreutils_a-pselect.$(OBJEXT)
-am__objects_108 = lib/libcoreutils_a-pthread-cond.$(OBJEXT)
-am__objects_109 = lib/libcoreutils_a-pthread-mutex.$(OBJEXT)
-am__objects_110 = lib/libcoreutils_a-pthread-thread.$(OBJEXT)
+#am__objects_106 = lib/libcoreutils_a-posix_memalign.$(OBJEXT)
+#am__objects_107 = lib/libcoreutils_a-pselect.$(OBJEXT)
+#am__objects_108 = lib/libcoreutils_a-pthread-cond.$(OBJEXT)
+#am__objects_109 = lib/libcoreutils_a-pthread-mutex.$(OBJEXT)
+#am__objects_110 = lib/libcoreutils_a-pthread-thread.$(OBJEXT)
 #am__objects_111 = lib/libcoreutils_a-pthread_mutex_timedlock.$(OBJEXT)
-am__objects_112 = lib/libcoreutils_a-pthread_sigmask.$(OBJEXT)
-am__objects_113 =  \
-	lib/libcoreutils_a-putenv.$(OBJEXT)
-am__objects_114 =  \
-	lib/libcoreutils_a-raise.$(OBJEXT)
+#am__objects_112 = lib/libcoreutils_a-pthread_sigmask.$(OBJEXT)
+#am__objects_113 =  \
+#	lib/libcoreutils_a-putenv.$(OBJEXT)
+#am__objects_114 =  \
+#	lib/libcoreutils_a-raise.$(OBJEXT)
 #am__objects_115 = lib/libcoreutils_a-rawmemchr.$(OBJEXT)
-am__objects_116 =  \
-	lib/libcoreutils_a-read.$(OBJEXT)
+#am__objects_116 =  \
+#	lib/libcoreutils_a-read.$(OBJEXT)
 #am__objects_117 = lib/libcoreutils_a-readdir.$(OBJEXT)
-am__objects_118 = lib/libcoreutils_a-readlink.$(OBJEXT)
-am__objects_119 = lib/libcoreutils_a-readlinkat.$(OBJEXT)
-#am__objects_120 = lib/libcoreutils_a-readutmp.$(OBJEXT)
+#am__objects_118 = lib/libcoreutils_a-readlink.$(OBJEXT)
+#am__objects_119 = lib/libcoreutils_a-readlinkat.$(OBJEXT)
+am__objects_120 = lib/libcoreutils_a-readutmp.$(OBJEXT)
 #am__objects_121 = lib/libcoreutils_a-reallocarray.$(OBJEXT)
-am__objects_122 =  \
-	lib/libcoreutils_a-regex.$(OBJEXT)
-am__objects_123 =  \
-	lib/libcoreutils_a-remove.$(OBJEXT)
-am__objects_124 =  \
-	lib/libcoreutils_a-rename.$(OBJEXT)
-am__objects_125 = lib/libcoreutils_a-renameat.$(OBJEXT)
+#am__objects_122 =  \
+#	lib/libcoreutils_a-regex.$(OBJEXT)
+#am__objects_123 =  \
+#	lib/libcoreutils_a-remove.$(OBJEXT)
+#am__objects_124 =  \
+#	lib/libcoreutils_a-rename.$(OBJEXT)
+#am__objects_125 = lib/libcoreutils_a-renameat.$(OBJEXT)
 #am__objects_126 = lib/libcoreutils_a-rewinddir.$(OBJEXT)
-am__objects_127 =  \
-	lib/libcoreutils_a-rmdir.$(OBJEXT)
+#am__objects_127 =  \
+#	lib/libcoreutils_a-rmdir.$(OBJEXT)
 #am__objects_128 = lib/libcoreutils_a-rpmatch.$(OBJEXT)
-am__objects_129 =  \
-	lib/libcoreutils_a-select.$(OBJEXT)
+#am__objects_129 =  \
+#	lib/libcoreutils_a-select.$(OBJEXT)
 #am__objects_130 = lib/libcoreutils_a-getfilecon.$(OBJEXT)
-am__objects_131 =  \
-	lib/libcoreutils_a-setenv.$(OBJEXT)
+#am__objects_131 =  \
+#	lib/libcoreutils_a-setenv.$(OBJEXT)
 #am__objects_132 = lib/libcoreutils_a-setlocale-lock.$(OBJEXT)
-#am__objects_133 = lib/libcoreutils_a-sig2str.$(OBJEXT)
+am__objects_133 = lib/libcoreutils_a-sig2str.$(OBJEXT)
 #am__objects_134 = lib/libcoreutils_a-sigaction.$(OBJEXT)
-am__objects_135 = lib/libcoreutils_a-signbitf.$(OBJEXT) \
-	lib/libcoreutils_a-signbitd.$(OBJEXT) \
-	lib/libcoreutils_a-signbitl.$(OBJEXT)
+#am__objects_135 = lib/libcoreutils_a-signbitf.$(OBJEXT) \
+#	lib/libcoreutils_a-signbitd.$(OBJEXT) \
+#	lib/libcoreutils_a-signbitl.$(OBJEXT)
 #am__objects_136 = lib/libcoreutils_a-sigprocmask.$(OBJEXT)
-am__objects_137 =  \
-	lib/libcoreutils_a-stat.$(OBJEXT)
+#am__objects_137 =  \
+#	lib/libcoreutils_a-stat.$(OBJEXT)
 #am__objects_138 = lib/libcoreutils_a-stdio-read.$(OBJEXT)
 #am__objects_139 = lib/libcoreutils_a-stdio-write.$(OBJEXT)
 #am__objects_140 =  \
@@ -1536,8 +1536,8 @@ am__objects_137 =  \
 #am__objects_141 = lib/libcoreutils_a-stpncpy.$(OBJEXT)
 #am__objects_142 =  \
 #	lib/libcoreutils_a-strdup.$(OBJEXT)
-am__objects_143 = lib/libcoreutils_a-strerror.$(OBJEXT)
-am__objects_144 = lib/libcoreutils_a-strerror-override.$(OBJEXT)
+#am__objects_143 = lib/libcoreutils_a-strerror.$(OBJEXT)
+#am__objects_144 = lib/libcoreutils_a-strerror-override.$(OBJEXT)
 #am__objects_145 = lib/libcoreutils_a-strncat.$(OBJEXT)
 #am__objects_146 = lib/libcoreutils_a-strnlen.$(OBJEXT)
 #am__objects_147 = lib/libcoreutils_a-strsignal.$(OBJEXT)
@@ -1545,16 +1545,16 @@ am__objects_144 = lib/libcoreutils_a-strerror-override.$(OBJEXT)
 #	lib/libcoreutils_a-strtod.$(OBJEXT)
 #am__objects_149 = lib/libcoreutils_a-strtoimax.$(OBJEXT)
 #am__objects_150 = lib/libcoreutils_a-strtold.$(OBJEXT)
-am__objects_151 = lib/libcoreutils_a-strtoll.$(OBJEXT)
-am__objects_152 = lib/libcoreutils_a-strtoull.$(OBJEXT)
+#am__objects_151 = lib/libcoreutils_a-strtoll.$(OBJEXT)
+#am__objects_152 = lib/libcoreutils_a-strtoull.$(OBJEXT)
 #am__objects_153 = lib/libcoreutils_a-strtoumax.$(OBJEXT)
-am__objects_154 = lib/libcoreutils_a-symlink.$(OBJEXT)
-am__objects_155 = lib/libcoreutils_a-symlinkat.$(OBJEXT)
+#am__objects_154 = lib/libcoreutils_a-symlink.$(OBJEXT)
+#am__objects_155 = lib/libcoreutils_a-symlinkat.$(OBJEXT)
 #am__objects_156 =  \
 #	lib/libcoreutils_a-time_r.$(OBJEXT)
-#am__objects_157 = lib/libcoreutils_a-time_rz.$(OBJEXT)
-am__objects_158 =  \
-	lib/libcoreutils_a-timegm.$(OBJEXT)
+am__objects_157 = lib/libcoreutils_a-time_rz.$(OBJEXT)
+#am__objects_158 =  \
+#	lib/libcoreutils_a-timegm.$(OBJEXT)
 #am__objects_159 =  \
 #	lib/libcoreutils_a-tzset.$(OBJEXT)
 #am__objects_160 =  \
@@ -1563,16 +1563,16 @@ am__objects_161 = lib/unistr/libcoreutils_a-u8-mbtoucr.$(OBJEXT)
 am__objects_162 = lib/unistr/libcoreutils_a-u8-uctomb.$(OBJEXT) \
 	lib/unistr/libcoreutils_a-u8-uctomb-aux.$(OBJEXT)
 am__objects_163 = lib/uniwidth/libcoreutils_a-width.$(OBJEXT)
-am__objects_164 =  \
-	lib/libcoreutils_a-unlink.$(OBJEXT)
-am__objects_165 = lib/libcoreutils_a-unlinkat.$(OBJEXT)
-am__objects_166 = lib/libcoreutils_a-unsetenv.$(OBJEXT)
-am__objects_167 =  \
-	lib/libcoreutils_a-utime.$(OBJEXT)
-am__objects_168 = lib/libcoreutils_a-utimensat.$(OBJEXT)
+#am__objects_164 =  \
+#	lib/libcoreutils_a-unlink.$(OBJEXT)
+#am__objects_165 = lib/libcoreutils_a-unlinkat.$(OBJEXT)
+#am__objects_166 = lib/libcoreutils_a-unsetenv.$(OBJEXT)
+#am__objects_167 =  \
+#	lib/libcoreutils_a-utime.$(OBJEXT)
+#am__objects_168 = lib/libcoreutils_a-utimensat.$(OBJEXT)
 #am__objects_169 = lib/libcoreutils_a-wcrtomb.$(OBJEXT)
-am__objects_170 = lib/libcoreutils_a-wcswidth.$(OBJEXT)
-am__objects_171 = lib/libcoreutils_a-wcwidth.$(OBJEXT)
+#am__objects_170 = lib/libcoreutils_a-wcswidth.$(OBJEXT)
+#am__objects_171 = lib/libcoreutils_a-wcwidth.$(OBJEXT)
 #am__objects_172 = lib/libcoreutils_a-windows-cond.$(OBJEXT)
 #am__objects_173 = lib/libcoreutils_a-windows-mutex.$(OBJEXT)
 #am__objects_174 = lib/libcoreutils_a-windows-once.$(OBJEXT)
@@ -1584,8 +1584,8 @@ am__objects_171 = lib/libcoreutils_a-wcwidth.$(OBJEXT)
 #am__objects_180 = lib/libcoreutils_a-windows-tls.$(OBJEXT)
 #am__objects_181 = lib/libcoreutils_a-wmemchr.$(OBJEXT)
 #am__objects_182 = lib/libcoreutils_a-wmempcpy.$(OBJEXT)
-am__objects_183 =  \
-	lib/libcoreutils_a-write.$(OBJEXT)
+#am__objects_183 =  \
+#	lib/libcoreutils_a-write.$(OBJEXT)
 am_lib_libcoreutils_a_OBJECTS = lib/libcoreutils_a-copy-acl.$(OBJEXT) \
 	lib/libcoreutils_a-set-acl.$(OBJEXT) \
 	lib/libcoreutils_a-acl-errno-valid.$(OBJEXT) \
@@ -4447,15 +4447,15 @@ AUTOCONF = ${SHELL} '/home/PavelAtr/asis/userspace/coreutils-9.1/build-aux/missi
 AUTOHEADER = ${SHELL} '/home/PavelAtr/asis/userspace/coreutils-9.1/build-aux/missing' autoheader
 AUTOMAKE = ${SHELL} '/home/PavelAtr/asis/userspace/coreutils-9.1/build-aux/missing' automake-1.16
 AWK = mawk
-BITSIZEOF_PTRDIFF_T = 64
-BITSIZEOF_SIG_ATOMIC_T = 32
-BITSIZEOF_SIZE_T = 64
-BITSIZEOF_WCHAR_T = 32
-BITSIZEOF_WINT_T = 32
+BITSIZEOF_PTRDIFF_T = 
+BITSIZEOF_SIG_ATOMIC_T = 
+BITSIZEOF_SIZE_T = 
+BITSIZEOF_WCHAR_T = 
+BITSIZEOF_WINT_T = 
 BYTESWAP_H = 
 CC = gcc
 CCDEPMODE = depmode=gcc3
-CFLAGS = -fPIC -g -fomit-frame-pointer -ftls-model=global-dynamic --sysroot=/asis -DSLOW_BUT_NO_HACKS=1 -D_POSIX_VERSION=202505 -D__ASIS__ -include /home/PavelAtr/asis/userspace/coreutils-9.1/../scripts/coreutils.h
+CFLAGS = -g -O2
 CFLAG_VISIBILITY = 
 CONFIG_INCLUDE = lib/config.h
 CPP = gcc -E
@@ -4481,12 +4481,12 @@ ETAGS = etags
 EXEEXT = 
 EXTRA_MANS = man/arch.1 man/coreutils.1 man/hostname.1
 FLOAT_H = 
-FNMATCH_H = $(top_build_prefix)lib/fnmatch.h
+FNMATCH_H = 
 GETADDRINFO_LIB = 
 GETHOSTNAME_LIB = 
 GETLOADAVG_LIBS = 
-GETOPT_CDEFS_H = $(top_build_prefix)lib/getopt-cdefs.h
-GETOPT_H = $(top_build_prefix)lib/getopt.h
+GETOPT_CDEFS_H = 
+GETOPT_H = 
 GETTEXT_MACRO_VERSION = 0.19
 GL_CFLAG_ALLOW_WARNINGS = -Wno-error
 GL_CFLAG_GNULIB_WARNINGS =  -Wno-cast-qual -Wno-conversion -Wno-float-equal -Wno-sign-compare -Wno-undef -Wno-unused-function -Wno-unused-parameter -Wno-float-conversion -Wimplicit-fallthrough -Wno-pedantic -Wno-sign-conversion -Wno-type-limits -Wno-unsuffixed-float-constants
@@ -4918,7 +4918,7 @@ GL_GNULIB_TRUNCL = 0
 GL_GNULIB_TTYNAME_R = 0
 GL_GNULIB_TZSET = 1
 GL_GNULIB_UNAME = 1
-GL_GNULIB_UNISTD_H_GETOPT = 1
+GL_GNULIB_UNISTD_H_GETOPT = 0
 GL_GNULIB_UNISTD_H_NONBLOCKING = 0
 GL_GNULIB_UNISTD_H_SIGPIPE = 0
 GL_GNULIB_UNLINK = 1
@@ -5001,7 +5001,7 @@ HAVE_ATANF = 1
 HAVE_ATANL = 1
 HAVE_ATOLL = 1
 HAVE_BTOWC = 1
-HAVE_C99_STDINT_H = 0
+HAVE_C99_STDINT_H = 1
 HAVE_CANONICALIZE_FILE_NAME = 1
 HAVE_CBRT = 1
 HAVE_CBRTF = 1
@@ -5010,7 +5010,7 @@ HAVE_CHOWN = 1
 HAVE_CLOSEDIR = 1
 HAVE_COPYSIGN = 1
 HAVE_COPYSIGNL = 1
-HAVE_COPY_FILE_RANGE = 0
+HAVE_COPY_FILE_RANGE = 1
 HAVE_COSF = 1
 HAVE_COSHF = 1
 HAVE_COSL = 1
@@ -5024,45 +5024,45 @@ HAVE_DECL_CEILF = 1
 HAVE_DECL_CEILL = 1
 HAVE_DECL_COPYSIGNF = 1
 HAVE_DECL_COSL = 1
-HAVE_DECL_DIRFD = 0
-HAVE_DECL_ECVT = 0
+HAVE_DECL_DIRFD = 1
+HAVE_DECL_ECVT = 1
 HAVE_DECL_ENVIRON = 1
-HAVE_DECL_EXECVPE = 0
+HAVE_DECL_EXECVPE = 1
 HAVE_DECL_EXP2 = 1
 HAVE_DECL_EXP2F = 1
 HAVE_DECL_EXP2L = 1
 HAVE_DECL_EXPL = 1
 HAVE_DECL_EXPM1L = 1
-HAVE_DECL_FCHDIR = 0
-HAVE_DECL_FCLOSEALL = 0
-HAVE_DECL_FCVT = 0
+HAVE_DECL_FCHDIR = 1
+HAVE_DECL_FCLOSEALL = 1
+HAVE_DECL_FCVT = 1
 HAVE_DECL_FDATASYNC = 1
 HAVE_DECL_FDOPENDIR = 1
 HAVE_DECL_FLOORF = 1
 HAVE_DECL_FLOORL = 1
 HAVE_DECL_FPURGE = 0
 HAVE_DECL_FREEADDRINFO = 1
-HAVE_DECL_FREXPL = 0
+HAVE_DECL_FREXPL = 1
 HAVE_DECL_FSEEKO = 1
 HAVE_DECL_FTELLO = 1
 HAVE_DECL_GAI_STRERROR = 1
-HAVE_DECL_GCVT = 0
+HAVE_DECL_GCVT = 1
 HAVE_DECL_GETADDRINFO = 1
 HAVE_DECL_GETDELIM = 1
 HAVE_DECL_GETDOMAINNAME = 1
 HAVE_DECL_GETLINE = 1
-HAVE_DECL_GETLOADAVG = 0
-HAVE_DECL_GETLOGIN = 0
+HAVE_DECL_GETLOADAVG = 1
+HAVE_DECL_GETLOGIN = 1
 HAVE_DECL_GETLOGIN_R = 1
-HAVE_DECL_GETNAMEINFO = 0
-HAVE_DECL_GETPAGESIZE = 0
-HAVE_DECL_GETUSERSHELL = 0
+HAVE_DECL_GETNAMEINFO = 1
+HAVE_DECL_GETPAGESIZE = 1
+HAVE_DECL_GETUSERSHELL = 1
 HAVE_DECL_IMAXABS = 1
 HAVE_DECL_IMAXDIV = 1
 HAVE_DECL_INET_NTOP = 1
-HAVE_DECL_INET_PTON = 0
+HAVE_DECL_INET_PTON = 1
 HAVE_DECL_INITSTATE = 1
-HAVE_DECL_LDEXPL = 0
+HAVE_DECL_LDEXPL = 1
 HAVE_DECL_LOCALTIME_R = 1
 HAVE_DECL_LOG10L = 1
 HAVE_DECL_LOG2 = 1
@@ -5086,7 +5086,7 @@ HAVE_DECL_SINL = 1
 HAVE_DECL_SNPRINTF = 1
 HAVE_DECL_SQRTL = 1
 HAVE_DECL_STRDUP = 1
-HAVE_DECL_STRERROR_R = 0
+HAVE_DECL_STRERROR_R = 1
 HAVE_DECL_STRNDUP = 1
 HAVE_DECL_STRNLEN = 1
 HAVE_DECL_STRSIGNAL = 1
@@ -5102,8 +5102,8 @@ HAVE_DECL_TRUNCL = 1
 HAVE_DECL_TTYNAME_R = 1
 HAVE_DECL_UNSETENV = 1
 HAVE_DECL_VSNPRINTF = 1
-HAVE_DECL_WCSDUP = 0
-HAVE_DECL_WCTOB = 0
+HAVE_DECL_WCSDUP = 1
+HAVE_DECL_WCTOB = 1
 HAVE_DECL_WCWIDTH = 1
 HAVE_DIRENT_H = 1
 HAVE_DPRINTF = 1
@@ -5143,7 +5143,7 @@ HAVE_FSYNC = 1
 HAVE_FTELLO = 1
 HAVE_FTRUNCATE = 1
 HAVE_FUTIMENS = 1
-HAVE_GETDTABLESIZE = 0
+HAVE_GETDTABLESIZE = 1
 HAVE_GETENTROPY = 1
 HAVE_GETGROUPS = 1
 HAVE_GETHOSTNAME = 1
@@ -5172,7 +5172,7 @@ HAVE_ISNANF = 1
 HAVE_ISNANL = 1
 HAVE_ISWBLANK = 1
 HAVE_ISWCNTRL = 1
-HAVE_LANGINFO_ALTMON = 0
+HAVE_LANGINFO_ALTMON = 1
 HAVE_LANGINFO_CODESET = 1
 HAVE_LANGINFO_ERA = 1
 HAVE_LANGINFO_H = 1
@@ -5198,7 +5198,7 @@ HAVE_MAX_ALIGN_T = 1
 HAVE_MBRLEN = 1
 HAVE_MBRTOWC = 1
 HAVE_MBSINIT = 1
-HAVE_MBSLEN = 1
+HAVE_MBSLEN = 0
 HAVE_MBSNRTOWCS = 1
 HAVE_MBSRTOWCS = 1
 HAVE_MBTOWC = 1
@@ -5215,10 +5215,10 @@ HAVE_MKSTEMP = 1
 HAVE_MKSTEMPS = 1
 HAVE_MODFF = 1
 HAVE_MODFL = 1
-HAVE_MSVC_INVALID_PARAMETER_HANDLER = 1
+HAVE_MSVC_INVALID_PARAMETER_HANDLER = 0
 HAVE_NANOSLEEP = 1
 HAVE_NETDB_H = 1
-HAVE_NETINET_IN_H = 1
+HAVE_NETINET_IN_H = 
 HAVE_NEWLOCALE = 1
 HAVE_NL_LANGINFO = 1
 HAVE_OPENAT = 1
@@ -5234,44 +5234,44 @@ HAVE_POSIX_SIGNALBLOCKING = 1
 HAVE_POWF = 1
 HAVE_PREAD = 1
 HAVE_PSELECT = 1
-HAVE_PTHREAD_ATTR_DESTROY = 0
-HAVE_PTHREAD_ATTR_GETDETACHSTATE = 0
-HAVE_PTHREAD_ATTR_INIT = 0
-HAVE_PTHREAD_ATTR_SETDETACHSTATE = 0
-HAVE_PTHREAD_CONDATTR_DESTROY = 0
-HAVE_PTHREAD_CONDATTR_INIT = 0
-HAVE_PTHREAD_COND_BROADCAST = 0
-HAVE_PTHREAD_COND_DESTROY = 0
-HAVE_PTHREAD_COND_INIT = 0
-HAVE_PTHREAD_COND_SIGNAL = 0
-HAVE_PTHREAD_COND_TIMEDWAIT = 0
-HAVE_PTHREAD_COND_WAIT = 0
-HAVE_PTHREAD_CREATE = 0
-HAVE_PTHREAD_CREATE_DETACHED = 0
-HAVE_PTHREAD_DETACH = 0
-HAVE_PTHREAD_EQUAL = 0
-HAVE_PTHREAD_EXIT = 0
+HAVE_PTHREAD_ATTR_DESTROY = 1
+HAVE_PTHREAD_ATTR_GETDETACHSTATE = 1
+HAVE_PTHREAD_ATTR_INIT = 1
+HAVE_PTHREAD_ATTR_SETDETACHSTATE = 1
+HAVE_PTHREAD_CONDATTR_DESTROY = 1
+HAVE_PTHREAD_CONDATTR_INIT = 1
+HAVE_PTHREAD_COND_BROADCAST = 1
+HAVE_PTHREAD_COND_DESTROY = 1
+HAVE_PTHREAD_COND_INIT = 1
+HAVE_PTHREAD_COND_SIGNAL = 1
+HAVE_PTHREAD_COND_TIMEDWAIT = 1
+HAVE_PTHREAD_COND_WAIT = 1
+HAVE_PTHREAD_CREATE = 1
+HAVE_PTHREAD_CREATE_DETACHED = 1
+HAVE_PTHREAD_DETACH = 1
+HAVE_PTHREAD_EQUAL = 1
+HAVE_PTHREAD_EXIT = 1
 HAVE_PTHREAD_GETSPECIFIC = 1
-HAVE_PTHREAD_H = 0
-HAVE_PTHREAD_JOIN = 0
+HAVE_PTHREAD_H = 1
+HAVE_PTHREAD_JOIN = 1
 HAVE_PTHREAD_KEY_CREATE = 1
 HAVE_PTHREAD_KEY_DELETE = 1
-HAVE_PTHREAD_MUTEXATTR_DESTROY = 0
-HAVE_PTHREAD_MUTEXATTR_GETROBUST = 0
-HAVE_PTHREAD_MUTEXATTR_GETTYPE = 0
-HAVE_PTHREAD_MUTEXATTR_INIT = 0
-HAVE_PTHREAD_MUTEXATTR_SETROBUST = 0
-HAVE_PTHREAD_MUTEXATTR_SETTYPE = 0
-HAVE_PTHREAD_MUTEX_DESTROY = 0
-HAVE_PTHREAD_MUTEX_INIT = 0
-HAVE_PTHREAD_MUTEX_LOCK = 0
-HAVE_PTHREAD_MUTEX_RECURSIVE = 0
-HAVE_PTHREAD_MUTEX_ROBUST = 0
-HAVE_PTHREAD_MUTEX_TIMEDLOCK = 0
-HAVE_PTHREAD_MUTEX_TRYLOCK = 0
-HAVE_PTHREAD_MUTEX_UNLOCK = 0
+HAVE_PTHREAD_MUTEXATTR_DESTROY = 1
+HAVE_PTHREAD_MUTEXATTR_GETROBUST = 1
+HAVE_PTHREAD_MUTEXATTR_GETTYPE = 1
+HAVE_PTHREAD_MUTEXATTR_INIT = 1
+HAVE_PTHREAD_MUTEXATTR_SETROBUST = 1
+HAVE_PTHREAD_MUTEXATTR_SETTYPE = 1
+HAVE_PTHREAD_MUTEX_DESTROY = 1
+HAVE_PTHREAD_MUTEX_INIT = 1
+HAVE_PTHREAD_MUTEX_LOCK = 1
+HAVE_PTHREAD_MUTEX_RECURSIVE = 1
+HAVE_PTHREAD_MUTEX_ROBUST = 1
+HAVE_PTHREAD_MUTEX_TIMEDLOCK = 1
+HAVE_PTHREAD_MUTEX_TRYLOCK = 1
+HAVE_PTHREAD_MUTEX_UNLOCK = 1
 HAVE_PTHREAD_ONCE = 1
-HAVE_PTHREAD_PROCESS_SHARED = 0
+HAVE_PTHREAD_PROCESS_SHARED = 1
 HAVE_PTHREAD_RWLOCKATTR_DESTROY = 1
 HAVE_PTHREAD_RWLOCKATTR_INIT = 1
 HAVE_PTHREAD_RWLOCK_DESTROY = 1
@@ -5283,16 +5283,16 @@ HAVE_PTHREAD_RWLOCK_TRYRDLOCK = 1
 HAVE_PTHREAD_RWLOCK_TRYWRLOCK = 1
 HAVE_PTHREAD_RWLOCK_UNLOCK = 1
 HAVE_PTHREAD_RWLOCK_WRLOCK = 1
-HAVE_PTHREAD_SELF = 0
+HAVE_PTHREAD_SELF = 1
 HAVE_PTHREAD_SETSPECIFIC = 1
 HAVE_PTHREAD_SIGMASK = 1
-HAVE_PTHREAD_SPINLOCK_T = 0
+HAVE_PTHREAD_SPINLOCK_T = 1
 HAVE_PTHREAD_SPIN_DESTROY = 1
 HAVE_PTHREAD_SPIN_INIT = 1
 HAVE_PTHREAD_SPIN_LOCK = 1
 HAVE_PTHREAD_SPIN_TRYLOCK = 1
 HAVE_PTHREAD_SPIN_UNLOCK = 1
-HAVE_PTHREAD_T = 0
+HAVE_PTHREAD_T = 1
 HAVE_PTSNAME = 1
 HAVE_PTSNAME_R = 1
 HAVE_PWRITE = 1
@@ -5318,7 +5318,7 @@ HAVE_SAME_LONG_DOUBLE_AS_DOUBLE = 0
 HAVE_SA_FAMILY_T = 1
 HAVE_SCANDIR = 1
 HAVE_SCHED_H = 1
-HAVE_SCHED_YIELD = 0
+HAVE_SCHED_YIELD = 1
 HAVE_SECURE_GETENV = 1
 HAVE_SETENV = 1
 HAVE_SETHOSTNAME = 1
@@ -5328,9 +5328,9 @@ HAVE_SIGACTION = 1
 HAVE_SIGDESCR_NP = 1
 HAVE_SIGHANDLER_T = 1
 HAVE_SIGINFO_T = 1
-HAVE_SIGNED_SIG_ATOMIC_T = 1
-HAVE_SIGNED_WCHAR_T = 1
-HAVE_SIGNED_WINT_T = 0
+HAVE_SIGNED_SIG_ATOMIC_T = 
+HAVE_SIGNED_WCHAR_T = 
+HAVE_SIGNED_WINT_T = 
 HAVE_SIGSET_T = 1
 HAVE_SINF = 1
 HAVE_SINHF = 1
@@ -5355,7 +5355,7 @@ HAVE_STRTOUL = 1
 HAVE_STRTOULL = 1
 HAVE_STRUCT_ADDRINFO = 1
 HAVE_STRUCT_RANDOM_DATA = 1
-HAVE_STRUCT_SCHED_PARAM = 0
+HAVE_STRUCT_SCHED_PARAM = 1
 HAVE_STRUCT_SIGACTION_SA_SIGACTION = 1
 HAVE_STRUCT_SOCKADDR_STORAGE = 1
 HAVE_STRUCT_SOCKADDR_STORAGE_SS_FAMILY = 1
@@ -5370,7 +5370,7 @@ HAVE_SYS_INTTYPES_H = 0
 HAVE_SYS_IOCTL_H = 1
 HAVE_SYS_LOADAVG_H = 0
 HAVE_SYS_PARAM_H = 0
-HAVE_SYS_RANDOM_H = 0
+HAVE_SYS_RANDOM_H = 1
 HAVE_SYS_RESOURCE_H = 1
 HAVE_SYS_SELECT_H = 1
 HAVE_SYS_SOCKET_H = 1
@@ -5385,7 +5385,7 @@ HAVE_TERMIOS_H = 1
 HAVE_TIMEGM = 1
 HAVE_TIMESPEC_GET = 1
 HAVE_TIMESPEC_GETRES = 1
-HAVE_TIMEZONE_T = 1
+HAVE_TIMEZONE_T = 0
 HAVE_TYPE_VOLATILE_SIG_ATOMIC_T = 1
 HAVE_UNAME = 1
 HAVE_UNISTD_H = 1
@@ -5445,7 +5445,7 @@ HAVE__EXIT = 1
 HELP2MAN = ${SHELL} '/home/PavelAtr/asis/userspace/coreutils-9.1/build-aux/missing' help2man
 HOSTENT_LIB = 
 ICONV_CONST = 
-ICONV_H = 
+ICONV_H = $(top_build_prefix)lib/iconv.h
 IGNORE_UNUSED_LIBRARIES_CFLAGS = -Wl,--as-needed
 INCLUDE_NEXT = include_next
 INCLUDE_NEXT_AS_FIRST_DIRECTIVE = include_next
@@ -5460,7 +5460,7 @@ INT32_MAX_LT_INTMAX_MAX = 1
 INT64_MAX_EQ_LONG_MAX = 1
 INTLLIBS = 
 INTL_MACOSX_LIBS = 
-LDFLAGS = -nostdlib /asis/lib/crt.o -lac -shared --sysroot=/asis
+LDFLAGS = 
 LIBCOREUTILS_LIBDEPS =  
 LIBCOREUTILS_LTLIBDEPS =  
 LIBGMP = 
@@ -5471,7 +5471,7 @@ LIBMULTITHREAD =
 LIBOBJS = 
 LIBPMULTITHREAD = 
 LIBPTHREAD = 
-LIBS = -lpwd /asis/lib/crtstub.a /usr/lib/gcc/x86_64-linux-gnu/12/libgcc.a
+LIBS = 
 LIBSOCKET = 
 LIBSTDTHREAD = 
 LIBTESTS_LIBDEPS = 
@@ -5482,7 +5482,7 @@ LIBUNISTRING_UNIWIDTH_H = $(top_build_prefix)lib/uniwidth.h
 LIB_ACL = 
 LIB_CAP = 
 LIB_CLOCK_GETTIME = 
-LIB_CRYPTO = 
+LIB_CRYPTO = -lcrypto
 LIB_EACCESS = 
 LIB_FDATASYNC = 
 LIB_GETHRXTIME = 
@@ -5493,7 +5493,7 @@ LIB_HAS_ACL =
 LIB_MBRTOWC = 
 LIB_NANOSLEEP = 
 LIB_NL_LANGINFO = 
-LIB_NVPAIR = -lnvpair
+LIB_NVPAIR = 
 LIB_PTHREAD = 
 LIB_PTHREAD_SIGMASK = 
 LIB_SCHED_YIELD = 
@@ -5503,14 +5503,14 @@ LIB_SEMAPHORE =
 LIB_SETLOCALE = 
 LIB_SETLOCALE_NULL = 
 LIB_SMACK = 
-LIB_TIMER_TIME = 
+LIB_TIMER_TIME =  
 LIB_XATTR = 
 LIMITS_H = $(top_build_prefix)lib/limits.h
 LN_S = ln -s
 LOCALCHARSET_TESTS_ENVIRONMENT = 
 LOCALENAME_ENHANCE_LOCALE_FUNCS = 0
-LOCALE_FR = 
-LOCALE_FR_UTF8 = 
+LOCALE_FR = none
+LOCALE_FR_UTF8 = none
 LOCALE_JA = none
 LOCALE_TR_UTF8 = none
 LOCALE_ZH_CN = none
@@ -5526,7 +5526,7 @@ MKDIR_P = /usr/bin/mkdir -p
 MSGFMT = /usr/bin/msgfmt
 MSGFMT_015 = /usr/bin/msgfmt
 MSGMERGE = /usr/bin/msgmerge
-NETINET_IN_H = $(top_build_prefix)lib/netinet/in.h
+NETINET_IN_H = 
 NEXT_ARPA_INET_H = <arpa/inet.h>
 NEXT_AS_FIRST_DIRECTIVE_ARPA_INET_H = <arpa/inet.h>
 NEXT_AS_FIRST_DIRECTIVE_CTYPE_H = <ctype.h>
@@ -5543,7 +5543,7 @@ NEXT_AS_FIRST_DIRECTIVE_LIMITS_H = <limits.h>
 NEXT_AS_FIRST_DIRECTIVE_LOCALE_H = <locale.h>
 NEXT_AS_FIRST_DIRECTIVE_MATH_H = <math.h>
 NEXT_AS_FIRST_DIRECTIVE_NETDB_H = <netdb.h>
-NEXT_AS_FIRST_DIRECTIVE_NETINET_IN_H = <netinet/in.h>
+NEXT_AS_FIRST_DIRECTIVE_NETINET_IN_H = 
 NEXT_AS_FIRST_DIRECTIVE_PTHREAD_H = <pthread.h>
 NEXT_AS_FIRST_DIRECTIVE_SCHED_H = <sched.h>
 NEXT_AS_FIRST_DIRECTIVE_SELINUX_SELINUX_H = 
@@ -5585,7 +5585,7 @@ NEXT_LIMITS_H = <limits.h>
 NEXT_LOCALE_H = <locale.h>
 NEXT_MATH_H = <math.h>
 NEXT_NETDB_H = <netdb.h>
-NEXT_NETINET_IN_H = <netinet/in.h>
+NEXT_NETINET_IN_H = 
 NEXT_PTHREAD_H = <pthread.h>
 NEXT_SCHED_H = <sched.h>
 NEXT_SELINUX_SELINUX_H = 
@@ -5625,13 +5625,13 @@ PARSE_DATETIME_BISON = bison
 PATH_SEPARATOR = :
 PERL = perl
 POSIX_SHELL = /bin/bash
-POSUB = 
+POSUB = po
 PRAGMA_COLUMNS = 
 PRAGMA_SYSTEM_HEADER = #pragma GCC system_header
 PREFERABLY_POSIX_SHELL = /bin/bash
 PRIPTR_PREFIX = "l"
 PTHREAD_H_DEFINES_STRUCT_TIMESPEC = 0
-PTRDIFF_T_SUFFIX = l
+PTRDIFF_T_SUFFIX = 
 RANLIB = ranlib
 REPLACE_ACCESS = 0
 REPLACE_ACOSF = 0
@@ -5640,16 +5640,16 @@ REPLACE_ASINF = 0
 REPLACE_ATAN2F = 0
 REPLACE_ATANF = 0
 REPLACE_BTOWC = 0
-REPLACE_CALLOC_FOR_CALLOC_GNU = 1
+REPLACE_CALLOC_FOR_CALLOC_GNU = 0
 REPLACE_CALLOC_FOR_CALLOC_POSIX = 0
-REPLACE_CANONICALIZE_FILE_NAME = 1
+REPLACE_CANONICALIZE_FILE_NAME = 0
 REPLACE_CBRTF = 0
 REPLACE_CBRTL = 0
 REPLACE_CEIL = 0
 REPLACE_CEILF = 0
 REPLACE_CEILL = 0
-REPLACE_CHOWN = 1
-REPLACE_CLOSE = 1
+REPLACE_CHOWN = 0
+REPLACE_CLOSE = 0
 REPLACE_CLOSEDIR = 0
 REPLACE_COPY_FILE_RANGE = 0
 REPLACE_COSF = 0
@@ -5658,7 +5658,7 @@ REPLACE_CREAT = 0
 REPLACE_CTIME = GNULIB_PORTCHECK
 REPLACE_DIRFD = 0
 REPLACE_DPRINTF = 0
-REPLACE_DUP = 1
+REPLACE_DUP = 0
 REPLACE_DUP2 = 0
 REPLACE_DUPLOCALE = 0
 REPLACE_EXECL = 0
@@ -5676,13 +5676,13 @@ REPLACE_EXPM1 = 0
 REPLACE_EXPM1F = 0
 REPLACE_EXPM1L = 0
 REPLACE_FABSL = 0
-REPLACE_FACCESSAT = 1
-REPLACE_FCHMODAT = 1
-REPLACE_FCHOWNAT = 1
+REPLACE_FACCESSAT = 0
+REPLACE_FCHMODAT = 0
+REPLACE_FCHOWNAT = 0
 REPLACE_FCLOSE = 1
 REPLACE_FCNTL = 1
-REPLACE_FDOPEN = 1
-REPLACE_FDOPENDIR = 1
+REPLACE_FDOPEN = 0
+REPLACE_FDOPENDIR = 0
 REPLACE_FFLUSH = 1
 REPLACE_FFSLL = 0
 REPLACE_FLOOR = 0
@@ -5694,12 +5694,12 @@ REPLACE_FMAL = 0
 REPLACE_FMOD = 0
 REPLACE_FMODF = 0
 REPLACE_FMODL = 0
-REPLACE_FNMATCH = 1
+REPLACE_FNMATCH = 0
 REPLACE_FOPEN = 0
-REPLACE_FOPEN_FOR_FOPEN_GNU = 1
+REPLACE_FOPEN_FOR_FOPEN_GNU = 0
 REPLACE_FPRINTF = 0
-REPLACE_FPURGE = 1
-REPLACE_FREE = 1
+REPLACE_FPURGE = 0
+REPLACE_FREE = 0
 REPLACE_FREELOCALE = 0
 REPLACE_FREOPEN = 0
 REPLACE_FREXP = 0
@@ -5708,27 +5708,27 @@ REPLACE_FREXPL = 0
 REPLACE_FSEEK = 1
 REPLACE_FSEEKO = 1
 REPLACE_FSTAT = 0
-REPLACE_FSTATAT = 1
+REPLACE_FSTATAT = 0
 REPLACE_FTELL = 0
 REPLACE_FTELLO = 0
 REPLACE_FTRUNCATE = 0
 REPLACE_FUTIMENS = 0
 REPLACE_GAI_STRERROR = 0
 REPLACE_GETADDRINFO = 0
-REPLACE_GETCWD = 1
+REPLACE_GETCWD = 0
 REPLACE_GETDELIM = 0
 REPLACE_GETDOMAINNAME = 0
 REPLACE_GETDTABLESIZE = 0
-REPLACE_GETGROUPS = 1
+REPLACE_GETGROUPS = 0
 REPLACE_GETLINE = 0
 REPLACE_GETLOGIN_R = 0
 REPLACE_GETPAGESIZE = 0
 REPLACE_GETPASS = 0
 REPLACE_GETPASS_FOR_GETPASS_GNU = 0
-REPLACE_GETRANDOM = 1
+REPLACE_GETRANDOM = 0
 REPLACE_GETTIMEOFDAY = 0
 REPLACE_GMTIME = 0
-REPLACE_HUGE_VAL = 1
+REPLACE_HUGE_VAL = 0
 REPLACE_HYPOT = 0
 REPLACE_HYPOTF = 0
 REPLACE_HYPOTL = 0
@@ -5751,11 +5751,11 @@ REPLACE_ISWCNTRL = 0
 REPLACE_ISWDIGIT = 0
 REPLACE_ISWXDIGIT = 0
 REPLACE_ITOLD = 0
-REPLACE_LCHOWN = 1
+REPLACE_LCHOWN = 0
 REPLACE_LDEXPL = 0
-REPLACE_LINK = 1
-REPLACE_LINKAT = 1
-REPLACE_LOCALECONV = 1
+REPLACE_LINK = 0
+REPLACE_LINKAT = 0
+REPLACE_LOCALECONV = 0
 REPLACE_LOCALTIME = 0
 REPLACE_LOCALTIME_R = 0
 REPLACE_LOG = 0
@@ -5774,8 +5774,8 @@ REPLACE_LOGBL = 0
 REPLACE_LOGF = 0
 REPLACE_LOGL = 0
 REPLACE_LSEEK = 0
-REPLACE_LSTAT = 1
-REPLACE_MALLOC_FOR_MALLOC_GNU = 1
+REPLACE_LSTAT = 0
+REPLACE_MALLOC_FOR_MALLOC_GNU = 0
 REPLACE_MALLOC_FOR_MALLOC_POSIX = 0
 REPLACE_MBRLEN = 1
 REPLACE_MBRTOWC = 1
@@ -5784,33 +5784,33 @@ REPLACE_MBSNRTOWCS = 0
 REPLACE_MBSRTOWCS = 0
 REPLACE_MBSTATE_T = 0
 REPLACE_MBTOWC = 0
-REPLACE_MEMCHR = 1
+REPLACE_MEMCHR = 0
 REPLACE_MEMMEM = 0
-REPLACE_MKDIR = 1
-REPLACE_MKFIFO = 1
-REPLACE_MKFIFOAT = 1
-REPLACE_MKNOD = 1
-REPLACE_MKNODAT = 1
-REPLACE_MKSTEMP = 1
-REPLACE_MKTIME = 1
+REPLACE_MKDIR = 0
+REPLACE_MKFIFO = 0
+REPLACE_MKFIFOAT = 0
+REPLACE_MKNOD = 0
+REPLACE_MKNODAT = 0
+REPLACE_MKSTEMP = 0
+REPLACE_MKTIME = 0
 REPLACE_MODF = 0
 REPLACE_MODFF = 0
 REPLACE_MODFL = 0
 REPLACE_NAN = 0
 REPLACE_NANOSLEEP = 1
 REPLACE_NEWLOCALE = 0
-REPLACE_NL_LANGINFO = 1
+REPLACE_NL_LANGINFO = 0
 REPLACE_NULL = 0
 REPLACE_OBSTACK_PRINTF = 0
 REPLACE_OPEN = 0
-REPLACE_OPENAT = 1
+REPLACE_OPENAT = 0
 REPLACE_OPENDIR = 0
-REPLACE_PERROR = 1
+REPLACE_PERROR = 0
 REPLACE_POPEN = 0
-REPLACE_POSIX_MEMALIGN = 1
+REPLACE_POSIX_MEMALIGN = 0
 REPLACE_PREAD = 0
 REPLACE_PRINTF = 0
-REPLACE_PSELECT = 1
+REPLACE_PSELECT = 0
 REPLACE_PTHREAD_ATTR_DESTROY = 0
 REPLACE_PTHREAD_ATTR_GETDETACHSTATE = 0
 REPLACE_PTHREAD_ATTR_INIT = 0
@@ -5857,7 +5857,7 @@ REPLACE_PTHREAD_RWLOCK_UNLOCK = 0
 REPLACE_PTHREAD_RWLOCK_WRLOCK = 0
 REPLACE_PTHREAD_SELF = 0
 REPLACE_PTHREAD_SETSPECIFIC = 0
-REPLACE_PTHREAD_SIGMASK = 1
+REPLACE_PTHREAD_SIGMASK = 0
 REPLACE_PTHREAD_SPIN_DESTROY = 0
 REPLACE_PTHREAD_SPIN_INIT = 0
 REPLACE_PTHREAD_SPIN_LOCK = 0
@@ -5865,52 +5865,52 @@ REPLACE_PTHREAD_SPIN_TRYLOCK = 0
 REPLACE_PTHREAD_SPIN_UNLOCK = 0
 REPLACE_PTSNAME = 0
 REPLACE_PTSNAME_R = 0
-REPLACE_PUTENV = 1
+REPLACE_PUTENV = 0
 REPLACE_PWRITE = 0
 REPLACE_QSORT_R = 0
-REPLACE_RAISE = 1
+REPLACE_RAISE = 0
 REPLACE_RANDOM = 0
 REPLACE_RANDOM_R = 0
-REPLACE_READ = 1
-REPLACE_READLINK = 1
-REPLACE_READLINKAT = 1
+REPLACE_READ = 0
+REPLACE_READLINK = 0
+REPLACE_READLINKAT = 0
 REPLACE_REALLOCARRAY = 0
-REPLACE_REALLOC_FOR_REALLOC_GNU = 1
+REPLACE_REALLOC_FOR_REALLOC_GNU = 0
 REPLACE_REALLOC_FOR_REALLOC_POSIX = 0
 REPLACE_REALPATH = 0
 REPLACE_REMAINDER = 0
 REPLACE_REMAINDERF = 0
 REPLACE_REMAINDERL = 0
-REPLACE_REMOVE = 1
-REPLACE_RENAME = 1
-REPLACE_RENAMEAT = 1
+REPLACE_REMOVE = 0
+REPLACE_RENAME = 0
+REPLACE_RENAMEAT = 0
 REPLACE_RINTL = 0
-REPLACE_RMDIR = 1
+REPLACE_RMDIR = 0
 REPLACE_ROUND = 0
 REPLACE_ROUNDF = 0
 REPLACE_ROUNDL = 0
 REPLACE_SCHED_YIELD = 0
-REPLACE_SELECT = 1
-REPLACE_SETENV = 1
+REPLACE_SELECT = 0
+REPLACE_SETENV = 0
 REPLACE_SETLOCALE = 0
 REPLACE_SETSTATE = 0
-REPLACE_SIGNBIT = 1
-REPLACE_SIGNBIT_USING_BUILTINS = 0
+REPLACE_SIGNBIT = 0
+REPLACE_SIGNBIT_USING_BUILTINS = 1
 REPLACE_SINF = 0
 REPLACE_SINHF = 0
-REPLACE_SLEEP = 1
-REPLACE_SNPRINTF = 1
+REPLACE_SLEEP = 0
+REPLACE_SNPRINTF = 0
 REPLACE_SPRINTF = 0
 REPLACE_SQRTF = 0
 REPLACE_SQRTL = 0
-REPLACE_STAT = 1
+REPLACE_STAT = 0
 REPLACE_STDIO_READ_FUNCS = 0
 REPLACE_STDIO_WRITE_FUNCS = 0
 REPLACE_STPNCPY = 0
 REPLACE_STRCASESTR = 0
 REPLACE_STRCHRNUL = 0
 REPLACE_STRDUP = 0
-REPLACE_STRERROR = 1
+REPLACE_STRERROR = 0
 REPLACE_STRERRORNAME_NP = 0
 REPLACE_STRERROR_R = 1
 REPLACE_STRFTIME = GNULIB_PORTCHECK
@@ -5918,23 +5918,23 @@ REPLACE_STRNCAT = 0
 REPLACE_STRNDUP = 0
 REPLACE_STRNLEN = 0
 REPLACE_STRSIGNAL = 0
-REPLACE_STRSTR = 1
+REPLACE_STRSTR = 0
 REPLACE_STRTOD = 0
 REPLACE_STRTOIMAX = 0
 REPLACE_STRTOK_R = 0
 REPLACE_STRTOL = 0
 REPLACE_STRTOLD = 0
-REPLACE_STRTOLL = 1
+REPLACE_STRTOLL = 0
 REPLACE_STRTOUL = 0
-REPLACE_STRTOULL = 1
+REPLACE_STRTOULL = 0
 REPLACE_STRTOUMAX = 0
-REPLACE_STRUCT_LCONV = 1
+REPLACE_STRUCT_LCONV = 0
 REPLACE_STRUCT_TIMEVAL = 0
-REPLACE_SYMLINK = 1
-REPLACE_SYMLINKAT = 1
+REPLACE_SYMLINK = 0
+REPLACE_SYMLINKAT = 0
 REPLACE_TANF = 0
 REPLACE_TANHF = 0
-REPLACE_TIMEGM = 1
+REPLACE_TIMEGM = 0
 REPLACE_TMPFILE = 0
 REPLACE_TOWLOWER = 0
 REPLACE_TRUNC = 0
@@ -5943,16 +5943,16 @@ REPLACE_TRUNCF = 0
 REPLACE_TRUNCL = 0
 REPLACE_TTYNAME_R = 0
 REPLACE_TZSET = 0
-REPLACE_UNLINK = 1
-REPLACE_UNLINKAT = 1
-REPLACE_UNSETENV = 1
-REPLACE_USLEEP = 1
-REPLACE_UTIME = 1
-REPLACE_UTIMENSAT = 1
-REPLACE_VASPRINTF = 1
+REPLACE_UNLINK = 0
+REPLACE_UNLINKAT = 0
+REPLACE_UNSETENV = 0
+REPLACE_USLEEP = 0
+REPLACE_UTIME = 0
+REPLACE_UTIMENSAT = 0
+REPLACE_VASPRINTF = 0
 REPLACE_VDPRINTF = 0
-REPLACE_VFPRINTF = 1
-REPLACE_VPRINTF = 1
+REPLACE_VFPRINTF = 0
+REPLACE_VPRINTF = 0
 REPLACE_VSNPRINTF = 0
 REPLACE_VSPRINTF = 0
 REPLACE_WCRTOMB = 0
@@ -5960,11 +5960,11 @@ REPLACE_WCSFTIME = 0
 REPLACE_WCSNRTOMBS = 0
 REPLACE_WCSRTOMBS = 0
 REPLACE_WCSTOK = 0
-REPLACE_WCSWIDTH = 1
+REPLACE_WCSWIDTH = 0
 REPLACE_WCTOB = 0
 REPLACE_WCTOMB = 0
-REPLACE_WCWIDTH = 1
-REPLACE_WRITE = 1
+REPLACE_WCWIDTH = 0
+REPLACE_WRITE = 0
 SED = /usr/bin/sed
 SELINUX_CONTEXT_H = $(top_build_prefix)lib/selinux/context.h
 SELINUX_LABEL_H = $(top_build_prefix)lib/selinux/label.h
@@ -5973,27 +5973,27 @@ SERVENT_LIB =
 SET_MAKE = 
 SHELL = /bin/bash
 SIG_ATOMIC_T_SUFFIX = 
-SIZE_T_SUFFIX = ul
+SIZE_T_SUFFIX = 
 STDALIGN_H = 
 STDARG_H = 
 STDBOOL_H = 
 STDDEF_H = 
-STDINT_H = $(top_build_prefix)lib/stdint.h
-STRIP = strip
+STDINT_H = 
+STRIP = 
 SYS_IOCTL_H_HAVE_WINSOCK2_H = 0
 SYS_IOCTL_H_HAVE_WINSOCK2_H_AND_USE_SOCKETS = 0
 SYS_TIME_H_DEFINES_STRUCT_TIMESPEC = 0
 TIME_H_DEFINES_STRUCT_TIMESPEC = 1
-TIME_H_DEFINES_TIME_UTC = 0
+TIME_H_DEFINES_TIME_UTC = 1
 UINT32_MAX_LT_UINTMAX_MAX = 1
 UINT64_MAX_EQ_ULONG_MAX = 1
 UNDEFINE_STRTOK_R = 0
 UNISTD_H_DEFINES_STRUCT_TIMESPEC = 0
-UNISTD_H_HAVE_SYS_RANDOM_H = 0
+UNISTD_H_HAVE_SYS_RANDOM_H = 1
 UNISTD_H_HAVE_WINSOCK2_H = 0
 UNISTD_H_HAVE_WINSOCK2_H_AND_USE_SOCKETS = 0
 USE_ACL = 0
-USE_NLS = no
+USE_NLS = yes
 VERSION = 9.1
 WARN_CFLAGS = 
 WCHAR_T_SUFFIX = 
@@ -6002,7 +6002,7 @@ WINDOWS_64_BIT_OFF_T = 0
 WINDOWS_64_BIT_ST_SIZE = 0
 WINDOWS_STAT_INODES = 0
 WINDOWS_STAT_TIMESPEC = 0
-WINT_T_SUFFIX = u
+WINT_T_SUFFIX = 
 XGETTEXT = /usr/bin/xgettext
 XGETTEXT_015 = /usr/bin/xgettext
 XGETTEXT_EXTRA_OPTIONS =  --flag=error:3:c-format --flag=error_at_line:5:c-format --keyword='proper_name:1,"This is a proper name. See the gettext manual, section Names."' --keyword='proper_name_utf8:1,"This is a proper name. See the gettext manual, section Names."' --flag=asprintf:2:c-format --flag=vasprintf:2:c-format --flag=verror:3:c-format --flag=verror_at_line:5:c-format --flag=xprintf:1:c-format --flag=xvprintf:1:c-format --flag=xfprintf:2:c-format --flag=xvfprintf:2:c-format --flag=xasprintf:1:c-format
@@ -6022,31 +6022,31 @@ am__tar = $${TAR-tar} chof - "$$tardir"
 am__untar = $${TAR-tar} xf -
 
 # The user can tweak these lists at configure time.
-bin_PROGRAMS = src/chroot$(EXEEXT) src/hostid$(EXEEXT) src/timeout$(EXEEXT) src/nice$(EXEEXT) src/stty$(EXEEXT) src/df$(EXEEXT) src/stdbuf$(EXEEXT) src/[$(EXEEXT) src/b2sum$(EXEEXT) src/base64$(EXEEXT) src/base32$(EXEEXT) src/basenc$(EXEEXT) src/basename$(EXEEXT) src/cat$(EXEEXT) src/chcon$(EXEEXT) src/chgrp$(EXEEXT) src/chmod$(EXEEXT) src/chown$(EXEEXT) src/cksum$(EXEEXT) src/comm$(EXEEXT) src/cp$(EXEEXT) src/csplit$(EXEEXT) src/cut$(EXEEXT) src/date$(EXEEXT) src/dd$(EXEEXT) src/dir$(EXEEXT) src/dircolors$(EXEEXT) src/dirname$(EXEEXT) src/du$(EXEEXT) src/echo$(EXEEXT) src/env$(EXEEXT) src/expand$(EXEEXT) src/expr$(EXEEXT) src/factor$(EXEEXT) src/false$(EXEEXT) src/fmt$(EXEEXT) src/fold$(EXEEXT) src/ginstall$(EXEEXT) src/groups$(EXEEXT) src/head$(EXEEXT) src/id$(EXEEXT) src/join$(EXEEXT) src/kill$(EXEEXT) src/link$(EXEEXT) src/ln$(EXEEXT) src/logname$(EXEEXT) src/ls$(EXEEXT) src/md5sum$(EXEEXT) src/mkdir$(EXEEXT) src/mkfifo$(EXEEXT) src/mknod$(EXEEXT) src/mktemp$(EXEEXT) src/mv$(EXEEXT) src/nl$(EXEEXT) src/nproc$(EXEEXT) src/nohup$(EXEEXT) src/numfmt$(EXEEXT) src/od$(EXEEXT) src/paste$(EXEEXT) src/pathchk$(EXEEXT) src/pr$(EXEEXT) src/printenv$(EXEEXT) src/printf$(EXEEXT) src/ptx$(EXEEXT) src/pwd$(EXEEXT) src/readlink$(EXEEXT) src/realpath$(EXEEXT) src/rm$(EXEEXT) src/rmdir$(EXEEXT) src/runcon$(EXEEXT) src/seq$(EXEEXT) src/sha1sum$(EXEEXT) src/sha224sum$(EXEEXT) src/sha256sum$(EXEEXT) src/sha384sum$(EXEEXT) src/sha512sum$(EXEEXT) src/shred$(EXEEXT) src/shuf$(EXEEXT) src/sleep$(EXEEXT) src/sort$(EXEEXT) src/split$(EXEEXT) src/stat$(EXEEXT) src/sum$(EXEEXT) src/sync$(EXEEXT) src/tac$(EXEEXT) src/tail$(EXEEXT) src/tee$(EXEEXT) src/test$(EXEEXT) src/touch$(EXEEXT) src/tr$(EXEEXT) src/true$(EXEEXT) src/truncate$(EXEEXT) src/tsort$(EXEEXT) src/tty$(EXEEXT) src/uname$(EXEEXT) src/unexpand$(EXEEXT) src/uniq$(EXEEXT) src/unlink$(EXEEXT) src/vdir$(EXEEXT) src/wc$(EXEEXT) src/whoami$(EXEEXT) src/yes$(EXEEXT)
+bin_PROGRAMS = src/chroot$(EXEEXT) src/hostid$(EXEEXT) src/timeout$(EXEEXT) src/nice$(EXEEXT) src/who$(EXEEXT) src/users$(EXEEXT) src/pinky$(EXEEXT) src/uptime$(EXEEXT) src/stty$(EXEEXT) src/df$(EXEEXT) src/stdbuf$(EXEEXT) src/[$(EXEEXT) src/b2sum$(EXEEXT) src/base64$(EXEEXT) src/base32$(EXEEXT) src/basenc$(EXEEXT) src/basename$(EXEEXT) src/cat$(EXEEXT) src/chcon$(EXEEXT) src/chgrp$(EXEEXT) src/chmod$(EXEEXT) src/chown$(EXEEXT) src/cksum$(EXEEXT) src/comm$(EXEEXT) src/cp$(EXEEXT) src/csplit$(EXEEXT) src/cut$(EXEEXT) src/date$(EXEEXT) src/dd$(EXEEXT) src/dir$(EXEEXT) src/dircolors$(EXEEXT) src/dirname$(EXEEXT) src/du$(EXEEXT) src/echo$(EXEEXT) src/env$(EXEEXT) src/expand$(EXEEXT) src/expr$(EXEEXT) src/factor$(EXEEXT) src/false$(EXEEXT) src/fmt$(EXEEXT) src/fold$(EXEEXT) src/ginstall$(EXEEXT) src/groups$(EXEEXT) src/head$(EXEEXT) src/id$(EXEEXT) src/join$(EXEEXT) src/kill$(EXEEXT) src/link$(EXEEXT) src/ln$(EXEEXT) src/logname$(EXEEXT) src/ls$(EXEEXT) src/md5sum$(EXEEXT) src/mkdir$(EXEEXT) src/mkfifo$(EXEEXT) src/mknod$(EXEEXT) src/mktemp$(EXEEXT) src/mv$(EXEEXT) src/nl$(EXEEXT) src/nproc$(EXEEXT) src/nohup$(EXEEXT) src/numfmt$(EXEEXT) src/od$(EXEEXT) src/paste$(EXEEXT) src/pathchk$(EXEEXT) src/pr$(EXEEXT) src/printenv$(EXEEXT) src/printf$(EXEEXT) src/ptx$(EXEEXT) src/pwd$(EXEEXT) src/readlink$(EXEEXT) src/realpath$(EXEEXT) src/rm$(EXEEXT) src/rmdir$(EXEEXT) src/runcon$(EXEEXT) src/seq$(EXEEXT) src/sha1sum$(EXEEXT) src/sha224sum$(EXEEXT) src/sha256sum$(EXEEXT) src/sha384sum$(EXEEXT) src/sha512sum$(EXEEXT) src/shred$(EXEEXT) src/shuf$(EXEEXT) src/sleep$(EXEEXT) src/sort$(EXEEXT) src/split$(EXEEXT) src/stat$(EXEEXT) src/sum$(EXEEXT) src/sync$(EXEEXT) src/tac$(EXEEXT) src/tail$(EXEEXT) src/tee$(EXEEXT) src/test$(EXEEXT) src/touch$(EXEEXT) src/tr$(EXEEXT) src/true$(EXEEXT) src/truncate$(EXEEXT) src/tsort$(EXEEXT) src/tty$(EXEEXT) src/uname$(EXEEXT) src/unexpand$(EXEEXT) src/uniq$(EXEEXT) src/unlink$(EXEEXT) src/vdir$(EXEEXT) src/wc$(EXEEXT) src/whoami$(EXEEXT) src/yes$(EXEEXT)
 bindir = ${exec_prefix}/bin
 build = x86_64-pc-linux-gnu
-build_alias = x86_64-linux-gnu
+build_alias = 
 build_cpu = x86_64
 build_os = linux-gnu
 build_vendor = pc
 builddir = .
-built_programs = chroot hostid timeout nice stty df stdbuf [ b2sum base64 base32 basenc basename cat chcon chgrp chmod chown cksum comm cp csplit cut date dd dir dircolors dirname du echo env expand expr factor false fmt fold ginstall groups head id join kill link ln logname ls md5sum mkdir mkfifo mknod mktemp mv nl nproc nohup numfmt od paste pathchk pr printenv printf ptx pwd readlink realpath rm rmdir runcon seq sha1sum sha224sum sha256sum sha384sum sha512sum shred shuf sleep sort split stat sum sync tac tail tee test touch tr true truncate tsort tty uname unexpand uniq unlink vdir wc whoami yes
+built_programs = chroot hostid timeout nice who users pinky uptime stty df stdbuf [ b2sum base64 base32 basenc basename cat chcon chgrp chmod chown cksum comm cp csplit cut date dd dir dircolors dirname du echo env expand expr factor false fmt fold ginstall groups head id join kill link ln logname ls md5sum mkdir mkfifo mknod mktemp mv nl nproc nohup numfmt od paste pathchk pr printenv printf ptx pwd readlink realpath rm rmdir runcon seq sha1sum sha224sum sha256sum sha384sum sha512sum shred shuf sleep sort split stat sum sync tac tail tee test touch tr true truncate tsort tty uname unexpand uniq unlink vdir wc whoami yes
 datadir = ${datarootdir}
 datarootdir = ${prefix}/share
 docdir = ${datarootdir}/doc/${PACKAGE_TARNAME}
 dvidir = ${docdir}
 exec_prefix = ${prefix}
-gl_LIBOBJDEPS =  lib/./$(DEPDIR)/asnprintf.Po lib/./$(DEPDIR)/asprintf.Po lib/./$(DEPDIR)/at-func2.Po lib/./$(DEPDIR)/calloc.Po lib/./$(DEPDIR)/fnmatch.Po lib/./$(DEPDIR)/fopen.Po lib/./$(DEPDIR)/frexpl.Po lib/./$(DEPDIR)/malloc.Po lib/./$(DEPDIR)/mktime.Po lib/./$(DEPDIR)/printf-args.Po lib/./$(DEPDIR)/printf-parse.Po lib/./$(DEPDIR)/realloc.Po lib/./$(DEPDIR)/snprintf.Po lib/./$(DEPDIR)/strstr.Po lib/./$(DEPDIR)/vasnprintf.Po lib/./$(DEPDIR)/vasprintf.Po lib/./$(DEPDIR)/vfprintf.Po lib/./$(DEPDIR)/vprintf.Po
-gl_LIBOBJS =  lib/asnprintf.o lib/asprintf.o lib/at-func2.o lib/calloc.o lib/fnmatch.o lib/fopen.o lib/frexpl.o lib/malloc.o lib/mktime.o lib/printf-args.o lib/printf-parse.o lib/realloc.o lib/snprintf.o lib/strstr.o lib/vasnprintf.o lib/vasprintf.o lib/vfprintf.o lib/vprintf.o
-gl_LTLIBOBJS =  lib/asnprintf.lo lib/asprintf.lo lib/at-func2.lo lib/calloc.lo lib/fnmatch.lo lib/fopen.lo lib/frexpl.lo lib/malloc.lo lib/mktime.lo lib/printf-args.lo lib/printf-parse.lo lib/realloc.lo lib/snprintf.lo lib/strstr.lo lib/vasnprintf.lo lib/vasprintf.lo lib/vfprintf.lo lib/vprintf.lo
+gl_LIBOBJDEPS =  lib/./$(DEPDIR)/asnprintf.Po lib/./$(DEPDIR)/mktime.Po lib/./$(DEPDIR)/printf-args.Po lib/./$(DEPDIR)/printf-parse.Po lib/./$(DEPDIR)/vasnprintf.Po
+gl_LIBOBJS =  lib/asnprintf.o lib/mktime.o lib/printf-args.o lib/printf-parse.o lib/vasnprintf.o
+gl_LTLIBOBJS =  lib/asnprintf.lo lib/mktime.lo lib/printf-args.lo lib/printf-parse.lo lib/vasnprintf.lo
 gltests_LIBOBJDEPS =  ./$(DEPDIR)/strerror_r.Po
 gltests_LIBOBJS =  strerror_r.o
 gltests_LTLIBOBJS =  strerror_r.lo
 gltests_WITNESS = IN_COREUTILS_GNULIB_TESTS
-host = x86_64-pc-none
-host_alias = x86_64-pc-none
+host = x86_64-pc-linux-gnu
+host_alias = 
 host_cpu = x86_64
-host_os = none
+host_os = linux-gnu
 host_vendor = pc
 htmldir = ${docdir}
 includedir = ${prefix}/include
@@ -6057,13 +6057,13 @@ libexecdir = ${exec_prefix}/libexec
 lispdir = ${datarootdir}/emacs/site-lisp
 localedir = ${datarootdir}/locale
 localstatedir = ${prefix}/var
-man1_MANS = man/chroot.1 man/hostid.1 man/timeout.1 man/nice.1 man/stty.1 man/df.1 man/stdbuf.1 man/b2sum.1 man/base64.1 man/base32.1 man/basenc.1 man/basename.1 man/cat.1 man/chcon.1 man/chgrp.1 man/chmod.1 man/chown.1 man/cksum.1 man/comm.1 man/cp.1 man/csplit.1 man/cut.1 man/date.1 man/dd.1 man/dir.1 man/dircolors.1 man/dirname.1 man/du.1 man/echo.1 man/env.1 man/expand.1 man/expr.1 man/factor.1 man/false.1 man/fmt.1 man/fold.1 man/install.1 man/groups.1 man/head.1 man/id.1 man/join.1 man/kill.1 man/link.1 man/ln.1 man/logname.1 man/ls.1 man/md5sum.1 man/mkdir.1 man/mkfifo.1 man/mknod.1 man/mktemp.1 man/mv.1 man/nl.1 man/nproc.1 man/nohup.1 man/numfmt.1 man/od.1 man/paste.1 man/pathchk.1 man/pr.1 man/printenv.1 man/printf.1 man/ptx.1 man/pwd.1 man/readlink.1 man/realpath.1 man/rm.1 man/rmdir.1 man/runcon.1 man/seq.1 man/sha1sum.1 man/sha224sum.1 man/sha256sum.1 man/sha384sum.1 man/sha512sum.1 man/shred.1 man/shuf.1 man/sleep.1 man/sort.1 man/split.1 man/stat.1 man/sum.1 man/sync.1 man/tac.1 man/tail.1 man/tee.1 man/test.1 man/touch.1 man/tr.1 man/true.1 man/truncate.1 man/tsort.1 man/tty.1 man/uname.1 man/unexpand.1 man/uniq.1 man/unlink.1 man/vdir.1 man/wc.1 man/whoami.1 man/yes.1
+man1_MANS = man/chroot.1 man/hostid.1 man/timeout.1 man/nice.1 man/who.1 man/users.1 man/pinky.1 man/uptime.1 man/stty.1 man/df.1 man/stdbuf.1 man/b2sum.1 man/base64.1 man/base32.1 man/basenc.1 man/basename.1 man/cat.1 man/chcon.1 man/chgrp.1 man/chmod.1 man/chown.1 man/cksum.1 man/comm.1 man/cp.1 man/csplit.1 man/cut.1 man/date.1 man/dd.1 man/dir.1 man/dircolors.1 man/dirname.1 man/du.1 man/echo.1 man/env.1 man/expand.1 man/expr.1 man/factor.1 man/false.1 man/fmt.1 man/fold.1 man/install.1 man/groups.1 man/head.1 man/id.1 man/join.1 man/kill.1 man/link.1 man/ln.1 man/logname.1 man/ls.1 man/md5sum.1 man/mkdir.1 man/mkfifo.1 man/mknod.1 man/mktemp.1 man/mv.1 man/nl.1 man/nproc.1 man/nohup.1 man/numfmt.1 man/od.1 man/paste.1 man/pathchk.1 man/pr.1 man/printenv.1 man/printf.1 man/ptx.1 man/pwd.1 man/readlink.1 man/realpath.1 man/rm.1 man/rmdir.1 man/runcon.1 man/seq.1 man/sha1sum.1 man/sha224sum.1 man/sha256sum.1 man/sha384sum.1 man/sha512sum.1 man/shred.1 man/shuf.1 man/sleep.1 man/sort.1 man/split.1 man/stat.1 man/sum.1 man/sync.1 man/tac.1 man/tail.1 man/tee.1 man/test.1 man/touch.1 man/tr.1 man/true.1 man/truncate.1 man/tsort.1 man/tty.1 man/uname.1 man/unexpand.1 man/uniq.1 man/unlink.1 man/vdir.1 man/wc.1 man/whoami.1 man/yes.1
 mandir = ${datarootdir}/man
 mkdir_p = $(MKDIR_P)
 oldincludedir = /usr/include
 pdfdir = ${docdir}
 pkglibexec_PROGRAMS = src/libstdbuf.so
-prefix = /asis
+prefix = /usr/local
 program_transform_name = s,x,x,
 psdir = ${docdir}
 runstatedir = ${localstatedir}/run
@@ -6075,7 +6075,7 @@ single_binary_libs =
 single_binary_progs = 
 srcdir = .
 sysconfdir = ${prefix}/etc
-target_alias = x86_64-linux-gnu
+target_alias = 
 top_build_prefix = 
 top_builddir = .
 top_srcdir = .
@@ -7343,10 +7343,10 @@ all_programs = \
 
 pm = progs-makefile
 pr = progs-readme
-#cu_install_program = src/ginstall
+cu_install_program = src/ginstall
 
 # Use the just-built 'ginstall', when not cross-compiling.
-cu_install_program = ./build-aux/install-sh -c
+#cu_install_program = /usr/bin/install -c
 info_TEXINFOS = doc/coreutils.texi
 doc_coreutils_TEXINFOS = \
   doc/perm.texi \
@@ -7393,10 +7393,10 @@ find_upper_case_var = \
      }				\
    END {$$m and (warn "$@: do not use upper case in \@var{...}\n"), exit 1}'
 
-##run_help2man = $(SHELL) $(srcdir)/man/dummy-man
-#run_help2man = $(PERL) -- $(srcdir)/man/help2man $(help2man_OPTS)
-run_help2man = $(SHELL) $(srcdir)/man/dummy-man
-#help2man_OPTS = --bold-refs
+#run_help2man = $(SHELL) $(srcdir)/man/dummy-man
+run_help2man = $(PERL) -- $(srcdir)/man/help2man $(help2man_OPTS)
+#run_help2man = $(SHELL) $(srcdir)/man/dummy-man
+help2man_OPTS = --bold-refs
 ALL_MANS = $(man1_MANS) $(EXTRA_MANS)
 
 # Dependencies common to all man pages.  Updated below.
@@ -23645,76 +23645,76 @@ lib/float.h: $(top_builddir)/config.status
 	rm -f $@
 
 # We need the following in order to create <fnmatch.h>.
-lib/fnmatch.h: lib/fnmatch.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(WARN_ON_USE_H)
-	$(AM_V_GEN)$(MKDIR_P) 'lib'
-	$(gl_V_at)$(SED_HEADER_STDOUT) \
-	      -e 's|@''GUARD_PREFIX''@|GL|g' \
-	      -e 's|@''HAVE_FNMATCH_H''@|$(HAVE_FNMATCH_H)|g' \
-	      -e 's|@''INCLUDE_NEXT''@|$(INCLUDE_NEXT)|g' \
-	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|#pragma GCC system_header|g' \
-	      -e 's|@''PRAGMA_COLUMNS''@||g' \
-	      -e 's|@''NEXT_FNMATCH_H''@|$(NEXT_FNMATCH_H)|g' \
-	      -e 's/@''GNULIB_FNMATCH''@/$(GL_GNULIB_FNMATCH)/g' \
-	      -e 's|@''HAVE_FNMATCH''@|$(HAVE_FNMATCH)|g' \
-	      -e 's|@''REPLACE_FNMATCH''@|$(REPLACE_FNMATCH)|g' \
-	      -e '/definitions of _GL_FUNCDECL_RPL/r $(CXXDEFS_H)' \
-	      -e '/definition of _GL_ARG_NONNULL/r $(ARG_NONNULL_H)' \
-	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)' \
-	      $(top_srcdir)/lib/fnmatch.in.h > $@-t
-	$(AM_V_at)mv $@-t $@
-#lib/fnmatch.h: $(top_builddir)/config.status
-#	rm -f $@
+#lib/fnmatch.h: lib/fnmatch.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(WARN_ON_USE_H)
+#	$(AM_V_GEN)$(MKDIR_P) 'lib'
+#	$(gl_V_at)$(SED_HEADER_STDOUT) \
+#	      -e 's|@''GUARD_PREFIX''@|GL|g' \
+#	      -e 's|@''HAVE_FNMATCH_H''@|$(HAVE_FNMATCH_H)|g' \
+#	      -e 's|@''INCLUDE_NEXT''@|$(INCLUDE_NEXT)|g' \
+#	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|#pragma GCC system_header|g' \
+#	      -e 's|@''PRAGMA_COLUMNS''@||g' \
+#	      -e 's|@''NEXT_FNMATCH_H''@|$(NEXT_FNMATCH_H)|g' \
+#	      -e 's/@''GNULIB_FNMATCH''@/$(GL_GNULIB_FNMATCH)/g' \
+#	      -e 's|@''HAVE_FNMATCH''@|$(HAVE_FNMATCH)|g' \
+#	      -e 's|@''REPLACE_FNMATCH''@|$(REPLACE_FNMATCH)|g' \
+#	      -e '/definitions of _GL_FUNCDECL_RPL/r $(CXXDEFS_H)' \
+#	      -e '/definition of _GL_ARG_NONNULL/r $(ARG_NONNULL_H)' \
+#	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)' \
+#	      $(top_srcdir)/lib/fnmatch.in.h > $@-t
+#	$(AM_V_at)mv $@-t $@
+lib/fnmatch.h: $(top_builddir)/config.status
+	rm -f $@
 
 # We need the following in order to create <getopt.h> when the system
 # doesn't have one that works with the given compiler.
-lib/getopt.h: lib/getopt.in.h $(top_builddir)/config.status $(ARG_NONNULL_H)
-	$(AM_V_GEN)$(MKDIR_P) 'lib'
-	$(gl_V_at)$(SED_HEADER_STDOUT) \
-	      -e 's|@''GUARD_PREFIX''@|GL|g' \
-	      -e 's|@''HAVE_GETOPT_H''@|$(HAVE_GETOPT_H)|g' \
-	      -e 's|@''INCLUDE_NEXT''@|$(INCLUDE_NEXT)|g' \
-	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|#pragma GCC system_header|g' \
-	      -e 's|@''PRAGMA_COLUMNS''@||g' \
-	      -e 's|@''NEXT_GETOPT_H''@|$(NEXT_GETOPT_H)|g' \
-	      -e '/definition of _GL_ARG_NONNULL/r $(ARG_NONNULL_H)' \
-	      $(top_srcdir)/lib/getopt.in.h > $@-t
-	$(AM_V_at)mv $@-t $@
-#lib/getopt.h: $(top_builddir)/config.status
-#	rm -f $@
+#lib/getopt.h: lib/getopt.in.h $(top_builddir)/config.status $(ARG_NONNULL_H)
+#	$(AM_V_GEN)$(MKDIR_P) 'lib'
+#	$(gl_V_at)$(SED_HEADER_STDOUT) \
+#	      -e 's|@''GUARD_PREFIX''@|GL|g' \
+#	      -e 's|@''HAVE_GETOPT_H''@|$(HAVE_GETOPT_H)|g' \
+#	      -e 's|@''INCLUDE_NEXT''@|$(INCLUDE_NEXT)|g' \
+#	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|#pragma GCC system_header|g' \
+#	      -e 's|@''PRAGMA_COLUMNS''@||g' \
+#	      -e 's|@''NEXT_GETOPT_H''@|$(NEXT_GETOPT_H)|g' \
+#	      -e '/definition of _GL_ARG_NONNULL/r $(ARG_NONNULL_H)' \
+#	      $(top_srcdir)/lib/getopt.in.h > $@-t
+#	$(AM_V_at)mv $@-t $@
+lib/getopt.h: $(top_builddir)/config.status
+	rm -f $@
 
-lib/getopt-cdefs.h: lib/getopt-cdefs.in.h $(top_builddir)/config.status
-	$(AM_V_GEN)$(SED_HEADER_STDOUT) \
-	  -e 's|@''HAVE_SYS_CDEFS_H''@|$(HAVE_SYS_CDEFS_H)|g' \
-	  $(top_srcdir)/lib/getopt-cdefs.in.h > $@-t
-	$(AM_V_at)mv $@-t $@
-#lib/getopt-cdefs.h: $(top_builddir)/config.status
-#	rm -f $@
+#lib/getopt-cdefs.h: lib/getopt-cdefs.in.h $(top_builddir)/config.status
+#	$(AM_V_GEN)$(SED_HEADER_STDOUT) \
+#	  -e 's|@''HAVE_SYS_CDEFS_H''@|$(HAVE_SYS_CDEFS_H)|g' \
+#	  $(top_srcdir)/lib/getopt-cdefs.in.h > $@-t
+#	$(AM_V_at)mv $@-t $@
+lib/getopt-cdefs.h: $(top_builddir)/config.status
+	rm -f $@
 distclean-local: clean-GNUmakefile
 clean-GNUmakefile:
 	test '$(srcdir)' = . || rm -f $(top_builddir)/GNUmakefile
 
 # We need the following in order to create <iconv.h> when the system
 # doesn't have one that works with the given compiler.
-#lib/iconv.h: lib/iconv.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(WARN_ON_USE_H)
-#	$(AM_V_GEN)$(MKDIR_P) 'lib'
-#	$(gl_V_at)$(SED_HEADER_STDOUT) \
-#	      -e 's|@''GUARD_PREFIX''@|GL|g' \
-#	      -e 's|@''INCLUDE_NEXT''@|$(INCLUDE_NEXT)|g' \
-#	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|#pragma GCC system_header|g' \
-#	      -e 's|@''PRAGMA_COLUMNS''@||g' \
-#	      -e 's|@''NEXT_ICONV_H''@|$(NEXT_ICONV_H)|g' \
-#	      -e 's/@''GNULIB_ICONV''@/$(GL_GNULIB_ICONV)/g' \
-#	      -e 's|@''ICONV_CONST''@|$(ICONV_CONST)|g' \
-#	      -e 's|@''REPLACE_ICONV''@|$(REPLACE_ICONV)|g' \
-#	      -e 's|@''REPLACE_ICONV_OPEN''@|$(REPLACE_ICONV_OPEN)|g' \
-#	      -e 's|@''REPLACE_ICONV_UTF''@|$(REPLACE_ICONV_UTF)|g' \
-#	      -e '/definitions of _GL_FUNCDECL_RPL/r $(CXXDEFS_H)' \
-#	      -e '/definition of _GL_ARG_NONNULL/r $(ARG_NONNULL_H)' \
-#	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)' \
-#	      $(top_srcdir)/lib/iconv.in.h > $@-t
-#	$(AM_V_at)mv $@-t $@
-lib/iconv.h: $(top_builddir)/config.status
-	rm -f $@
+lib/iconv.h: lib/iconv.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NONNULL_H) $(WARN_ON_USE_H)
+	$(AM_V_GEN)$(MKDIR_P) 'lib'
+	$(gl_V_at)$(SED_HEADER_STDOUT) \
+	      -e 's|@''GUARD_PREFIX''@|GL|g' \
+	      -e 's|@''INCLUDE_NEXT''@|$(INCLUDE_NEXT)|g' \
+	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|#pragma GCC system_header|g' \
+	      -e 's|@''PRAGMA_COLUMNS''@||g' \
+	      -e 's|@''NEXT_ICONV_H''@|$(NEXT_ICONV_H)|g' \
+	      -e 's/@''GNULIB_ICONV''@/$(GL_GNULIB_ICONV)/g' \
+	      -e 's|@''ICONV_CONST''@|$(ICONV_CONST)|g' \
+	      -e 's|@''REPLACE_ICONV''@|$(REPLACE_ICONV)|g' \
+	      -e 's|@''REPLACE_ICONV_OPEN''@|$(REPLACE_ICONV_OPEN)|g' \
+	      -e 's|@''REPLACE_ICONV_UTF''@|$(REPLACE_ICONV_UTF)|g' \
+	      -e '/definitions of _GL_FUNCDECL_RPL/r $(CXXDEFS_H)' \
+	      -e '/definition of _GL_ARG_NONNULL/r $(ARG_NONNULL_H)' \
+	      -e '/definition of _GL_WARN_ON_USE/r $(WARN_ON_USE_H)' \
+	      $(top_srcdir)/lib/iconv.in.h > $@-t
+	$(AM_V_at)mv $@-t $@
+#lib/iconv.h: $(top_builddir)/config.status
+#	rm -f $@
 
 $(top_srcdir)/lib/iconv_open-aix.h: $(top_srcdir)/lib/iconv_open-aix.gperf
 	$(V_GPERF)$(GPERF) -m 10 $(top_srcdir)/lib/iconv_open-aix.gperf > $(top_srcdir)/lib/iconv_open-aix.h-t && \
@@ -24175,19 +24175,19 @@ lib/netdb.h: lib/netdb.in.h $(top_builddir)/config.status $(CXXDEFS_H) $(ARG_NON
 
 # We need the following in order to create <netinet/in.h> when the system
 # doesn't have one.
-lib/netinet/in.h: lib/netinet_in.in.h $(top_builddir)/config.status
-	$(AM_V_GEN)$(MKDIR_P) 'lib/netinet'
-	$(AM_V_at)$(SED_HEADER_STDOUT) \
-	      -e 's|@''GUARD_PREFIX''@|GL|g' \
-	      -e 's|@''INCLUDE_NEXT''@|$(INCLUDE_NEXT)|g' \
-	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|#pragma GCC system_header|g' \
-	      -e 's|@''PRAGMA_COLUMNS''@||g' \
-	      -e 's|@''NEXT_NETINET_IN_H''@|$(NEXT_NETINET_IN_H)|g' \
-	      -e 's|@''HAVE_NETINET_IN_H''@|$(HAVE_NETINET_IN_H)|g' \
-	      $(top_srcdir)/lib/netinet_in.in.h > $@-t
-	$(AM_V_at)mv $@-t $@
-#lib/netinet/in.h: $(top_builddir)/config.status
-#	rm -f $@
+#lib/netinet/in.h: lib/netinet_in.in.h $(top_builddir)/config.status
+#	$(AM_V_GEN)$(MKDIR_P) 'lib/netinet'
+#	$(AM_V_at)$(SED_HEADER_STDOUT) \
+#	      -e 's|@''GUARD_PREFIX''@|GL|g' \
+#	      -e 's|@''INCLUDE_NEXT''@|$(INCLUDE_NEXT)|g' \
+#	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|#pragma GCC system_header|g' \
+#	      -e 's|@''PRAGMA_COLUMNS''@||g' \
+#	      -e 's|@''NEXT_NETINET_IN_H''@|$(NEXT_NETINET_IN_H)|g' \
+#	      -e 's|@''HAVE_NETINET_IN_H''@|$(HAVE_NETINET_IN_H)|g' \
+#	      $(top_srcdir)/lib/netinet_in.in.h > $@-t
+#	$(AM_V_at)mv $@-t $@
+lib/netinet/in.h: $(top_builddir)/config.status
+	rm -f $@
 
 # The Automake generated .y.c rule is broken: When executed in a VPATH build,
 #   - The .c file gets generated in the build directory. But since it requires
@@ -24501,40 +24501,40 @@ lib/stddef.h: $(top_builddir)/config.status
 
 # We need the following in order to create <stdint.h> when the system
 # doesn't have one that works with the given compiler.
-lib/stdint.h: lib/stdint.in.h $(top_builddir)/config.status
-	$(AM_V_GEN)$(MKDIR_P) 'lib'
-	$(gl_V_at)$(SED_HEADER_STDOUT) \
-	      -e 's|@''GUARD_PREFIX''@|GL|g' \
-	      -e 's/@''HAVE_STDINT_H''@/$(HAVE_STDINT_H)/g' \
-	      -e 's|@''INCLUDE_NEXT''@|$(INCLUDE_NEXT)|g' \
-	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|#pragma GCC system_header|g' \
-	      -e 's|@''PRAGMA_COLUMNS''@||g' \
-	      -e 's|@''NEXT_STDINT_H''@|$(NEXT_STDINT_H)|g' \
-	      -e 's/@''HAVE_C99_STDINT_H''@/$(HAVE_C99_STDINT_H)/g' \
-	      -e 's/@''HAVE_SYS_TYPES_H''@/$(HAVE_SYS_TYPES_H)/g' \
-	      -e 's/@''HAVE_INTTYPES_H''@/$(HAVE_INTTYPES_H)/g' \
-	      -e 's/@''HAVE_SYS_INTTYPES_H''@/$(HAVE_SYS_INTTYPES_H)/g' \
-	      -e 's/@''HAVE_SYS_BITYPES_H''@/$(HAVE_SYS_BITYPES_H)/g' \
-	      -e 's/@''HAVE_WCHAR_H''@/$(HAVE_WCHAR_H)/g' \
-	      -e 's/@''APPLE_UNIVERSAL_BUILD''@/$(APPLE_UNIVERSAL_BUILD)/g' \
-	      -e 's/@''BITSIZEOF_PTRDIFF_T''@/$(BITSIZEOF_PTRDIFF_T)/g' \
-	      -e 's/@''PTRDIFF_T_SUFFIX''@/$(PTRDIFF_T_SUFFIX)/g' \
-	      -e 's/@''BITSIZEOF_SIG_ATOMIC_T''@/$(BITSIZEOF_SIG_ATOMIC_T)/g' \
-	      -e 's/@''HAVE_SIGNED_SIG_ATOMIC_T''@/$(HAVE_SIGNED_SIG_ATOMIC_T)/g' \
-	      -e 's/@''SIG_ATOMIC_T_SUFFIX''@/$(SIG_ATOMIC_T_SUFFIX)/g' \
-	      -e 's/@''BITSIZEOF_SIZE_T''@/$(BITSIZEOF_SIZE_T)/g' \
-	      -e 's/@''SIZE_T_SUFFIX''@/$(SIZE_T_SUFFIX)/g' \
-	      -e 's/@''BITSIZEOF_WCHAR_T''@/$(BITSIZEOF_WCHAR_T)/g' \
-	      -e 's/@''HAVE_SIGNED_WCHAR_T''@/$(HAVE_SIGNED_WCHAR_T)/g' \
-	      -e 's/@''WCHAR_T_SUFFIX''@/$(WCHAR_T_SUFFIX)/g' \
-	      -e 's/@''BITSIZEOF_WINT_T''@/$(BITSIZEOF_WINT_T)/g' \
-	      -e 's/@''HAVE_SIGNED_WINT_T''@/$(HAVE_SIGNED_WINT_T)/g' \
-	      -e 's/@''WINT_T_SUFFIX''@/$(WINT_T_SUFFIX)/g' \
-	      -e 's/@''GNULIBHEADERS_OVERRIDE_WINT_T''@/$(GNULIBHEADERS_OVERRIDE_WINT_T)/g' \
-	      $(top_srcdir)/lib/stdint.in.h > $@-t
-	$(AM_V_at)mv $@-t $@
-#lib/stdint.h: $(top_builddir)/config.status
-#	rm -f $@
+#lib/stdint.h: lib/stdint.in.h $(top_builddir)/config.status
+#	$(AM_V_GEN)$(MKDIR_P) 'lib'
+#	$(gl_V_at)$(SED_HEADER_STDOUT) \
+#	      -e 's|@''GUARD_PREFIX''@|GL|g' \
+#	      -e 's/@''HAVE_STDINT_H''@/$(HAVE_STDINT_H)/g' \
+#	      -e 's|@''INCLUDE_NEXT''@|$(INCLUDE_NEXT)|g' \
+#	      -e 's|@''PRAGMA_SYSTEM_HEADER''@|#pragma GCC system_header|g' \
+#	      -e 's|@''PRAGMA_COLUMNS''@||g' \
+#	      -e 's|@''NEXT_STDINT_H''@|$(NEXT_STDINT_H)|g' \
+#	      -e 's/@''HAVE_C99_STDINT_H''@/$(HAVE_C99_STDINT_H)/g' \
+#	      -e 's/@''HAVE_SYS_TYPES_H''@/$(HAVE_SYS_TYPES_H)/g' \
+#	      -e 's/@''HAVE_INTTYPES_H''@/$(HAVE_INTTYPES_H)/g' \
+#	      -e 's/@''HAVE_SYS_INTTYPES_H''@/$(HAVE_SYS_INTTYPES_H)/g' \
+#	      -e 's/@''HAVE_SYS_BITYPES_H''@/$(HAVE_SYS_BITYPES_H)/g' \
+#	      -e 's/@''HAVE_WCHAR_H''@/$(HAVE_WCHAR_H)/g' \
+#	      -e 's/@''APPLE_UNIVERSAL_BUILD''@/$(APPLE_UNIVERSAL_BUILD)/g' \
+#	      -e 's/@''BITSIZEOF_PTRDIFF_T''@/$(BITSIZEOF_PTRDIFF_T)/g' \
+#	      -e 's/@''PTRDIFF_T_SUFFIX''@/$(PTRDIFF_T_SUFFIX)/g' \
+#	      -e 's/@''BITSIZEOF_SIG_ATOMIC_T''@/$(BITSIZEOF_SIG_ATOMIC_T)/g' \
+#	      -e 's/@''HAVE_SIGNED_SIG_ATOMIC_T''@/$(HAVE_SIGNED_SIG_ATOMIC_T)/g' \
+#	      -e 's/@''SIG_ATOMIC_T_SUFFIX''@/$(SIG_ATOMIC_T_SUFFIX)/g' \
+#	      -e 's/@''BITSIZEOF_SIZE_T''@/$(BITSIZEOF_SIZE_T)/g' \
+#	      -e 's/@''SIZE_T_SUFFIX''@/$(SIZE_T_SUFFIX)/g' \
+#	      -e 's/@''BITSIZEOF_WCHAR_T''@/$(BITSIZEOF_WCHAR_T)/g' \
+#	      -e 's/@''HAVE_SIGNED_WCHAR_T''@/$(HAVE_SIGNED_WCHAR_T)/g' \
+#	      -e 's/@''WCHAR_T_SUFFIX''@/$(WCHAR_T_SUFFIX)/g' \
+#	      -e 's/@''BITSIZEOF_WINT_T''@/$(BITSIZEOF_WINT_T)/g' \
+#	      -e 's/@''HAVE_SIGNED_WINT_T''@/$(HAVE_SIGNED_WINT_T)/g' \
+#	      -e 's/@''WINT_T_SUFFIX''@/$(WINT_T_SUFFIX)/g' \
+#	      -e 's/@''GNULIBHEADERS_OVERRIDE_WINT_T''@/$(GNULIBHEADERS_OVERRIDE_WINT_T)/g' \
+#	      $(top_srcdir)/lib/stdint.in.h > $@-t
+#	$(AM_V_at)mv $@-t $@
+lib/stdint.h: $(top_builddir)/config.status
+	rm -f $@
 
 # We need the following in order to create <stdio.h> when the system
 # doesn't have one that works with the given compiler.
@@ -25646,7 +25646,7 @@ mostlyclean-local: mostlyclean-generic
 	:
 distclean-local: distclean-gnulib-libobjs
 distclean-gnulib-libobjs:
-	-rm -f  lib/./$(DEPDIR)/asnprintf.Po lib/./$(DEPDIR)/asprintf.Po lib/./$(DEPDIR)/at-func2.Po lib/./$(DEPDIR)/calloc.Po lib/./$(DEPDIR)/fnmatch.Po lib/./$(DEPDIR)/fopen.Po lib/./$(DEPDIR)/frexpl.Po lib/./$(DEPDIR)/malloc.Po lib/./$(DEPDIR)/mktime.Po lib/./$(DEPDIR)/printf-args.Po lib/./$(DEPDIR)/printf-parse.Po lib/./$(DEPDIR)/realloc.Po lib/./$(DEPDIR)/snprintf.Po lib/./$(DEPDIR)/strstr.Po lib/./$(DEPDIR)/vasnprintf.Po lib/./$(DEPDIR)/vasprintf.Po lib/./$(DEPDIR)/vfprintf.Po lib/./$(DEPDIR)/vprintf.Po
+	-rm -f  lib/./$(DEPDIR)/asnprintf.Po lib/./$(DEPDIR)/mktime.Po lib/./$(DEPDIR)/printf-args.Po lib/./$(DEPDIR)/printf-parse.Po lib/./$(DEPDIR)/vasnprintf.Po
 maintainer-clean-local: distclean-gnulib-libobjs
 
 # Allow "make distdir" to succeed before "make all" has run.

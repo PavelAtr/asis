@@ -15,5 +15,5 @@ find . -name *.o | xargs rm
 ./configure --host=x86_64-pc-none --build=x86_64-linux-gnu --target=x86_64-linux-gnu --prefix=${PREFIX} --disable-threads --enable-cross-guesses=conservative --disable-acl --disable-assert --disable-rpath \
 --disable-libsmack --disable-xattr --disable-libcap -disable-nls --disable-single-binary
 
-make V=1
+make
 make install

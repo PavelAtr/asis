@@ -11,3 +11,4 @@ userspace/alibc/build
 userspace/testapp/build/
 posix-uefi/
 userspace/dash-0.5.12/
+userspace/coreutils-9.1/
