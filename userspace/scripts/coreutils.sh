@@ -6,7 +6,7 @@ CWD=$(pwd)
 #./configure
 #make
 
-export CFLAGS="${CFLAGS} ${SYSROOT} -D__ASIS__ -DSLOW_BUT_NO_HACKS -include ${CWD}/../scripts/coreutils.h"
+export CFLAGS="${CFLAGS} ${SYSROOT} -D__ASIS__ -DSLOW_BUT_NO_HACKS -D_POSIX_VERSION=202505 -include ${CWD}/../scripts/coreutils.h"
 export LDFLAGS="${LDFLAGS} ${SYSROOT} -nostdlib -lac"
 export LIBS="-lpwd ${PREFIX}/lib/crtstub.a"
 

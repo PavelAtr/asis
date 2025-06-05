@@ -33,7 +33,6 @@ int setenv(const char *name, const char *value, int overwrite)
       int i;
       for (i = 0; environ[i]; i++);
       environ = realloc_environment(environ, i, i + 1);
-      *core_environ = environ;
       if (!environ) {
          return -1; // Memory allocation failed
       }

@@ -16,9 +16,9 @@ char *getenv(const char *name);
 int setenv(const char *name, const char *value, int overwrite);
 int unsetenv(const char *name);
 
-extern char** environ;
 extern char*** core_environ;
-#define INIT_ENVIRON environ = *core_environ;
+#define environ (*core_environ)
+#define INIT_ENVIRON
 extern  char*** core_argv;
 #define aargv (*core_argv)
 

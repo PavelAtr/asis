@@ -1,6 +1,0 @@
-builtins.o: builtins.c ../config.h shell.h /asis/usr/include/sys/param.h \
- builtins.h
-../config.h:
-shell.h:
-/asis/usr/include/sys/param.h:
-builtins.h:

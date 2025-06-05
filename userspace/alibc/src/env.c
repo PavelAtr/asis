@@ -3,8 +3,6 @@
 #include <stdio.h>
 #include <errno.h>
 
-char** environ;
-
 int envid(const char *name)
 {
    INIT_ENVIRON
