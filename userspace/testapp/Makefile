@@ -17,7 +17,7 @@ all:
 	$(CC) $(SYSROOT) $(CFLAGS) -fPIC id.c $(LDFLAGS) -o build/id$(EXTENTION)
 	$(CC) $(SYSROOT) $(CFLAGS) -fPIC chmod.c $(LDFLAGS) -o build/chmod$(EXTENTION)
 	$(CC) $(SYSROOT) $(CFLAGS) -fPIC chown.c $(LDFLAGS) -o build/chown$(EXTENTION)
-	$(CC) $(SYSROOT) $(CFLAGS) -fPIC testfork.c $(LDFLAGS) -o build/testfork$(EXTENTION)
+	$(CC) $(SYSROOT) $(CFLAGS) -fPIC testfork.c $(LDFLAGS) -shared -o build/testfork$(EXTENTION)
 	$(CC) $(SYSROOT) $(CFLAGS) -fPIC segfault.c $(LDFLAGS)  -o build/segfault$(EXTENTION)
 	$(CC) $(SYSROOT) $(CFLAGS) -fPIC passdb.c $(LDFLAGS) -lpwd -o build/passdb$(EXTENTION)
 	$(CC) $(SYSROOT) $(CFLAGS) -fPIC grpdb.c $(LDFLAGS) -lpwd -o build/grpdb$(EXTENTION)
