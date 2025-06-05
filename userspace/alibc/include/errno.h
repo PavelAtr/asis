@@ -1,7 +1,8 @@
 #ifndef _ERRNO_H
 #define _ERRNO_H
 
-extern int errno;
+extern int* core_errno;
+#define errno (*core_errno)
 
 #define ESUCCESS 0
 #define EPERM 1

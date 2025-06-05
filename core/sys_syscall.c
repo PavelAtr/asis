@@ -72,8 +72,8 @@ void* sys_syscall(int number, void* arg1, void* arg2, void* arg3, void* arg4, vo
    case SYS_REALLOC:
       return sys_realloc((void*)arg1, (size_t)arg2);
    case SYS_IOCTL:
-      current->sys_errno = sys_ioctl((const char*)arg1, (ulong_t)arg2, (void*)arg3);
-      if (current->sys_errno) {
+      current_errno = sys_ioctl((const char*)arg1, (ulong_t)arg2, (void*)arg3);
+      if (current_errno) {
          return (void*)-1;
       } else {
 		 return (void*)0;
@@ -92,11 +92,6 @@ void* sys_syscall(int number, void* arg1, void* arg2, void* arg3, void* arg4, vo
       return (void*)sys_longjmp((long_t*)arg1);
    case SYS_GETRLIMIT:
       return (void*)sys_getrlimit((int)arg1, (void*)arg2);
-   case SYS_GETERRNO:
-      return (void*)sys_geterrno();
-   case SYS_SETENV:
-      current->envp = (char**)arg1;
-      break;
    default:
       sys_printf(SYS_INFO "Unsupported syscall %d\n", number);
       break;

@@ -10,6 +10,10 @@ int_t curpid = 0;
 proc* current;
 char** current_dtv;
 void** current_fds;
+errno_t current_errno;
+char** current_environ;
+char** current_argv;
+
 
 void switch_task()
 {
@@ -17,6 +21,8 @@ void switch_task()
       current->ctx.sp = sp;
    }
    pid_t prevpid = curpid;
+   if (curpid != 0)
+	current->envp = current_environ;
    while(1) {
       curpid++;
       if (curpid == MAXPROC) {
@@ -50,6 +56,8 @@ void switch_task()
    }
    current_dtv = current->dtv;
    current_fds = current->fds;
+   current_environ = current->envp;
+   current_argv = current->argv;
    sp = current->ctx.sp;
 }
 
@@ -76,5 +84,5 @@ int_t sys_longjmp(long_t* env)
 
 errno_t sys_geterrno()
 {
-	return current->sys_errno;
+	return current_errno;
 }

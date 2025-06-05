@@ -37,10 +37,11 @@
 #define SYS_SETJMP 31
 #define SYS_LONGJMP 32
 #define SYS_GETRLIMIT 33
-#define SYS_GETERRNO 34
-#define SYS_SETENV 35
 
-void* syscall(int number, void* arg1, void* arg2, void* arg3, void* arg4, void* arg5, void* arg6);
+#ifdef UEFI_KERNEL
+__attribute__((ms_abi)) 
+#endif
+extern void* (*syscall)(int number, void* arg1, void* arg2, void* arg3, void* arg4, void* arg5, void* arg6);
 #define asyscall(n, a, b, c, d, e, f) syscall(n, (void*)(a), (void*)(b), (void*)(c), (void*)(d), (void*)(e), (void*)(f))
 
 #endif

@@ -51,19 +51,19 @@ int_t sys_exec(char* file, char** inargv, char** envp)
    for (argc = 0; inargv[argc]; argc++);
    mountpoint* mount = sys_get_mountpoint(file);
    if (!mount) {
-      current->sys_errno = ENOENT;
+      current_errno = ENOENT;
       current->dlhndl = NULL;
       return -1;
    }
    const char* path = sys_calcpath(mount, file);
    if (!mount->mount_can_execute(mount->sbfs, path, current->uid, current->gid)) {
-      current->sys_errno = EPERM;
+      current_errno = EPERM;
       current->dlhndl = NULL;
       return -1;
    }
    struct tinystat st;
    if (sys_stat(file, &st) == -1) {
-      current->sys_errno = ENOENT;
+      current_errno = ENOENT;
       current->dlhndl = NULL;
       return -1;
    }
@@ -87,7 +87,7 @@ int_t sys_exec(char* file, char** inargv, char** envp)
    current->dlhndl = sys_dlopen(file, 0);
    if (!current->dlhndl) {
 	  sys_printf(SYS_ERROR "EXEC dlopen %s FAILED\n", file);
-      current->sys_errno = ENOENT;
+      current_errno = ENOENT;
       return -1;
    }
    if (current->flags & PROC_CLONED) {
@@ -113,9 +113,11 @@ int_t sys_exec(char* file, char** inargv, char** envp)
    current->flags &= ~PROC_CLONED;
    current_fds = current->fds;
    current_dtv = current->dtv;
+   current_environ = current->envp;
+   current_argv = current->argv;
    printf("EXEC START %s argv=%p envp=%p fds=%p syscall=%p retexit=%p dtv=%p\n", 
       file, current->argv, current->envp, current->fds, &sys_syscall, &sys_atexit, current->dtv);
-   int ret = current->start(argc, current->argv, current->envp, &current_fds, &sys_syscall, &sys_atexit, &current_dtv);
+   int ret = current->start(argc, &current_errno, &current_argv, &current_environ, &current_fds, &sys_syscall, &sys_atexit, &current_dtv);
    switch_context;
    /* Never reach here */
    sys_printf(SYS_DEBUG "EXEC END (NOTREACHEBLE)\n");
@@ -130,7 +132,7 @@ pid_t newproc()
          cpu[i] = sys_calloc(1, sizeof(proc));
          return i;
       }
-   current->sys_errno = ENOMEM;
+   current_errno = ENOMEM;
    return -1;
 }
 
@@ -180,7 +182,7 @@ pid_t sys_clone(void)
    if (!cpu[ret]->ctx.stack || !cpu[ret]->fds) {
       sys_printf(SYS_ERROR "CLONE alloc stack or fds failed\n");
       freeproc(ret);
-      current->sys_errno = ENOMEM;
+      current_errno = ENOMEM;
       return -1;
    }
    sys_printf(SYS_DEBUG "CLONE newpid=%d in %d=%s, nlink %p=%d\n", ret, current->pid, current->argv[0], current->dlnlink, *current->dlnlink);

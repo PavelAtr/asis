@@ -81,7 +81,7 @@ int main(int argc, char** argv)
    printf("%s\n", getenv("PATH"));
    printf("fds=%p\n", fds);
    printf("environ=%p\n", environ);
-   printf("argv=%p\n", aargv);
+   printf("argv=%p\n", argv);
    while (1) {
       printf("%s", "> ");
       char* cmd = getcommand();

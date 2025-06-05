@@ -6,9 +6,9 @@
 
 int usleep(unsigned long usec);
 #define switchtask usleep(1)
-int execve(const char* file, char* const * argv,  char* const * envp);
-int execv(const char *pathname, char *const argv[]);
-int execvp(const char *file, char *const argv[]);
+int execve(const char* file, char** iargv,  char** envp);
+int execv(const char *pathname, char** iargv);
+int execvp(const char *file, char** iargv);
 int execlp(const char *file, const char *arg, ... /*, (char *) NULL */);
 int execl(const char *pathname, const char *arg, ... /*, (char *) NULL */);
 int chdir(const char *path);

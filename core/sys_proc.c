@@ -78,7 +78,7 @@ void init_proc()
    current->uid = 0;
    current->gid = 0;
    current->flags = PROC_RUNNING | PROC_NEW;
-   current->sys_errno = 0;
+   current_errno = 0;
    current->dlhndl = NULL;
    current->dlnlink = &sys_dlnlink;
    current->parent = &sys;
@@ -184,7 +184,7 @@ int_t sys_setpgid(pid_t pid, pid_t pgid)
       cpu[pid]->pgid = newpgid;
       return 0;
    } else {
-      current->sys_errno = EBADR;
+      current_errno = EBADR;
       return -1;
    } 
 }
@@ -196,7 +196,7 @@ int_t sys_getpgid(pid_t pid)
    if (cpu[pid]) {
       return cpu[pid]->pgid;
    } else {
-      current->sys_errno = EBADR;
+      current_errno = EBADR;
       return -1;
    } 
 }

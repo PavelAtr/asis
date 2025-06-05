@@ -99,10 +99,12 @@ typedef struct {
   char* sp;
 } context;
 
-typedef __attribute__((sysv_abi)) int (*startfunction) (int argc, char** cargv, char** cenvp, void*** cfds, void* syscall_func, void* retexit_func, char*** cdtv);
+typedef __attribute__((sysv_abi)) int (*startfunction) (int argc, int* cerrno, char*** cargv, char*** cenvp, void*** cfds, void* syscall_func, void* retexit_func, char*** cdtv);
 extern void** current_fds;
 extern char** current_dtv;
-
+extern errno_t current_errno;
+extern char** current_environ;
+extern char** current_argv;
 
 typedef struct {
   int argc;
@@ -115,7 +117,6 @@ typedef struct {
   void* parent;
   pid_t pid;
   pid_t parentpid;
-  errno_t sys_errno;
   uid_t uid;
   gid_t gid;
   context ctx;

@@ -6,34 +6,26 @@
 char quiet = 0;
 
 int errno;
-__thread char** aargv;
 FILE*** core_fds;
 char*** core_dtv;
-
-
+char*** core_environ;
+char*** core_argv;
+int* core_errno;
 #ifdef UEFI_KERNEL
 __attribute__((ms_abi)) 
 #endif
-void* (*sys_syscall)(int number, void* arg1, void* arg2, void* arg3, void* arg4, void* arg5, void* arg6);
+void* (*syscall)(int number, void* arg1, void* arg2, void* arg3, void* arg4, void* arg5, void* arg6);
 
-void* syscall(int number, void* arg1, void* arg2, void* arg3, void* arg4, void* arg5, void* arg6)
-{
-   void* ret = sys_syscall(number, arg1, arg2, arg3, arg4 , arg5, arg6);
-   errno = (int)sys_syscall(SYS_GETERRNO, 0, 0, 0, 0, 0, 0);
-   return ret;
-}
-
-extern char** dtv;
-
-void libtinyc_init(char** cargv, char** cenviron, FILE*** cfds, void* csyscall, void* cretexit, char*** cdtv)
+void libtinyc_init(int* cerrno, char*** cargv, char*** cenviron, FILE*** cfds, void* csyscall, void* cretexit, char*** cdtv)
 {
    quiet = 1; // Disable debug output by default
    core_dtv = cdtv;
-   sys_syscall = csyscall;
+   syscall = csyscall;
    retexit = cretexit;
    core_fds = cfds;
-   environ = cenviron;
-   aargv = cargv;
+   core_environ = cenviron;
+   core_argv = cargv;
+   core_errno = cerrno;
    quiet = 0; // Enable debug output
 }
 

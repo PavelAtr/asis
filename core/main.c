@@ -88,7 +88,7 @@ int main(int argc, char** argv)
 
 #ifdef CONFIG_LINUX
    if (sys_mount("/dev/sda", "/", "hostfs", "")) {
-      sys_printf(SYS_ERROR "Error mount / %d!\n", current->sys_errno);
+      sys_printf(SYS_ERROR "Error mount / %d!\n", current_errno);
    }
 /* GARBAGE   if (sys_mount("/dev/loop0", "/week", "weekfs", "")) {
       sys_printf(SYS_ERROR "Error mount /week\n");

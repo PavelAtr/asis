@@ -70,7 +70,7 @@ int  _sys_mount(device* dev, mountpoint* mount, const char* fstype,
 /*   if (strcmp(fstype, "weekfs") == 0) {
       return weekfs_mount(dev, mount, options);
    } GARBAGE*/
-   current->sys_errno = ENOTSUP;
+   current_errno = ENOTSUP;
    return -1;
 }
 
@@ -81,7 +81,7 @@ int sys_mount(const char* blk, const char* dir, const char* fstype,
    mountpoint* mount = _get_free_mountpoint();
    device* dev = sys_get_device_byname(blk, S_IFBLK);
    if (!mount || !dev) {
-      current->sys_errno = ENOENT;
+      current_errno = ENOENT;
       return -1;
    }
    if (strcmp(dir, "/") == 0) {
@@ -89,11 +89,11 @@ int sys_mount(const char* blk, const char* dir, const char* fstype,
    }
    struct stat st;
    if (sys_stat(dir, &st)) {
-      current->sys_errno = ENOENT;
+      current_errno = ENOENT;
       return -1;
    }
    if (!(st.st_mode & S_IFDIR)) {
-      current->sys_errno = ENOTDIR;
+      current_errno = ENOTDIR;
       return -1;
    }
 mount:
