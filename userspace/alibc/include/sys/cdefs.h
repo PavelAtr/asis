@@ -16,5 +16,11 @@
 #define __FBSDID(r)
 #define __INTRODUCED_IN(V)
 #define __RENAME(N)
+#define __unused
+#define __printflike(a, b)
+#define __dead2
+#define __printf0like(a, b)
+#define PRIdMAX "ld"
+#define __cdecl
 
 #endif

@@ -53,7 +53,6 @@ typedef unsigned int u_int32_t;
 typedef short  char16_t;
 typedef int  char32_t;
 
-
 #undef SIZE_MAX
 #define SIZE_MAX (size_t)-1
 
