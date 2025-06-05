@@ -263,7 +263,7 @@ configure:5029: checking for build system compiler
 configure:5036: result: cc
 configure:5040: checking for __attribute__((__alias__()))
 configure:5055: cc -o conftest -fPIC -g -fomit-frame-pointer -ftls-model=global-dynamic --sysroot=/asis -D_Nullable=   -nostdlib /asis/lib/crt.o -lac -shared --sysroot=/asis -lpwd conftest.c  >&5
-/usr/bin/ld: warning: type of symbol `t' changed from 1 to 2 in /tmp/ccFiF4V7.o
+/usr/bin/ld: warning: type of symbol `t' changed from 1 to 2 in /tmp/ccTjlRw1.o
 configure:5055: $? = 0
 configure:5061: result: yes
 configure:5093: checking for alloca.h
