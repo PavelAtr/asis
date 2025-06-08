@@ -10,7 +10,7 @@ INIT_FDS
    if (stream->flags & FILE_INFINITY) {
       return 0;
    }
-   if (stream->pos >= stream->size) {
+   if (stream->pos + 1 >= stream->size) {
       return 1;
    }
    return 0;

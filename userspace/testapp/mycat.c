@@ -21,6 +21,7 @@ int do_mycat(int argc, char** argv)
       stdin = NULL;
       dup2(input, 0);
       stdin = fdopen(0, "r");
+      printf("stdin size=%ld\n", stdin->size);
       if (!stdin) err(errno, "Error fdopen\n");
    }
    char buf[CHUNK];

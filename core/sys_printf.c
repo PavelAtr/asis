@@ -21,7 +21,7 @@ int sys_printf(const char* format, ...)
 #ifndef UEFI
    fprintf(stderr, "%s", tinylog);
 #else
-/*   printf("%s", tinylog);*/
+   printf("%s", tinylog);
 #endif
    return ret;
 }
