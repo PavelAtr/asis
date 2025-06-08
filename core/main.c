@@ -83,7 +83,7 @@ int main(int argc, char** argv)
    devices[3].dev_write = &fbgop_write;
    devices[3].dev_seek = &fbgop_seek;
    devices[3].dev_ioctl = &fbgop_ioctl;
-   /*	fbgop_init(&fb); */
+   fbgop_init(&fb);
 #endif
 
 #ifdef CONFIG_LINUX

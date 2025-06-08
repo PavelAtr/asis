@@ -33,7 +33,7 @@ int init_tls(proc* task) {
             return -1; // Memory allocation failed
         }
         tls_init(s, task->dtv[s->module_id], s->tls_size);
-        printf("TLSINIT: module %d, size %zu, address %p\n", s->module_id, s->tls_size, task->dtv[s->module_id]);
+        printf("TLSINIT: module %d, size %ld address %p\n", s->module_id, s->tls_size, task->dtv[s->module_id]);
     }
     return 0;
 }

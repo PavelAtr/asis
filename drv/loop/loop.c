@@ -17,7 +17,7 @@ void loop_seek(void* devparam, len_t offset)
    ((loop*) devparam)->pos = offset;
 }
 
-errno_t loop_ioctl(void* devparam, ulong_t request, va_list vl)
+errno_t loop_ioctl(void* devsb, ulong_t request, void* arg1, void* arg2, void* arg3, void* arg4)
 {
    return 0;
 }

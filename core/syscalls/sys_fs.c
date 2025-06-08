@@ -96,7 +96,7 @@ len_t sys_afwrite(const char* path, const void* ptr, len_t size, len_t off)
    return 0;
 }
 
-errno_t sys_ioctl(const char* path, ulong_t request, va_list* vl)
+errno_t sys_ioctl(const char* path, ulong_t request, void* arg1, void* arg2,  void* arg3, void* arg4)
 {
    mountpoint* mount = sys_get_mountpoint(path);
    if (!mount) {
@@ -118,12 +118,12 @@ errno_t sys_ioctl(const char* path, ulong_t request, va_list* vl)
    switch (devtype) {
    case S_IFBLK:
       if ((dev = sys_get_device_byname(path, devtype))) {
-         return dev->dev_ioctl(dev->devparams, request, *vl);
+         return dev->dev_ioctl(dev->devparams, request, arg1, arg2, arg3, arg4);
       }
       break;
    case S_IFCHR:
       if ((dev = sys_get_device_byname(path, devtype))) {
-         return dev->dev_ioctl(dev->devparams, request, *vl);
+         return dev->dev_ioctl(dev->devparams, request, arg1, arg2, arg3, arg4);
       }
       break;
    case S_IFDIR:

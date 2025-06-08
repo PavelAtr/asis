@@ -57,7 +57,7 @@ typedef struct {
   void (*dev_seek)(void* devsb, len_t offset);
   len_t (*dev_write)(void* devsb, const void* buffer, len_t size);
   len_t (*dev_read)(void* devsb, void* buffer, len_t size);
-  errno_t (*dev_ioctl)(void* devsb, ulong_t request, va_list vl);
+  errno_t (*dev_ioctl)(void* devsb, ulong_t request, void* arg1, void* arg2, void* arg3, void* arg4);
 } device;
 
 extern device devices[MAXDEV];
@@ -217,7 +217,7 @@ void init_memory(void* base, size_t size);
 size_t free_memory(void);
 void* sys_realloc(void* ptr, size_t size);
 
-errno_t sys_ioctl(const char* path, ulong_t request, va_list* vl);
+errno_t sys_ioctl(const char* path, ulong_t request, void* arg1, void* arg2,  void* arg3, void* arg4);
 
 int_t sys_setpgid(pid_t pid, pid_t pgid);
 int_t sys_getpgid(pid_t pid);

@@ -1,7 +1,7 @@
 PREFIX?=/asis
 EXTENTION?=
 CFLAGS?= -g -fPIC -fomit-frame-pointer
-LDFLAGS?=-nostdlib $(PREFIX)/lib/crt.o $(PREFIX)/lib/tls.o -lac
+LDFLAGS?=-nostdlib $(PREFIX)/lib/crt.o -lac
 SYSROOT?=--sysroot=$(PREFIX)
 
 all:
@@ -46,6 +46,7 @@ install:
 #	install build/unlink$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/unlink$(EXTENTION)
 	install build/wallpaper$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/wallpaper$(EXTENTION)
 	install wallpaper.raw $(DESTDIR)$(PREFIX)/wallpaper.raw
+	install planet.raw $(DESTDIR)$(PREFIX)/planet.raw
 #	install build/id$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/id$(EXTENTION)
 #	install build/chmod$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/chmod$(EXTENTION)
 #	install build/chown$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/chown$(EXTENTION)

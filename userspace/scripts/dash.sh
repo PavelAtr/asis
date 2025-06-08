@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 
 cd ../dash-0.5.12
 CWD=$(pwd)

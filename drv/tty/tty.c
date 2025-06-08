@@ -45,12 +45,12 @@ void tty_seek(void* devsb, len_t offset)
 {
 }
 
-errno_t tty_ioctl(void* devsb, ulong_t request, va_list vl)
+errno_t tty_ioctl(void* devsb, ulong_t request, void* arg1, void* arg2, void* arg3, void* arg4)
 {
    struct winsize* ws;
    switch(request) {
       case TIOCGWINSZ:
-         ws = va_arg(vl, struct winsize*);
+         ws = (struct winsize*)arg1;
          ws->ws_row = 25;
          ws->ws_col = 80;
          ws->ws_xpixel = 640;

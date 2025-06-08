@@ -72,12 +72,9 @@ void* sys_syscall(int number, void* arg1, void* arg2, void* arg3, void* arg4, vo
    case SYS_REALLOC:
       return sys_realloc((void*)arg1, (size_t)arg2);
    case SYS_IOCTL:
-      current_errno = sys_ioctl((const char*)arg1, (ulong_t)arg2, (void*)arg3);
-      if (current_errno) {
-         return (void*)-1;
-      } else {
-		 return (void*)0;
-	  }
+      current_errno = sys_ioctl((const char*)arg1, (ulong_t)arg2, (void*)arg3, (void*)arg4, (void*)arg5, (void*)arg6);
+      if (current_errno) return (void*)-1;
+      else return (void*) 0;
    case SYS_GETPID:
       return (void*)current->pid;
    case SYS_GETPPID:

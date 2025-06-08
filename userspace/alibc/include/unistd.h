@@ -9,7 +9,7 @@ int usleep(unsigned long usec);
 int execve(const char* file, char** iargv,  char** envp);
 int execv(const char *pathname, char** iargv);
 int execvp(const char *file, char** iargv);
-int execlp(const char *file, const char *arg, ... /*, (char *) NULL */);
+int execlp(const char *file, /*const char *arg,*/ ... /*, (char *) NULL */);
 int execl(const char *pathname, const char *arg, ... /*, (char *) NULL */);
 int chdir(const char *path);
 char *get_current_dir_name(void);

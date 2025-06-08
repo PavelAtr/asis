@@ -1,3 +1,4 @@
+#include "../../core/uefi/uefi.h"
 #include "fbgop.h"
 
 int_t fbgop_init(fbgop* devparams)
@@ -19,9 +20,13 @@ int_t fbgop_init(fbgop* devparams)
       printf("unable to get graphics output protocol\n");
       return -1;
    }
-   devparams->ramsize = gop->Mode->Information->VerticalResolution *
-      gop->Mode->Information->HorizontalResolution * sizeof(uint32_t);
-   printf("fbgop video on. (videoram=%d)\n", devparams->ramsize);
+   devparams->width = gop->Mode->Information->HorizontalResolution;
+   devparams->height = gop->Mode->Information->VerticalResolution;
+   devparams->x1 = 0;
+   devparams->y1 = 0;
+   devparams->x2 =  devparams->width - 1;
+   devparams->y2 =  devparams->height - 1;
+   printf("fbgop video on. (%dX%d)\n", devparams->width, devparams->height);
    return 0;
 }
 
@@ -35,13 +40,8 @@ len_t fbgop_write(void* devparam, const void* ptr, len_t size)
    fbgop* fb = devparam;
    efi_gop_t* gop = fb->gop;
    uint32_t* input = (uint32_t*)ptr;
-   if (size < fb->ramsize) {
-      printf("fbgop: buffer=%d < videoram=%d, skipping\n", size, fb->ramsize);
-      return 0;
-   }
-   gop->Blt(fb->gop, input, EfiBltBufferToVideo, 0, 0, 0, 0,
-      gop->Mode->Information->HorizontalResolution,
-      gop->Mode->Information->VerticalResolution, 0);
+   gop->Blt(fb->gop, input, EfiBltBufferToVideo, 0, 0, fb->x1, fb->y1,
+      fb->x2 - fb->x1, fb->y2 - fb->y1, 0);
    return size;
 }
 
@@ -49,7 +49,34 @@ void fbgop_seek(void* devparam, len_t offset)
 {
 }
 
-int_t fbgop_ioctl(void* devparam, ulong_t request, va_list vl)
+int_t fbgop_ioctl(void* devparam, ulong_t request, void* arg1, void* arg2, void* arg3, void* arg4)
 {
+    fbgop* gop = devparam;
+    int* ret = (int*)arg1;
+    switch(request)
+    {
+      case GETWIDTH:
+	      *ret = gop->width;
+	      return 0;
+      case GETHEIGHT:
+	      *ret = gop->height;
+	      return 0;
+      case SETX:
+	      gop->x1 = (int) arg1;
+	      printf("fbgop: x1=%d\n", gop->x1);
+	      break;
+      case SETY: 
+	      gop->y1 = (int) arg1;
+	      printf("fbgop: y1=%d\n", gop->y1);
+	      break;
+      case SETX2:
+	      gop->x2 = (int) arg1;
+	      printf("fbgop: x2=%d\n", gop->x2);
+	      break;
+      case SETY2:
+	      gop->y2 = (int) arg1;
+	      printf("fbgop: y2=%d\n", gop->y2);
+	      break;
+    }
    return 0;
 }

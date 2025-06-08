@@ -5,22 +5,21 @@
 #include <unistd.h>
 #include <syscall.h>
 
-int ioctl(int fd, unsigned long request, ...)
+int ioctl(int fd, unsigned long request, void* arg1, void* arg2, void* arg3, void* arg4)
 {
    INIT_FDS
    if (!fd_is_valid(fd)) {
       errno = EBADFD;
       return -1;
    }
-   va_list vl;
-   va_start(vl, request);
    switch (request) {
 	case FICLONE:
-	    int srcfd = va_arg(vl, int);
+	    int srcfd =(int) arg1;
 	    int destfd = fd;
 	    return dup2(srcfd, destfd);
+	default:
+	    break;
    }
-   int ret = (int)asyscall(SYS_IOCTL, fds[fd]->file, request, &vl, 0, 0, 0);
-   va_end(vl);
+   int ret = (int)asyscall(SYS_IOCTL, fds[fd]->file, request, arg1, arg2, arg3, arg4);
    return ret;
 }

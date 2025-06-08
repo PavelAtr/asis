@@ -14,7 +14,7 @@ void blk_seek(void* devsb, len_t offset)
 {
 }
 
-errno_t blk_ioctl(void* devsb, ulong_t request, va_list vl)
+errno_t blk_ioctl(void* devsb, ulong_t request, void* arg1, void* arg2, void* arg3, void* arg4)
 {
    return 0;
 }
