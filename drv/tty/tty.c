@@ -16,12 +16,18 @@
 
 len_t tty_read(void* devsb, void* ptr, len_t size)
 {
+start:
    int ch = getchar();
 #ifdef CONFIG_UEFI
    if (ch == '\r') {
       ch = '\n'; // Convert carriage return to newline
    }
    putchar(ch);
+   if (ch == '\b')
+   {
+      putchar(ch);
+      goto start;
+   }
 #endif
    *((int*)ptr) = ch;
    return 1;

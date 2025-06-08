@@ -17,7 +17,6 @@ int do_mycat(int argc, char** argv)
       stdin = NULL;
       dup2(input, 0);
       stdin = fdopen(0, "r");
-      printf("stdin file=%s size=%ld flags=%p\n", stdin->file, stdin->size, stdin->flags);
       if (!stdin) error(errno, errno, "Error fdopen stdin\n");
    }
    char buf[CHUNK];
@@ -25,7 +24,6 @@ int do_mycat(int argc, char** argv)
    {
       size_t len, len2;
       len = freadall(buf, 1, CHUNK, stdin);
-      printf("fread: read %ld bytes\n", len);
       len2 = fwriteall(buf, 1, len, stdout);
       if (feof(stdin)) break;
    }

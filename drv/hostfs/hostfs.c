@@ -90,6 +90,9 @@ len_t hostfs_fread(void* sbfs, const char* path, void* ptr, len_t size,
    len_t off)
 {
    cachefile(path, "r");
+   if (!f) {
+      return 0;
+   }
    fseek(f, off, SEEK_SET);
    return fread(ptr, 1, size, f);
 }
@@ -98,6 +101,9 @@ len_t hostfs_fwrite(void* sbfs, const char* path, const void* ptr, len_t size,
    len_t off)
 {
    cachefile(path, "r+");
+   if (!f) {
+      return 0;
+   }
    fseek(f, off, SEEK_SET);
    return fwrite(ptr, 1, size, f);
 }

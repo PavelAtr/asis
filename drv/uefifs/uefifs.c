@@ -1,6 +1,10 @@
 #include "../../core/uefi/uefi.h"
 #include "uefifs.h"
 
+struct adirent {
+  char           d_name[MAX_PATH_PART];
+};
+
 struct atimespec {
    long long     tv_sec;   /* Seconds */
    long long  tv_nsec;  /* Nanoseconds [0, 999'999'999] */
@@ -148,7 +152,8 @@ errno_t uefifs_stat(void* sbfs, const char* path, void* statbuf)
    return ret;
 }
 
-struct tinydirent uefi_tinydent;
+
+struct adirent uefi_tinydent;
 void* uefifs_readdir(void* sbfs, const char* path, int ndx)
 {
    char* pathname = calcpath(path);
