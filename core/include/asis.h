@@ -141,20 +141,7 @@ void init_proc();
 char** copyenv(char** e);
 void freeenv(char** envp);
 
-struct tinystat {
-  mode_t	st_mode;     /* File type and mode */
-  uid_t	st_uid;      /* User ID of owner */
-  gid_t	st_gid;      /* Group ID of owner */
-  size_t	st_size;
-  short	st_major;
-  short	st_minor;
-};
-
 #define MAX_PATH_PART 256
-
-struct tinydirent {
-  char           d_name[MAX_PATH_PART];
-};
 
 typedef struct {
   bool_t (*capable)(int_t cap);
@@ -191,14 +178,6 @@ pid_t sys_waitpid(pid_t pid, int* wstatus, int options);
 
 
 #define MAXSTACK (1024 * 32)
-
-#define setsp(addr) __asm__("mov %0, %%rsp\n" \
-           : \
-           : "r" (addr))
-
-#define getsp(addr) __asm__("mov %%rsp, %0\n" \
-           : "=r" (addr)\
-           : )
 
 register char* sp __asm__("rsp");
 extern char* mainsp;

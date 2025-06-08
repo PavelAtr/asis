@@ -1,5 +1,5 @@
 PREFIX?=/asis
-CFLAGS?=-g -fPIC
+CFLAGS?=-g -fPIC -I../include
 LDFLAGS=-nostdlib -Wl,-fno-undefined
 LD=$(CC)
 

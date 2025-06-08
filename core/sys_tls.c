@@ -3,6 +3,7 @@
 #include "../userspace/libdl/libdl.h"
 
 #include <stddef.h>
+#include <string.h>
 
 
 
@@ -32,7 +33,7 @@ int init_tls(proc* task) {
         if (!task->dtv[s->module_id]) {
             return -1; // Memory allocation failed
         }
-        tls_init(s, task->dtv[s->module_id], s->tls_size);
+        memcpy(task->dtv[s->module_id], s->dl_elf->tls_initaddr, s->tls_size);
         printf("TLSINIT: module %d, size %ld address %p\n", s->module_id, s->tls_size, task->dtv[s->module_id]);
     }
     return 0;

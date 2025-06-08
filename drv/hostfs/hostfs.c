@@ -1,11 +1,41 @@
+#include "../../config.h"
 #include "hostfs.h"
-
-#ifndef UEFI
 #include <stdio.h>
-#include <sys/stat.h>
 #include <string.h>
 #include <dirent.h>
-#endif
+
+struct tinydirent {
+  char           d_name[MAX_PATH_PART];
+};
+
+struct atimespec {
+   long tv_sec;   /* Seconds */
+   long tv_nsec;  /* Nanoseconds [0, 999'999'999] */
+};
+
+struct astat {
+  unsigned int st_mode;     /* File type and mode */
+  unsigned int st_uid;      /* User ID of owner */
+  unsigned int st_gid;      /* Group ID of owner */
+  unsigned long st_size;
+  int st_nlink;
+  short st_major;
+  short st_minor;
+  unsigned long st_dev;
+  unsigned long st_rdev;
+  long st_ino;
+  long st_blksize;
+  long st_blocks;
+  long st_atime;
+  long st_mtime;
+  long st_ctime;
+  struct  atimespec st_atim;       /* time of last access */
+  struct  atimespec st_mtim;       /* time of last data modification */
+  struct  atimespec st_ctim;       /* time of last file status change */
+  struct  atimespec st_birthtim;   /* time of file creation */
+};
+
+#include <sys/stat.h>
 
 errno_t hostfs_mknod(void* sbfs, const char *pathname, uid_t uid, gid_t gid,
    mode_t mode)
@@ -36,54 +66,53 @@ errno_t hostfs_link(void* sb, const char* src, const char* dst, bool_t move,
    return 0;
 }
 
+FILE* f = NULL;
+const char* cachepath = "";
+const char* cachemode = "";
+
+void cachefile(const char* path, const char* mode)
+{
+   if (strcmp(path, cachepath) == 0 && strcmp(mode, cachemode) == 0 && f) {
+      return; // already cached
+   }
+   if (f) {
+      fclose(f);
+      f = NULL;
+      cachepath = "";
+      cachemode = "";
+   }
+   cachepath = path;
+   cachemode = mode;
+   f = fopen(path, mode);
+}
+
 len_t hostfs_fread(void* sbfs, const char* path, void* ptr, len_t size,
    len_t off)
 {
-   FILE* f;
-   len_t ret = 0;
-      f = fopen(path, "r");
-      if (!f) {
-         return 0;
-      }
+   cachefile(path, "r");
    fseek(f, off, SEEK_SET);
-   ret = fread(ptr, 1, size, f);
-   fclose(f);
-   return ret;
+   return fread(ptr, 1, size, f);
 }
 
 len_t hostfs_fwrite(void* sbfs, const char* path, const void* ptr, len_t size,
    len_t off)
 {
-   FILE* f;
-   len_t ret = 0;
-      f = fopen(path, "r+");
-      if (!f) {
-         return 0;
-      }
+   cachefile(path, "r+");
    fseek(f, off, SEEK_SET);
-   ret = fwrite(ptr, 1, size, f);
-   fclose(f);
-   return ret;
+   return fwrite(ptr, 1, size, f);
 }
 
 errno_t hostfs_stat(void* sbfs, const char* pathname, void* statbuf)
 {
    struct stat st;
-   struct tinystat* tst = statbuf;
+   struct astat* tst = statbuf;
    errno_t ret = stat(pathname, &st);
    tst->st_mode = st.st_mode;
    tst->st_size = st.st_size;
-#ifdef UEFI
-   tst->st_uid = 0;
-   tst->st_gid = 0;
-   tst->st_major = 0;
-   tst->st_minor = 0;
-#else
    tst->st_uid = st.st_uid;
    tst->st_gid = st.st_gid;
    tst->st_major = 0;
    tst->st_minor = 0;
-#endif
    return ret;
 }
 

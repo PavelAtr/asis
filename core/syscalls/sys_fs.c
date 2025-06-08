@@ -18,7 +18,7 @@ len_t sys_afread(const char* path, void* ptr, len_t size, len_t off)
       return 0;
    }
    device* dev;
-   struct tinystat st;
+   struct stat st;
    if (mount->mount_stat(mount->sbfs, file, &st)) {
       current_errno = ENOENT;
       return 0;
@@ -64,7 +64,7 @@ len_t sys_afwrite(const char* path, const void* ptr, len_t size, len_t off)
       return 0;
    }
    device* dev;
-   struct tinystat st;
+   struct stat st;
    if (mount->mount_stat(mount->sbfs, file, &st)) {
       current_errno = ENOENT;
       return 0;
@@ -109,7 +109,7 @@ errno_t sys_ioctl(const char* path, ulong_t request, void* arg1, void* arg2,  vo
       return 0;
    }
    device* dev;
-   struct tinystat st;
+   struct stat st;
    if (mount->mount_stat(mount->sbfs, file, &st)) {
       current_errno = ENOENT;
       return 0;

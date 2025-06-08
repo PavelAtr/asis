@@ -8,9 +8,6 @@
 #include <errno.h>
 #include <syscall.h>
 
-FILE* dbpasswd;
-FILE* dbgroup;
-
 int main(int argc, char** argv);
 void libtinyc_init(int* cerrno, char*** cargv, char*** cenviron, FILE*** cfds, void* csyscall, void* cretexit, char*** cdtv);
 

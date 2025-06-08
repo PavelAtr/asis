@@ -74,29 +74,47 @@ errno_t uefifs_link(void* sb, const char* src, const char* dst, bool_t move,
    return 0;
 }
 
+FILE* f = NULL;
+const char* cachepath = "";
+const char* cachemode = "";
+
+void cachefile(const char* path, const char* mode)
+{
+   if (strcmp(path, cachepath) == 0 && strcmp(mode, cachemode) == 0 && f) {
+      return; // already cached
+   }
+   if (f) {
+      fclose(f);
+      f = NULL;
+      cachepath = "";
+      cachemode = "";
+   }
+   cachepath = path;
+   cachemode = mode;
+   f = fopen(calcpath(path), mode);
+}
+
 len_t uefifs_fread(void* sbfs, const char* path, void* ptr, len_t size,
    len_t off)
 {
-   FILE* f = fopen(calcpath(path), "r");
+   cachefile(path, "r");
    if (!f) {
       return 0;
    }
    fseek(f, off, SEEK_SET);
    len_t ret = fread(ptr, 1, size, f);
-   fclose(f);
    return ret;
 }
 
 len_t uefifs_fwrite(void* sbfs, const char* path, const void* ptr, len_t size,
    len_t off)
 {
-   FILE* f = fopen(calcpath(path), "w");
+   cachefile(path, "r+");
    if (!f) {
       return 0;
    }
    fseek(f, off, SEEK_SET);
    len_t ret = fwrite(ptr, 1, size, f);
-   fclose(f);
    return ret;
 }
 

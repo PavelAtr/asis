@@ -2,7 +2,6 @@
 #define _HOSTFS_H
 #include "../../core/include/asis.h"
 
-#undef fread
 
 errno_t hostfs_mknod(void* sbfs, const char *pathname, uid_t uid, gid_t gid, mode_t mode);
 errno_t hostfs_modnod(void* sbfs, const char* pathname, uid_t uid, gid_t gid, mode_t mode);

@@ -61,7 +61,7 @@ int_t sys_exec(char* file, char** inargv, char** envp)
       current->dlhndl = NULL;
       return -1;
    }
-   struct tinystat st;
+   struct stat st;
    if (sys_stat(file, &st) == -1) {
       current_errno = ENOENT;
       current->dlhndl = NULL;
