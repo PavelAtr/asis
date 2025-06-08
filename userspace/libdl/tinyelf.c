@@ -66,9 +66,9 @@ size_t elf_load_exec(const char* path, Elf_Ehdr* hdr, Elf_Phdr* phdrs, char* exe
          }
       }
       if (phdrs[i].p_type == PT_TLS) {
-	*tls_size = phdrs[i].p_memsz;
-	*tls_initaddr = exec + phdrs[i].p_vaddr;
-       }
+	      *tls_size = phdrs[i].p_memsz;
+      	*tls_initaddr = exec + phdrs[i].p_vaddr;
+      }
    }
    return size;
 }

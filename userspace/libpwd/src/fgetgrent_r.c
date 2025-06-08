@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-__thread FILE* dbgroup = NULL;
+__thread FILE* dbgroup = (void*) 0x1;
 
 int fgetgrent_r(FILE* stream, struct group* gbuf,
                  char* buf, size_t buflen,
@@ -31,6 +31,7 @@ int fgetgrent_r(FILE* stream, struct group* gbuf,
 
 void endgrent(void)
 {
+   if (dbgroup == (void*)0x1) dbgroup = NULL; /* Hack for TLS */
    if (dbgroup) {
       fclose(dbgroup);
       dbgroup = NULL;

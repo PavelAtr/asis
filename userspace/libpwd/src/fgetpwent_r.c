@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-__thread FILE* dbpasswd = NULL;
+__thread FILE* dbpasswd = (void*)0x1;
 
 int fgetpwent_r(FILE * stream, struct passwd * pwbuf,
    char * buf, size_t buflen,
@@ -31,6 +31,7 @@ int fgetpwent_r(FILE * stream, struct passwd * pwbuf,
 
 void endpwent(void)
 {
+   if (dbpasswd == (void*)0x1) dbpasswd = NULL; /* Hack for TLS */
    if (dbpasswd) {
       fclose(dbpasswd);
       dbpasswd = NULL;
