@@ -525,9 +525,9 @@ repeat:
       num = va_arg(args, unsigned long);
     } else if (qualifier == 'h') {
       if (flags & SIGN) {
-        num = va_arg(args, short);
+        num = va_arg(args, int);
       } else {
-        num = va_arg(args, unsigned short);
+        num = va_arg(args, unsigned int);
       }
     } else if (flags & SIGN) {
       num = va_arg(args, int);

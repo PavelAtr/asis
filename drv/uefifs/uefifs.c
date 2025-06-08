@@ -82,9 +82,9 @@ len_t uefifs_fread(void* sbfs, const char* path, void* ptr, len_t size,
       return 0;
    }
    fseek(f, off, SEEK_SET);
-   len_t ret = fread(ptr, size, 1, f);
+   len_t ret = fread(ptr, 1, size, f);
    fclose(f);
-   return ret * size;
+   return ret;
 }
 
 len_t uefifs_fwrite(void* sbfs, const char* path, const void* ptr, len_t size,
@@ -95,9 +95,9 @@ len_t uefifs_fwrite(void* sbfs, const char* path, const void* ptr, len_t size,
       return 0;
    }
    fseek(f, off, SEEK_SET);
-   len_t ret = fwrite(ptr, size, 1, f);
+   len_t ret = fwrite(ptr, 1, size, f);
    fclose(f);
-   return ret * size;
+   return ret;
 }
 
 errno_t uefifs_stat(void* sbfs, const char* path, void* statbuf)

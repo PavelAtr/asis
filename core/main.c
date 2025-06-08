@@ -111,7 +111,6 @@ int main(int argc, char** argv)
    fclose(symfile);
 #endif
 /* ENDGARBAGE */
-
    sys_printf(SYS_INFO "End init\n");
    mainsp = sp;
    int ret = sys_runinit();
