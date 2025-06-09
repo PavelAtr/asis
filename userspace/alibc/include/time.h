@@ -58,11 +58,15 @@ struct tm {
   const char *tm_zone;   /* Timezone abbreviation */
 };
 
+typedef long timezone_t; /* UNREALIZED */
+
 time_t time(time_t* tloc);
 time_t mktime(struct tm *tm);
+time_t mktime_z(timezone_t tz, struct tm* tm);
 size_t strftime(char* s, size_t max, const char* format, const struct tm* tm);
 struct tm *localtime(const time_t *timep);
 struct tm *localtime_r(const time_t* timep, struct tm* result);
+struct tm* localtime_rz(timezone_t tz, const time_t* timep, struct tm* tm);
 char *strptime(const char* s, const char* format,  struct tm* tm);
 
 void tzset(void);
@@ -80,6 +84,10 @@ int timespec_get(struct timespec* ts, int base);
 
 clock_t clock(void);
 
-typedef long timezone_t; /* UNREALIZED */
+timezone_t tzalloc(const char* id);
+void tzfree(timezone_t tz);
+
+
+
 
 #endif

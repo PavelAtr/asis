@@ -1,5 +1,6 @@
 #include <time.h>
 #include <string.h>
+#include <stdlib.h>
 
 /* NOT REALIZED */
 
@@ -13,6 +14,11 @@ struct tm *localtime_r(const time_t* timep,
        struct tm* result)
 {
    return  result;
+}
+
+struct tm* localtime_rz(timezone_t tz, const time_t* timep, struct tm* tm)
+{
+   return tm;
 }
 
 char *asctime(const struct tm *tm)
@@ -56,3 +62,14 @@ int timespec_get(struct timespec* ts, int base)
 {
    return 0;
 }
+
+timezone_t tzalloc(const char* id)
+{
+   timezone_t* tz = malloc(sizeof(timezone_t));
+   return *tz;
+}
+void tzfree(timezone_t tz)
+{
+}
+
+

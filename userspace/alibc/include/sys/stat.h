@@ -80,5 +80,6 @@ int fchown(int fd, uid_t owner, gid_t group);
 #define stat64 stat
 
 int mkfifo(const char *pathname, mode_t mode);
+int mkfifoat(int dirfd, const char *pathname, mode_t mode);
 
 #endif
