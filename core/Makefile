@@ -21,7 +21,8 @@ syscalls/sys_usleep.c \
 syscalls/sys_rlimit.c \
 sys_dl.c \
 sys_trap.c \
-sys_tls.c
+sys_tls.c \
+sys_shared.c
 
 
 EXTLIBS = \

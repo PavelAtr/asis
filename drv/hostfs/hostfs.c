@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <dirent.h>
+#include <errno.h>
+#include <unistd.h>
 
 struct tinydirent {
   char           d_name[MAX_PATH_PART];
@@ -40,7 +42,37 @@ struct astat {
 errno_t hostfs_mknod(void* sbfs, const char *pathname, uid_t uid, gid_t gid,
    mode_t mode)
 {
-   return 0;
+   mode_t devtype = mode & S_IFMT;
+   const char* path = pathname;
+   switch (devtype) {
+   case S_IFBLK:
+      return mknod(path, mode, 0);
+   case S_IFCHR:
+      return mknod(path, mode, 0);
+   case S_IFDIR:
+      return mkdir(path, mode);;
+   case S_IFIFO:
+      printf("Creating FIFO %s with mode %o\n", path, mode);
+      return mkfifo(path, mode);
+   case S_IFLNK:
+      break;
+   case S_IFREG:
+      if (mode & S_IFREG) {
+         FILE* f = fopen(path, "w");
+         if (!f) {
+            return ENOENT;
+         }
+         fclose(f);
+         return 0;
+      }
+      break;
+   case S_IFSOCK:
+      break;
+   default:
+      break;
+   }
+   sys_printf(SYS_INFO "Unsupported mknod %s\n", pathname);
+   return ENOTSUP;
 }
 
 errno_t hostfs_modnod(void* sbfs, const char* pathname, uid_t uid, gid_t gid,
@@ -52,12 +84,18 @@ errno_t hostfs_modnod(void* sbfs, const char* pathname, uid_t uid, gid_t gid,
 errno_t hostfs_rmnod(void* sbfs, const char *pathname, uid_t curuid,
    gid_t curgid)
 {
+   const char* path = pathname;
+   if (unlink(path) < 0) {
+      current_errno = EIO;
+      return -1; // I/O error
+   }
    return 0;
 }
 
 errno_t hostfs_truncate(void* sb, const char *pathname, len_t len)
 {
-   return 0;
+   const char* path = pathname;
+   return truncate(path, len);
 }
 
 errno_t hostfs_link(void* sb, const char* src, const char* dst, bool_t move,

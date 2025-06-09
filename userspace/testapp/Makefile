@@ -25,6 +25,7 @@ all:
 	$(CC) $(SYSROOT) $(CFLAGS) -fPIC jmp.c $(LDFLAGS) -o build/jmp$(EXTENTION)
 	$(CC) $(SYSROOT) $(CFLAGS) -fPIC fds.c $(LDFLAGS) -o build/fds$(EXTENTION)
 	$(CC) $(SYSROOT) $(CFLAGS) -fPIC mycat.c $(LDFLAGS) -o build/mycat$(EXTENTION)
+	$(CC) $(SYSROOT) $(CFLAGS) -fPIC fifo.c $(LDFLAGS) -o build/fifo$(EXTENTION)
 
 #	$(CC) -g test1.c -o test1
 #	$(CC) -g -I../libpwd/include/ ../libpwd/libpwd.a test2.c -o test2
@@ -58,6 +59,7 @@ install:
 	install build/jmp$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/jmp$(EXTENTION)
 	install build/fds$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/fds$(EXTENTION)
 	install build/mycat$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/mycat$(EXTENTION)
+	install build/fifo$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/fifo$(EXTENTION)
 
 
 

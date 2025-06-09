@@ -38,13 +38,11 @@ INIT_FDS
       ret = fstrread(ptr, size,  nmemb, stream);
       goto end;
    }
-   if (stream->fd != -1) {
       if (stream->pipbuf)
       {
          ret = piperead(stream, ptr, size * nmemb);
          goto end;
       }
-   }
    ret = (size_t)asyscall(SYS_FREAD, stream->file, ptr, size * nmemb, stream->pos, 0, 0);
 end:
    stream->pos += ret;

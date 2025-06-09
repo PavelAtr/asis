@@ -37,6 +37,8 @@
 #define SYS_SETJMP 31
 #define SYS_LONGJMP 32
 #define SYS_GETRLIMIT 33
+#define SYS_MKFIFO 34
+#define SYS_SHARED 35
 
 #ifdef UEFI_KERNEL
 __attribute__((ms_abi)) 

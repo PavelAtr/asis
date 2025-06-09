@@ -79,4 +79,6 @@ int fchown(int fd, uid_t owner, gid_t group);
 #define lstat64 lstat
 #define stat64 stat
 
+int mkfifo(const char *pathname, mode_t mode);
+
 #endif

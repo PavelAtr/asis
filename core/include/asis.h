@@ -218,4 +218,17 @@ void free_stack(void* stackbase, size_t size);
 
 int init_tls(proc* task);
 int deinit_tls(proc* task);
+
+#define MAXSHAREDOBJ 30
+
+typedef struct {
+  char* type;
+  char* path;
+  void* obj;
+} sharedobj;
+
+extern sharedobj* sharedobjs[MAXSHAREDOBJ];
+int_t sys_mkfifo(const char* path, const char* mode);
+void* sys_shared(const char* type, const char* path, const char* mode);
+
 #endif

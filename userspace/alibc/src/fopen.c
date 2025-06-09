@@ -5,6 +5,7 @@
 #include <unistd.h>
 #include <errno.h>
 #include <string.h>
+#include <syscall.h>
 
 FILE* fopen(const char* path, const char* mode)
 {
@@ -20,6 +21,13 @@ FILE* fopen(const char* path, const char* mode)
    ret->size = st.st_size;
    if (st.st_mode & S_IFCHR) {
       ret->flags |= FILE_INFINITY;
+   }
+   if (st.st_mode & S_IFIFO ) {
+      ret->pipbuf = asyscall(SYS_SHARED, "fifo", ret->file, mode, 0, 0, 0);
+   }
+   if (ret->pipbuf) {
+      ret->flags |= FILE_INFINITY;
+      ret->pipbuf->nlink++;
    }
    return ret;
 }
