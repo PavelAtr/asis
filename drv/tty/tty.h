@@ -1,7 +1,6 @@
 #ifndef _TTY_H
 #define _TTY_H
 #include "../../core/include/sys/types.h"
-#include <stdarg.h>
 
 len_t tty_read(void* devsb, void* ptr, len_t size);
 len_t tty_write(void* devsb, const void* ptr, len_t size);

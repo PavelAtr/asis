@@ -225,10 +225,13 @@ typedef struct {
   char* type;
   char* path;
   void* obj;
+  size_t size;
+  int_t refcount;
 } sharedobj;
 
 extern sharedobj* sharedobjs[MAXSHAREDOBJ];
 int_t sys_mkfifo(const char* path, const char* mode);
-void* sys_shared(const char* type, const char* path, const char* mode);
+void* sys_shared(const char* type, const char* path, const char* mode, size_t* out_size);
+void sys_delshared(const char* type, const char* path);
 
 #endif

@@ -1,0 +1,13 @@
+[binaries]
+c = 'cc'
+cpp = 'g++'
+ar = 'ar'
+strip = 'strip'
+exe_wrapper = 'true'
+pkgconfig = 'pkg-config'
+
+[host_machine]
+system = 'asis'
+cpu_family = 'x86_64'
+cpu = 'x86_64'
+endian = 'little'

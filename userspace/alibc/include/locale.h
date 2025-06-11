@@ -1,7 +1,15 @@
 #ifndef _LOCALE_H
 #define _LOCALE_H
 
-typedef int locale_t;
+struct __locale_struct {
+    void* __locales[6];      // указатели на данные для каждой категории локали (LC_CTYPE, LC_NUMERIC и т.д.)
+    const unsigned short* __ctype_b; // таблица классификации символов (isalpha, isdigit и т.д.)
+    const int* __ctype_tolower;      // таблица преобразования к нижнему регистру
+    const int* __ctype_toupper;      // таблица преобразования к верхнему регистру
+    char* __names[6];        // имена локалей для каждой категории
+};
+
+typedef struct __locale_struct *locale_t;
 
 char *setlocale(int category, const char *locale);
 

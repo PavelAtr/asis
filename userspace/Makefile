@@ -14,6 +14,10 @@ ifeq ($(CONFIG_LIBPWD), y)
 	make -C libpwd
 	make -C libpwd install
 endif
+ifeq ($(CONFIG_ATHREADS), y)
+	make -C athreads
+	make -C athreads install
+endif
 ifeq ($(CONFIG_TESTAPP), y)
 	make -C testapp
 	make -C testapp install
@@ -23,6 +27,12 @@ ifeq ($(CONFIG_DASH), y)
 endif
 ifeq ($(CONFIG_COREUTILS), y)
 	cd scripts; ./coreutils.sh
+endif
+ifeq ($(CONFIG_EUDEV), y)
+	cd scripts; ./eudev.sh
+endif
+ifeq ($(CONFIG_LIBINPUT), y)
+	cd scripts; ./libinput.sh
 endif
 
 

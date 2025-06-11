@@ -28,6 +28,10 @@ typedef struct {
 } FILE;
 
 typedef FILE AFILE;
+#define FILE_ERROR 0x01
+#define FILE_INFINITY 0x02
+#define FILE_NAMEDMEMFILE 0x04
+
 
 extern FILE*** core_fds;
 #define fds (*core_fds)
@@ -38,9 +42,6 @@ extern FILE*** core_fds;
 void initfile(FILE* src);
 void copyfile(FILE* dst, FILE* src);
 void freefile(FILE* dst);
-
-#define FILE_ERROR 0x01
-#define FILE_INFINITY 0x02
 
 #define MAXSTRING ((unsigned short)-1)
 

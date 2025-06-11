@@ -21,8 +21,8 @@ int main(int argc, char** argv)
    int fbgop = open("/dev/fb0", O_RDWR);
    if (fbgop == -1) error(errno, errno, "Failed open framebuffer.");
    int width, height;
-   ioctl(fbgop, GETWIDTH, &width, NULL, NULL, NULL);
-   ioctl(fbgop, GETHEIGHT, &height, NULL, NULL, NULL);
+   ioctl(fbgop, GETWIDTH, &width);
+   ioctl(fbgop, GETHEIGHT, &height);
    printf("Framebuffer resolution %d x %d\n", width, height);
 
    FILE* pic = fopen(argv[1], "r");
@@ -47,10 +47,10 @@ int main(int argc, char** argv)
    y2 = y1 + picheight;
    printf("Draw range (%d,%d)-(%d,%d)\n", x1, y1, x2, y2);
 
-   ioctl(fbgop, SETX, (void*)x1, NULL, NULL, NULL);
-   ioctl(fbgop, SETY, (void*)y1, NULL, NULL, NULL);
-   ioctl(fbgop, SETX2, (void*)x2, NULL, NULL, NULL);
-   ioctl(fbgop, SETY2, (void*)y2, NULL, NULL, NULL);
+   ioctl(fbgop, SETX, (void*)x1);
+   ioctl(fbgop, SETY, (void*)y1);
+   ioctl(fbgop, SETX2, (void*)x2);
+   ioctl(fbgop, SETY2, (void*)y2);
 
 
    fseek(pic, 0, SEEK_SET);

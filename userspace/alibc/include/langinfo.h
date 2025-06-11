@@ -64,6 +64,8 @@ typedef int nl_item;
 char *nl_langinfo(nl_item item);
 char *nl_langinfo_l(nl_item item, locale_t locale);
 
+#define NL_LOCALE_NAME(category) "localename not realized"
+
 #define CODESET 1
 
 #endif

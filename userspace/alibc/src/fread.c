@@ -25,7 +25,7 @@ size_t fstrread(void* ptr, size_t size, size_t nmemb, FILE* stream)
       len;
    size_t i;
    for (i = 0; i < ret; i++) {
-      ((char*) ptr)[stream->pos + i] = stream->strbuf[i];
+      stream->strbuf[i] = ((char*) ptr)[stream->pos + i];
    }
    return ret;
 }

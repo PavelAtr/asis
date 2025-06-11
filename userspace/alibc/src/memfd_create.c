@@ -1,13 +1,24 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <sys/stat.h>
-#include <errno.h>
-#include <unistd.h>
-#include <errno.h>
-#include <string.h>
-#include <syscall.h>
+#include <sys/mman.h>
 
-FILE* fopen(const char* path, const char* mode)
+int memfd_create(const char *name, unsigned int flags)
+{
+   return 0;
+}
+#define MFD_CLOEXEC 0x1
+
+/*
+FILE *fmemopen(void* buf, size_t size, const char *mode)
+{
+   FILE* ret = malloc(sizeof(FILE));
+   initfile(ret);
+   ret->file = strdup("mem");
+   ret->size = size;
+   ret->strbuf = buf;
+   return ret;
+}
+*/
+/*FILE* fopen(const char* path, const char* mode)
 {
    struct stat st;
    if (stat(path, &st)) {
@@ -32,3 +43,4 @@ FILE* fopen(const char* path, const char* mode)
    }
    return ret;
 }
+*/

@@ -1,0 +1,6 @@
+config UEFIKEYBOARD
+      bool "Simple UEFI keyboard"
+      depends on UEFI
+      default y
+      help
+        Simple UEFI keyboard driver

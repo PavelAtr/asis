@@ -20,5 +20,9 @@ void* mmap(void* addr, size_t length, int prot, int flags,
    int fd, off_t offset);
 int munmap(void* addr, size_t length);
 
+int memfd_create(const char *name, unsigned int flags);
+#define MFD_CLOEXEC 0x1
+#define MFD_ALLOW_SEALING 0x2
+#define MFD_HUGETLB 0x4
 
 #endif

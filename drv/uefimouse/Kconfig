@@ -1,0 +1,6 @@
+config UEFIMOUSE
+      bool "Simple UEFI mouse"
+      depends on UEFI
+      default y
+      help
+        Simple UEFI mouse driver

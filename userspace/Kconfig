@@ -16,6 +16,12 @@ config LIBPWD
       help
         ASIS passwd library for /etc/passwd /etc/group.
 
+config ATHREADS
+      bool "ASIS pthread library"
+      default y
+      help
+        ASIS very simple library for pthreads.
+
 config TESTAPP
       bool "ASIS own simple binaries"
       default y
@@ -33,4 +39,16 @@ config COREUTILS
       default y
       help
         Coreutils suite of programs.
+
+config EUDEV
+      bool "eudev"
+      default y
+      help
+        eudev library.
+
+config LIBINPUT
+      bool "libinput"
+      default y
+      help
+        libinput library.
 

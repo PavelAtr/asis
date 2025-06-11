@@ -6,3 +6,5 @@ all:
 	make -C loop
 	make -C dummyblk
 	make -C lintrap
+	make -C uefimouse
+	make -C uefikeyboard

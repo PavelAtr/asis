@@ -72,4 +72,14 @@ void tzfree(timezone_t tz)
 {
 }
 
+timezone_t set_tz (timezone_t tz)
+{
+   return tz;
+}
+
+char revert_tz (timezone_t)
+{
+   return 1;
+}
+
 

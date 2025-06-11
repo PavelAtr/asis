@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <syscall.h>
 
-int ioctl(int fd, unsigned long request, void* arg1, void* arg2, void* arg3, void* arg4)
+int aioctl(int fd, unsigned long request, void* arg1, void* arg2, void* arg3, void* arg4)
 {
    INIT_FDS
    if (!fd_is_valid(fd)) {

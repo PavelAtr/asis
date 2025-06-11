@@ -29,8 +29,12 @@ int_t findshared(const char* type, const char* path)
     return -1; // Not found
 }
 
-void* sys_shared(const char* type, const char* path, const char* mode)
+void* sys_shared(const char* type, const char* path, const char* mode, size_t* out_size)
 {
+   if (mode[0] == '\0') {
+    // If mode is empty, we assume no checks are needed
+      goto nocheckfs;
+   }
    mountpoint* mount = sys_get_mountpoint(path);
    if (!mount) {
       current_errno = ENOENT;
@@ -51,6 +55,7 @@ void* sys_shared(const char* type, const char* path, const char* mode)
             return NULL;
         }
     }
+nocheckfs:    
    int_t index = findshared(type, path);
    if (index == -1) {
         index = newshared();
@@ -67,10 +72,32 @@ void* sys_shared(const char* type, const char* path, const char* mode)
         sharedobjs[index]->path = strdup(path);
         if (strcmp(type, "fifo") == 0) {
             sharedobjs[index]->obj = calloc(1, sizeof(pipebuf));
+            *out_size = sizeof(pipebuf);    
+        }
+        if (strcmp(type, "memf") == 0) {
+            sharedobjs[index]->obj = calloc(1, 1);
+            *out_size = 1;
         }
         if (strcmp(type, "sock") == 0) {
             sharedobjs[index]->obj = NULL; /* UNREALIZED */
         }
-   }    
+   }
+   sharedobjs[index]->refcount++;
    return sharedobjs[index] ? sharedobjs[index]->obj : NULL;
+}
+
+void sys_delshared(const char* type, const char* path)
+{
+    int_t index = findshared(type, path);
+    if (index == -1) {
+        return; // Not found
+    }
+    sharedobjs[index]->refcount--;
+    if (sharedobjs[index]->refcount <= 0) {
+        free(sharedobjs[index]->type);
+        free(sharedobjs[index]->path);
+        free(sharedobjs[index]->obj);
+        free(sharedobjs[index]);
+        sharedobjs[index] = NULL; // Remove the shared object
+    }
 }
