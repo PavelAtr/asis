@@ -154,8 +154,8 @@ void freeproc(pid_t pid)
    }
    if (!(cpu[pid]->flags & PROC_CLONED)) {
       freeenv(cpu[pid]->envp);
+      freefds(cpu[pid]);
    }
-   freefds(cpu[pid]);
    free_stack(cpu[pid]->ctx.stack, MAXSTACK);
    sys_free(cpu[pid]);
    cpu[pid] = NULL;
@@ -175,7 +175,6 @@ pid_t sys_clone(void)
    cpu[ret]->parentpid = curpid;
    (*current->dlnlink)++;
    cpu[ret]->ctx.stack = alloc_stack(MAXSTACK);
-   cpu[ret]->fds = copyfds(current->fds);
    init_tls(cpu[ret]);
    current_fds = current->fds;
    current_dtv = current->dtv;
@@ -192,6 +191,7 @@ pid_t sys_clone(void)
 pid_t sys_fork()
 {
    current->forkret = sys_clone();
+   cpu[current->forkret]->fds = copyfds(current->fds);
    sys_printf(SYS_DEBUG "FORK in %s child=%d\n", current->argv[0], current->forkret);
    if (current->forkret == -1) {
       return -1;

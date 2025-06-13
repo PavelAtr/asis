@@ -34,6 +34,12 @@ endif
 ifeq ($(CONFIG_EXPAT), y)
 	cd scripts; ./expat.sh
 endif
+ifeq ($(CONFIG_ZLIB), y)
+	cd scripts; ./zlib.sh
+endif
+ifeq ($(CONFIG_WAYLAND-PROTOCOLS), y)
+	cd scripts; ./wayland-protocols.sh
+endif
 ifeq ($(CONFIG_WAYLAND), y)
 	cd scripts; ./wayland.sh
 endif

@@ -22,7 +22,6 @@ mkdir -p build
 meson setup --cross-file ../scripts/x86_64_asis_meson.txt ./build/ \
 --prefix /asis \
 -Dtests=false \
--Ddtd_validation=false \
 -Ddocumentation=false
 
 cd build

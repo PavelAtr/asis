@@ -79,7 +79,7 @@ int main(int argc, char** argv)
 {
    printenv();
    printf("%s\n", getenv("PATH"));
-   printf("fds=%p\n", fds);
+   printf("afds=%p\n", afds);
    printf("environ=%p\n", environ);
    printf("argv=%p\n", argv);
    while (1) {

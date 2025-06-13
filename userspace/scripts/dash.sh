@@ -5,7 +5,7 @@ cd ../dash-0.5.12
 CWD=$(pwd)
 
 export CFLAGS="${CFLAGS} ${SYSROOT} -D_Nullable= "
-export LDFLAGS="${LDFLAGS} ${SYSROOT} -lpwd"
+export LDFLAGS="${LDCRT} ${LDFLAGS} ${SYSROOT} -lpwd"
 export CC=cc
 
 echo "Building dash ... "

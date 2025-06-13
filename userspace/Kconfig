@@ -52,6 +52,18 @@ config EXPAT
       help
         expat package.
 
+config ZLIB
+      bool "zlib"
+      default y
+      help
+        zlib package.
+
+config WAYLAND-PROTOCOLS
+      bool "wayland-protocols"
+      default y
+      help
+        wayland-protocols package.
+
 config WAYLAND
       bool "wayland"
       default y
