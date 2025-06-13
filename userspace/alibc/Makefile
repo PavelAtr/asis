@@ -20,7 +20,6 @@ clean:
 install:
 	mkdir -p $(DESTDIR)$(PREFIX)/lib
 	install init/crt.o $(DESTDIR)$(PREFIX)/lib/crt.o
-	install init/crtstub.a $(DESTDIR)$(PREFIX)/lib/crtstub.a
 	install build/libac.so $(DESTDIR)$(PREFIX)/lib/libac.so
 	install build/libac.a $(DESTDIR)$(PREFIX)/lib/libac.a
 	make install_headers

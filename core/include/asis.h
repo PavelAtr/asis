@@ -226,7 +226,6 @@ typedef struct {
   char* path;
   void* obj;
   size_t size;
-  int_t refcount;
 } sharedobj;
 
 extern sharedobj* sharedobjs[MAXSHAREDOBJ];

@@ -4,7 +4,7 @@
 
 int fclose(FILE *stream)
 {
-INIT_FDS
+INIT_afds
    if (stream->fd != -1) {
        return 0;
    }

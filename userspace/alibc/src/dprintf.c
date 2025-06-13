@@ -5,7 +5,7 @@
 
 int dprintf(int fd, const char* format, ...)
 {
-   INIT_FDS
+   INIT_afds
    if (!fd_is_valid(fd)) {
       errno = EBADFD;
       return -1;
@@ -13,7 +13,7 @@ int dprintf(int fd, const char* format, ...)
    va_list args;
    int n;
    va_start(args, format);
-   n = vfprintf(fds[fd], format, args);
+   n = vfprintf(afds[fd], format, args);
    va_end(args);
    return n;
 }

@@ -7,11 +7,18 @@
 
 int ftruncate(int f, off_t length)
 {
-   INIT_FDS
+   INIT_afds
    if (!fd_is_valid(f)) {
       errno = EBADFD;
       return -1;
    }
-
-   return (int)asyscall(SYS_TRUNCATE, fds[f]->file, length, 0, 0, 0, 0);
+   size_t outsize = length;
+   FILE* stream = afds[f];
+   if (stream->flags & FILE_NAMEDMEMFILE)
+   {
+      stream->strbuf = asyscall(SYS_SHARED, "memfd", stream->file, "", &outsize, 0, 0);
+      stream->size = (stream->size < outsize)? outsize : stream->size;
+      return 0;
+   }
+   return (int)asyscall(SYS_TRUNCATE, afds[f]->file, length, 0, 0, 0, 0);
 }

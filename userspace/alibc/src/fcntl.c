@@ -5,7 +5,7 @@
 
 int fcntl(int fd, int cmd, ... /* arg */ )
 {
-   INIT_FDS
+   INIT_afds
    if (!fd_is_valid(fd)) {
       errno = EBADFD;
       return -1;
@@ -21,7 +21,7 @@ int fcntl(int fd, int cmd, ... /* arg */ )
          va_end(vl);
          switch(flags) {
             case FD_CLOEXEC:
-               fds[fd]->flags |= flags;
+               afds[fd]->flags |= flags;
                break;
             default:
                break;

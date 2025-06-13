@@ -2,6 +2,6 @@
 
 long ftell(FILE* stream)
 {
-INIT_FDS
+INIT_afds
    return stream->pos;
 }

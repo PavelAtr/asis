@@ -2,7 +2,7 @@
 
 int feof(FILE *stream)
 {
-INIT_FDS
+INIT_afds
    if (stream->pipbuf) {
       if (stream->pipbuf->nlink <= 1)
       return 1;

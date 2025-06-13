@@ -8,7 +8,7 @@
 
 int open(const char *pathname, int flags, ...)
 {
-   INIT_FDS
+   INIT_afds
    mode_t mode = 0;
    if (flags & O_CREAT) {
       mode = S_IFREG | 0666 & ~gmask;
@@ -22,15 +22,15 @@ int open(const char *pathname, int flags, ...)
       errno = ENOMEM;
       return -1;
    }
-   fds[fd] = fopen(pathname,  "r+");
-   if (!fds[fd]) {
+   afds[fd] = fopen(pathname,  "r+");
+   if (!afds[fd]) {
       errno = ENOENT;
       return -1;
    }
    if (flags & O_APPEND) {
-      fds[fd]->pos = fds[fd]->size;
+      afds[fd]->pos = afds[fd]->size;
    }
-   fds[fd]->fdflags = flags;
-   fds[fd]->fd = fd;
+   afds[fd]->fdflags = flags;
+   afds[fd]->fd = fd;
    return fd;
 }

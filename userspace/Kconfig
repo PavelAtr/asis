@@ -40,6 +40,24 @@ config COREUTILS
       help
         Coreutils suite of programs.
 
+config LIBFFI
+      bool "libffi"
+      default y
+      help
+        libffi library.
+
+config EXPAT
+      bool "expat"
+      default y
+      help
+        expat package.
+
+config WAYLAND
+      bool "wayland"
+      default y
+      help
+        wayland package.
+
 config EUDEV
       bool "eudev"
       default y

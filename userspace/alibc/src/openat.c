@@ -7,11 +7,11 @@
 
 int openat(int f, const char *pathname, int flags, ...)
 {
-   INIT_FDS
+   INIT_afds
    if (!fd_is_valid(f)) {
       errno = EBADFD;
       return -1;
    }
-   char* dir = fds[f]->file;
+   char* dir = afds[f]->file;
    return open(fullpath(dir, pathname), flags);
 }

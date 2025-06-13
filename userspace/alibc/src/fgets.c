@@ -2,7 +2,7 @@
 
 char *fgets(char* s, int size, FILE* stream)
 {
-INIT_FDS
+INIT_afds
    int i;
    int c;
    for (i = 0; i < size - 1; i++) {

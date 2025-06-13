@@ -3,7 +3,7 @@
 
 int pthread_mutex_lock(pthread_mutex_t *mutex)
 {
-    while(*mutex) usleep(1);
+    while(*mutex) switchtask;
     *mutex = 1;
     return 0;
 }

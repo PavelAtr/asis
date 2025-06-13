@@ -8,16 +8,16 @@
 
 int fchown(int f, uid_t owner, gid_t group)
 {
-   INIT_FDS
+   INIT_afds
    if (!fd_is_valid(f)) {
       errno = EBADFD;
       return -1;
    }
    struct stat st;
-   if (stat(fds[f]->file, &st) == -1) {
+   if (stat(afds[f]->file, &st) == -1) {
       errno = ENOENT;
       return -1;
    }
-   return (int)asyscall(SYS_MODNOD, fds[f]->file, owner, group, st.st_mode, 0, 0);
+   return (int)asyscall(SYS_MODNOD, afds[f]->file, owner, group, st.st_mode, 0, 0);
 }
 

@@ -28,6 +28,15 @@ endif
 ifeq ($(CONFIG_COREUTILS), y)
 	cd scripts; ./coreutils.sh
 endif
+ifeq ($(CONFIG_LIBFFI), y)
+	cd scripts; ./libffi.sh
+endif
+ifeq ($(CONFIG_EXPAT), y)
+	cd scripts; ./expat.sh
+endif
+ifeq ($(CONFIG_WAYLAND), y)
+	cd scripts; ./wayland.sh
+endif
 ifeq ($(CONFIG_EUDEV), y)
 	cd scripts; ./eudev.sh
 endif

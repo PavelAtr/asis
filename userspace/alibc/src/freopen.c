@@ -6,7 +6,7 @@
 FILE *freopen(const char* path, const char* mode,
      FILE* stream)
 {
-INIT_FDS
+INIT_afds
    if (stream->file) {
       free(stream->file);
    }

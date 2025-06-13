@@ -4,17 +4,19 @@ set -e
 cd ../libffi-3.4.4
 CWD=$(pwd)
 
+export PREFIX="/asis"
 export SYSROOT="--sysroot=/asis"
-export CFLAGS="${CFLAGS} ${SYSROOT} -D_Nullable= "
-export LDFLAGS="${LDFLAGS} ${SYSROOT} -lpwd"
+export CFLAGS="${CFLAGS} ${SYSROOT} -DPATH_MAX=4096 "
+export LDFLAGS="${LDFLAGS} ${SYSROOT}"
 export CC=cc
 
 echo "Building libffi ... "
 
 rm -rf src/*.o
-#./configure --host=x86_64-pc-none --build=x86_64-linux-gnu --target=x86_64-linux-gnu --prefix=${PREFIX} --enable-purify-safety
+./configure --host=x86_64-pc-none --build=x86_64-linux-gnu --target=x86_64-linux-gnu --prefix=${PREFIX} --enable-purify-safety
 make 
-#make install
+make install
+
 
 
 

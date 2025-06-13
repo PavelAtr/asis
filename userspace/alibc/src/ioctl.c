@@ -7,7 +7,7 @@
 
 int aioctl(int fd, unsigned long request, void* arg1, void* arg2, void* arg3, void* arg4)
 {
-   INIT_FDS
+   INIT_afds
    if (!fd_is_valid(fd)) {
       errno = EBADFD;
       return -1;
@@ -20,6 +20,6 @@ int aioctl(int fd, unsigned long request, void* arg1, void* arg2, void* arg3, vo
 	default:
 	    break;
    }
-   int ret = (int)asyscall(SYS_IOCTL, fds[fd]->file, request, arg1, arg2, arg3, arg4);
+   int ret = (int)asyscall(SYS_IOCTL, afds[fd]->file, request, arg1, arg2, arg3, arg4);
    return ret;
 }

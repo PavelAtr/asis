@@ -2,6 +2,6 @@
 
 void clearerr(FILE *stream)
 {
-INIT_FDS
+INIT_afds
    stream->flags &= ~FILE_ERROR;
 }

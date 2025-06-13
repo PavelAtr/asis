@@ -2,6 +2,6 @@
 
 inline void rewind(FILE* stream)
 {
-INIT_FDS
+INIT_afds
    stream->pos = 0;
 }

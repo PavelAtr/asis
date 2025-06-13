@@ -32,8 +32,14 @@ size_t fstrread(void* ptr, size_t size, size_t nmemb, FILE* stream)
 
 size_t fread(void* ptr, size_t size, size_t nmemb, FILE* stream)
 {
-INIT_FDS
+INIT_afds
    size_t ret;
+   size_t outsize = 0;
+   if (stream->flags & FILE_NAMEDMEMFILE)
+   {
+      stream->strbuf = asyscall(SYS_SHARED, "memfd", stream->file, "", &outsize, 0, 0);
+      stream->size = outsize;
+   }
    if (stream->strbuf) {
       ret = fstrread(ptr, size,  nmemb, stream);
       goto end;

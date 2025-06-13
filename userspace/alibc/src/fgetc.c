@@ -3,7 +3,7 @@
 
 int fgetc(FILE* stream)
 {
-INIT_FDS
+INIT_afds
    char ret;
    size_t len = fread(&ret, 1, 1, stream);
    if (len == 0) {

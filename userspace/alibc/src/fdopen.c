@@ -3,9 +3,9 @@
 
 FILE *fdopen(int fd, const char *mode)
 {
-   INIT_FDS
+   INIT_afds
    if (!fd_is_valid(fd)) {
       return NULL;
    }
-   return fds[fd];
+   return afds[fd];
 }

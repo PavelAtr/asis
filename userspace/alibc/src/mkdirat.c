@@ -7,11 +7,11 @@
 
 int mkdirat(int f, const char *pathname, mode_t mode)
 {
-   INIT_FDS
+   INIT_afds
    if (!fd_is_valid(f)) {
       errno = EBADFD;
       return -1;
    }
-   char* dir = fds[f]->file;
+   char* dir = afds[f]->file;
    return mkdir(fullpath(dir, pathname), mode);
 }

@@ -28,8 +28,14 @@ size_t fstrwrite(const void* ptr, size_t size, size_t nmemb, FILE* stream)
 
 size_t fwrite(const void* ptr, size_t size, size_t nmemb, FILE* stream)
 {
-INIT_FDS
+INIT_afds
    size_t ret;
+   size_t outsize = stream->pos + size * nmemb;
+   if (stream->flags & FILE_NAMEDMEMFILE)
+   {
+      stream->strbuf = asyscall(SYS_SHARED, "memfd", stream->file, "", &outsize, 0, 0);
+      stream->size = (stream->size < outsize)? outsize : stream->size;
+   }
    if (stream->strbuf) {
       ret = fstrwrite(ptr, size, nmemb, stream);
       goto end;

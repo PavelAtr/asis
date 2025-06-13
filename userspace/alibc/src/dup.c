@@ -7,22 +7,22 @@
 
 int dup2(int oldfd, int newfd)
 {
-   INIT_FDS
+   INIT_afds
    if (!fd_is_valid(oldfd)) {
       errno = EBADFD;
       return -1;
    }
-   if (fds[newfd]) {
+   if (afds[newfd]) {
       close(newfd);
    }
-   fds[newfd] = malloc(sizeof(FILE));
-   copyfile(fds[newfd], fds[oldfd]);
-   fds[newfd]->fd = newfd;
+   afds[newfd] = malloc(sizeof(FILE));
+   copyfile(afds[newfd], afds[oldfd]);
+   afds[newfd]->fd = newfd;
    return newfd;
 }
 
 int dup(int oldfd) {
-   INIT_FDS
+   INIT_afds
    int newfd;
    if ((newfd = get_free_fd()) != -1) {
       return dup2(oldfd, newfd);

@@ -6,13 +6,13 @@
 
 int close(int fd)
 {
-   INIT_FDS
+   INIT_afds
    if (!fd_is_valid(fd)) {
       errno = EBADFD;
       return -1;
    }
-   fds[fd]->fd = -1;
-   fclose(fds[fd]);
-   fds[fd] = NULL;
+   afds[fd]->fd = -1;
+   fclose(afds[fd]);
+   afds[fd] = NULL;
    return 0;
 }

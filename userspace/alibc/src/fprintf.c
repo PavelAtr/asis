@@ -3,7 +3,7 @@
 
 int fprintf(FILE* stream, const char* format, ...)
 {
-INIT_FDS
+INIT_afds
    va_list args;
    int n;
    va_start(args, format);

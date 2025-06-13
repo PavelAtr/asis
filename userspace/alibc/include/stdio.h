@@ -34,11 +34,11 @@ typedef FILE AFILE;
 
 
 extern FILE*** core_fds;
-#define fds (*core_fds)
-#define stdin fds[0]
-#define stdout fds[1]
-#define stderr fds[2]
-#define INIT_FDS ;
+#define afds (*core_fds)
+#define stdin afds[0]
+#define stdout afds[1]
+#define stderr afds[2]
+#define INIT_afds ;
 void initfile(FILE* src);
 void copyfile(FILE* dst, FILE* src);
 void freefile(FILE* dst);
@@ -114,5 +114,8 @@ FILE *fmemopen(void* buf, size_t size, const char *mode);
 #define perror(s) fputs(s, stderr)
 
 #define BUFSIZ 8192
+
+int remove(const char *pathname);
+FILE *open_memstream(char **ptr, size_t *sizeloc);
 
 #endif

@@ -4,9 +4,9 @@
 
 DIR *fdopendir(int fd)
 {
-   INIT_FDS
+   INIT_afds
    if (!fd_is_valid(fd)) {
       return NULL;
    }
-   return opendir(fds[fd]->file);
+   return opendir(afds[fd]->file);
 }

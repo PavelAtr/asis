@@ -8,10 +8,10 @@
 
 ssize_t read(int f, void* buf, size_t count)
 {
-   INIT_FDS
+   INIT_afds
    if (!fd_is_valid(f)) {
       errno = EBADFD;
       return -1;
    }
-   return fread(buf, 1, count, fds[f]);
+   return fread(buf, 1, count, afds[f]);
 }

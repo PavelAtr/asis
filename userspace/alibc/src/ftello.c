@@ -2,6 +2,6 @@
 
 off_t ftello(FILE *stream)
 {
-INIT_FDS
+INIT_afds
    return stream->pos;
 }

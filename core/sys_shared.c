@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <sys/stat.h>
 #include <string.h>
+#include <stdlib.h>
 
 sharedobj* sharedobjs[MAXSHAREDOBJ];
 
@@ -31,6 +32,12 @@ int_t findshared(const char* type, const char* path)
 
 void* sys_shared(const char* type, const char* path, const char* mode, size_t* out_size)
 {
+   if ((strcmp(type,"fifo") == 0 ||
+       strcmp(type,"sock") == 0) && 
+       !(strcmp(mode, "r") == 0 || strcmp(mode, "w") == 0)) {
+      current_errno = EPERM;
+      return NULL; // Invalid type
+   }
    if (mode[0] == '\0') {
     // If mode is empty, we assume no checks are needed
       goto nocheckfs;
@@ -74,15 +81,26 @@ nocheckfs:
             sharedobjs[index]->obj = calloc(1, sizeof(pipebuf));
             *out_size = sizeof(pipebuf);    
         }
-        if (strcmp(type, "memf") == 0) {
+        if (strcmp(type, "memfd") == 0) {
             sharedobjs[index]->obj = calloc(1, 1);
             *out_size = 1;
         }
         if (strcmp(type, "sock") == 0) {
             sharedobjs[index]->obj = NULL; /* UNREALIZED */
         }
+   } else {
+        if (strcmp(type, "memfd") == 0 && *out_size > sharedobjs[index]->size) {
+            // Resize the memory file if the requested size is larger
+            void* new_mem = realloc(sharedobjs[index]->obj, *out_size);
+            if (!new_mem) {
+                current_errno = ENOMEM;
+                return NULL; // Memory allocation failed
+            }
+            sharedobjs[index]->obj = new_mem;
+            sharedobjs[index]->size = *out_size;
+        }
    }
-   sharedobjs[index]->refcount++;
+ 
    return sharedobjs[index] ? sharedobjs[index]->obj : NULL;
 }
 
@@ -92,12 +110,9 @@ void sys_delshared(const char* type, const char* path)
     if (index == -1) {
         return; // Not found
     }
-    sharedobjs[index]->refcount--;
-    if (sharedobjs[index]->refcount <= 0) {
-        free(sharedobjs[index]->type);
-        free(sharedobjs[index]->path);
-        free(sharedobjs[index]->obj);
-        free(sharedobjs[index]);
-        sharedobjs[index] = NULL; // Remove the shared object
-    }
+    free(sharedobjs[index]->type);
+    free(sharedobjs[index]->path);
+    free(sharedobjs[index]->obj);
+    free(sharedobjs[index]);
+    sharedobjs[index] = NULL; // Remove the shared object
 }

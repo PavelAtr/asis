@@ -25,4 +25,10 @@ int memfd_create(const char *name, unsigned int flags);
 #define MFD_ALLOW_SEALING 0x2
 #define MFD_HUGETLB 0x4
 
+int msync(void* addr, size_t length, int flags);
+#define MS_ASYNC 0x01
+#define MS_SYNC 0x02
+#define MS_INVALIDATE 0x04
+
+
 #endif

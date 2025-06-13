@@ -87,5 +87,6 @@ clock_t clock(void);
 timezone_t tzalloc(const char* id);
 void tzfree(timezone_t tz);
 timezone_t set_tz(timezone_t tz);
+#define CLOCKS_PER_SEC 8000000
 
 #endif
