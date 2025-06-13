@@ -248,6 +248,15 @@ end:
    return child;
 }
 
+void sys_threadend()
+{
+   sys_printf(SYS_DEBUG "THREADEND pid=%d prog=%s\n", current->pid, current->argv[0]);
+   pid_t pid = current->pid;
+   freeproc(pid);
+   cpu[pid] = NULL;
+   switch_context;
+}
+
 __attribute__((sysv_abi)) 
 void sys_atexit(int ret)
 {

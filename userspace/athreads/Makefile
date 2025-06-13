@@ -3,7 +3,7 @@ CFLAGS?=-g -fPIC -I../include
 LDFLAGS=-nostdlib -Wl,-fno-undefined
 LD=$(CC)
 
-all: 
+all: install_headers
 	mkdir -p build
 	cd build; $(CC) $(SYSROOT) $(CFLAGS) -fPIC -c ../src/*.c
 	cd build; $(LD) $(SYSROOT) -fPIC $(LDFLAGS) -shared *.o -o libpthread.so

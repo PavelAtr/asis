@@ -204,6 +204,7 @@ char *ldpath(const char *path, const char *file)
    if (file[0] == '/' || !system_path)
    {
       strcpy(rezult, file);
+      found = 1;
       goto end;
    }
    char *dir = strtok(system_path, ":");

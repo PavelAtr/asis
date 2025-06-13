@@ -58,7 +58,13 @@ config ZLIB
       help
         zlib package.
 
-config WAYLAND-PROTOCOLS
+config XZUTILS
+      bool "xz-utils"
+      default y
+      help
+        xz-utils package.
+
+config WAYLANDPROTOCOLS
       bool "wayland-protocols"
       default y
       help

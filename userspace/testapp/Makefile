@@ -26,6 +26,7 @@ all:
 	$(CC) $(SYSROOT) $(CFLAGS) -fPIC fds.c $(LDCRT) $(LDFLAGS) -o build/fds$(EXTENTION)
 	$(CC) $(SYSROOT) $(CFLAGS) -fPIC mycat.c $(LDCRT) $(LDFLAGS) -o build/mycat$(EXTENTION)
 	$(CC) $(SYSROOT) $(CFLAGS) -fPIC fifo.c $(LDCRT) $(LDFLAGS) -o build/fifo$(EXTENTION)
+	$(CC) $(SYSROOT) $(CFLAGS) -fPIC thread.c $(LDCRT) $(LDFLAGS) /asis/lib/libpthread.so -shared -o build/thread$(EXTENTION)
 
 #	$(CC) -g test1.c -o test1
 #	$(CC) -g -I../libpwd/include/ ../libpwd/libpwd.a test2.c -o test2
@@ -60,6 +61,7 @@ install:
 	install build/fds$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/fds$(EXTENTION)
 	install build/mycat$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/mycat$(EXTENTION)
 	install build/fifo$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/fifo$(EXTENTION)
+	install build/thread$(EXTENTION) $(DESTDIR)$(PREFIX)/bin/thread$(EXTENTION)
 
 
 

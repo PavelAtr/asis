@@ -96,6 +96,9 @@ void* sys_syscall(int number, void* arg1, void* arg2, void* arg3, void* arg4, vo
    case SYS_FREESHARED:
       sys_delshared((const char*)arg1, (const char*)arg2);
       return NULL;
+   case SYS_THREADEND:
+      sys_threadend();
+      break;
    default:
       sys_printf(SYS_INFO "Unsupported syscall %d\n", number);
       break;

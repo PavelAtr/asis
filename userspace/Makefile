@@ -37,7 +37,10 @@ endif
 ifeq ($(CONFIG_ZLIB), y)
 	cd scripts; ./zlib.sh
 endif
-ifeq ($(CONFIG_WAYLAND-PROTOCOLS), y)
+ifeq ($(CONFIG_XZUTILS), y)
+	cd scripts; ./xz-utils.sh
+endif
+ifeq ($(CONFIG_WAYLANDPROTOCOLS), y)
 	cd scripts; ./wayland-protocols.sh
 endif
 ifeq ($(CONFIG_WAYLAND), y)

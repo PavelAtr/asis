@@ -22,7 +22,10 @@ void switch_task()
    }
    pid_t prevpid = curpid;
    if (curpid != 0)
-	current->envp = current_environ;
+   if (current)
+   {
+	   current->envp = current_environ;
+   }
    while(1) {
       curpid++;
       if (curpid == MAXPROC) {
