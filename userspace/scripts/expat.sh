@@ -8,7 +8,6 @@ export PREFIX="/asis"
 export SYSROOT="--sysroot=/asis"
 export CFLAGS="${CFLAGS} ${SYSROOT} -DPATH_MAX=4096 "
 export LDFLAGS="${LDFLAGS} ${SYSROOT}"
-export CC=cc
 
 echo "Building expat ... "
 

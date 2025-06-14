@@ -11,6 +11,7 @@
 #define CHAR_MIN 0x80
 #define CHAR_MAX 0x7F
 #define CHAR_BIT 8
+#define SSIZE_MAX LONG_MAX
 
 #define PATH_MAX 4096
 #define NAME_MAX 255

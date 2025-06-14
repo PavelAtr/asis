@@ -6,7 +6,6 @@ CWD=$(pwd)
 
 export CFLAGS="${CFLAGS} ${SYSROOT}"
 export LDFLAGS="${LDFLAGS} ${SYSROOT}"
-export CC=cc
 
 echo $CFLAGS
 echo $LDFLAGS

@@ -8,7 +8,6 @@ CWD=$(pwd)
 
 export CFLAGS="${CFLAGS} ${SYSROOT}"
 export LDFLAGS="${LDFLAGS} ${SYSROOT}"
-export CC=cc
 export PKG_CONFIG_LIBDIR="/asis/lib/pkgconfig/"
 
 echo "Building libinput ... "

@@ -50,6 +50,9 @@ extern int* core_errno;
 #define ECHILD 43
 #define ENFILE 44
 #define ENOTTY 45
-#define EDEADLK 46 
+#define EDEADLK 46
+#define EINPROGRESS 47
+#define ECONNRESET 48
+#define ESHUTDOWN 49
 
 #endif

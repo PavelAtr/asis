@@ -9,7 +9,6 @@ CWD=$(pwd)
 export SYSROOT="--sysroot=/asis"
 export CFLAGS="${CFLAGS} ${SYSROOT} -Ufds"
 export LDFLAGS=" ${LDCRT} ${LDFLAGS} ${SYSROOT}"
-export CC=cc
 export PKG_CONFIG_LIBDIR="/asis/lib/pkgconfig/"
 export wayland_scanner=wayland-scanner
 

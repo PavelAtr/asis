@@ -81,15 +81,13 @@ nocheckfs:
             sharedobjs[index]->obj = calloc(1, sizeof(pipebuf));
             *out_size = sizeof(pipebuf);    
         }
-        if (strcmp(type, "memfd") == 0) {
+        if (strcmp(type, "memfd") == 0 || strcmp(type, "usock")) {
             sharedobjs[index]->obj = calloc(1, 1);
             *out_size = 1;
         }
-        if (strcmp(type, "sock") == 0) {
-            sharedobjs[index]->obj = NULL; /* UNREALIZED */
-        }
    } else {
-        if (strcmp(type, "memfd") == 0 && *out_size > sharedobjs[index]->size) {
+        if ((strcmp(type, "memfd") == 0 || strcmp(type, "usock"))
+                && *out_size > sharedobjs[index]->size) {
             // Resize the memory file if the requested size is larger
             void* new_mem = realloc(sharedobjs[index]->obj, *out_size);
             if (!new_mem) {

@@ -22,6 +22,12 @@ config ATHREADS
       help
         ASIS very simple library for pthreads.
 
+config AMATH
+      bool "ASIS libm library"
+      default y
+      help
+        ASIS math library for libm.
+
 config TESTAPP
       bool "ASIS own simple binaries"
       default y
@@ -63,6 +69,12 @@ config XZUTILS
       default y
       help
         xz-utils package.
+
+config LIBXML
+      bool "libxml"
+      default y
+      help
+        libxml package.
 
 config WAYLANDPROTOCOLS
       bool "wayland-protocols"

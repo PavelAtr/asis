@@ -1,4 +1,5 @@
 all: headers
+#	install cc-asis /usr/local/bin/cc-asis
 	make -C core
 	make -C userspace
 

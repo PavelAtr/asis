@@ -21,9 +21,7 @@ void switch_task()
       current->ctx.sp = sp;
    }
    pid_t prevpid = curpid;
-   if (curpid != 0)
-   if (current)
-   {
+   if (curpid != 0 && current) {
 	   current->envp = current_environ;
    }
    while(1) {
@@ -44,8 +42,8 @@ void switch_task()
       }
       break;
    }
-   sys_printf(SYS_DEBUG "SWITCH_TASK at %d=%s to %d=%s flags=%b\n",
-      prevpid, current->argv[0] ,curpid, cpu[curpid]->argv[0], cpu[curpid]->flags);
+   sys_printf(SYS_DEBUG "SWITCH_TASK at %d to %d=%s flags=%b\n",
+      prevpid, curpid, cpu[curpid]->argv[0], cpu[curpid]->flags);
    current = cpu[curpid];
 
    if (current->flags & PROC_NEW) {

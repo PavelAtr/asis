@@ -2,6 +2,7 @@
 #define _FCNTL_H
 
 #include <sys/types.h>
+#include <limits.h>
 #include <stdio.h>
 
 #define O_CLOEXEC 0x0001

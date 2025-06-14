@@ -34,13 +34,15 @@ int pthread_create(pthread_t* thread,
     return 0; // Success
 }
 
-int pthread_join(pthread_t thread, void **retval)
+int apthread_join(pthread_t* thread, void **retval)
 {
-    while (!(thread.state & THREAD_TERMINATED)) {
+    while (!(thread->state & THREAD_TERMINATED)) {
         // Wait for the thread to terminate
         switchtask;
     }
-    *retval = thread.ret; // Get the return value of the thread
+    if (retval) {
+        *retval = thread->ret; // Get the return value of the thread
+    }
     // Clean up the thread structure
     return 0; // Success
 }

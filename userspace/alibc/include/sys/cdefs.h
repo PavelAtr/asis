@@ -22,5 +22,6 @@
 #define __printf0like(a, b)
 #define PRIdMAX "ld"
 #define __cdecl
+#define __attribute_const__
 
 #endif

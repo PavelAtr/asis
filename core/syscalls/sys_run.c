@@ -252,6 +252,8 @@ void sys_threadend()
 {
    sys_printf(SYS_DEBUG "THREADEND pid=%d prog=%s\n", current->pid, current->argv[0]);
    pid_t pid = current->pid;
+   current->flags &= ~PROC_RUNNING;
+   current->flags |= PROC_ENDED;
    freeproc(pid);
    cpu[pid] = NULL;
    switch_context;

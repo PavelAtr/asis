@@ -8,7 +8,6 @@ CWD=$(pwd)
 export SYSROOT="--sysroot=/asis"
 export CFLAGS="${CFLAGS} ${SYSROOT}"
 export LDFLAGS="${LDFLAGS} ${SYSROOT}"
-export CC=cc
 export PKG_CONFIG_LIBDIR="${PREFIX}/lib/pkgconfig/"
 
 echo "Building wlroot ... "

@@ -3,7 +3,7 @@
 
 int* errnoptr;
 
-char* errors[50] = {
+char* errors[60] = {
 "Successfully",
 "Insufficient privileges",
 "Access denied",
@@ -51,6 +51,9 @@ char* errors[50] = {
 "Too many open files in system",
 "Inappropriate I/O control operation ",
 "Resource deadlock avoided ",
+"Operation in progress",
+"Connection reset",
+"Cannot send after transport endpoint shutdown"
 };
 
 char* strerror(int errnum)

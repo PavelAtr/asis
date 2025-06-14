@@ -18,6 +18,10 @@ ifeq ($(CONFIG_ATHREADS), y)
 	make -C athreads
 	make -C athreads install
 endif
+ifeq ($(CONFIG_AMATH), y)
+	make -C amath
+	make -C amath install
+endif
 ifeq ($(CONFIG_TESTAPP), y)
 	make -C testapp
 	make -C testapp install
@@ -39,6 +43,9 @@ ifeq ($(CONFIG_ZLIB), y)
 endif
 ifeq ($(CONFIG_XZUTILS), y)
 	cd scripts; ./xz-utils.sh
+endif
+ifeq ($(CONFIG_LIBXML), y)
+	cd scripts; ./libxml.sh
 endif
 ifeq ($(CONFIG_WAYLANDPROTOCOLS), y)
 	cd scripts; ./wayland-protocols.sh
