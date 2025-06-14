@@ -7,12 +7,12 @@ ifeq ($(CONFIG_ALIBC), y)
 	make -C alibc install
 endif
 ifeq ($(CONFIG_LIBDL), y)
-	make -C libdl
-	make -C libdl install
+	make -C alibdl
+	make -C alibdl install
 endif
 ifeq ($(CONFIG_LIBPWD), y)
-	make -C libpwd
-	make -C libpwd install
+	make -C alibpwd
+	make -C alibpwd install
 endif
 ifeq ($(CONFIG_ATHREADS), y)
 	make -C athreads
