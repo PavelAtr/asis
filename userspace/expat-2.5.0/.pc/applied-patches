@@ -1,0 +1,5 @@
+fix-expat-noconfig.patch
+fix-expat-cmake.patch
+CVE-2024-45490.patch
+CVE-2024-45491.patch
+CVE-2024-45492.patch
