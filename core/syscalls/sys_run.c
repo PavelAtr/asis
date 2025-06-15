@@ -3,7 +3,7 @@
 #include <errno.h>
 #include <string.h>
 #include <stdio.h>
-#include "../../userspace/libdl/libdl.h"
+#include "../../userspace/alibdl/libdl.h"
 
 #undef fds
 

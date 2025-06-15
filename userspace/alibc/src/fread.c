@@ -5,27 +5,27 @@
 #include <errno.h>
 #include <string.h>
 
-ssize_t piperead(FILE* f, void* buf, size_t count)
+ssize_t piperead(apipe* f, void* buf, size_t count)
 {
-	size_t len = (count < f->pipbuf->writepos - f->pipbuf->readpos)?
-	   count : f->pipbuf->writepos - f->pipbuf->readpos;
-	memcpy(buf, f->pipbuf->buf + f->pipbuf->readpos, len);
-	f->pipbuf->readpos += len;
-	if (f->pipbuf->readpos >= MAXPIPE) {
-		f->pipbuf->readpos = 0;
-		f->pipbuf->writepos = 0;
+	size_t len = (count < f->pbuf->writepos - f->pbuf->readpos)?
+	   count : f->pbuf->writepos - f->pbuf->readpos;
+	memcpy(buf, f->pbuf->buf + f->pbuf->readpos, len);
+	f->pbuf->readpos += len;
+	if (f->pbuf->readpos >= MAXPIPE) {
+		f->pbuf->readpos = 0;
+		f->pbuf->writepos = 0;
 	}
 	return len;
 }
 
-size_t fstrread(void* ptr, size_t size, size_t nmemb, FILE* stream)
+size_t fmemread(void* ptr, size_t size, size_t nmemb, amemfile* stream)
 {
    size_t len = size * nmemb;
    size_t ret = (stream->pos + len > stream->size)? stream->size - stream->pos:
       len;
    size_t i;
    for (i = 0; i < ret; i++) {
-      stream->strbuf[i] = ((char*) ptr)[stream->pos + i];
+      stream->membuf[i] = ((char*) ptr)[stream->pos + i];
    }
    return ret;
 }
@@ -35,23 +35,31 @@ size_t fread(void* ptr, size_t size, size_t nmemb, FILE* stream)
 INIT_afds
    size_t ret;
    size_t outsize = 0;
-   if (stream->flags & FILE_NAMEDMEMFILE)
+   switch(stream->type)
    {
-      stream->strbuf = asyscall(SYS_SHARED, "memfd", stream->file, "", &outsize, 0, 0);
-      stream->size = outsize;
-   }
-   if (stream->strbuf) {
-      ret = fstrread(ptr, size,  nmemb, stream);
-      goto end;
-   }
-      if (stream->pipbuf)
-      {
-         ret = piperead(stream, ptr, size * nmemb);
+      case F_NAMEDMEM:
+         ((amemfile*)stream)->membuf = asyscall(SYS_SHARED, "memfd", ((amemfile*)stream)->file, "", &outsize, 0, 0);
+         stream->size = outsize;
+         ret = fmemread(ptr, size,  nmemb, (amemfile*)stream);
+         stream->pos += ret;
          goto end;
-      }
-   ret = (size_t)asyscall(SYS_FREAD, stream->file, ptr, size * nmemb, stream->pos, 0, 0);
+         break;
+      case F_MEM:
+         ret = fmemread(ptr, size, nmemb, (amemfile*)stream);
+         ((amemfile*)stream)->pos += ret;
+         goto end;
+         break;
+      case F_PIPE:
+         ret = piperead((apipe*)stream, ptr, size * nmemb);
+         goto end;
+         break;
+      case F_FILE:   
+         ret = (size_t)asyscall(SYS_FREAD, stream->file, ptr, size * nmemb, stream->pos, 0, 0);
+         stream->pos += ret;
+      default:
+         break; 
+   }
 end:
-   stream->pos += ret;
    if (!ret) switchtask;
    return ret;
 }

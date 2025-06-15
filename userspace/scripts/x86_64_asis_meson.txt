@@ -1,9 +1,8 @@
 [binaries]
-c = 'cc'
+c = 'cc-asis'
 cpp = 'g++'
 ar = 'ar'
 strip = 'strip'
-exe_wrapper = 'true'
 pkgconfig = 'pkg-config'
 
 [host_machine]

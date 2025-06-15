@@ -2,9 +2,9 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#define is_pipe(idx) (afds[idx]->pipbuf)
-#define pipe_has_data(idx) (afds[idx]->pipbuf->writepos > afds[idx]->pipbuf->readpos)
-#define pipe_can_write(idx) (afds[idx]->pipbuf->writepos < MAXPIPE || afds[idx]->fdflags & FILE_NAMEDMEMFILE)
+#define is_pipe(idx) (afds[idx]->type == F_PIPE || afds[idx]->type == F_NAMEDMEM)
+#define pipe_has_data(idx) (((apipe*)afds[idx])->pbuf->writepos > ((apipe*)afds[idx])->pbuf->readpos)
+#define pipe_can_write(idx) (((apipe*)afds[idx])->pbuf->writepos < MAXPIPE || afds[idx]->type & F_NAMEDMEM)
 
 uint32_t check_events(int idx, uint32_t req_events) {
     // Пример для pipebuf:

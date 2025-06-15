@@ -13,42 +13,39 @@ extern void** current_fds;
 char* ld_library_path = "/asis/usr/lib:/asis/lib:/asis/libexec";
 
 AFILE sys_stdin = {
-"/dev/tty",
-   100,
-   0,
-   "r+",
-  FILE_INFINITY,
-  0,
-  0,
-NULL,
-NULL,
+F_FILE,
 0,
+0,
+01,
+"/dev/tty",
+"r+",
+0,
+0,
+FILE_INFINITY,
 };
 
 AFILE sys_stdout = {
+F_FILE,
+0,
+0,
+1,
 "/dev/tty",
-   100,
-   0,
-   "r+",
-  FILE_INFINITY,
-  1,
-  0,
-NULL,
-NULL,
-  0,
+"r+",
+0,
+0,
+FILE_INFINITY,
 };
 
 AFILE sys_stderr = {
+F_FILE,
+0,
+0,
+2,
 "/dev/tty",
-   100,
-   0,
-   "r+",
-  FILE_INFINITY,
-  2,
-  0,
-NULL,
-NULL,
-  0,
+"r+",
+0,
+0,
+FILE_INFINITY,
 };
 
 int sys_dlnlink = 1;

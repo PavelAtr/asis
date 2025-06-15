@@ -1,5 +1,5 @@
 #include <asis.h>
-#include "../userspace/libdl/dlfcn.h"
+#include "../userspace/alibdl/dlfcn.h"
 
 void* sys_dlopen(const char *filename, int flags)
 {

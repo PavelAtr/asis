@@ -35,8 +35,8 @@ struct dirent {
 #define dirent64 dirent
 
 typedef struct {
-  const char* dir;
-  int ndx;
+    const char* dir;
+    int ndx;
 } DIR;
 
 DIR *opendir(const char *name);

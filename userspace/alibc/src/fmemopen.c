@@ -9,10 +9,11 @@
 
 FILE *fmemopen(void* buf, size_t size, const char *mode)
 {
-   FILE* ret = malloc(sizeof(FILE));
+   FILE* ret = malloc(sizeof(amemfile));
    initfile(ret);
    ret->file = strdup("mem");
    ret->size = size;
-   ret->strbuf = buf;
+   ret->type = F_MEM;
+   ((amemfile*)ret)->membuf = buf;
    return ret;
 }

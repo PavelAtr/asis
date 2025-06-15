@@ -16,15 +16,15 @@ int memfd_create(const char *name, unsigned int flags)
       return -1;
    }
    FILE* ret =afds[fd];
-   ret = malloc(sizeof(FILE));
+   ret = malloc(sizeof(amemfile));
    initfile(ret);
    char* cwd = get_current_dir_name();
    ret->file = fullpath(cwd, name);
    ret->size = 0;
-   ret->flags |= FILE_NAMEDMEMFILE;
    if (flags & MFD_CLOEXEC) {
       ret->fdflags |= O_CLOEXEC;
    }
-   ret->strbuf = asyscall(SYS_SHARED, "memfd", ret->file, "", &ret->size, 0, 0);
+   ret->type = F_NAMEDMEM;
+   ((amemfile*)ret)->membuf = asyscall(SYS_SHARED, "memfd", ret->file, "", &ret->size, 0, 0);
    return fd;
 }

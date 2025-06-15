@@ -9,16 +9,16 @@ int pipe2(int pipefd[2], int flags)
 {
    INIT_afds
    int fd0 = get_free_fd();
-   afds[fd0] = calloc(1, sizeof(FILE));
-   afds[fd0]->file = strdup("pipe");
-   afds[fd0]->fd = fd0;
-   afds[fd0]->flags |= FILE_INFINITY;
+   afds[fd0] = calloc(1, sizeof(apipe));
+   ((apipe*)afds[fd0])->file = strdup("pipe");
+   ((apipe*)afds[fd0])->fd = fd0;
+   ((apipe*)afds[fd0])->flags |= FILE_INFINITY;
 
    int fd1 = get_free_fd();
-   afds[fd1] = calloc(1, sizeof(FILE));
-   afds[fd1]->file = strdup("pipe");
-   afds[fd1]->fd = fd1;
-   afds[fd1]->flags |= FILE_INFINITY;
+   afds[fd1] = calloc(1, sizeof(apipe));
+   ((apipe*)afds[fd1])->file = strdup("pipe");
+   ((apipe*)afds[fd1])->fd = fd1;
+   ((apipe*)afds[fd1])->flags |= FILE_INFINITY;
 
    if (fd0 == -1 || fd1 == -1)
    {
@@ -28,10 +28,9 @@ int pipe2(int pipefd[2], int flags)
       return -1;
    }
 
-   afds[fd0]->pipbuf = calloc(1, sizeof(pipebuf));
-
-   afds[fd1]->pipbuf = afds[fd0]->pipbuf;
-   afds[fd0]->pipbuf->nlink = 2;
+   ((apipe*)afds[fd0])->pbuf = calloc(1, sizeof(pipebuf));
+   ((apipe*)afds[fd1])->pbuf = ((apipe*)afds[fd0])->pbuf;
+   ((apipe*)afds[fd0])->pbuf->refcount = 2;
 
    pipefd[0] = fd0;
    pipefd[1] = fd1;

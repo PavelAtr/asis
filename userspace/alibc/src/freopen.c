@@ -19,7 +19,6 @@ INIT_afds
    stream->size = st.st_size;
    stream->pos = 0;
    stream->flags = 0;
-   stream->strbuf = NULL;
    if (st.st_mode & (S_IFCHR)) {
       stream->flags |= FILE_INFINITY;
    }

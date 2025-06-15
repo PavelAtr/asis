@@ -1,6 +1,6 @@
 #include "../config.h"
 #include <asis.h>
-#include "../userspace/libdl/libdl.h"
+#include "../userspace/alibdl/libdl.h"
 
 #include <stddef.h>
 #include <string.h>

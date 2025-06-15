@@ -10,13 +10,13 @@
 
 int do_fifo(int argc, char** argv)
 {
-   mkfifo("fifo", 0666);
+   mkfifo("fifo", 0660);
    FILE* f1 = fopen("fifo", "w");
    if (!f1) error(errno, errno, "Error fopen fifo %s for writing\n", "fif");
    FILE* f2 = fopen("fifo", "r");
    if (!f2) error(errno, errno, "Error fopen fifo %s for reading\n", "fif");
-   printf("Opened fifo for writing: %s %p %d\n", f1->file, f1->pipbuf, f1->pipbuf->nlink);
-   printf("Opened fifo for reading: %s %p %d\n", f2->file, f2->pipbuf, f2->pipbuf->nlink);
+   printf("Opened fifo for writing: %s %p %d\n", f1->file, ((apipe*)f1)->pbuf, ((apipe*)f1)->pbuf->refcount);
+   printf("Opened fifo for reading: %s %p %d\n", f2->file, ((apipe*)f2)->pbuf, ((apipe*)f2)->pbuf->refcount);
    size_t len;
    char buf[100];
    len = fwrite("Hello world!\n\0", 1, 14, f1);

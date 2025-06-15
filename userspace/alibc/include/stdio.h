@@ -9,29 +9,73 @@
 
 typedef struct {
    char buf[MAXPIPE];
-   unsigned short nlink;
+   unsigned short refcount;
    unsigned short writepos;
    unsigned short readpos;
 } pipebuf;
 
-typedef struct {
-   char* file;
-   size_t size;
-   size_t pos;
-   const char* mode;
-   int flags;
-   int fd;
-   pid_t pgrp;
-   char* strbuf;
-   pipebuf* pipbuf;
-   int fdflags;
-} FILE;
+#define F_FILE 1
+#define F_PIPE 2
+#define F_MEM 3
+#define F_NAMEDMEM 4
+#define F_DIR 5
+#define F_SOCKET 6
+#define F_TIMERFD 7
 
-typedef FILE AFILE;
+#define FD_ESSENTIAL \
+char type; \ 
+int fdflags; \
+pid_t pgrp; \
+int fd;
+
+#define FILE_ESSENTIAL \
+char* file; \
+const char* mode; \
+size_t size; \
+size_t pos; \
+char flags;
+
+typedef struct {
+   FD_ESSENTIAL
+   FILE_ESSENTIAL
+} FILE;
 #define FILE_ERROR 0x01
 #define FILE_INFINITY 0x02
-#define FILE_NAMEDMEMFILE 0x04
 
+typedef struct {
+   FD_ESSENTIAL
+   FILE_ESSENTIAL
+   pipebuf* pbuf;
+} apipe;
+
+typedef struct {
+   FD_ESSENTIAL
+   FILE_ESSENTIAL
+   short refcount;
+   char* membuf;
+} amemfile;
+
+#define UNIX_LISTEN_BACKLOG 8
+typedef struct {
+   FD_ESSENTIAL
+   char bound;
+   char connected;
+   char listening;
+   void* peer;
+   char buf[4096];
+   size_t buflen;
+   // Для listen/accept:
+   int backlog;
+   void** pending;
+   int num_pending;
+} asocket;
+
+typedef struct {
+   FD_ESSENTIAL
+   long* value; // Указатель на область памяти
+} atimerfd;
+
+typedef FILE AFILE;
 
 extern FILE*** core_fds;
 #define afds (*core_fds)

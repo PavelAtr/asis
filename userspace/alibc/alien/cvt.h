@@ -1,5 +1,7 @@
 #define CVTBUFSIZE 1024
 
+#include <math.h>
+
 extern char  cvtbuf[CVTBUFSIZE];
 /*#define UINT32_MAX (unsigned int)-1
 #define INT32_MIN 0x80000000

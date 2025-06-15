@@ -23,8 +23,8 @@ ifeq ($(CONFIG_AMATH), y)
 	make -C amath install
 endif
 ifeq ($(CONFIG_TESTAPP), y)
-	make -C testapp
-	make -C testapp install
+	make -C atestapp
+	make -C atestapp install
 endif
 ifeq ($(CONFIG_DASH), y)
 	cd scripts; ./dash.sh
@@ -65,11 +65,15 @@ endif
 
 clean:
 	make -C alibc clean
-	make -C libdl clean
-	make -C libpwd clean
-	make -C testapp clean
+	make -C alibdl clean
+	make -C alibpwd clean
+	make -C atestapp clean
+	make -C athreads clean
+	make -C amath clean
 
 install_headers:
 	make -C alibc install_headers
-	make -C libdl install_headers
-	make -C libpwd install_headers
+	make -C alibdl install_headers
+	make -C alibpwd install_headers
+	make -C athreads install_headers
+	make -C amath install_headers

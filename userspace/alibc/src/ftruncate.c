@@ -14,9 +14,9 @@ int ftruncate(int f, off_t length)
    }
    size_t outsize = length;
    FILE* stream = afds[f];
-   if (stream->flags & FILE_NAMEDMEMFILE)
+   if (stream->type & F_NAMEDMEM)
    {
-      stream->strbuf = asyscall(SYS_SHARED, "memfd", stream->file, "", &outsize, 0, 0);
+      ((amemfile*)stream)->membuf = asyscall(SYS_SHARED, "memfd", stream->file, "", &outsize, 0, 0);
       stream->size = (stream->size < outsize)? outsize : stream->size;
       return 0;
    }

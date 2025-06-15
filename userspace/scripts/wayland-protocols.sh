@@ -1,18 +1,16 @@
 #!/bin/sh
 set -e
 
-cp wayland-scanner.pc /asis/lib/pkgconfig/
 
-cd ../wayland-1.21.0
+cd ../wayland-protocols-1.31/
 CWD=$(pwd)
 
 export SYSROOT="--sysroot=/asis"
 export CFLAGS="${CFLAGS} ${SYSROOT} -Ufds"
-export LDFLAGS="${LDFLAGS} ${SYSROOT} -L${PREFIX}/lib -lam -lz -llzma -lathread"
+export LDFLAGS=" ${LDCRT} ${LDFLAGS} ${SYSROOT}"
 export PKG_CONFIG_LIBDIR="/asis/lib/pkgconfig/"
-export wayland_scanner=wayland-scanner
 
-echo "Building wayland ... "
+echo "Building wayland-protocols ... "
 
 
 rm -rf build
@@ -20,9 +18,12 @@ mkdir -p build
 
 meson setup --cross-file ../scripts/x86_64_asis_meson.txt ./build/ \
 --prefix /asis \
--Dtests=false \
--Ddocumentation=false
+-Dtests=false
 
-ninja -C build/ install
+cd build
+meson compile
+meson install
+
+
 
 

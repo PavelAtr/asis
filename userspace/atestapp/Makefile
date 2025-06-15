@@ -17,7 +17,7 @@ all:
 	$(CC) $(SYSROOT) $(CFLAGS) -fPIC id.c  $(LDFLAGS) -o build/id$(EXTENTION)
 	$(CC) $(SYSROOT) $(CFLAGS) -fPIC chmod.c $(LDFLAGS) -o build/chmod$(EXTENTION)
 	$(CC) $(SYSROOT) $(CFLAGS) -fPIC chown.c  $(LDFLAGS) -o build/chown$(EXTENTION)
-	$(CC) $(SYSROOT) $(CFLAGS) -fPIC testfork.c  $(LDFLAGS) -shared -o build/testfork$(EXTENTION)
+	$(CC) $(SYSROOT) $(CFLAGS) -fPIC testfork.c $(LDCRT) $(LDFLAGS) -shared -o build/testfork$(EXTENTION)
 	$(CC) $(SYSROOT) $(CFLAGS) -fPIC segfault.c  $(LDFLAGS)  -o build/segfault$(EXTENTION)
 	$(CC) $(SYSROOT) $(CFLAGS) -fPIC passdb.c  $(LDFLAGS) -lpwd -shared -o build/passdb$(EXTENTION)
 	$(CC) $(SYSROOT) $(CFLAGS) -fPIC grpdb.c  $(LDFLAGS) -lpwd -shared -o build/grpdb$(EXTENTION)
@@ -26,7 +26,7 @@ all:
 	$(CC) $(SYSROOT) $(CFLAGS) -fPIC fds.c  $(LDFLAGS) -o build/fds$(EXTENTION)
 	$(CC) $(SYSROOT) $(CFLAGS) -fPIC mycat.c $(LDFLAGS) -o build/mycat$(EXTENTION)
 	$(CC) $(SYSROOT) $(CFLAGS) -fPIC fifo.c  $(LDFLAGS) -o build/fifo$(EXTENTION)
-	$(CC) $(SYSROOT) $(CFLAGS) -fPIC thread.c $(LDFLAGS) -lathread -shared -o build/thread$(EXTENTION)
+	$(CC) $(SYSROOT) $(CFLAGS) -fPIC thread.c $(LDCRT) $(LDFLAGS) -lathread -shared -o build/thread$(EXTENTION)
 
 #	$(CC) -g test1.c -o test1
 #	$(CC) -g -I../libpwd/include/ ../libpwd/libpwd.a test2.c -o test2

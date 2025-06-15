@@ -1,7 +1,7 @@
 #include <string.h>
+#include <syscall.h>
 #include <stdio.h>
 #ifndef UEFI
-
 #include <stdlib.h>
 #endif
 #ifdef __ASIS__
@@ -10,8 +10,29 @@
 
 void initfile(FILE* src)
 {
-        memset(src, 0x0, sizeof(FILE));
-        src->fd = -1;
+   src->fd = -1; // File descriptor not set
+   switch(src->type) {
+      case F_FILE:
+         memset(src, 0, sizeof(FILE)); // Initialize the FILE structure
+         break;
+      case F_PIPE:
+         memset(src, 0, sizeof(apipe)); // Initialize the FILE structure
+         break;
+      case F_MEM:
+      case F_NAMEDMEM:
+         memset(src, 0, sizeof(amemfile)); // Initialize the named memory file structure
+         break;
+      case F_DIR:
+         break;
+      case F_SOCKET:
+         memset(src, 0, sizeof(asocket)); // Initialize the socket structure
+         break;
+      case F_TIMERFD:
+         memset(src, 0, sizeof(atimerfd)); // Initialize the timer file descriptor structure
+         break;
+      default:
+         return;
+   }     
 }
 
 void copyfile(FILE* dst, FILE* src)
@@ -19,18 +40,34 @@ void copyfile(FILE* dst, FILE* src)
    if (!dst || !src) {
            return;
    }
-   memcpy(dst, src, sizeof(FILE));
-   size_t filelen = strlen(src->file) + 1;
-   dst->file = malloc(filelen);
-   memcpy(dst->file, src->file, filelen);
-   
-   if (src->strbuf) {
-      dst->strbuf = malloc(src->size);
+   switch(src->type) {
+      case F_FILE:
+         memcpy(dst, src, sizeof(FILE));
+         break;
+      case F_PIPE:
+         memcpy(dst, src, sizeof(apipe));
+         ((apipe*)dst)->pbuf->refcount++;
+         break;
+      case F_MEM:
+      case F_NAMEDMEM:
+         memcpy(dst, src, sizeof(amemfile));
+         ((amemfile*)dst)->refcount++;
+         break;
+      case F_DIR:
+         break;
+      case F_SOCKET:
+         memcpy(dst, src, sizeof(asocket));
+         ((asocket*)dst)->pending = (void**)malloc(sizeof(void*) * UNIX_LISTEN_BACKLOG);
+         memcpy(((asocket*)dst)->pending, ((asocket*)src)->pending, sizeof(void*) * UNIX_LISTEN_BACKLOG);
+         break;
+      case F_TIMERFD:
+         memset(src, 0, sizeof(atimerfd)); // Initialize the timer file descriptor structure
+         break;
+      default:
+         return;
    }
-
-   if (src->pipbuf) {
-      src->pipbuf->nlink++;
-   }
+   dst->file = strdup(src->file); // Copy the file name
+   dst->mode = strdup(src->mode); // Copy the mode
 };
 
 void freefile(FILE* dst)
@@ -42,15 +79,50 @@ void freefile(FILE* dst)
       free(dst->file);
       dst->file = NULL;
    }
-   if (dst->strbuf) {
-      dst->strbuf = NULL;
-   }
-   if (dst->pipbuf) {
-      dst->pipbuf->nlink--;
-      if (dst->pipbuf->nlink <= 0) {
-         free(dst->pipbuf);
-         dst->pipbuf = NULL;
-      }
-   }
+   switch(dst->type) {
+      case F_FILE:
+         break;
+      case F_PIPE:
+         if (((apipe*)dst)->pbuf && ((apipe*)dst)->pbuf->refcount <= 1) {
+            size_t size = 0;
+            #ifdef __ASIS__
+            
+            if (sys_shared("pipe", dst->file, "", &size)) {
+               free(((apipe*)dst)->pbuf);
+            } else {
+               sys_delshared("pipe", dst->file);
+            }
+            #else
+            if (!asyscall(SYS_SHARED, "pipe", dst->file, "", &size, 0, 0)) {
+               free(((apipe*)dst)->pbuf);
+            } else {
+               asyscall(SYS_FREESHARED, "pipe", dst->file, 0, 0, 0, 0);
+            }
+            #endif
+         }
+         break;
+      case F_MEM:
+      case F_NAMEDMEM:
+         if (((amemfile*)dst)->membuf && ((amemfile*)dst)->refcount <= 1) {
+            // Free the memory buffer if it exists and refcount is 1 or less
+            free(((amemfile*)dst)->membuf);
+            ((amemfile*)dst)->membuf = NULL;
+         }
+         break;
+      case F_DIR:
+         break;
+      case F_SOCKET:
+         if (((asocket*)dst)->pending) {
+            free(((asocket*)dst)->pending);
+         }
+         break;
+      case F_TIMERFD:
+         if (((atimerfd*)dst)->value) {
+            free(((atimerfd*)dst)->value); // Free the timer file descriptor value pointer
+         }
+         break;
+      default:
+         break;
+   } 
    free(dst);
 };

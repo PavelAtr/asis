@@ -26,17 +26,17 @@ sys_shared.c
 
 
 EXTLIBS = \
-userspace/libdl/libdl.c \
-userspace/libdl/tinyelf.c \
-userspace/libdl/$(ARCH)/relocate.c \
-userspace/libdl/list.c \
-userspace/libdl/modid.c \
+userspace/alibdl/libdl.c \
+userspace/alibdl/tinyelf.c \
+userspace/alibdl/$(ARCH)/relocate.c \
+userspace/alibdl/list.c \
+userspace/alibdl/modid.c \
 userspace/alibc/src/stdio.c
 
 BUILD_DIRS = \
 ../build/syscalls \
 ../build/userspace/alibc/src \
-../build/userspace/libdl/$(ARCH)
+../build/userspace/alibdl/$(ARCH)
 
 all: objs
 

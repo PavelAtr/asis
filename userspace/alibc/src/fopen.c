@@ -19,16 +19,16 @@ FILE* fopen(const char* path, const char* mode)
    char* cwd = get_current_dir_name();
    ret->file = fullpath(cwd, path);
    ret->size = st.st_size;
+   ret->type = F_FILE;
+   ret->mode = mode;
    if (st.st_mode & S_IFCHR) {
       ret->flags |= FILE_INFINITY;
    }
    if (st.st_mode & S_IFIFO ) {
+      ret->type = F_PIPE;
       size_t objsize = 0;
-      ret->pipbuf = asyscall(SYS_SHARED, "fifo", ret->file, mode, &objsize, 0, 0);
-   }
-   if (ret->pipbuf) {
-      ret->flags |= FILE_INFINITY;
-      ret->pipbuf->nlink++;
+      ((apipe*)ret)->pbuf = asyscall(SYS_SHARED, "fifo", ret->file, mode, &objsize, 0, 0);
+      ((apipe*)ret)->pbuf->refcount++;
    }
    return ret;
 }
