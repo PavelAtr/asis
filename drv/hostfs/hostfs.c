@@ -51,12 +51,13 @@ FILE* fmeta = NULL;
 char* calc_path(void* sbfs, const char* path)
 {
    hostfs_sbfs* hsbfs = (hostfs_sbfs*)sbfs;
+   static char fullpath[1024];
    if (hsbfs->chroot && hsbfs->chroot[0] != '\0') {
-      static char fullpath[1024];
       snprintf(fullpath, sizeof(fullpath), "%s/%s", hsbfs->chroot, path);
       return fullpath;
    }
-   return (const char*)path; // If no chroot, return the path as is
+   snprintf(fullpath, sizeof(fullpath), "%s", path);
+   return fullpath; // If no chroot, return the path as is
 }
 
 meta_t* hostfs_get_meta(const char* path, meta_t* inmeta)
