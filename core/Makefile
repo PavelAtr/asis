@@ -62,5 +62,6 @@ clean:
 	rm -rf ../build/*
 
 install_headers:
+	mkdir -p $(DESTDIR)$(PREFIX)/usr/
 	cp -r include $(DESTDIR)$(PREFIX)/usr/
 

@@ -90,9 +90,6 @@ int main(int argc, char** argv)
    if (sys_mount("/dev/sda", "/", "hostfs", "")) {
       sys_printf(SYS_ERROR "Error mount / %d!\n", current_errno);
    }
-/* GARBAGE   if (sys_mount("/dev/loop0", "/week", "weekfs", "")) {
-      sys_printf(SYS_ERROR "Error mount /week\n");
-   }*/
 #endif
 
 #ifdef CONFIG_UEFI
@@ -100,6 +97,11 @@ int main(int argc, char** argv)
       sys_printf(SYS_ERROR "Error mount /\n");
    }
 #endif
+
+sys_mknod("/dev/tty", S_IFCHR | 0660);
+sys_mknod("/dev/sda", S_IFBLK | 0660);
+sys_mknod("/dev/loop0", S_IFBLK | 0660);
+sys_mknod("/dev/fb0", S_IFCHR | 0660);
 
 #ifdef CONFIG_LINTRAP
    init_hosttrap();

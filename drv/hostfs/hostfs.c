@@ -39,40 +39,95 @@ struct astat {
 
 #include <sys/stat.h>
 
+typedef struct {
+   char name[512];
+   uid_t uid;
+   gid_t gid;
+   mode_t mode;
+} meta_t;
+
+FILE* fmeta = NULL;
+
+char* calc_path(void* sbfs, const char* path)
+{
+   hostfs_sbfs* hsbfs = (hostfs_sbfs*)sbfs;
+   if (hsbfs->chroot && hsbfs->chroot[0] != '\0') {
+      static char fullpath[1024];
+      snprintf(fullpath, sizeof(fullpath), "%s/%s", hsbfs->chroot, path);
+      return fullpath;
+   }
+   return ""; // No chroot, return the empty string
+}
+
+meta_t* hostfs_get_meta(const char* path, meta_t* inmeta)
+{
+   if (!fmeta) {
+      fmeta = fopen("meta", "r+");
+      if (!fmeta) {
+         printf("%s\n", "Error opening metadata file");
+         return NULL;
+      }
+   }
+   meta_t* meta = inmeta;
+   if (fseek(fmeta, 0, SEEK_SET) < 0) {
+      return NULL;
+   }
+   while (fread(meta, sizeof(meta_t), 1, fmeta) == 1) {
+      if (strcmp(meta->name, path) == 0) {
+         return meta;
+      }
+   }
+   return NULL;
+}
+
+int hostfs_set_meta(const char* path, uid_t uid, gid_t gid, mode_t mode)
+{
+   meta_t meta;
+   strncpy(meta.name, path, sizeof(meta.name) - 1);
+   meta.name[sizeof(meta.name) - 1] = '\0';
+   meta.uid = uid;
+   meta.gid = gid;
+   meta.mode = mode;
+
+   if (!fmeta) {
+      fmeta = fopen("meta", "w+");
+      if (!fmeta) {
+         printf("%s\n", "Error opening metadata file");
+         current_errno = ENOENT; // No such file or directory
+         return -1; // Error opening metadata file
+      }
+   }
+   meta_t existing_meta;
+   if (hostfs_get_meta(path, &existing_meta)) {
+      // If the metadata already exists, we can update it
+      if (fseek(fmeta, -sizeof(meta_t), SEEK_CUR) < 0) {
+         return -1; // Error seeking in file
+      }
+   } else {
+      // If it doesn't exist, we will append it
+      if (fseek(fmeta, 0, SEEK_END) < 0) {
+         return -1; // Error seeking in file
+      }
+   }
+   if (fwrite(&meta, sizeof(meta_t), 1, fmeta) != 1) {
+      return -1; // Error writing to file
+   }
+   return 0; // Success
+}
+
 errno_t hostfs_mknod(void* sbfs, const char *pathname, uid_t uid, gid_t gid,
    mode_t mode)
 {
    mode_t devtype = mode & S_IFMT;
-   const char* path = pathname;
-   switch (devtype) {
-   case S_IFBLK:
-      return mknod(path, mode, 0);
-   case S_IFCHR:
-      return mknod(path, mode, 0);
-   case S_IFDIR:
-      return mkdir(path, mode);;
-   case S_IFIFO:
-      printf("Creating FIFO %s with mode %o\n", path, mode);
-      return mkfifo(path, mode);
-   case S_IFLNK:
-      break;
-   case S_IFREG:
-      if (mode & S_IFREG) {
-         FILE* f = fopen(path, "w");
-         if (!f) {
-            return ENOENT;
-         }
-         fclose(f);
-         return 0;
-      }
-      break;
-   case S_IFSOCK:
-      break;
-   default:
-      break;
+   const char* path = calc_path(sbfs, pathname);
+   printf("hostfs_mknod: %s, mode: %o\n", path, mode);
+   hostfs_set_meta(pathname, uid, gid, mode);
+   FILE* f = fopen(path, "w");
+   if (!f) {
+      return ENOENT;
    }
-   sys_printf(SYS_INFO "Unsupported mknod %s\n", pathname);
-   return ENOTSUP;
+   fclose(f);
+   return 0;
 }
 
 errno_t hostfs_modnod(void* sbfs, const char* pathname, uid_t uid, gid_t gid,
@@ -84,7 +139,7 @@ errno_t hostfs_modnod(void* sbfs, const char* pathname, uid_t uid, gid_t gid,
 errno_t hostfs_rmnod(void* sbfs, const char *pathname, uid_t curuid,
    gid_t curgid)
 {
-   const char* path = pathname;
+   const char* path = calc_path(sbfs, pathname);
    if (unlink(path) < 0) {
       current_errno = EIO;
       return -1; // I/O error
@@ -127,7 +182,8 @@ void cachefile(const char* path, const char* mode)
 len_t hostfs_fread(void* sbfs, const char* path, void* ptr, len_t size,
    len_t off)
 {
-   cachefile(path, "r");
+   char* file = calc_path(sbfs, path);
+   cachefile(file, "r");
    if (!f) {
       return 0;
    }
@@ -138,7 +194,8 @@ len_t hostfs_fread(void* sbfs, const char* path, void* ptr, len_t size,
 len_t hostfs_fwrite(void* sbfs, const char* path, const void* ptr, len_t size,
    len_t off)
 {
-   cachefile(path, "r+");
+   char* file = calc_path(sbfs, path);
+   cachefile(file, "r+");
    if (!f) {
       return 0;
    }
@@ -146,24 +203,38 @@ len_t hostfs_fwrite(void* sbfs, const char* path, const void* ptr, len_t size,
    return fwrite(ptr, 1, size, f);
 }
 
-errno_t hostfs_stat(void* sbfs, const char* pathname, void* statbuf)
+errno_t hostfs_stat(void* sbfs, const char* path, void* statbuf)
 {
+   meta_t meta;
    struct stat st;
    struct astat* tst = statbuf;
+   char* pathname = calc_path(sbfs, path);
    errno_t ret = stat(pathname, &st);
+   if (ret == -1) {
+      current_errno = errno;
+      return -1; // Error occurred
+   }
    tst->st_mode = st.st_mode;
    tst->st_size = st.st_size;
    tst->st_uid = st.st_uid;
    tst->st_gid = st.st_gid;
    tst->st_major = 0;
    tst->st_minor = 0;
+   if (hostfs_get_meta(path, &meta)) {
+      tst->st_mode = meta.mode;
+      tst->st_uid = meta.uid;
+      tst->st_gid = meta.gid;
+      return 0; // Success
+   }
+   hostfs_set_meta(path, st.st_uid, st.st_gid, st.st_mode);
    return ret;
 }
 
 struct tinydirent tinydent;
 void* hostfs_readdir(void* sbfs, const char* path, int ndx)
 {
-   DIR* dir = opendir(path);
+   char* file = calc_path(sbfs, path);
+   DIR* dir = opendir(file);
    if (!dir) {
       return NULL;
    }
@@ -199,7 +270,9 @@ bool_t hostfs_can_execute(void* sbfs, const char* path, uid_t uid, gid_t gid)
 
 errno_t  hostfs_mount(device* dev, mountpoint* mount, const char* options)
 {
-   mount->sbfs = NULL;
+   hostfs_sbfs* sbfs = malloc(sizeof(hostfs_sbfs));
+   sbfs->chroot = "/home/PavelAtr/asis/root";
+   mount->sbfs = sbfs;
    mount->mount_mknod = &hostfs_mknod;
    mount->mount_modnod = &hostfs_modnod;
    mount->mount_rmnod = &hostfs_rmnod;

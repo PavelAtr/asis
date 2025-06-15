@@ -13,7 +13,7 @@ clean:
 	rm -f build/*
 	
 install:
-	mkdir -p $(DESTDIR)$(PREFIX)/lib
+	mkdir -p $(DESTDIR)$(PREFIX)/lib/pkgconfig
 	install build/libathread.so $(DESTDIR)$(PREFIX)/lib/libathread.so
 	install build/libathread.a $(DESTDIR)$(PREFIX)/lib/libathread.a
 	cp src/pthread.pc $(DESTDIR)$(PREFIX)/lib/pkgconfig/

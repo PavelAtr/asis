@@ -8,7 +8,7 @@
 #define S_ISGID  02000
 #define S_ISVTX  01000
 
-#define INIT "/asis/bin/shell"
+#define INIT "/bin/shell"
 
 #define malloc(s) sys_malloc(s)
 #define free(p) sys_free(p)
@@ -149,7 +149,7 @@ typedef struct {
 } secmodel;
 
 extern secmodel* security;
-#define SETUIDPROC "/tinysys/shell"
+#define SETUIDPROC "/bin/shell"
 int_t sys_setuid(uid_t uid);
 int_t sys_setgid(gid_t gid);
 

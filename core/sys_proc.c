@@ -10,7 +10,7 @@
 proc sys;
 char* sys_argv[1] = {"system"};
 extern void** current_fds;
-char* ld_library_path = "/asis/usr/lib:/asis/lib:/asis/libexec";
+char* ld_library_path = "/lib:/usr/lib:/libexec";
 
 AFILE sys_stdin = {
 F_FILE,
@@ -50,7 +50,7 @@ FILE_INFINITY,
 
 int sys_dlnlink = 1;
 char* sys_env[4] = {
-   "PATH=/asis/usr/bin:/asis/bin",
+   "PATH=/usr/bin:/bin",
    "CWD=/asis",
    "UMASK=0022",
    NULL,
