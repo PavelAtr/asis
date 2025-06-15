@@ -56,7 +56,7 @@ char* calc_path(void* sbfs, const char* path)
       snprintf(fullpath, sizeof(fullpath), "%s/%s", hsbfs->chroot, path);
       return fullpath;
    }
-   return ""; // No chroot, return the empty string
+   return (const char*)path; // If no chroot, return the path as is
 }
 
 meta_t* hostfs_get_meta(const char* path, meta_t* inmeta)
@@ -160,7 +160,7 @@ errno_t hostfs_link(void* sb, const char* src, const char* dst, bool_t move,
 }
 
 FILE* f = NULL;
-const char* cachepath = "";
+char cachepath[1024];
 const char* cachemode = "";
 
 void cachefile(const char* path, const char* mode)
@@ -171,10 +171,10 @@ void cachefile(const char* path, const char* mode)
    if (f) {
       fclose(f);
       f = NULL;
-      cachepath = "";
+      strcpy((char*)cachepath, ""); // Clear cache path
       cachemode = "";
    }
-   cachepath = path;
+   strncpy(cachepath, path, sizeof(cachepath) - 1);
    cachemode = mode;
    f = fopen(path, mode);
 }
@@ -271,7 +271,7 @@ bool_t hostfs_can_execute(void* sbfs, const char* path, uid_t uid, gid_t gid)
 errno_t  hostfs_mount(device* dev, mountpoint* mount, const char* options)
 {
    hostfs_sbfs* sbfs = malloc(sizeof(hostfs_sbfs));
-   sbfs->chroot = "/home/PavelAtr/asis/root";
+   sbfs->chroot = main_chroot;
    mount->sbfs = sbfs;
    mount->mount_mknod = &hostfs_mknod;
    mount->mount_modnod = &hostfs_modnod;

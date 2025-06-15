@@ -141,7 +141,6 @@ Elf_Sym* dlsym2(void *hndl, const char *symbol, dl** out)
                        s->dl_elf->dynsym_str, s->dl_elf->exec, symbol);
       if (sym)
       {
-         printf(MARK "Found symbol %s in %s\n", symbol, s->path);
          *out = s;
          return sym;
       }
@@ -162,7 +161,6 @@ void *dlsym(void *hndl, const char *symbol)
                        s->dl_elf->dynsym_str, s->dl_elf->exec, symbol);
       if (sym)
       {
-         printf(MARK "Found symbol %s in %s\n", symbol, s->path);
          return s->dl_elf->exec + sym->st_value;
       }
    }

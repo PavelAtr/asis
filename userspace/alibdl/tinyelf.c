@@ -222,7 +222,7 @@ Elf_Sym* elf_symbol(Elf_Shdr* symhdr, Elf_Sym* symtab, const char* symstr,
    addr_t i;
    for (i = 0; i < symhdr->sh_size / symhdr->sh_entsize; i++) {
       if (strcmp(symname, &symstr[symtab[i].st_name]) == 0) {
-         if (symtab[i].st_shndx != STN_UNDEF) {
+         if (symtab[i].st_shndx != SHN_UNDEF) {
             return &symtab[i];
          }
       }

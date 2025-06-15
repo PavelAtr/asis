@@ -233,5 +233,6 @@ int_t sys_mkfifo(const char* path, const char* mode);
 void* sys_shared(const char* type, const char* path, const char* mode, size_t* out_size);
 void sys_delshared(const char* type, const char* path);
 void sys_threadend();
+extern char* main_chroot;
 
 #endif
