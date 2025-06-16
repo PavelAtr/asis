@@ -30,6 +30,9 @@ size_t fwrite(const void* ptr, size_t size, size_t nmemb, FILE* stream)
 {
 INIT_afds
    size_t ret;
+   while (*stream->lock) {
+      switchtask;
+   }
    switch(stream->type)
    {
       case F_NAMEDMEM:
@@ -52,6 +55,9 @@ INIT_afds
       case F_FILE:   
          ret = (size_t)asyscall(SYS_FWRITE, ((FILE*)stream)->file, ptr, size * nmemb, stream->pos, 0, 0);
          stream->pos += ret;
+      case F_EVENTFD:
+         memcpy(((aeventfd*)stream)->value, ptr, sizeof(uint64_t));
+         return sizeof(uint64_t);         
       default:
          break; 
    }

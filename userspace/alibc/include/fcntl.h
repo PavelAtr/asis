@@ -32,6 +32,10 @@ int fcntl(int fd, int cmd, ... /* arg */ );
 #define F_SETLK 4
 #define F_SETFL 5
 #define F_DUPFD 6
+#define F_ADD_SEALS 7
+#define F_SEAL_SHRINK 8
+#define F_SEAL_SEAL 9
+#define F_GET_SEALS 10
 
 #define FD_CLOEXEC 1
 

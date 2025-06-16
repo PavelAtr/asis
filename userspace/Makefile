@@ -2,6 +2,12 @@ include ../.config
 include ../make.conf
 
 all:
+	make -C alibc install_headers
+	make -C alibdl install_headers
+	make -C alibpwd install_headers
+	make -C athreads install_headers
+	make -C amath install_headers
+
 ifeq ($(CONFIG_ALIBC), y)
 	make -C alibc
 	make -C alibc install

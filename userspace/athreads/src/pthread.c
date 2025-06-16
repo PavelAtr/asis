@@ -3,6 +3,12 @@
 #include <unistd.h>
 #include <syscall.h>
 
+__thread pthread_t* self;
+ pthread_t* pthread_self()
+ {
+    return self;
+ }
+
 int pthread_create(pthread_t* thread,
          const pthread_attr_t* attr,
          void *(*start_routine)(void *),
@@ -24,6 +30,7 @@ int pthread_create(pthread_t* thread,
     }
     if (pid == 0) {
         // In child process, execute the thread function
+        self = thread;
         thread->ret = start_routine(arg);
         thread->state |= THREAD_TERMINATED; // Set thread state to terminated
         asyscall(SYS_THREADEND, NULL, NULL, NULL, NULL, NULL, NULL); // Notify thread end

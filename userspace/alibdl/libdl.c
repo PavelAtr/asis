@@ -15,6 +15,7 @@
 #define stat(p, s) sys_stat(p, s)
 #else
 #include <stdlib.h>
+char* main_chroot = "";
 #endif
 
 void elf_free(elf *e)
@@ -245,7 +246,9 @@ void *dlopen(const char *filename, int flags)
    handle = (dlhandle *)list_add(NULL, prog);
 #ifdef USE_SYMBOLFILE
    FILE *symfile = fopen("dl.txt", "a");
-   fprintf(symfile, "add-symbol-file %s ", prog->path);
+   char ldfile[256];
+   snprintf(ldfile, sizeof(ldfile), "%s%s", main_chroot, prog->path);
+   fprintf(symfile, "add-symbol-file %s ", ldfile);
    elf_print_sections_symbols(symfile, prog->dl_elf->exec, prog->dl_elf->hdr, prog->dl_elf->shdrs, prog->dl_elf->shstr);
    fprintf(symfile, "\n");
    fclose(symfile);
@@ -305,7 +308,9 @@ void *dlopen(const char *filename, int flags)
             free(path);
 #ifdef USE_SYMBOLFILE
             FILE *symfile = fopen("dl.txt", "a");
-            fprintf(symfile, "add-symbol-file %s ", lib->path);
+            char ldfile[256];
+            snprintf(ldfile, sizeof(ldfile), "%s%s", main_chroot, lib->path);
+            fprintf(symfile, "add-symbol-file %s ", ldfile);
             elf_print_sections_symbols(symfile, lib->dl_elf->exec, lib->dl_elf->hdr, lib->dl_elf->shdrs, lib->dl_elf->shstr);
             fprintf(symfile, "\n");
             fclose(symfile);

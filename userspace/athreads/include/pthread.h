@@ -16,12 +16,20 @@ int pthread_mutex_destroy(pthread_mutex_t *mutex);
 #define PTHREAD_MUTEX_INITIALIZER 0
 
 typedef unsigned int pthread_attr_t;
+#define PTHREAD_KEYS_MAX 32
+typedef int pthread_key_t;
+
+typedef struct {
+    void* data;
+    void (*destructors)(void*);
+} tsdata;
 
 typedef struct {
     pid_t pid; // Process ID
     pthread_attr_t attr; // Thread attributes
     int state; // Thread state (e.g., running, waiting)
     void* ret;
+    tsdata* tsd[PTHREAD_KEYS_MAX]; // Thread-specific data (TSD) для pthread_key_t
 } pthread_t;
 
 #define THREAD_TERMINATED 0x01
@@ -51,6 +59,17 @@ int pthread_cond_destroy(pthread_cond_t *cond);
 
 int apthread_join(pthread_t* thread, void **retval);
 #define pthread_join(t, r) apthread_join(&t, r)
+
+typedef char pthread_once_t;
+#define PTHREAD_ONCE_INIT 0;
+int pthread_once(pthread_once_t *once_control, void (*init_routine)(void));
+
+pthread_t* pthread_self();
+
+int pthread_key_create(pthread_key_t *key, void (*destructor)(void*));
+int pthread_key_delete(pthread_key_t key);
+int pthread_setspecific(pthread_key_t key, const void *value);
+void* pthread_getspecific(pthread_key_t key);
 
 
 #endif

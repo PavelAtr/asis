@@ -4,6 +4,7 @@
 #include <stddef.h>
 #include <stdarg.h>
 #include <sys/types.h>
+#include <stdint.h>
 
 #define MAXPIPE 512
 
@@ -20,13 +21,15 @@ typedef struct {
 #define F_NAMEDMEM 4
 #define F_DIR 5
 #define F_SOCKET 6
-#define F_TIMERFD 7
+#define F_EVENTFD 7
 
 #define FD_ESSENTIAL \
 char type; \ 
 int fdflags; \
 pid_t pgrp; \
-int fd;
+int fd; \
+char* lock; \
+short fd_refcount;
 
 #define FILE_ESSENTIAL \
 char* file; \
@@ -51,7 +54,6 @@ typedef struct {
 typedef struct {
    FD_ESSENTIAL
    FILE_ESSENTIAL
-   short refcount;
    char* membuf;
 } amemfile;
 
@@ -72,8 +74,9 @@ typedef struct {
 
 typedef struct {
    FD_ESSENTIAL
-   long* value; // Указатель на область памяти
-} atimerfd;
+   uint64_t* value; // Указатель на область памяти
+   short flags; // Флаги для eventfd
+} aeventfd;
 
 typedef FILE AFILE;
 

@@ -20,10 +20,17 @@
 #define EPOLLMSG     0x400   // Зарезервировано
 #define EPOLLRDHUP   0x2000  // Закрытие чтения peer'ом
 
+typedef union epoll_data {
+    void        *ptr;
+    int          fd;
+    uint32_t     u32;
+    uint64_t     u64;
+} epoll_data_t;
 
 struct epoll_event {
     uint32_t events; // EPOLLIN, EPOLLOUT и т.д.
-    int index;       // индекс отслеживаемого объекта
+    epoll_data_t data; // пользовательские данные
+    int index;         // (можно оставить для совместимости с вашей системой)
 };
 
 typedef struct {
@@ -46,7 +53,7 @@ extern epoll_object epoll_objects[MAX_EPOLL_OBJECTS];
 
 int epoll_create(int size);
 int epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout);
-int epoll_ctl(int epfd, int op, int index, uint32_t events);
+int epoll_ctl(int epfd, int op, int index, struct epoll_event* event);
 
 
 #endif

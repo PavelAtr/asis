@@ -5,10 +5,9 @@ set -e
 cd ../wayland-protocols-1.31/
 CWD=$(pwd)
 
-export SYSROOT="--sysroot=/asis"
 export CFLAGS="${CFLAGS} ${SYSROOT} -Ufds"
-export LDFLAGS=" ${LDCRT} ${LDFLAGS} ${SYSROOT}"
-export PKG_CONFIG_LIBDIR="/asis/lib/pkgconfig/"
+export LDFLAGS="${LDFLAGS} ${SYSROOT}"
+export PKG_CONFIG_LIBDIR="${DESTDIR}/lib/pkgconfig/"
 
 echo "Building wayland-protocols ... "
 

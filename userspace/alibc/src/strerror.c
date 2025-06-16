@@ -53,7 +53,9 @@ char* errors[60] = {
 "Resource deadlock avoided ",
 "Operation in progress",
 "Connection reset",
-"Cannot send after transport endpoint shutdown"
+"Cannot send after transport endpoint shutdown",
+"Bad address",
+"Protocol error",
 };
 
 char* strerror(int errnum)

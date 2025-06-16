@@ -1,7 +1,6 @@
-PREFIX?=/asis
 LDLAGS=-Wl,-fno-undefined -nostdlib
-CFLAGS?=-g -fPIC -fomit-frame-pointer
-SYSROOT?=--sysroot=$(PREFIX)
+CFLAGS?=-g -fPIC -fomit-frame-pointer -I../include -I../include_stub -I../alien/include -I../../include -I../../include_stub -I../../alien/include -I../../amath/include/ -I../../../amath/include/
+SYSROOT?=
 LD=$(CC)
 
 all: 
@@ -24,6 +23,7 @@ install:
 	install build/libac.so $(DESTDIR)$(PREFIX)/lib/libac.so
 	install build/libac.a $(DESTDIR)$(PREFIX)/lib/libac.a
 	make install_headers
+	cd $(DESTDIR)$(PREFIX)/lib; rm libc.so; ln -s libac.so libc.so
 
 install_headers:
 	mkdir -p $(DESTDIR)$(PREFIX)/usr

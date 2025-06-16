@@ -4,8 +4,7 @@ set -e
 cd ../xz-utils-5.4.1
 CWD=$(pwd)
 
-export PREFIX="/asis"
-export SYSROOT="--sysroot=/asis"
+export SYSROOT="--sysroot=${DESTDIR}"
 export CFLAGS="${CFLAGS} ${SYSROOT} -DPATH_MAX=4096 "
 export LDFLAGS="${LDFLAGS} ${SYSROOT} -lathread "
 

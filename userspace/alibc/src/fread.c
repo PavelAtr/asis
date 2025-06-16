@@ -4,6 +4,7 @@
 #include <fcntl.h>
 #include <errno.h>
 #include <string.h>
+#include <sys/eventfd.h>
 
 ssize_t piperead(apipe* f, void* buf, size_t count)
 {
@@ -35,6 +36,9 @@ size_t fread(void* ptr, size_t size, size_t nmemb, FILE* stream)
 INIT_afds
    size_t ret;
    size_t outsize = 0;
+   while (*stream->lock) {
+      switchtask;
+   }
    switch(stream->type)
    {
       case F_NAMEDMEM:
@@ -56,6 +60,20 @@ INIT_afds
       case F_FILE:   
          ret = (size_t)asyscall(SYS_FREAD, stream->file, ptr, size * nmemb, stream->pos, 0, 0);
          stream->pos += ret;
+      case F_EVENTFD:
+         if (((aeventfd*)stream)->value == 0) {
+            errno = EAGAIN;
+            return -1;
+         }
+         if (((aeventfd*)stream)->flags & EFD_SEMAPHORE) {
+            unsigned long value = 1;
+            memcpy(ptr, &value, sizeof(uint64_t));
+            *((aeventfd*)stream)->value -= 1;
+         } else {
+            memcpy(ptr, ((aeventfd*)stream)->value, sizeof(uint64_t));
+            *((aeventfd*)stream)->value = 0;
+         }
+         return sizeof(uint64_t);
       default:
          break; 
    }

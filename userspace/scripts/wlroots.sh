@@ -15,8 +15,9 @@ echo "Building wlroot ... "
 
 mkdir -p build
 
-meson setup --cross-file ../scripts/x86_64_asis_meson.txt ./build/ \
---prefix /asis 
+#meson setup --cross-file ../scripts/x86_64_asis_meson.txt ./build/ \
+#--prefix /asis 
+
 #-Dlibwacom=false \
 #-Ddebug-gui=false \
 #-Dtests=false \

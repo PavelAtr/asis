@@ -204,6 +204,6 @@ rm -fr %{buildroot}
 %endif # with_python3
 
 %changelog
-* Sun Jun 15 2025 Daniel Veillard <veillard@redhat.com>
+* Mon Jun 16 2025 Daniel Veillard <veillard@redhat.com>
 - upstream release 2.9.14
 

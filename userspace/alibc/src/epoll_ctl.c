@@ -1,6 +1,6 @@
 #include <sys/epoll.h>
 
-int epoll_ctl(int epfd, int op, int index, uint32_t events) {
+int epoll_ctl(int epfd, int op, int index,  struct epoll_event* event) {
     if (epfd < 0 || epfd >= MAX_EPOLL_OBJECTS || !epoll_objects[epfd].used)
         return -1;
     epoll_object *ep = &epoll_objects[epfd];
@@ -13,7 +13,7 @@ int epoll_ctl(int epfd, int op, int index, uint32_t events) {
             break;
         }
     }
-
+    uint32_t events = event->events;
     if (op == EPOLL_CTL_ADD) {
         if (found != -1) return -1; // Уже есть
         if (ep->num_targets >= MAX_EPOLL_TARGETS) return -1;

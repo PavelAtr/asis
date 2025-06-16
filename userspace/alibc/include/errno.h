@@ -54,5 +54,7 @@ extern int* core_errno;
 #define EINPROGRESS 47
 #define ECONNRESET 48
 #define ESHUTDOWN 49
+#define EFAULT 50
+#define EPROTO 51
 
 #endif

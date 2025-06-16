@@ -35,14 +35,14 @@
 #include "uefi/uefi.h"
 #endif
 
-char* main_chroot;
+char* main_chroot = "";
 
 int main(int argc, char** argv)
 {
    if (argc > 1) {
       main_chroot = argv[1];
    }
-   
+
    sys_printf(SYS_INFO "Starting TinySystem\n");
    init_proc();
 
