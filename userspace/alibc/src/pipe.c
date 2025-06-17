@@ -10,13 +10,11 @@ int pipe2(int pipefd[2], int flags)
    INIT_afds
    int fd0 = get_free_fd();
    afds[fd0] = calloc(1, sizeof(apipe));
-   ((apipe*)afds[fd0])->file = strdup("pipe");
    ((apipe*)afds[fd0])->fd = fd0;
    ((apipe*)afds[fd0])->flags |= FILE_INFINITY;
 
    int fd1 = get_free_fd();
    afds[fd1] = calloc(1, sizeof(apipe));
-   ((apipe*)afds[fd1])->file = strdup("pipe");
    ((apipe*)afds[fd1])->fd = fd1;
    ((apipe*)afds[fd1])->flags |= FILE_INFINITY;
 

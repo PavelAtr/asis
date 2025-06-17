@@ -48,6 +48,10 @@ INIT_afds
          ((amemfile*)stream)->pos += ret;
          goto end;
          break;
+      case F_NAMEDPIPE:
+         ret = pipewrite((anamedpipe*)stream, ptr, size * nmemb);
+         goto end;
+         break;
       case F_PIPE:
          ret = pipewrite((apipe*)stream, ptr, size * nmemb);
          goto end;

@@ -18,6 +18,9 @@ void initfile(FILE* src)
       case F_PIPE:
          memset(src, 0, sizeof(apipe)); // Initialize the pipe structure
          break;
+      case F_NAMEDPIPE:
+         memset(src, 0, sizeof(anamedpipe)); // Initialize the pipe structure
+         break;
       case F_MEM:
       case F_NAMEDMEM:
          memset(src, 0, sizeof(amemfile)); // Initialize the named memory file structure
@@ -48,6 +51,10 @@ void copyfile(FILE* dst, FILE* src)
    switch(src->type) {
       case F_FILE:
          memcpy(dst, src, sizeof(FILE));
+         break;
+      case F_NAMEDPIPE:
+         memcpy(dst, src, sizeof(anamedpipe));
+         ((apipe*)dst)->pbuf->refcount++;
          break;
       case F_PIPE:
          memcpy(dst, src, sizeof(apipe));
@@ -83,40 +90,45 @@ void freefile(FILE* dst)
    if (!dst) {
            return;
    }
-   if (dst->file) {
-      free(dst->file);
-      dst->file = NULL;
+   if (dst->type & F_FILE || dst->type & F_PIPE || dst->type & F_NAMEDPIPE
+       || dst->type & F_MEM || dst->type & F_NAMEDMEM) {
+      if (dst->file) {
+         free(dst->file);
+         dst->file = NULL;
+      }
    }
    switch(dst->type) {
       case F_FILE:
          break;
-      case F_PIPE:
+      case F_NAMEDPIPE:
          if (((apipe*)dst)->pbuf && ((apipe*)dst)->pbuf->refcount <= 1) {
-            size_t size = 0;
             #ifdef __ASIS__
-            
-            if (sys_shared("pipe", dst->file, "", &size)) {
-               free(((apipe*)dst)->pbuf);
-            } else {
                sys_delshared("pipe", dst->file);
-            }
             #else
-            if (!asyscall(SYS_SHARED, "pipe", dst->file, "", &size, 0, 0)) {
-               free(((apipe*)dst)->pbuf);
-            } else {
                asyscall(SYS_FREESHARED, "pipe", dst->file, 0, 0, 0, 0);
-            }
             #endif
          }
          ((apipe*)dst)->pbuf->refcount--;
          break;
+      case F_PIPE:
+         if (((apipe*)dst)->pbuf && ((apipe*)dst)->pbuf->refcount <= 1) {
+            free(((apipe*)dst)->pbuf);
+         }
+         ((apipe*)dst)->pbuf->refcount--;
+         break;
       case F_MEM:
-      case F_NAMEDMEM:
          if (((amemfile*)dst)->membuf && dst->fd_refcount <= 1) {
             // Free the memory buffer if it exists and refcount is 1 or less
             free(((amemfile*)dst)->membuf);
             ((amemfile*)dst)->membuf = NULL;
          }
+         break;
+      case F_NAMEDMEM:
+         #ifdef __ASIS__
+         sys_delshared("memfd", dst->file);
+         #else
+         asyscall(SYS_FREESHARED, "memfd", dst->file, 0, 0, 0, 0);
+         #endif
          break;
       case F_DIR:
          break;

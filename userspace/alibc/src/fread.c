@@ -31,62 +31,9 @@ size_t fmemread(void* ptr, size_t size, size_t nmemb, amemfile* stream)
    return ret;
 }
 
-size_t fread(void* ptr, size_t size, size_t nmemb, FILE* stream)
+size_t timerfd_fread(void* ptr, size_t size, size_t nmemb, FILE* stream)
 {
-INIT_afds
-   size_t ret;
-   size_t outsize = 0;
-   while (*stream->lock) {
-      switchtask;
-   }
-   switch(stream->type)
-   {
-      case F_NAMEDMEM:
-         ((amemfile*)stream)->membuf = asyscall(SYS_SHARED, "memfd", ((amemfile*)stream)->file, "", &outsize, 0, 0);
-         stream->size = outsize;
-         ret = fmemread(ptr, size,  nmemb, (amemfile*)stream);
-         stream->pos += ret;
-         goto end;
-         break;
-      case F_MEM:
-         ret = fmemread(ptr, size, nmemb, (amemfile*)stream);
-         ((amemfile*)stream)->pos += ret;
-         goto end;
-         break;
-      case F_PIPE:
-         ret = piperead((apipe*)stream, ptr, size * nmemb);
-         goto end;
-         break;
-      case F_FILE:   
-         ret = (size_t)asyscall(SYS_FREAD, stream->file, ptr, size * nmemb, stream->pos, 0, 0);
-         stream->pos += ret;
-         goto end;
-         break;
-      case F_EVENTFD:
-         if (((aeventfd*)stream)->value == 0) {
-            errno = EAGAIN;
-            return -1;
-         }
-         if (((aeventfd*)stream)->flags & EFD_SEMAPHORE) {
-            unsigned long value = 1;
-            memcpy(ptr, &value, sizeof(uint64_t));
-            *((aeventfd*)stream)->value -= 1;
-         } else {
-            memcpy(ptr, ((aeventfd*)stream)->value, sizeof(uint64_t));
-            *((aeventfd*)stream)->value = 0;
-         }
-         return sizeof(uint64_t);
-      case F_TIMERFD:
          struct timespec now;
-/* stub time NOT REALIZED*/
-            if (nmemb * size >= sizeof(uint64_t)) {
-               *(uint64_t*)ptr = ((atimerfd*)stream)->expirations;
-               ((atimerfd*)stream)->expirations = 0;
-                  return sizeof(uint64_t);
-            }
-            errno = EINVAL;
-            return -1;
-/* stub time NOT REALIZED*/
          clock_gettime(CLOCK_REALTIME, &now);
          if ((now.tv_sec > ((atimerfd*)stream)->next_expiry.tv_sec) ||
             (now.tv_sec == ((atimerfd*)stream)->next_expiry.tv_sec && now.tv_nsec >= ((atimerfd*)stream)->next_expiry.tv_nsec)) {
@@ -110,6 +57,63 @@ INIT_afds
          }
          errno = EAGAIN;
          return -1;
+}
+
+size_t eventfd_fread(void* ptr, size_t size, size_t nmemb, FILE* stream) {
+         if (((aeventfd*)stream)->value == 0) {
+            errno = EAGAIN;
+            return -1;
+         }
+         if (((aeventfd*)stream)->flags & EFD_SEMAPHORE) {
+            unsigned long value = 1;
+            memcpy(ptr, &value, sizeof(uint64_t));
+            *((aeventfd*)stream)->value -= 1;
+         } else {
+            memcpy(ptr, ((aeventfd*)stream)->value, sizeof(uint64_t));
+            *((aeventfd*)stream)->value = 0;
+         }
+         return sizeof(uint64_t);
+}
+
+size_t fread(void* ptr, size_t size, size_t nmemb, FILE* stream)
+{
+INIT_afds
+   size_t ret;
+   size_t outsize = 0;
+   while (*stream->lock) {
+      switchtask;
+   }
+   switch(stream->type)
+   {
+      case F_NAMEDMEM:
+         ((amemfile*)stream)->membuf = asyscall(SYS_SHARED, "memfd", ((amemfile*)stream)->file, "", &outsize, 0, 0);
+         stream->size = outsize;
+         ret = fmemread(ptr, size,  nmemb, (amemfile*)stream);
+         stream->pos += ret;
+         goto end;
+         break;
+      case F_MEM:
+         ret = fmemread(ptr, size, nmemb, (amemfile*)stream);
+         ((amemfile*)stream)->pos += ret;
+         goto end;
+         break;
+      case F_NAMEDPIPE:
+         ret = piperead((anamedpipe*)stream, ptr, size * nmemb);
+         goto end;
+         break;
+      case F_PIPE:
+         ret = piperead((apipe*)stream, ptr, size * nmemb);
+         goto end;
+         break;
+      case F_FILE:   
+         ret = (size_t)asyscall(SYS_FREAD, stream->file, ptr, size * nmemb, stream->pos, 0, 0);
+         stream->pos += ret;
+         goto end;
+         break;
+      case F_EVENTFD:
+         return eventfd_fread(ptr, size, nmemb, stream);
+      case F_TIMERFD:
+         return timerfd_fread(ptr, size, nmemb, stream);
       default:
          break; 
    }

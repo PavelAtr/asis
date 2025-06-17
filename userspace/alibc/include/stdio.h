@@ -18,12 +18,13 @@ typedef struct {
 
 #define F_FILE 1
 #define F_PIPE 2
-#define F_MEM 3
-#define F_NAMEDMEM 4
-#define F_DIR 5
-#define F_SOCKET 6
-#define F_EVENTFD 7
-#define F_TIMERFD 8
+#define F_NAMEDPIPE 3
+#define F_MEM 4
+#define F_NAMEDMEM 5
+#define F_DIR 6
+#define F_SOCKET 7
+#define F_EVENTFD 8
+#define F_TIMERFD 9
 
 #define FD_ESSENTIAL \
 char type; \ 
@@ -52,6 +53,8 @@ typedef struct {
    FILE_ESSENTIAL
    pipebuf* pbuf;
 } apipe;
+
+typedef apipe anamedpipe;
 
 typedef struct {
    FD_ESSENTIAL

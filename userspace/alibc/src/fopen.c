@@ -25,7 +25,7 @@ FILE* fopen(const char* path, const char* mode)
       ret->flags |= FILE_INFINITY;
    }
    if (st.st_mode & S_IFIFO ) {
-      ret->type = F_PIPE;
+      ret->type = F_NAMEDPIPE;
       size_t objsize = 0;
       ((apipe*)ret)->pbuf = asyscall(SYS_SHARED, "fifo", ret->file, mode, &objsize, 0, 0);
       ((apipe*)ret)->pbuf->refcount++;
