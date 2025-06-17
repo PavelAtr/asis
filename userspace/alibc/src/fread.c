@@ -74,6 +74,40 @@ INIT_afds
             *((aeventfd*)stream)->value = 0;
          }
          return sizeof(uint64_t);
+      case F_TIMERFD:
+         struct timespec now;
+/* stub time NOT REALIZED*/
+            if (nmemb * size >= sizeof(uint64_t)) {
+               *(uint64_t*)ptr = ((atimerfd*)stream)->expirations;
+               ((atimerfd*)stream)->expirations = 0;
+                  return sizeof(uint64_t);
+            }
+            errno = EINVAL;
+            return -1;
+/* stub time NOT REALIZED*/
+         clock_gettime(CLOCK_REALTIME, &now);
+         if ((now.tv_sec > ((atimerfd*)stream)->next_expiry.tv_sec) ||
+            (now.tv_sec == ((atimerfd*)stream)->next_expiry.tv_sec && now.tv_nsec >= ((atimerfd*)stream)->next_expiry.tv_nsec)) {
+            ((atimerfd*)stream)->expirations++;
+            // Перезапуск периодического таймера
+            if (((atimerfd*)stream)->spec.it_interval.tv_sec || ((atimerfd*)stream)->spec.it_interval.tv_nsec) {
+               ((atimerfd*)stream)->next_expiry.tv_sec += ((atimerfd*)stream)->spec.it_interval.tv_sec;
+               ((atimerfd*)stream)->next_expiry.tv_nsec += ((atimerfd*)stream)->spec.it_interval.tv_nsec;                  
+               if (((atimerfd*)stream)->next_expiry.tv_nsec >= 1000000000) {
+                  ((atimerfd*)stream)->next_expiry.tv_sec += 1;
+                  ((atimerfd*)stream)->next_expiry.tv_nsec -= 1000000000;
+               }
+            }
+            if (nmemb * size >= sizeof(uint64_t)) {
+               *(uint64_t*)ptr = ((atimerfd*)stream)->expirations;
+               ((atimerfd*)stream)->expirations = 0;
+                  return sizeof(uint64_t);
+            }
+            errno = EINVAL;
+            return -1;
+         }
+         errno = EAGAIN;
+         return -1;
       default:
          break; 
    }

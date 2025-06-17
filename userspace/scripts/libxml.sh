@@ -15,7 +15,9 @@ rm -rf src/*.o
 --enable-ipv6=no \
 --with-http=no \
 --with-ftp=no \
---with-python=no
+--with-python=no \
+--with-iconv=no \
+--with-icu=no
 
 make V=1 
 make install

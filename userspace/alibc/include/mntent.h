@@ -17,5 +17,7 @@ struct mntent *getmntent(FILE *stream);
 int addmntent(FILE* stream, const struct mntent* mnt);
 int endmntent(FILE *streamp);
 char *hasmntopt(const struct mntent *mnt, const char *opt);
+struct mntent *getmntent_r(FILE* streamp, struct mntent * mntbuf,
+             char buf[], int buflen);
 
 #endif

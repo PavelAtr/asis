@@ -29,3 +29,10 @@ char *hasmntopt(const struct mntent *mnt, const char *opt)
 {
    return "bad mnt opt";
 }
+
+
+struct mntent *getmntent_r(FILE* streamp, struct mntent * mntbuf,
+             char buf[], int buflen)
+{
+    return mntbuf;
+}

@@ -75,6 +75,7 @@ nocheckfs:
             current_errno = ENOMEM;
             return NULL; // Memory allocation failed
         }
+        sharedobjs[index]->refcount = 1;
         sharedobjs[index]->type = strdup(type);
         sharedobjs[index]->path = strdup(path);
         if (strcmp(type, "fifo") == 0) {
@@ -86,6 +87,9 @@ nocheckfs:
             *out_size = 1;
         }
    } else {
+        if (!*out_size) {
+            sharedobjs[index]->refcount++;
+        }
         if ((strcmp(type, "memfd") == 0)
                 && *out_size > sharedobjs[index]->size) {
             // Resize the memory file if the requested size is larger
@@ -108,9 +112,14 @@ void sys_delshared(const char* type, const char* path)
     if (index == -1) {
         return; // Not found
     }
-    free(sharedobjs[index]->type);
-    free(sharedobjs[index]->path);
-    free(sharedobjs[index]->obj);
-    free(sharedobjs[index]);
-    sharedobjs[index] = NULL; // Remove the shared object
+    
+    if (sharedobjs[index]->refcount <= 1) {
+        free(sharedobjs[index]->type);
+        free(sharedobjs[index]->path);
+        free(sharedobjs[index]->obj);
+        free(sharedobjs[index]);
+        sharedobjs[index] = NULL; // Remove the shared object
+    }
+    sharedobjs[index]->refcount--;
+
 }

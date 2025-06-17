@@ -12,11 +12,15 @@ char* sys_argv[1] = {"system"};
 extern void** current_fds;
 char* ld_library_path = "/lib:/usr/lib:/libexec";
 
+char lock1, lock2, lock3;
+
 AFILE sys_stdin = {
 F_FILE,
 0,
 0,
-01,
+0,
+&lock1,
+1,
 "/dev/tty",
 "r+",
 0,
@@ -28,6 +32,8 @@ AFILE sys_stdout = {
 F_FILE,
 0,
 0,
+1,
+&lock2,
 1,
 "/dev/tty",
 "r+",
@@ -41,6 +47,8 @@ F_FILE,
 0,
 0,
 2,
+&lock3,
+1,
 "/dev/tty",
 "r+",
 0,
@@ -67,6 +75,9 @@ void init_proc()
    sys.argv = sys_argv;
    sys.envp = sys_env;
    sys.fds = (void**) sys_fds;
+   *sys_stdin.lock = 0;
+   *sys_stdout.lock = 0;
+   *sys_stderr.lock = 0;
    cpu[0] = &sys;
    current = cpu[0];
    current->pid = 0;

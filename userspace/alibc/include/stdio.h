@@ -5,6 +5,7 @@
 #include <stdarg.h>
 #include <sys/types.h>
 #include <stdint.h>
+#include <time.h>
 
 #define MAXPIPE 512
 
@@ -22,6 +23,7 @@ typedef struct {
 #define F_DIR 5
 #define F_SOCKET 6
 #define F_EVENTFD 7
+#define F_TIMERFD 8
 
 #define FD_ESSENTIAL \
 char type; \ 
@@ -77,6 +79,14 @@ typedef struct {
    uint64_t* value; // Указатель на область памяти
    short flags; // Флаги для eventfd
 } aeventfd;
+
+typedef struct {
+    FD_ESSENTIAL
+    int flags;
+    struct itimerspec spec;
+    struct timespec next_expiry;
+    uint64_t expirations;
+} atimerfd;
 
 typedef FILE AFILE;
 

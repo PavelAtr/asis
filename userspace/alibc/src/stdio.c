@@ -16,7 +16,7 @@ void initfile(FILE* src)
          memset(src, 0, sizeof(FILE)); // Initialize the FILE structure
          break;
       case F_PIPE:
-         memset(src, 0, sizeof(apipe)); // Initialize the FILE structure
+         memset(src, 0, sizeof(apipe)); // Initialize the pipe structure
          break;
       case F_MEM:
       case F_NAMEDMEM:
@@ -28,7 +28,10 @@ void initfile(FILE* src)
          memset(src, 0, sizeof(asocket)); // Initialize the socket structure
          break;
       case F_EVENTFD:
-         memset(src, 0, sizeof(aeventfd)); // Initialize the timer file descriptor structure
+         memset(src, 0, sizeof(aeventfd)); // Initialize the event file descriptor structure
+         break;
+      case F_TIMERFD:
+         memset(src, 0, sizeof(atimerfd)); // Initialize the timer file descriptor structure)
          break;
       default:
          break;
@@ -53,7 +56,6 @@ void copyfile(FILE* dst, FILE* src)
       case F_MEM:
       case F_NAMEDMEM:
          memcpy(dst, src, sizeof(amemfile));
-         ((amemfile*)dst)->fd_refcount++;
          break;
       case F_DIR:
          break;
@@ -63,12 +65,15 @@ void copyfile(FILE* dst, FILE* src)
          memcpy(((asocket*)dst)->pending, ((asocket*)src)->pending, sizeof(void*) * UNIX_LISTEN_BACKLOG);
          break;
       case F_EVENTFD:
-         memset(src, 0, sizeof(aeventfd)); // Initialize the timer file descriptor structure
-         ((aeventfd*)dst)->fd_refcount++;
+         memcpy(dst, src, sizeof(aeventfd));
+         break;
+      case F_TIMERFD:
+         memcpy(dst, src, sizeof(atimerfd));
          break;
       default:
          return;
    }
+   dst->fd_refcount++;
    dst->file = strdup(src->file); // Copy the file name
    dst->mode = strdup(src->mode); // Copy the mode
 };
@@ -107,12 +112,11 @@ void freefile(FILE* dst)
          break;
       case F_MEM:
       case F_NAMEDMEM:
-         if (((amemfile*)dst)->membuf && ((amemfile*)dst)->fd_refcount <= 1) {
+         if (((amemfile*)dst)->membuf && dst->fd_refcount <= 1) {
             // Free the memory buffer if it exists and refcount is 1 or less
             free(((amemfile*)dst)->membuf);
             ((amemfile*)dst)->membuf = NULL;
          }
-         ((amemfile*)dst)->fd_refcount--;
          break;
       case F_DIR:
          break;
@@ -122,13 +126,13 @@ void freefile(FILE* dst)
          }
          break;
       case F_EVENTFD:
-         if (((aeventfd*)dst)->value && ((aeventfd*)dst)->fd_refcount <= 1) {
+         if (((aeventfd*)dst)->value && dst->fd_refcount <= 1) {
             free(((aeventfd*)dst)->value); // Free the timer file descriptor value pointer
          }
-         ((aeventfd*)dst)->fd_refcount--;
          break;
       default:
          break;
    } 
+   dst->fd_refcount--;
    free(dst);
 };

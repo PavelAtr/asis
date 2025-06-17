@@ -37,7 +37,7 @@ typedef struct {
 int pthread_create(pthread_t* thread,
          const pthread_attr_t* attr,
          void *(*start_routine)(void *),
-         void *restrict arg);
+         void *arg);
 
 int pthread_attr_init(pthread_attr_t *attr);
 int pthread_attr_destroy(pthread_attr_t *attr);
