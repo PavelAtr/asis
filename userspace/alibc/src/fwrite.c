@@ -55,6 +55,8 @@ INIT_afds
       case F_FILE:   
          ret = (size_t)asyscall(SYS_FWRITE, ((FILE*)stream)->file, ptr, size * nmemb, stream->pos, 0, 0);
          stream->pos += ret;
+         goto end;
+         break;
       case F_EVENTFD:
          memcpy(((aeventfd*)stream)->value, ptr, sizeof(uint64_t));
          return sizeof(uint64_t);         

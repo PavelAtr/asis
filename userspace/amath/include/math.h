@@ -10,4 +10,5 @@ double ceil(double x);
 double pow(double a, double b);
 double fmod(double a, double b);
 #define fabs(x) ((x < 0)? -x: x)
+double modf(double x, double *iptr);
 #endif

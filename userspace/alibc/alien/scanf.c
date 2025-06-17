@@ -73,7 +73,7 @@ int sscanf(const char *buffer, const char *fmt, ...)
    va_start(args, fmt);
    str.membuf = (char *) buffer;
    str.size = strlen(buffer);
-   rc = _input(&str, fmt, args);
+   rc = _input((FILE*)&str, fmt, args);
    return rc;
 }
 
@@ -83,7 +83,7 @@ int vsscanf(const char *buffer, const char *fmt, va_list args)
    amemfile str;
    str.membuf = (char *) buffer;
    str.size = strlen(buffer);
-   rc = _input(&str, fmt, args);
+   rc = _input((FILE*)&str, fmt, args);
    return rc;
 }
 

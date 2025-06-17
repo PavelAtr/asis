@@ -60,6 +60,8 @@ INIT_afds
       case F_FILE:   
          ret = (size_t)asyscall(SYS_FREAD, stream->file, ptr, size * nmemb, stream->pos, 0, 0);
          stream->pos += ret;
+         goto end;
+         break;
       case F_EVENTFD:
          if (((aeventfd*)stream)->value == 0) {
             errno = EAGAIN;
