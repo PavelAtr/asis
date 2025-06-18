@@ -89,8 +89,6 @@ void* sys_syscall(int number, void* arg1, void* arg2, void* arg3, void* arg4, vo
       return (void*)sys_longjmp((long_t*)arg1);
    case SYS_GETRLIMIT:
       return (void*)sys_getrlimit((int)arg1, (void*)arg2);
-   case SYS_MKFIFO:
-      return (void*)sys_mkfifo((const char*)arg1, (const char*)arg2);
    case SYS_SHARED:
       return sys_shared((const char*)arg1, (const char*)arg2, (const char*)arg3, (size_t*)arg4);
    case SYS_FREESHARED:

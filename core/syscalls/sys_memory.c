@@ -12,7 +12,6 @@
 #include "../uefi/uefi.h"
 #endif
 
-#define cellid(addr)  ((addr & 0x7F) | 0x80)
 
 void init_memory(void* base, size_t size)
 {

@@ -1,3 +1,8 @@
+/******************************************************
+*  Author: Pavel V Samsonov 2025
+*  Author: GitHub Copilot 2025
+*******************************************************/
+
 #include <asis.h>
 #include <errno.h>
 #include <stddef.h>
@@ -80,18 +85,18 @@ nocheckfs:
         sharedobjs[index]->path = strdup(path);
         if (strcmp(type, "fifo") == 0) {
             sharedobjs[index]->obj = calloc(1, sizeof(pipebuf));
+            sharedobjs[index]->size = sizeof(pipebuf);
             *out_size = sizeof(pipebuf);
         }
         if (strcmp(type, "memfd") == 0) {
             sharedobjs[index]->obj = calloc(1, 1);
+            sharedobjs[index]->size = 1;
             *out_size = 1;
         }
    } else {
-        if (!*out_size) {
-            sharedobjs[index]->refcount++;
-        }
         if ((strcmp(type, "memfd") == 0)
-                && *out_size > sharedobjs[index]->size) {
+                && *out_size > sharedobjs[index]->size
+                && *out_size != -1) {
             // Resize the memory file if the requested size is larger
             void* new_mem = realloc(sharedobjs[index]->obj, *out_size);
             if (!new_mem) {
@@ -101,7 +106,11 @@ nocheckfs:
             sharedobjs[index]->obj = new_mem;
             sharedobjs[index]->size = *out_size;
         }
-   }
+        if (*out_size == -1) {
+            sharedobjs[index]->refcount++;
+        }
+        *out_size = sharedobjs[index]->size;
+    }
  
    return sharedobjs[index] ? sharedobjs[index]->obj : NULL;
 }
@@ -112,14 +121,12 @@ void sys_delshared(const char* type, const char* path)
     if (index == -1) {
         return; // Not found
     }
-    
-    if (sharedobjs[index]->refcount <= 1) {
+    sharedobjs[index]->refcount--;
+    if (sharedobjs[index]->refcount <= 0) {
         free(sharedobjs[index]->type);
         free(sharedobjs[index]->path);
         free(sharedobjs[index]->obj);
         free(sharedobjs[index]);
         sharedobjs[index] = NULL; // Remove the shared object
     }
-    sharedobjs[index]->refcount--;
-
 }

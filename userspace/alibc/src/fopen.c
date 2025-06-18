@@ -1,3 +1,7 @@
+/******************************************************
+*  Author: Pavel V Samsonov 2025
+*******************************************************/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>
@@ -14,21 +18,26 @@ FILE* fopen(const char* path, const char* mode)
       errno = ENOENT;
       return NULL;
    }
-   FILE* ret = calloc(1, sizeof(FILE));
+   FILE* ret;
+   if (st.st_mode & S_IFIFO ) {
+      ret = calloc(1, sizeof(anamedpipe));
+      ret->type = F_NAMEDPIPE;
+   } else {
+      ret = calloc(1, sizeof(FILE));
+      ret->type = F_FILE;
+   }
    initfile(ret);
    char* cwd = get_current_dir_name();
    ret->file = fullpath(cwd, path);
    ret->size = st.st_size;
-   ret->type = F_FILE;
    ret->mode = mode;
    if (st.st_mode & S_IFCHR) {
       ret->flags |= FILE_INFINITY;
    }
    if (st.st_mode & S_IFIFO ) {
-      ret->type = F_NAMEDPIPE;
-      size_t objsize = 0;
-      ((apipe*)ret)->pbuf = asyscall(SYS_SHARED, "fifo", ret->file, mode, &objsize, 0, 0);
-      ((apipe*)ret)->pbuf->refcount++;
+      size_t objsize = -1;
+      ((anamedpipe*)ret)->pbuf = asyscall(SYS_SHARED, "fifo", ret->file, mode, &objsize, 0, 0);
+      ((anamedpipe*)ret)->pbuf->refcount++;
    }
    return ret;
 }

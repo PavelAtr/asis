@@ -1,3 +1,7 @@
+/******************************************************
+*  Author: Pavel V Samsonov 2025
+*******************************************************/
+
 #include <fcntl.h>
 #include <stdio.h>
 #include <errno.h>
@@ -11,7 +15,7 @@ int open(const char *pathname, int flags, ...)
    INIT_afds
    mode_t mode = 0;
    if (flags & O_CREAT) {
-      mode = S_IFREG | 0666 & ~gmask;
+      mode = S_IFREG | 0666 & mask();
       mknod(pathname, mode, 0);
    }
    if (flags & O_TRUNC) {

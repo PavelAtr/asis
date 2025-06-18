@@ -65,6 +65,8 @@ typedef struct {
    FD_ESSENTIAL
    FILE_ESSENTIAL
    char* membuf;
+   char** clientptr;
+   size_t* clientsize;
 } amemfile;
 
 #define UNIX_LISTEN_BACKLOG 8

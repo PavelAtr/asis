@@ -291,23 +291,5 @@ int_t sys_truncate(const char *pathname, size_t length)
    return 0;
 }
 
-int_t sys_mkfifo(const char* path, const char* mode)
-{
-   struct stat st;
-   if (sys_stat(path, &st) == -1) {
-        mode_t newmode = 0;
-        newmode = S_IFIFO;
-        if (strlen(mode) >= 1 || mode[0] == 'r') {
-            newmode |= 0440;
-        }
-        if (strlen(mode) >= 2 && mode[1] == 'w') {
-            newmode |= 0660;
-        }
-        sys_mknod(path, newmode);
-   } else {
-        current_errno = EEXIST;
-        return -1;
-   }
-   return 0;
-}
+
 

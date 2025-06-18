@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdlib.h>
+#include <sys/mman.h>
 
 int memfd_create(const char *name, unsigned int flags)
 {
@@ -15,16 +16,14 @@ int memfd_create(const char *name, unsigned int flags)
       errno = ENOMEM;
       return -1;
    }
-   FILE* ret =afds[fd];
-   ret = malloc(sizeof(amemfile));
-   initfile(ret);
-   char* cwd = get_current_dir_name();
-   ret->file = fullpath(cwd, name);
-   ret->size = 0;
+   afds[fd] = malloc(sizeof(amemfile));
+   afds[fd]->type = F_NAMEDMEM;
+   initfile(afds[fd]);
+   afds[fd]->file = strdup(name);
+   afds[fd]->size = -1;
    if (flags & MFD_CLOEXEC) {
-      ret->fdflags |= O_CLOEXEC;
+      afds[fd]->fdflags |= O_CLOEXEC;
    }
-   ret->type = F_NAMEDMEM;
-   ((amemfile*)ret)->membuf = asyscall(SYS_SHARED, "memfd", ret->file, "", &ret->size, 0, 0);
+   ((amemfile*)afds[fd])->membuf = asyscall(SYS_SHARED, "memfd", afds[fd]->file, "", &afds[fd]->size, 0, 0);
    return fd;
 }

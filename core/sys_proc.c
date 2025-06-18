@@ -59,7 +59,7 @@ FILE_INFINITY,
 int sys_dlnlink = 1;
 char* sys_env[4] = {
    "PATH=/usr/bin:/bin",
-   "CWD=/asis",
+   "CWD=/",
    "UMASK=0022",
    NULL,
 };

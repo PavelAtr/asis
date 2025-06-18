@@ -57,7 +57,7 @@ int deinit_tls(proc* task) {
             continue; // No TLS for this module
         }
         if (task->dtv[s->module_id]) {
-            printf("DEINIT_TLS: module %d, address %p\n", s->module_id, task->dtv[s->module_id]);
+            printf("FREE_TLS: module %d, address %p\n", s->module_id, task->dtv[s->module_id]);
             sys_free(task->dtv[s->module_id]);
             task->dtv[s->module_id] = NULL;
         }

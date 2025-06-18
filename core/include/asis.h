@@ -52,7 +52,7 @@ void sys_prog_free(void *ptr);
 void* sys_syscall(int number, void* arg1, void* arg2, void* arg3, void* arg4, void* arg5, void* arg6);
 int sys_usleep(long_t usecs);
 
-#define MAXDEV 5
+#define MAXDEV 10
 
 typedef struct {
   const char* file;
@@ -181,7 +181,7 @@ pid_t sys_waitpid(pid_t pid, int* wstatus, int options);
 
 
 
-#define MAXSTACK (1024 * 32)
+#define MAXSTACK (1024 * 128)
 
 register char* sp __asm__("rsp");
 extern char* mainsp;

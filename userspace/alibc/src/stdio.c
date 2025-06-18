@@ -12,39 +12,21 @@
 #include <asis.h>
 #endif
 
+char lock = 0;
+
 void initfile(FILE* src)
 {
+
    src->fd = -1; // File descriptor not set
-   switch(src->type) {
-      case F_FILE:
-         memset(src, 0, sizeof(FILE)); // Initialize the FILE structure
-         break;
-      case F_PIPE:
-         memset(src, 0, sizeof(apipe)); // Initialize the pipe structure
-         break;
-      case F_NAMEDPIPE:
-         memset(src, 0, sizeof(anamedpipe)); // Initialize the pipe structure
-         break;
-      case F_MEM:
-      case F_NAMEDMEM:
-         memset(src, 0, sizeof(amemfile)); // Initialize the named memory file structure
-         break;
-      case F_DIR:
-         break;
-      case F_SOCKET:
-         memset(src, 0, sizeof(asocket)); // Initialize the socket structure
-         break;
-      case F_EVENTFD:
-         memset(src, 0, sizeof(aeventfd)); // Initialize the event file descriptor structure
-         break;
-      case F_TIMERFD:
-         memset(src, 0, sizeof(atimerfd)); // Initialize the timer file descriptor structure)
-         break;
-      default:
-         break;
-   }
-   src->lock = calloc(1, sizeof(char));
+   src->lock = malloc(sizeof(char));
+   *src->lock = 0;
    src->fd_refcount = 1;
+   if (src->type & F_FILE || src->type & F_PIPE || src->type & F_NAMEDPIPE
+       || src->type & F_MEM || src->type & F_NAMEDMEM) {
+       src->file = NULL;
+       src->pos = 0;
+       src->size = 0;
+   }
 }
 
 void copyfile(FILE* dst, FILE* src)
@@ -94,25 +76,15 @@ void freefile(FILE* dst)
    if (!dst) {
            return;
    }
-   if (dst->type & F_FILE || dst->type & F_PIPE || dst->type & F_NAMEDPIPE
-       || dst->type & F_MEM || dst->type & F_NAMEDMEM) {
-      if (dst->file) {
-         free(dst->file);
-         dst->file = NULL;
-      }
-   }
    switch(dst->type) {
       case F_FILE:
          break;
       case F_NAMEDPIPE:
-         if (((apipe*)dst)->pbuf && ((apipe*)dst)->pbuf->refcount <= 1) {
-            #ifdef __ASIS__
-               sys_delshared("pipe", dst->file);
-            #else
-               asyscall(SYS_FREESHARED, "pipe", dst->file, 0, 0, 0, 0);
-            #endif
-         }
-         ((apipe*)dst)->pbuf->refcount--;
+         #ifdef __ASIS__
+         sys_delshared("fifo", dst->file);
+         #else
+         asyscall(SYS_FREESHARED, "fifo", dst->file, 0, 0, 0, 0);
+         #endif
          break;
       case F_PIPE:
          if (((apipe*)dst)->pbuf && ((apipe*)dst)->pbuf->refcount <= 1) {
@@ -121,11 +93,11 @@ void freefile(FILE* dst)
          ((apipe*)dst)->pbuf->refcount--;
          break;
       case F_MEM:
-         if (((amemfile*)dst)->membuf && dst->fd_refcount <= 1) {
+/*         if (((amemfile*)dst)->membuf && dst->fd_refcount <= 1) {
             // Free the memory buffer if it exists and refcount is 1 or less
             free(((amemfile*)dst)->membuf);
             ((amemfile*)dst)->membuf = NULL;
-         }
+         }*/
          break;
       case F_NAMEDMEM:
          #ifdef __ASIS__
@@ -149,6 +121,13 @@ void freefile(FILE* dst)
       default:
          break;
    } 
+   if (dst->type & F_FILE || dst->type & F_PIPE || dst->type & F_NAMEDPIPE
+       || dst->type & F_MEM || dst->type & F_NAMEDMEM) {
+      if (dst->file) {
+         free(dst->file);
+         dst->file = NULL;
+      }
+   }
    dst->fd_refcount--;
    free(dst);
 };

@@ -6,5 +6,5 @@
 
 int mkdir(const char* pathname, mode_t mode)
 {
-   return (int)asyscall(SYS_MKNOD, fullpath(get_current_dir_name(), pathname), S_IFDIR |  mode & ~gmask, 0, 0, 0, 0);
+   return (int)asyscall(SYS_MKNOD, fullpath(get_current_dir_name(), pathname), S_IFDIR |  mode & ~mask(), 0, 0, 0, 0);
 }

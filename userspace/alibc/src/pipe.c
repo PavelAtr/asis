@@ -17,7 +17,8 @@ int pipe2(int pipefd[2], int flags)
    afds[fd1] = calloc(1, sizeof(apipe));
    ((apipe*)afds[fd1])->fd = fd1;
    ((apipe*)afds[fd1])->flags |= FILE_INFINITY;
-
+   afds[fd0]->file = NULL;
+   afds[fd1]->file = NULL;
    if (fd0 == -1 || fd1 == -1)
    {
       freefile(afds[fd0]);
