@@ -2,7 +2,6 @@
 *  Author: Pavel V Samsonov 2025
 *******************************************************/
 
-
 #ifndef _STDIO_H
 #define _STDIO_H
 
@@ -46,6 +45,12 @@ size_t size; \
 size_t pos; \
 char flags;
 
+#define SOCKET_ESSENTIAL \
+int domain; \
+int socktype; \
+int protocol;
+
+
 typedef struct {
    FD_ESSENTIAL
    FILE_ESSENTIAL
@@ -72,6 +77,8 @@ typedef struct {
 #define UNIX_LISTEN_BACKLOG 8
 typedef struct {
    FD_ESSENTIAL
+   SOCKET_ESSENTIAL
+   char path[108];
    char bound;
    char connected;
    char listening;

@@ -56,5 +56,7 @@ extern int* core_errno;
 #define ESHUTDOWN 49
 #define EFAULT 50
 #define EPROTO 51
+#define ECONNREFUSED 52
+#define ENOTCONN 53
 
 #endif

@@ -1,3 +1,7 @@
+/******************************************************
+*  Author: Pavel V Samsonov 2025
+*******************************************************/
+
 #include <asis.h>
 #include <stdio.h>
 #include <fcntl.h>
@@ -60,7 +64,7 @@ int sys_dlnlink = 1;
 char* sys_env[4] = {
    "PATH=/usr/bin:/bin",
    "CWD=/",
-   "UMASK=0022",
+   "UMASK=0027",
    NULL,
 };
 

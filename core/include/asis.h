@@ -240,4 +240,9 @@ void sys_delshared(const char* type, const char* path);
 void sys_threadend();
 extern char* main_chroot;
 
+#define MAXSOCKETS 32
+extern void* sockets[MAXSOCKETS];
+int sys_listen(void* socket);
+int sys_connect(void* socket, void* addr);
+
 #endif

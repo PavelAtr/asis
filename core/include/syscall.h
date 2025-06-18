@@ -40,6 +40,8 @@
 #define SYS_SHARED 34
 #define SYS_FREESHARED 35
 #define SYS_THREADEND 36
+#define SYS_CONNECT 37
+#define SYS_LISTEN 38
 
 #ifdef UEFI_KERNEL
 __attribute__((ms_abi)) 

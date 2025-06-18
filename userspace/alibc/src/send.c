@@ -1,20 +1,34 @@
-#include <sys/types.h>
+/******************************************************
+*  Author: Pavel V Samsonov 2025
+*  Author: GitHub Copilot 2025
+*******************************************************/
+
 #include <sys/socket.h>
+#include <stdio.h>
+#include <errno.h>
+#include <fcntl.h>
+#include <string.h>
 
-/* NOT REALIZED */
-
-ssize_t send(int sockfd, const void* buf, size_t len, int flags)
-{
-   return 0;
+ssize_t send(int sockfd, const void *buf, size_t len, int flags) {
+   if (!fd_is_valid(sockfd)) {
+      errno = EBADFD;
+      return -1;
+   }
+   asocket* socket = (asocket*)afds[sockfd];
+   if (socket->domain == AF_UNIX || socket->socktype == SOCK_STREAM) {
+      if (!socket->connected) {
+           errno = ENOTCONN;
+         return -1;
+      }
+      size_t to_copy = len;
+      asocket* peer = socket->peer;
+      if (to_copy > sizeof(peer->buf) - peer->buflen)
+         to_copy = sizeof(peer->buf) - peer->buflen;
+      memcpy(peer->buf + peer->buflen, buf, to_copy);
+      peer->buflen += to_copy;
+      return to_copy;
+   }
+   errno = EAFNOSUPPORT;
+   return 0;    
 }
 
-ssize_t sendto(int sockfd, const void* buf, size_t len, int flags,
-                  const struct sockaddr *dest_addr, socklen_t addrlen)
-{
-   return 0;
-}
-
-ssize_t sendmsg(int sockfd, const struct msghdr *msg, int flags)
-{
-   return 0;
-}

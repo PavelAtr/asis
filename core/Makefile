@@ -22,7 +22,8 @@ syscalls/sys_rlimit.c \
 sys_dl.c \
 sys_trap.c \
 sys_tls.c \
-sys_shared.c
+sys_shared.c \
+sys_socket.c
 
 
 EXTLIBS = \

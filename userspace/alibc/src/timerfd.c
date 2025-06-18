@@ -1,6 +1,10 @@
+/******************************************************
+*  Author: Pavel V Samsonov 2025
+*  Author: GitHub Copilot 2025
+*******************************************************/
+
 #include <stdio.h>
 #include <sys/timerfd.h>
-
 #include <sys/timerfd.h>
 #include <errno.h>
 #include <string.h>

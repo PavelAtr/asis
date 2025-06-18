@@ -56,6 +56,8 @@ char* errors[60] = {
 "Cannot send after transport endpoint shutdown",
 "Bad address",
 "Protocol error",
+"Connection refused",
+"The socket is not connected",
 };
 
 char* strerror(int errnum)

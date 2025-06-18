@@ -1,3 +1,7 @@
+/******************************************************
+*  Author: Pavel V Samsonov 2025
+*******************************************************/
+
 #ifndef _SYS_SOCKET_H
 #define _SYS_SOCKET_H
 
@@ -362,18 +366,18 @@ enum
   };
 
 
+int listen(int sockfd, int backlog);
 int accept(int sockfd, struct sockaddr* addr,
                   socklen_t* addrlen);
-
 ssize_t send(int sockfd, const void* buf, size_t len, int flags);
-ssize_t sendto(int sockfd, const void* buf, size_t len, int flags,
+/*ssize_t sendto(int sockfd, const void* buf, size_t len, int flags,
                   const struct sockaddr *dest_addr, socklen_t addrlen);
-ssize_t sendmsg(int sockfd, const struct msghdr *msg, int flags);
+ssize_t sendmsg(int sockfd, const struct msghdr *msg, int flags);*/
 
 ssize_t recv(int sockfd, void* buf, size_t len, int flags);
-ssize_t recvfrom(int sockfd, void* buf, size_t len,
+/*ssize_t recvfrom(int sockfd, void* buf, size_t len,
                 int flags, struct sockaddr* src_addr,
                 socklen_t* addrlen);
-ssize_t recvmsg(int sockfd, struct msghdr *msg, int flags);
+ssize_t recvmsg(int sockfd, struct msghdr *msg, int flags);*/
 
 #endif
