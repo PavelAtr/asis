@@ -62,6 +62,17 @@ int do_fifo(int argc, char** argv)
    fclose(f3);
    free(ptr);
 
+   char buf5[32];
+   char membuf[32];
+
+   FILE* f4 = fmemopen(membuf, 32, "r+");
+   len = fwrite("Hello world!\0", 1, 13, f4);
+   printf("Wrote to fmemopen: %ld bytes\n", len);
+   printf("fmemopen buffer contain %s\n", ((amemfile*)f4)->membuf);
+   fseek(f4, 0, SEEK_SET);
+   fread(buf5, 1, len, f4);
+   printf("Read from fmemopen: %s\n", buf5);
+
 
    return 0;
 }
