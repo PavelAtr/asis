@@ -1,3 +1,7 @@
+/******************************************************
+*  Author: Pavel V Samsonov 2025
+*******************************************************/
+
 #include <sys/stat.h>
 #include <asis.h>
 #include <sys/capability.h>

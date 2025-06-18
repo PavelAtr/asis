@@ -8,6 +8,8 @@
 #include <sys/un.h>
 #include <sys/socket.h>
 #include <string.h>
+#include <sys/stat.h>
+#include <errno.h>
 
 void* sockets[MAXSOCKETS];
 
@@ -21,12 +23,40 @@ int get_free_socket()
     return -1;
 }
 
+int socket_checkperm(const char* path)
+{
+   mountpoint* mount = sys_get_mountpoint(path);
+   if (!mount) {
+      current_errno = ENOENT;
+      return -1;
+   }
+   const char* file = sys_calcpath(mount, path);
+   if (!mount->mount_can_read(mount->sbfs, file, current->uid, current->gid)) {
+      current_errno = EPERM;
+      return -1;
+   }
+   if (!mount->mount_can_write(mount->sbfs, file, current->uid, current->gid)) {
+      current_errno = EPERM;
+      return -1;
+   }
+      struct stat st;
+   if (mount->mount_stat(mount->sbfs, file, &st)) {
+      current_errno = ENOENT;
+      return -1;
+   }
+   return 0;
+}
+
 int sys_listen(void* socket)
 {
     int i = get_free_socket();
     if (i == -1)
         return -1;
+    asocket* server = socket;    
     sockets[i] = socket;
+    if (server->domain == AF_UNIX && server->socktype == SOCK_STREAM) {
+        sys_mknod(server->path, S_IFSOCK | 0660);
+    }
 }
 
 int sys_connect(void* socket, void* saddr)
@@ -48,6 +78,9 @@ int sys_connect(void* socket, void* saddr)
 	    if (!server) {
 	        return -1;
 	    }
+        if (socket_checkperm(server->path)) {
+            return -1;
+        }
         if (server->listening && server->num_pending < server->backlog) {
             server->pending[server->num_pending++] = client;
         } else if (!server->listening) {
