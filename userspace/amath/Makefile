@@ -1,7 +1,6 @@
 PREFIX?=/asis
 CFLAGS?=-g -fPIC -I../include
-LDFLAGS=-nostdlib -Wl,-fno-undefined
-LD=$(CC)
+LDFLAGS?=
 
 all: install_headers
 	mkdir -p build

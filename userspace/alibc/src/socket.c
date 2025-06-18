@@ -49,10 +49,9 @@ int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen) {
     return -1;
   }
 
-/*
-extern struct cmsghdr *__cmsg_nxthdr (struct msghdr *__mhdr,
+/* STUB USED */
+struct cmsghdr *__cmsg_nxthdr (struct msghdr *__mhdr,
                                       struct cmsghdr *__cmsg)
 {
   return __cmsg;
 }
-*/

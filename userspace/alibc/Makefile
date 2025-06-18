@@ -1,7 +1,6 @@
 LDLAGS=-Wl,-fno-undefined -nostdlib
 CFLAGS?=-g -fPIC -fomit-frame-pointer -I../include -I../include_stub -I../alien/include -I../../include -I../../include_stub -I../../alien/include -I../../amath/include/ -I../../../amath/include/
 SYSROOT?=
-LD=$(CC)
 
 all: 
 	make -C init/

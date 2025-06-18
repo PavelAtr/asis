@@ -11,7 +11,7 @@ export LDFLAGS="${LDFLAGS} ${SYSROOT}"
 echo "Building libffi ... "
 
 rm -rf src/*.o
-./configure --host=x86_64-pc-none --build=x86_64-linux-gnu --target=x86_64-linux-gnu --prefix=${PREFIX} --includedir=${PREFIX}/usr/include
+./configure --host=x86_64-asis-bsd --build=x86_64-linux-gnu --target=x86_64-linux-gnu --prefix=${PREFIX} --includedir=${PREFIX}/usr/include
 make 
 make install
 

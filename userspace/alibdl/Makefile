@@ -2,7 +2,6 @@ ARCH?=x86_64
 PREFIX?=/asis
 LDLAGS=-Wl,-fno-undefined -nostdlib 
 CFLAGS?=-fPIC -DSTANDALONE
-LD=$(CC)
 
 all: 
 	mkdir -p build

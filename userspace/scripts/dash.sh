@@ -11,7 +11,7 @@ echo "Building dash ... "
 
 rm -rf src/*.o
 ./configure --host=x86_64-pc-none --build=x86_64-linux-gnu --target=x86_64-linux-gnu --prefix=${PREFIX}
-make 
+make V=1
 make install
 
 
