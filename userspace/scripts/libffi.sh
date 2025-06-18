@@ -6,12 +6,12 @@ CWD=$(pwd)
 
 export SYSROOT="--sysroot=${DESTDIR}"
 export CFLAGS="${CFLAGS} ${SYSROOT} -DPATH_MAX=4096 "
-export LDFLAGS="${LDFLAGS} ${SYSROOT}"
+export LDFLAGS="${LDFLAGS} ${SYSROOT} -L${DESTDIR}${PREFIX}/lib"
 
 echo "Building libffi ... "
 
 rm -rf src/*.o
-./configure --host=x86_64-asis-bsd --build=x86_64-linux-gnu --target=x86_64-linux-gnu --prefix=${PREFIX} --includedir=${PREFIX}/usr/include
+./configure --host=x86_64-asis-linux --build=x86_64-linux-gnu --target=x86_64-linux-gnu --prefix=${PREFIX} --includedir=${PREFIX}/usr/include
 make 
 make install
 

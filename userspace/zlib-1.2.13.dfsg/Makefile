@@ -14,14 +14,14 @@
 
 CC=cc-asis
 
-CFLAGS=-fPIC -g -fomit-frame-pointer -ftls-model=global-dynamic  --sysroot=/home/PavelAtr/asis/root -DPATH_MAX=4096  -D_LARGEFILE64_SOURCE=1 -DNO_STRERROR -DNO_vsnprintf -DHAVE_HIDDEN
+CFLAGS=-fPIC -g -fomit-frame-pointer -ftls-model=global-dynamic  --sysroot=/home/PavelAtr/asis/root -DPATH_MAX=4096  -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN
 #CFLAGS=-O -DMAX_WBITS=14 -DMAX_MEM_LEVEL=7
 #CFLAGS=-g -DZLIB_DEBUG
 #CFLAGS=-O3 -Wall -Wwrite-strings -Wpointer-arith -Wconversion \
 #           -Wstrict-prototypes -Wmissing-prototypes
 
-SFLAGS=-fPIC -g -fomit-frame-pointer -ftls-model=global-dynamic  --sysroot=/home/PavelAtr/asis/root -DPATH_MAX=4096  -fPIC -D_LARGEFILE64_SOURCE=1 -DNO_STRERROR -DNO_vsnprintf -DHAVE_HIDDEN
-LDFLAGS=-nostdlib -lac --sysroot=/home/PavelAtr/asis/root -L/home/PavelAtr/asis/root//lib -lac -nostdlib
+SFLAGS=-fPIC -g -fomit-frame-pointer -ftls-model=global-dynamic  --sysroot=/home/PavelAtr/asis/root -DPATH_MAX=4096  -fPIC -D_LARGEFILE64_SOURCE=1 -DHAVE_HIDDEN
+LDFLAGS= --sysroot=/home/PavelAtr/asis/root -L/home/PavelAtr/asis/root//lib -lac -nostdlib
 TEST_LDFLAGS=$(LDFLAGS) -L. libz.a
 LDSHARED=cc-asis -shared -Wl,-soname,libz.so.1,--version-script,zlib.map
 CPP=

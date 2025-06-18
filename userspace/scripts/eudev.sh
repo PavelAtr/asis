@@ -13,7 +13,7 @@ echo $LDFLAGS
 echo "Building eudev ... "
 
 rm -rf src/*.o
-#./configure --host=x86_64-pc-none --build=x86_64-linux-gnu --target=x86_64-linux-gnu --prefix=${PREFIX} \
+#./configure --host=x86_64-asis-linux --build=x86_64-linux-gnu --target=x86_64-linux-gnu --prefix=${PREFIX} \
 #  --with-sysroot=${PREFIX} \
 #  --disable-programs \
 #  --disable-blkid \

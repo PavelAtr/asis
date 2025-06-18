@@ -6,12 +6,12 @@ CWD=$(pwd)
 
 export SYSROOT="--sysroot=${DESTDIR}"
 export CFLAGS="${CFLAGS} ${SYSROOT} -DPATH_MAX=4096 "
-export LDFLAGS="${LDFLAGS} ${SYSROOT} -lathread "
+export LDFLAGS="${LDFLAGS} ${SYSROOT} -L${DESTDIR}${PREFIX}/lib -lathread "
 
 
 echo "Building xz-utils ... "
 
-./configure --host=x86_64-pc-none --build=x86_64-linux-gnu --target=x86_64-linux-gnu --prefix=${PREFIX} --includedir=${PREFIX}/usr/include
+./configure --host=x86_64-asis-linux --build=x86_64-linux-gnu --target=x86_64-linux-gnu --prefix=${PREFIX} --includedir=${PREFIX}/usr/include
 make
 make install
 

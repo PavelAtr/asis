@@ -1,2 +1,2 @@
 #!/bin/bash
-echo "libc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x00007fc65ffc1000)"
+ldd.orig -v $@

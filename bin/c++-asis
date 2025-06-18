@@ -10,8 +10,8 @@ done
 
 if [ "$is_link" -eq 1 ] && [ "$is_shared" -eq 0 ]; then
     # Линковка обычного бинаря — добавляем crt.o и -nostdlib
-    exec c++ ${LDCRT} $@
+    exec c++ ${LDCRT} -nostdlib -lac $@
 else
     # Компиляция или линковка shared — ничего не добавляем
-    exec c++ $@
+    exec c++ -nostdlib -lac $@
 fi
