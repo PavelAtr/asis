@@ -244,5 +244,6 @@ extern char* main_chroot;
 extern void* sockets[MAXSOCKETS];
 int sys_listen(void* socket);
 int sys_connect(void* socket, void* addr);
+void* sys_calloc(size_t nmemb, size_t size);
 
 #endif

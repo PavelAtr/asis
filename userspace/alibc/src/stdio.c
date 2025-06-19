@@ -16,7 +16,6 @@ char lock = 0;
 
 void initfile(FILE* src)
 {
-
    src->fd = -1; // File descriptor not set
    src->lock = malloc(sizeof(char));
    *src->lock = 0;
@@ -24,51 +23,66 @@ void initfile(FILE* src)
    if (src->type & F_FILE || src->type & F_PIPE || src->type & F_NAMEDPIPE
        || src->type & F_MEM || src->type & F_NAMEDMEM) {
        src->file = NULL;
+       src->mode = NULL;
+       src->flags = 0;
        src->pos = 0;
        src->size = 0;
    }
 }
 
-void copyfile(FILE* dst, FILE* src)
+void copyfile(FILE** dst, FILE* src)
 {
    if (!dst || !src) {
            return;
    }
    switch(src->type) {
       case F_FILE:
-         memcpy(dst, src, sizeof(FILE));
+         *dst = calloc(1, sizeof(FILE));
+         memcpy(*dst, src, sizeof(FILE));
          break;
       case F_NAMEDPIPE:
-         memcpy(dst, src, sizeof(anamedpipe));
-         ((apipe*)dst)->pbuf->refcount++;
+         *dst = calloc(1, sizeof(anamedpipe));
+         memcpy(*dst, src, sizeof(anamedpipe));
+         ((apipe*)*dst)->pbuf->refcount++;
          break;
       case F_PIPE:
-         memcpy(dst, src, sizeof(apipe));
-         ((apipe*)dst)->pbuf->refcount++;
+         *dst = calloc(1, sizeof(apipe));
+         memcpy(*dst, src, sizeof(apipe));
+         ((apipe*)*dst)->pbuf->refcount++;
          break;
       case F_MEM:
       case F_NAMEDMEM:
-         memcpy(dst, src, sizeof(amemfile));
+         *dst = calloc(1, sizeof(amemfile));
+         memcpy(*dst, src, sizeof(amemfile));
          break;
       case F_DIR:
          break;
       case F_SOCKET:
-         memcpy(dst, src, sizeof(asocket));
-         ((asocket*)dst)->pending = (void**)malloc(sizeof(void*) * UNIX_LISTEN_BACKLOG);
-         memcpy(((asocket*)dst)->pending, ((asocket*)src)->pending, sizeof(void*) * UNIX_LISTEN_BACKLOG);
+         *dst = calloc(1, sizeof(asocket));
+         memcpy(*dst, src, sizeof(asocket));
+         ((asocket*)*dst)->pending = (void**)malloc(sizeof(void*) * UNIX_LISTEN_BACKLOG);
+         memcpy(((asocket*)*dst)->pending,
+            ((asocket*)src)->pending, sizeof(void*) * UNIX_LISTEN_BACKLOG);
          break;
       case F_EVENTFD:
-         memcpy(dst, src, sizeof(aeventfd));
+         *dst = calloc(1, sizeof(aeventfd));
+         memcpy(*dst, src, sizeof(aeventfd));
          break;
       case F_TIMERFD:
-         memcpy(dst, src, sizeof(atimerfd));
+         *dst = calloc(1, sizeof(atimerfd));
+         memcpy(*dst, src, sizeof(atimerfd));
          break;
       default:
          return;
    }
-   dst->fd_refcount++;
-   dst->file = strdup(src->file); // Copy the file name
-   dst->mode = strdup(src->mode); // Copy the mode
+   (*dst)->fd_refcount++;
+   if (src->type & F_FILE || src->type & F_PIPE || src->type & F_NAMEDPIPE
+       || src->type & F_MEM || src->type & F_NAMEDMEM) {
+      if (src->file)
+         (*dst)->file = strdup(src->file); // Copy the file name
+      if (src->mode)
+         (*dst)->mode = strdup(src->mode); // Copy the mode
+   }
 };
 
 void freefile(FILE* dst)

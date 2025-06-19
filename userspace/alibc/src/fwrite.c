@@ -51,7 +51,7 @@ size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream)
       break;
    case F_MEM:
       size_t s = stream->pos + size * nmemb;
-      if (s > stream->size)
+      if (s > stream->size & stream->flags & FILE_RESIZEBLE)
       {
          char *new_mem = malloc(s);
          if (!new_mem)

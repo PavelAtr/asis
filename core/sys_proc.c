@@ -136,11 +136,10 @@ void** copyfds(void** infds)
    int_t i;
    if (infds) {
       for (i = 0; i < COREMAXFD; i++) {
-		 if (!fds[i]) {
+		 if (!infds[i]) {
 		    continue;
 	     }
-    	 ret[i] = sys_calloc(1, sizeof(AFILE));
-		 copyfile(ret[i], fds[i]);
+		 copyfile(&ret[i], fds[i]);
       }
    }
    return (void**)ret;

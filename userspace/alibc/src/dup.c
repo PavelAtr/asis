@@ -16,7 +16,7 @@ int dup2(int oldfd, int newfd)
       close(newfd);
    }
    afds[newfd] = malloc(sizeof(FILE));
-   copyfile(afds[newfd], afds[oldfd]);
+   copyfile(&afds[newfd], afds[oldfd]);
    afds[newfd]->fd = newfd;
    return newfd;
 }

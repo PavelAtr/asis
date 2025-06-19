@@ -16,7 +16,7 @@ rm -rf build
 mkdir -p build
 
 meson setup --cross-file ../scripts/x86_64_asis_meson.txt ./build/ \
---prefix /asis \
+--prefix=${PREFIX}\
 -Dtests=false
 
 cd build

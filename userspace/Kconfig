@@ -76,17 +76,17 @@ config LIBXML
       help
         libxml package.
 
-config WAYLANDPROTOCOLS
-      bool "wayland-protocols"
-      default y
-      help
-        wayland-protocols package.
-
 config WAYLAND
       bool "wayland"
       default y
       help
         wayland package.
+
+config WAYLANDPROTOCOLS
+      bool "wayland-protocols"
+      default y
+      help
+        wayland-protocols package.
 
 config EUDEV
       bool "eudev"

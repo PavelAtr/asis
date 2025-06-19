@@ -12,6 +12,9 @@
 #include <sys/stat.h>
 #include <stdlib.h>
 #include <sys/mman.h>
+#include <sys/socket.h>
+#include <sys/un.h>
+
 
 int do_fifo(int argc, char** argv)
 {
@@ -73,6 +76,7 @@ int do_fifo(int argc, char** argv)
    fread(buf5, 1, len, f4);
    printf("Read from fmemopen: %s\n", buf5);
 
+   
 
    return 0;
 }

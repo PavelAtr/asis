@@ -53,11 +53,11 @@ endif
 ifeq ($(CONFIG_LIBXML), y)
 	cd scripts; ./libxml.sh
 endif
-ifeq ($(CONFIG_WAYLANDPROTOCOLS), y)
-	cd scripts; ./wayland-protocols.sh
-endif
 ifeq ($(CONFIG_WAYLAND), y)
 	cd scripts; ./wayland.sh
+endif
+ifeq ($(CONFIG_WAYLANDPROTOCOLS), y)
+	cd scripts; ./wayland-protocols.sh
 endif
 ifeq ($(CONFIG_EUDEV), y)
 	cd scripts; ./eudev.sh

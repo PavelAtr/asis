@@ -44,6 +44,10 @@ const char* mode; \
 size_t size; \
 size_t pos; \
 char flags;
+#define FILE_ERROR 0x01
+#define FILE_INFINITY 0x02
+#define FILE_RESIZEBLE 0x03
+
 
 #define SOCKET_ESSENTIAL \
 int domain; \
@@ -55,8 +59,6 @@ typedef struct {
    FD_ESSENTIAL
    FILE_ESSENTIAL
 } FILE;
-#define FILE_ERROR 0x01
-#define FILE_INFINITY 0x02
 
 typedef struct {
    FD_ESSENTIAL
@@ -72,7 +74,7 @@ typedef struct {
    char* membuf;
    char** clientptr;
    size_t* clientsize;
-} amemfile;
+   } amemfile;
 
 #define UNIX_LISTEN_BACKLOG 8
 typedef struct {
@@ -114,7 +116,7 @@ extern FILE*** core_fds;
 #define stderr afds[2]
 #define INIT_afds ;
 void initfile(FILE* src);
-void copyfile(FILE* dst, FILE* src);
+void copyfile(FILE** dst, FILE* src);
 void freefile(FILE* dst);
 
 #define MAXSTRING ((unsigned short)-1)

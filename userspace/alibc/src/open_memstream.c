@@ -8,6 +8,7 @@ FILE *open_memstream(char **ptr, size_t *sizeloc)
    initfile((FILE*)ret);
    ret->membuf = malloc(1);
    ret->size = 1;
+   ret->flags |= FILE_RESIZEBLE;
    ret->clientptr = ptr;
    ret->clientsize = sizeloc;
    *ret->clientsize = ret->size;
