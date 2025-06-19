@@ -1,6 +1,5 @@
 config HOSTFS
-      bool "Linux host filesystem"
-      depends on LINUX
+      bool "Host filesystem"
       default y
       help
         Proxy root filesystem to host filesystem as is.

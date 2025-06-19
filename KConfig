@@ -28,7 +28,6 @@ endmenu
 menu "Drivers"
 
 source "drv/hostfs/Kconfig"
-source "drv/uefifs/Kconfig"
 source "drv/tty/Kconfig"
 source "drv/uefimouse/Kconfig"
 source "drv/uefikeyboard/Kconfig"

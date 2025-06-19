@@ -4,19 +4,30 @@ ROOT=qemu/root
 
 umask 000
 
-mkdir -p $ROOT/asis/bin
-mkdir -p $ROOT/asis/lib
+CWD=`pwd`
+
 mkdir -p $ROOT/dev
 mkdir -p $ROOT/etc
 install build/asis.uefi $ROOT/asis.uefi
 
-cp -ar /asis $ROOT/
+#cp -ar ./root/* $ROOT/
+
+cd ./root
+find . -type d | while read src
+do
+    mkdir -p $CWD/$ROOT/$src
+done
+find . -type f | while read src
+do
+    install $src $CWD/$ROOT/$src
+done
+find . -type l | while read src
+do
+    install $src $CWD/$ROOT/$src
+done
+
+cd ../
 cp /etc/passwd $ROOT/etc/
 cp /etc/group $ROOT/etc/
-
-touch $ROOT/dev/tty
-touch $ROOT/dev/sda
-touch $ROOT/dev/loop0
-touch $ROOT/dev/fb0
 
 sudo sync

@@ -5,7 +5,7 @@ LDFLAGS?=
 all: 
 	mkdir -p build
 	cd build; $(CC) $(SYSROOT) $(CFLAGS) -fPIC -c ../src/*.c
-	cd build; $(LD) $(SYSROOT) -fPIC $(LDFLAGS) -shared *.o -o libpwd.so
+	cd build; $(CCLD) $(SYSROOT) -fPIC $(LDFLAGS) -shared *.o -o libpwd.so
 	cd build; ar rcs libpwd.a *.o
 	
 clean:

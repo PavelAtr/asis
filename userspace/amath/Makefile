@@ -5,7 +5,7 @@ LDFLAGS?=
 all: install_headers
 	mkdir -p build
 	cd build; $(CC) $(SYSROOT) $(CFLAGS) -fPIC -c ../src/x86_64/*.c
-	cd build; $(LD) $(SYSROOT) -fPIC $(LDFLAGS) -shared *.o -o libam.so
+	cd build; $(CCLD) $(SYSROOT) -fPIC $(LDFLAGS) -shared *.o -o libam.so
 	cd build; ar rcs libam.a *.o
 	
 clean:

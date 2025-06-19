@@ -52,6 +52,14 @@ typedef unsigned char bool_t;
 typedef unsigned int u_int32_t;
 typedef short  char16_t;
 typedef int  char32_t;
+typedef unsigned int __u32;
+typedef unsigned short __u16;
+typedef unsigned char __u8;
+typedef int __s32;
+typedef short __s16;
+typedef char __s8;
+typedef long64_t __s64;
+typedef ulong64_t __u64;
 
 #undef SIZE_MAX
 #define SIZE_MAX (size_t)-1

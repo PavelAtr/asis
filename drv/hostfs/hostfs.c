@@ -1,10 +1,17 @@
 #include "../../config.h"
 #include "hostfs.h"
+
+#ifdef CONFIG_UEFI
+#include "../../core/uefi/uefi.h"
+#endif
+
+#ifdef CONFIG_LINUX
 #include <stdio.h>
 #include <string.h>
-#include <dirent.h>
 #include <errno.h>
 #include <unistd.h>
+#include <dirent.h>
+#endif
 
 struct tinydirent {
   char           d_name[MAX_PATH_PART];
@@ -37,7 +44,9 @@ struct astat {
   struct  atimespec st_birthtim;   /* time of file creation */
 };
 
+#ifdef CONFIG_LINUX
 #include <sys/stat.h>
+#endif
 
 typedef struct {
    char name[512];
@@ -48,15 +57,28 @@ typedef struct {
 
 FILE* fmeta = NULL;
 
+void hostfs_fini()
+{
+   fclose(fmeta);
+   fmeta = NULL;
+}
+
 char* calc_path(void* sbfs, const char* path)
 {
    hostfs_sbfs* hsbfs = (hostfs_sbfs*)sbfs;
    static char fullpath[1024];
    if (hsbfs->chroot && hsbfs->chroot[0] != '\0') {
-      snprintf(fullpath, sizeof(fullpath), "%s/%s", hsbfs->chroot, path);
+      snprintf(fullpath, sizeof(fullpath), "%s%s", hsbfs->chroot, path);
       return fullpath;
    }
    snprintf(fullpath, sizeof(fullpath), "%s", path);
+   #ifdef CONFIG_UEFI
+   int i;
+   for (i = 0; fullpath[i] != '\0'; i++)
+   if (fullpath[i] == '/') {
+      fullpath[i] = '\\';
+   }
+   #endif
    return fullpath; // If no chroot, return the path as is
 }
 
@@ -91,17 +113,16 @@ int hostfs_set_meta(const char* path, uid_t uid, gid_t gid, mode_t mode)
    meta.mode = mode;
 
    if (!fmeta) {
-      fmeta = fopen("meta", "w+");
+      fmeta = fopen("meta", "r+");
       if (!fmeta) {
          printf("%s\n", "Error opening metadata file");
-         current_errno = ENOENT; // No such file or directory
          return -1; // Error opening metadata file
       }
    }
    meta_t existing_meta;
    if (hostfs_get_meta(path, &existing_meta)) {
       // If the metadata already exists, we can update it
-      if (fseek(fmeta, -sizeof(meta_t), SEEK_CUR) < 0) {
+      if (fseek(fmeta, -((long)sizeof(meta_t)), SEEK_CUR) < 0) {
          return -1; // Error seeking in file
       }
    } else {
@@ -110,8 +131,13 @@ int hostfs_set_meta(const char* path, uid_t uid, gid_t gid, mode_t mode)
          return -1; // Error seeking in file
       }
    }
-   if (fwrite(&meta, sizeof(meta_t), 1, fmeta) != 1) {
+   size_t ret;
+   if ((ret = fwrite(&meta, sizeof(meta_t), 1, fmeta)) != 1) {
+      printf("META %p ERROR WRITE  for %s=%ld\n", fmeta, meta.name, ret);
       return -1; // Error writing to file
+   } else
+   {
+      printf("META %p WRITE for %s=%ld\n", fmeta, meta.name, ret);
    }
    return 0; // Success
 }
@@ -155,8 +181,13 @@ errno_t hostfs_rmnod(void* sbfs, const char *pathname, uid_t curuid,
 
 errno_t hostfs_truncate(void* sb, const char *pathname, len_t len)
 {
-   const char* path = pathname;
-   return truncate(path, len);
+   const char* path = calc_path(sb, pathname);
+   #ifdef CONFIG_LINUX
+      return truncate(path, len);
+   #endif
+   #ifdef CONFIG_UEFI
+      return 0;
+   #endif
 }
 
 errno_t hostfs_link(void* sb, const char* src, const char* dst, bool_t move,

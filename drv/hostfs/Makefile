@@ -11,6 +11,6 @@ ifeq ($(CONFIG_HOSTFS), y)
 	mkdir -p $(BUILD_DIR)
 
 	for src in $(HYPVSR_LINK) ; do \
-	    $(CC_CORE) -c $(CFLAGS_CORE) $$src -o $(BUILD_DIR)/$$src.o; \
+	    $(CC_CORE) -c $(CFLAGS_CORE) -Wno-macro-redefined $$src -o $(BUILD_DIR)/$$src.o; \
 	done
 endif

@@ -9,13 +9,13 @@
 #include <stdio.h>
 #include <sys/stat.h>
 #include <string.h>
-#include <stdlib.h>
 
 sharedobj* sharedobjs[MAXSHAREDOBJ];
 
 int_t newshared()
 {
-    for (int i = 0; i < MAXSHAREDOBJ; i++) {
+    int i;
+    for (i = 0; i < MAXSHAREDOBJ; i++) {
         if (!sharedobjs[i]) {
             return i;
         }
@@ -25,7 +25,8 @@ int_t newshared()
 
 int_t findshared(const char* type, const char* path)
 {
-    for (int i = 0; i < MAXSHAREDOBJ; i++) {
+    int i;
+    for (i = 0; i < MAXSHAREDOBJ; i++) {
         if (sharedobjs[i] && sharedobjs[i]->type && sharedobjs[i]->path &&
             strcmp(sharedobjs[i]->type, type) == 0 &&
             strcmp(sharedobjs[i]->path, path) == 0) {
@@ -106,7 +107,7 @@ nocheckfs:
             sharedobjs[index]->obj = new_mem;
             sharedobjs[index]->size = *out_size;
         }
-        if (*out_size == -1) {
+        if (*out_size == (size_t)-1) {
             sharedobjs[index]->refcount++;
         }
         *out_size = sharedobjs[index]->size;

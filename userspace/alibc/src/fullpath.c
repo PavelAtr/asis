@@ -15,7 +15,12 @@ char* fullpath(const char* dir, const char* path)
    strcpy(ret, dir);
    if (path == NULL)
       return ret;
-   strcpy(ret + cwdlen, "/");
-   strcpy(ret + cwdlen + 1, path);
+   if (!(dir[0] == '/' && dir[1]=='\0'))
+   {
+	strcpy(ret + cwdlen, "/");
+	strcpy(ret + cwdlen + 1, path);
+   } else {
+	strcpy(ret + cwdlen, path);
+   }
    return ret;
 }

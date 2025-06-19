@@ -1,6 +1,0 @@
-config UEFIFS
-      bool "UEFI host filesystem"
-      depends on UEFI
-      default y
-      help
-        Proxy root filesystem to host filesystem as is.

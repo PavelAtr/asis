@@ -5,7 +5,7 @@ LDFLAGS?=
 all: install_headers
 	mkdir -p build
 	cd build; $(CC) $(SYSROOT) $(CFLAGS) -fPIC -c ../src/*.c
-	cd build; $(LD) $(SYSROOT) -fPIC $(LDFLAGS) -shared *.o -o libathread.so
+	cd build; $(CCLD) $(SYSROOT) -fPIC $(LDFLAGS) -shared *.o -o libathread.so
 	cd build; ar rcs libathread.a *.o
 	
 clean:

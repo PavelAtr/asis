@@ -6,6 +6,8 @@ typedef struct {
     char* chroot;
 } hostfs_sbfs;
 
+void hostfs_fini();
+
 errno_t hostfs_mknod(void* sbfs, const char *pathname, uid_t uid, gid_t gid, mode_t mode);
 errno_t hostfs_modnod(void* sbfs, const char* pathname, uid_t uid, gid_t gid, mode_t mode);
 errno_t hostfs_rmnod(void* sbfs, const char *pathname, uid_t curuid, gid_t curgid);

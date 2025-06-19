@@ -16,6 +16,7 @@
 
 #define malloc(s) sys_malloc(s)
 #define free(p) sys_free(p)
+#define realloc(p, s) sys_realloc(p, s)
 #define calloc(n, s) sys_calloc(n, s)
 #define printf(fmt, ...) sys_printf(fmt, __VA_ARGS__)
 #define mmap(addr, length, prot, flags, fd, offset) sys_mmap(addr, length, prot, flags, fd, offset)

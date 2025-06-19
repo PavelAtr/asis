@@ -92,13 +92,13 @@ int main(int argc, char** argv)
    fbgop_init(&fb);
 #endif
 
-#ifdef CONFIG_LINUX
+#ifdef CONFIG_HOSTFS
    if (sys_mount("/dev/sda", "/", "hostfs", "")) {
       sys_printf(SYS_ERROR "Error mount / %d!\n", current_errno);
    }
 #endif
 
-#ifdef CONFIG_UEFI
+#ifdef CONFIG_UEFIFS
    if (sys_mount("/dev/sda", "/", "uefifs", "")) {
       sys_printf(SYS_ERROR "Error mount /\n");
    }
@@ -131,5 +131,6 @@ sys_mknod("/dev/fb0", S_IFCHR | 0660);
          continue;
       sys_printf("%s %s %d\n", sharedobjs[i]->type, sharedobjs[i]->path, sharedobjs[i]->refcount);
    }
+   hostfs_fini();
    return ret;
 }

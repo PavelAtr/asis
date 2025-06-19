@@ -31,27 +31,26 @@ typedef struct {
 #define F_TIMERFD 9
 
 #define FD_ESSENTIAL \
-char type; \ 
-int fdflags; \
-pid_t pgrp; \
-int fd; \
-char* lock; \
+char type;\ 
+int fdflags;\
+pid_t pgrp;\
+int fd;\
+char* lock;\
 short fd_refcount;
 
 #define FILE_ESSENTIAL \
-char* file; \
-const char* mode; \
-size_t size; \
-size_t pos; \
+char* file;\
+const char* mode;\
+size_t size;\
+size_t pos;\
 char flags;
 #define FILE_ERROR 0x01
 #define FILE_INFINITY 0x02
 #define FILE_RESIZEBLE 0x03
 
-
 #define SOCKET_ESSENTIAL \
-int domain; \
-int socktype; \
+int domain;\
+int socktype;\
 int protocol;
 
 
