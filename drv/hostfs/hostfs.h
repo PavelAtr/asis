@@ -6,8 +6,6 @@ typedef struct {
     char* chroot;
 } hostfs_sbfs;
 
-void hostfs_fini();
-
 errno_t hostfs_mknod(void* sbfs, const char *pathname, uid_t uid, gid_t gid, mode_t mode);
 errno_t hostfs_modnod(void* sbfs, const char* pathname, uid_t uid, gid_t gid, mode_t mode);
 errno_t hostfs_rmnod(void* sbfs, const char *pathname, uid_t curuid, gid_t curgid);
@@ -22,6 +20,8 @@ void* hostfs_readdir(void* sbfs, const char* path, int ndx);
 bool_t hostfs_can_read(void* sbfs, const char* path, uid_t uid, gid_t gid);
 bool_t hostfs_can_write(void* sbfs, const char* path, uid_t uid, gid_t gid);
 bool_t hostfs_can_execute(void* sbfs, const char* path, uid_t uid, gid_t gid);
+bool_t hostfs_can_create(void* sbfs, const char* path, uid_t uid, gid_t gid);
 errno_t  hostfs_mount(device* dev, mountpoint* mount, const char* options);
+errno_t hostfs_umount(void* sbfs);
 
 #endif

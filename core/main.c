@@ -1,4 +1,5 @@
-#include <asis.h>
+#include "./include/asis.h"
+#undef printf
 #include "../config.h"
 
 #ifdef CONFIG_TTY
@@ -35,6 +36,8 @@
 #include "uefi/uefi.h"
 #endif
 
+void* LOG = NULL;
+
 char* main_chroot = "";
 
 int main(int argc, char** argv)
@@ -42,6 +45,10 @@ int main(int argc, char** argv)
    if (argc > 1) {
       main_chroot = argv[1];
    }
+
+   LOG = (void*) fopen("asis.log", "w+");
+   if (!LOG) printf("Unable to open LOG\n");
+   fseek((FILE*)LOG, 0, SEEK_SET);
 
    sys_printf(SYS_INFO "Starting TinySystem\n");
    init_proc();
@@ -131,6 +138,8 @@ sys_mknod("/dev/fb0", S_IFCHR | 0660);
          continue;
       sys_printf("%s %s %d\n", sharedobjs[i]->type, sharedobjs[i]->path, sharedobjs[i]->refcount);
    }
-   hostfs_fini();
+   sys_umount("/");
+   fclose((FILE*)LOG);
+
    return ret;
 }

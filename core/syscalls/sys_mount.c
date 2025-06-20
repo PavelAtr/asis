@@ -106,6 +106,7 @@ mount:
 int sys_umount(const char* dir)
 {
    mountpoint* mount = sys_get_mountpoint(dir);
+   mount->mount_umount(mount->sbfs);
    sys_free(mount->sbfs);
    mount->sbfs = NULL;
    mount->path = NULL;

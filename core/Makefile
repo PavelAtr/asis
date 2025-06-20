@@ -5,12 +5,12 @@ PREFIX?=/asis
 
 HYPERV_LINK = \
 syscalls/sys_memory.c \
+main.c \
 sys_printf.c
 
 ASIS_LINK = \
 sys_dev.c \
 sys_sched.c \
-main.c \
 syscalls/sys_run.c \
 sys_proc.c \
 sys_security.c \
@@ -39,7 +39,7 @@ BUILD_DIRS = \
 ../build/userspace/alibc/src \
 ../build/userspace/alibdl/$(ARCH)
 
-all: objs
+all: install_headers objs
 
 	$(LD_CORE) $(LDFLAGS_CORE) $(shell find ../build -name '*.o')
 

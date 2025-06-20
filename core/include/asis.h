@@ -85,6 +85,8 @@ typedef struct {
   bool_t (*mount_can_read)(void* sbfs, const char* path, uid_t uid, gid_t gid);
   bool_t (*mount_can_write)(void* sbfs, const char* path, uid_t uid, gid_t gid);
   bool_t (*mount_can_execute)(void* sbfs, const char* path, uid_t uid, gid_t gid);
+  bool_t (*mount_can_create)(void* sbfs, const char* path, uid_t uid, gid_t gid);
+  errno_t (*mount_umount)(void* sbfs);
 } mountpoint;
 
 extern mountpoint mountpoints[MAXMOUNT];
@@ -116,7 +118,7 @@ typedef struct {
   char**  argv;
   char** envp;
   void* dlhndl;
-  int* dlnlink;	
+  int_t* dlnlink;	
   int_t flags;
   void** fds;
   void* parent;
@@ -190,7 +192,6 @@ extern char* mainsp;
 void switch_task();
 
 #define switch_context \
-	if (current) sys_printf(SYS_DEBUG "switch before stack=%p sp=%p depth=%ld\n", current->ctx.stack, sp, sp - current->ctx.stack); \
 	switch_task(); \
 	sys_printf(SYS_DEBUG "switch after stack=%p sp=%p depth=%ld\n", current->ctx.stack, sp, sp - current->ctx.stack);
 /* #define switch_context switch_task(); */
@@ -246,5 +247,7 @@ extern void* sockets[MAXSOCKETS];
 int sys_listen(void* socket);
 int sys_connect(void* socket, void* addr);
 void* sys_calloc(size_t nmemb, size_t size);
+
+extern void* LOG;
 
 #endif

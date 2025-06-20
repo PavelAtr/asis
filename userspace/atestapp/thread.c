@@ -29,13 +29,13 @@ int main(int argc, char** argv) {
 
     // Create the first thread
     if (pthread_create(&thread1, NULL, thread_function1, NULL) != 0) {
-        perror("Failed to create thread1");
+        perror("Failed to create thread1\n");
         return 1;
     }
 
     // Create the second thread
     if (pthread_create(&thread2, NULL, thread_function2, NULL) != 0) {
-        perror("Failed to create thread2");
+        perror("Failed to create thread2\n");
         return 1;
     }
 

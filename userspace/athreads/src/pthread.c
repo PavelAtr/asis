@@ -12,9 +12,10 @@ __thread pthread_t* self;
 int pthread_create(pthread_t* thread,
          const pthread_attr_t* attr,
          void *(*start_routine)(void *),
-         void *restrict arg)
+         void * arg)
 {
     if (thread == NULL || start_routine == NULL) {
+        printf("pthread_create: args is null\n");
         return -1; // Invalid arguments
     }
     // Initialize the thread structure
@@ -25,7 +26,8 @@ int pthread_create(pthread_t* thread,
     }
     thread->state = 0; // Initialize state to 0 (not terminated)
     pid_t pid = fork(); // Create a new process for the thread
-    if (thread->pid < 0) {
+    if (pid < 0) {
+        printf("pthread_create: fork failed\n");
         return -1; // Fork failed
     }
     if (pid == 0) {

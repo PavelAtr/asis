@@ -1,4 +1,7 @@
 #include "../config.h"
+#include "./include/asis.h"
+
+#undef printf
 
 #ifdef CONFIG_UEFI
 #include "uefi/uefi.h"
@@ -18,10 +21,10 @@ int sys_printf(const char* format, ...)
    va_list vl;
    va_start(vl, format);
    int ret = vsnprintf(tinylog, MAXLOG, format, vl);
-#ifndef UEFI
-   fprintf(stderr, "%s", tinylog);
-#else
-   printf("%s", tinylog);
-#endif
+   if (LOG) {
+      fwrite(tinylog, 1, ret, (FILE*)LOG);
+/*      fflush((FILE*)LOG);*/
+   }
    return ret;
 }
+

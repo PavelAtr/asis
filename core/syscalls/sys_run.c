@@ -99,6 +99,7 @@ int_t sys_exec(char* file, char** inargv, char** envp)
       }
    }
    (*current->dlnlink)++;
+   sys_printf("EXEC dlnlink %p=%d\n", current->dlnlink, *current->dlnlink);
    init_tls(current);
    current->start = (void*)(((dlhandle*)current->dlhndl)->obj->dl_elf->hdr->e_entry + 
       ((dlhandle*)current->dlhndl)->obj->dl_elf->exec);
@@ -147,8 +148,7 @@ void freeproc(pid_t pid)
    }
    deinit_tls(cpu[pid]);
    (*cpu[pid]->dlnlink)--;
-   if ((*cpu[pid]->dlnlink) <= 0) {
-      sys_printf(SYS_DEBUG "FREEPROC DEALLOC %d dlnlink %p=%d\n", pid, cpu[pid]->dlnlink, *cpu[pid]->dlnlink);
+   if (*cpu[pid]->dlnlink <= 0) {
       sys_dlclose(cpu[pid]->dlhndl);
       sys_free(cpu[pid]->dlnlink);
    }
@@ -156,7 +156,7 @@ void freeproc(pid_t pid)
       freeenv(cpu[pid]->envp);
       freefds(cpu[pid]);
    }
-   free_stack(cpu[pid]->ctx.stack, MAXSTACK);
+/*   free_stack(cpu[pid]->ctx.stack, MAXSTACK); BUG NEED SOLVE*/
    sys_free(cpu[pid]);
    cpu[pid] = NULL;
 }
@@ -184,7 +184,7 @@ pid_t sys_clone(void)
       current_errno = ENOMEM;
       return -1;
    }
-   sys_printf(SYS_DEBUG "CLONE newpid=%d in %d=%s, nlink %p=%d\n", ret, current->pid, current->argv[0], current->dlnlink, *current->dlnlink);
+   sys_printf(SYS_DEBUG "CLONE newpid=%d in %d(%s), nlink %p=%d\n", ret, current->pid, current->argv[0], cpu[ret]->dlnlink, *cpu[ret]->dlnlink);
    return ret;
 }
 

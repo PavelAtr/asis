@@ -57,12 +57,6 @@ typedef struct {
 
 FILE* fmeta = NULL;
 
-void hostfs_fini()
-{
-   fclose(fmeta);
-   fmeta = NULL;
-}
-
 char* calc_path(void* sbfs, const char* path)
 {
    hostfs_sbfs* hsbfs = (hostfs_sbfs*)sbfs;
@@ -131,14 +125,10 @@ int hostfs_set_meta(const char* path, uid_t uid, gid_t gid, mode_t mode)
          return -1; // Error seeking in file
       }
    }
-   size_t ret;
-   if ((ret = fwrite(&meta, sizeof(meta_t), 1, fmeta)) != 1) {
-      printf("META %p ERROR WRITE  for %s=%ld\n", fmeta, meta.name, ret);
+   if (fwrite(&meta, sizeof(meta_t), 1, fmeta) != 1) {
       return -1; // Error writing to file
-   } else
-   {
-      printf("META %p WRITE for %s=%ld\n", fmeta, meta.name, ret);
    }
+   fflush(fmeta);
    return 0; // Success
 }
 
@@ -305,6 +295,11 @@ bool_t hostfs_can_execute(void* sbfs, const char* path, uid_t uid, gid_t gid)
    return 1;
 }
 
+bool_t hostfs_can_create(void* sbfs, const char* path, uid_t uid, gid_t gid)
+{
+   return 1;
+}
+
 errno_t  hostfs_mount(device* dev, mountpoint* mount, const char* options)
 {
    hostfs_sbfs* sbfs = malloc(sizeof(hostfs_sbfs));
@@ -322,5 +317,15 @@ errno_t  hostfs_mount(device* dev, mountpoint* mount, const char* options)
    mount->mount_can_read = &hostfs_can_read;
    mount->mount_can_write = &hostfs_can_write;
    mount->mount_can_execute = &hostfs_can_execute;
+   mount->mount_can_create = &hostfs_can_create;
+   mount->mount_umount = &hostfs_umount;
    return 0;
+}
+
+errno_t hostfs_umount(void* sbfs)
+{
+   if (fmeta) {
+      fclose(fmeta);
+      fmeta = NULL;
+   }
 }

@@ -29,5 +29,6 @@ done
 cd ../
 cp /etc/passwd $ROOT/etc/
 cp /etc/group $ROOT/etc/
+touch $ROOT/meta
 
 sudo sync
