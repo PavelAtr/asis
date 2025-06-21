@@ -128,7 +128,9 @@ sys_mknod("/dev/fb0", S_IFCHR | 0660);
 /* ENDGARBAGE */
    sys_printf(SYS_INFO "End init\n");
    mainsp = sp;
+
    int ret = sys_runinit();
+   
    sp = mainsp;
    sys_printf(SYS_INFO "End runinit ret=%d\n", ret);
    sys_printf("Sjared objects still:\n");

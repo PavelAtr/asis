@@ -41,6 +41,8 @@ int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen) {
 
         // Установить соединение
         newsocket = calloc(1, sizeof(asocket));
+        newsocket->type = F_SOCKET;
+        initfile((FILE*)newsocket);
         newsocket->connected = 1;
         newsocket->peer = peer;
         newsocket->bound = 0;
@@ -57,6 +59,7 @@ int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen) {
             strncpy(un->sun_path, socket->path, sizeof(un->sun_path)-1);
             *addrlen = sizeof(struct sockaddr_un);
         }
+        afds[fd] = (FILE*)newsocket;
         return fd;
     }
     errno = EAFNOSUPPORT;

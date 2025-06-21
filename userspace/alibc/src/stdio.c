@@ -20,8 +20,8 @@ void initfile(FILE* src)
    src->lock = malloc(sizeof(char));
    *src->lock = 0;
    src->fd_refcount = 1;
-   if (src->type & F_FILE || src->type & F_PIPE || src->type & F_NAMEDPIPE
-       || src->type & F_MEM || src->type & F_NAMEDMEM) {
+   if (src->type == F_FILE || src->type == F_PIPE || src->type == F_NAMEDPIPE
+       || src->type == F_MEM || src->type == F_NAMEDMEM) {
        src->file = NULL;
        src->mode = NULL;
        src->flags = 0;
@@ -76,8 +76,8 @@ void copyfile(FILE** dst, FILE* src)
          return;
    }
    (*dst)->fd_refcount++;
-   if (src->type & F_FILE || src->type & F_PIPE || src->type & F_NAMEDPIPE
-       || src->type & F_MEM || src->type & F_NAMEDMEM) {
+   if (src->type == F_FILE || src->type == F_PIPE || src->type == F_NAMEDPIPE
+       || src->type == F_MEM || src->type == F_NAMEDMEM) {
       if (src->file)
          (*dst)->file = strdup(src->file); // Copy the file name
       if (src->mode)
@@ -135,8 +135,8 @@ void freefile(FILE* dst)
       default:
          break;
    } 
-   if (dst->type & F_FILE || dst->type & F_PIPE || dst->type & F_NAMEDPIPE
-       || dst->type & F_MEM || dst->type & F_NAMEDMEM) {
+   if (dst->type == F_FILE || dst->type == F_PIPE || dst->type == F_NAMEDPIPE
+       || dst->type == F_MEM || dst->type == F_NAMEDMEM) {
       if (dst->file) {
          free(dst->file);
          dst->file = NULL;

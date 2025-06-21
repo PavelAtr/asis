@@ -97,6 +97,10 @@ void* sys_syscall(int number, void* arg1, void* arg2, void* arg3, void* arg4, vo
    case SYS_THREADEND:
       sys_threadend();
       break;
+   case SYS_LISTEN:
+      return (void*) sys_listen(arg1);
+   case SYS_CONNECT:
+      return (void*) sys_connect(arg1, arg2);
    default:
       sys_printf(SYS_INFO "Unsupported syscall %d\n", number);
       break;

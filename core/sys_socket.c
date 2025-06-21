@@ -56,7 +56,10 @@ int sys_listen(void* socket)
     sockets[i] = socket;
     if (server->domain == AF_UNIX && server->socktype == SOCK_STREAM) {
         sys_mknod(server->path, S_IFSOCK | 0660);
+        sys_printf("sys_mknod(%s)\n", server->path);
+        return 0;
     }
+    return -1;   
 }
 
 int sys_connect(void* socket, void* saddr)

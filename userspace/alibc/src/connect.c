@@ -16,14 +16,11 @@ int connect(int sockfd, const struct sockaddr *addr, socklen_t addrlen) {
    }
    asocket* socket = (asocket*)afds[sockfd];
    if (socket->domain == AF_UNIX && socket->socktype == SOCK_STREAM) {
-      asocket* peer = asyscall(SYS_CONNECT, socket, addr, 0, 0, 0, 0);
-      if (peer) {
-         socket->connected = 1;
-         socket->peer = peer;
-         return 0;
-      } 
-      errno = ECONNREFUSED;
-      return -1;
+      if (asyscall(SYS_CONNECT, socket, addr, 0, 0, 0, 0)) {
+         errno = ECONNREFUSED;
+         return -1;
+      }
+      return 0;
    }
    errno = EAFNOSUPPORT;
    return -1;

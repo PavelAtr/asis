@@ -49,7 +49,7 @@ objs: clean
 	make -C ../drv -f Makefile
 
 	for src in $(HYPERV_LINK) ; do \
-	    $(CC_CORE) -c $(CFLAGS_CORE) $$src -o ../build/$$src.o; \
+	    $(CC_CORE) -c $(CFLAGS_CORE) -DUSE_SYMBOLFILE  $$src -o ../build/$$src.o; \
 	done
 
 	for src in $(ASIS_LINK) ; do \

@@ -78,6 +78,84 @@ int do_fifo(int argc, char** argv)
 
    
 
+   #define SOCKET_PATH "/demo_socket"
+   #define BUFFER_SIZE 1024
+
+    int server_socket, client_socket, peer;
+    struct sockaddr_un server_address, client_address;
+    socklen_t client_address_len;
+    char buffer[BUFFER_SIZE];
+
+    // Создание сокета
+    server_socket = socket(AF_UNIX, SOCK_STREAM, 0);
+    if (server_socket == -1) {
+        perror("Ошибка при создании сокета\n");
+        exit(EXIT_FAILURE);
+    }
+    // Настройка адреса сокета
+    memset(&server_address, 0, sizeof(server_address));
+    server_address.sun_family = AF_UNIX;
+    strncpy(server_address.sun_path, SOCKET_PATH, sizeof(server_address.sun_path) - 1);
+
+    // Привязка сокета к адресу
+    if (bind(server_socket, (struct sockaddr *)&server_address, sizeof(server_address)) == -1) {
+        perror("Ошибка при привязке сокета\n");
+        exit(EXIT_FAILURE);
+    }
+
+    // Прослушивание сокета
+    if (listen(server_socket, 5) == -1) {
+        perror("Ошибка при прослушивании сокета\n");
+        exit(EXIT_FAILURE);
+    }
+
+    client_socket = socket(AF_UNIX, SOCK_STREAM, 0);
+    if (client_socket == -1) {
+        perror("Ошибка при создании клиентского сокета\n");
+        exit(EXIT_FAILURE);
+    }
+
+    // Настройка адреса сокета
+    memset(&client_address, 0, sizeof(client_address));
+    client_address.sun_family = AF_UNIX;
+    strncpy(client_address.sun_path, SOCKET_PATH, sizeof(client_address.sun_path) - 1);
+
+    // Привязка сокета к адресу
+    if (bind(client_socket, (struct sockaddr *)&client_address, sizeof(client_address)) == -1) {
+        perror("Ошибка при привязке клиентского сокета\n");
+        exit(EXIT_FAILURE);
+    }
+
+        // Привязка сокета к адресу
+    if (connect(client_socket, (struct sockaddr *)&client_address, sizeof(client_address)) == -1) {
+        perror("Ошибка при коннекте клиентского сокета\n");
+        exit(EXIT_FAILURE);
+    }
+           
+    // Приём сокета
+    struct sockaddr accept_addr;
+    socklen_t accept_addrlen;
+    peer = accept(server_socket, &accept_addr, &accept_addrlen);
+    if (peer == -1){
+        perror("Ошибка приёма соединения\n");
+        exit(EXIT_FAILURE);
+    }
+
+    printf("peer=%p sock=%p\n",((asocket*)afds[peer])->peer, (asocket*)afds[client_socket]);
+    printf("peer=%p sock=%p\n",((asocket*)afds[client_socket])->peer, (asocket*)afds[peer]);
+
+    char buf6[32];
+    send(peer, "Hello world!", 13, 0);
+    recv(client_socket, buf6, 13, 0);
+    printf("Socket client recv %s\n", buf6);
+
+    char buf7[32];
+    send(client_socket, "Hello world!", 13, 0);
+    recv(peer, buf7, 13, 0);
+    printf("Peer recv %s\n", buf7);
+
+
+
    return 0;
 }
 
