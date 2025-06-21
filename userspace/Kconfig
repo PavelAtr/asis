@@ -88,6 +88,12 @@ config WAYLANDPROTOCOLS
       help
         wayland-protocols package.
 
+config MESA
+      bool "mesa"
+      default y
+      help
+        mesa package.
+
 config EUDEV
       bool "eudev"
       default y
@@ -99,4 +105,10 @@ config LIBINPUT
       default y
       help
         libinput library.
+
+config WLROOTS
+      bool "wlroots"
+      default y
+      help
+        wlroots library.
 

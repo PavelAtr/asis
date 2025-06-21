@@ -193,4 +193,7 @@ FILE *fmemopen(void* buf, size_t size, const char *mode);
 int remove(const char *pathname);
 FILE *open_memstream(char **ptr, size_t *sizeloc);
 
+int asprintf(char ** strp, const char * fmt, ...);
+int vasprintf(char ** strp, const char * fmt, va_list ap);
+
 #endif

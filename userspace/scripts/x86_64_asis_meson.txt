@@ -10,3 +10,7 @@ system = 'asis'
 cpu_family = 'x86_64'
 cpu = 'x86_64'
 endian = 'little'
+
+[properties]
+sys_root = '/home/PavelAtr/asis/root'
+pkg_config_libdir = '/home/PavelAtr/asis/root/lib/pkgconfig'

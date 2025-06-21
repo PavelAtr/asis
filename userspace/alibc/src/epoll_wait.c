@@ -6,12 +6,24 @@
 #define pipe_has_data(idx) (((apipe*)afds[idx])->pbuf->writepos > ((apipe*)afds[idx])->pbuf->readpos)
 #define pipe_can_write(idx) (((apipe*)afds[idx])->pbuf->writepos < MAXPIPE || afds[idx]->type & F_NAMEDMEM)
 
+#define is_socket(idx) (afds[idx]->type == F_SOCKET)
+#define socket_has_data(idx) (((asocket*)afds[idx])->buflen > 0)
+#define socket_can_write(idx) (((asocket*)afds[idx])->buflen < sizeof(((asocket*)afds[idx])->buf))
+
+
+
 uint32_t check_events(int idx, uint32_t req_events) {
     // Пример для pipebuf:
     if (is_pipe(idx)) {
         uint32_t ev = 0;
         if (pipe_has_data(idx)) ev |= EPOLLIN;
         if (pipe_can_write(idx)) ev |= EPOLLOUT;
+        return ev & req_events;
+    }
+    if (is_socket(idx)) {
+        uint32_t ev = 0;
+        if (socket_has_data(idx)) ev |= EPOLLIN;
+        if (socket_can_write(idx)) ev |= EPOLLOUT;
         return ev & req_events;
     }
     // Для других типов аналогично

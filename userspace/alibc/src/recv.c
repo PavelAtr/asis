@@ -8,6 +8,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <string.h>
+#include <unistd.h>
 
 ssize_t recv(int sockfd, void *buf, size_t len, int flags) {
    INIT_afds
@@ -27,6 +28,8 @@ ssize_t recv(int sockfd, void *buf, size_t len, int flags) {
       memcpy(buf, socket->buf, to_copy);
       memmove(socket->buf, socket->buf + to_copy, socket->buflen - to_copy);
       socket->buflen -= to_copy;
+      if (!to_copy)
+         switchtask;
       return to_copy;
    }
    errno = EAFNOSUPPORT;

@@ -59,11 +59,17 @@ endif
 ifeq ($(CONFIG_WAYLANDPROTOCOLS), y)
 	cd scripts; ./wayland-protocols.sh
 endif
+ifeq ($(CONFIG_MESA), y)
+	cd scripts; ./mesa.sh
+endif
 ifeq ($(CONFIG_EUDEV), y)
 	cd scripts; ./eudev.sh
 endif
 ifeq ($(CONFIG_LIBINPUT), y)
 	cd scripts; ./libinput.sh
+endif
+ifeq ($(CONFIG_WLROOTS), y)
+	cd scripts; ./wlroots.sh
 endif
 
 

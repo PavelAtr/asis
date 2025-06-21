@@ -1,4 +1,4 @@
-prefix=/asis
+prefix=/
 exec_prefix=${prefix}
 libdir=${prefix}/lib
 
@@ -6,4 +6,4 @@ Name: pthread stubs
 Description: Package for pthread in asis.
 Version: 0.4
 Cflags: 
-Libs: -L${libdir} -lpthreads
+Libs: -L${libdir} -lam

@@ -4,7 +4,7 @@
 
 
 int pthread_key_create(pthread_key_t *key, void (*destructor)(void*)) {
-    pthread_t* self = pthread_self(); // Получить текущий поток
+    pthread_t* self = self; // Получить текущий поток
     for (int i = 0; i < PTHREAD_KEYS_MAX; ++i) {
         if (!self->tsd[i]) {
             self->tsd[i] = malloc(sizeof(tsdata));
@@ -18,7 +18,7 @@ int pthread_key_create(pthread_key_t *key, void (*destructor)(void*)) {
 }
 
 int pthread_key_delete(pthread_key_t key) {
-    pthread_t* self = pthread_self(); // Получить текущий поток
+    pthread_t* self = self; // Получить текущий поток
     if (key < 0 || key >= PTHREAD_KEYS_MAX || !self->tsd[key])
         return -1;
     free(self->tsd[key]);
@@ -27,7 +27,7 @@ int pthread_key_delete(pthread_key_t key) {
 }
 
 int pthread_setspecific(pthread_key_t key, const void *value) {
-    pthread_t* self = pthread_self(); // Получить текущий поток
+    pthread_t* self = self; // Получить текущий поток
     if (key < 0 || key >= PTHREAD_KEYS_MAX)
         return -1;
     self->tsd[key]->data = (void*)value;
@@ -35,7 +35,7 @@ int pthread_setspecific(pthread_key_t key, const void *value) {
 }
 
 void* pthread_getspecific(pthread_key_t key) {
-    pthread_t* self = pthread_self();
+    pthread_t* self = self;
     if (key < 0 || key >= PTHREAD_KEYS_MAX)
         return NULL;
     return self->tsd[key]->data;

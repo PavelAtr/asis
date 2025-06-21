@@ -6,12 +6,15 @@
 
 typedef volatile unsigned char pthread_mutex_t;
 typedef int pthread_mutexattr_t;
+#define PTHREAD_MUTEX_RECURSIVE 1
 
 int pthread_mutex_lock(pthread_mutex_t *mutex);
 int pthread_mutex_trylock(pthread_mutex_t *mutex);
 int pthread_mutex_unlock(pthread_mutex_t *mutex);
 int pthread_mutex_init(pthread_mutex_t* mutex, const pthread_mutexattr_t* attr);
 int pthread_mutex_destroy(pthread_mutex_t *mutex);
+int pthread_mutexattr_settype(pthread_mutexattr_t *attr, int type);
+int pthread_mutex_timedlock(pthread_mutex_t * mutex,  const struct timespec * abs_timeout);
 
 #define PTHREAD_MUTEX_INITIALIZER 0
 
@@ -71,5 +74,12 @@ int pthread_key_delete(pthread_key_t key);
 int pthread_setspecific(pthread_key_t key, const void *value);
 void* pthread_getspecific(pthread_key_t key);
 
+extern __thread pthread_t* self;
+#define pthread_self() *self
+int pthread_detach(pthread_t thread);
+int pthread_equal(pthread_t t1, pthread_t t2);
+void pthread_exit(void *retval);
+
+typedef int pthread_barrier_t;
 
 #endif

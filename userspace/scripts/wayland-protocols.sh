@@ -16,13 +16,11 @@ rm -rf build
 mkdir -p build
 
 meson setup --cross-file ../scripts/x86_64_asis_meson.txt ./build/ \
---prefix=${PREFIX}\
+--prefix=${PREFIX} \
 -Dtests=false
 
-cd build
-meson compile
-meson install
-
+ninja -C build/ install
+cp ${DESTDIR}${PREFIX}/share/pkgconfig/* ${DESTDIR}${PREFIX}/lib/pkgconfig/
 
 
 

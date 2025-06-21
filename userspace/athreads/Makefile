@@ -19,5 +19,5 @@ install:
 	make install_headers
 
 install_headers:
-	mkdir -p $(DESTDIR)$(PREFIX)/usr
-	cp -r include $(DESTDIR)$(PREFIX)/usr/
+	mkdir -p $(DESTDIR)$(PREFIX)/usr || true
+	cp -r include $(DESTDIR)$(PREFIX)/usr/ || true

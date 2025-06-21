@@ -4,10 +4,6 @@
 #include <syscall.h>
 
 __thread pthread_t* self;
- pthread_t* pthread_self()
- {
-    return self;
- }
 
 int pthread_create(pthread_t* thread,
          const pthread_attr_t* attr,
@@ -41,6 +37,12 @@ int pthread_create(pthread_t* thread,
     return 0; // Success
 }
 
+void pthread_exit(void *retval) {
+    pthread_t* thread = self;
+    thread->state |= THREAD_TERMINATED; // Set thread state to terminated
+    asyscall(SYS_THREADEND, NULL, NULL, NULL, NULL, NULL, NULL); // Notify thread end
+}
+
 int apthread_join(pthread_t* thread, void **retval)
 {
     while (!(thread->state & THREAD_TERMINATED)) {
@@ -53,3 +55,14 @@ int apthread_join(pthread_t* thread, void **retval)
     // Clean up the thread structure
     return 0; // Success
 }
+
+int pthread_detach(pthread_t thread)
+{
+    return 0;
+}
+
+int pthread_equal(pthread_t t1, pthread_t t2)
+{
+    return 0;
+}
+

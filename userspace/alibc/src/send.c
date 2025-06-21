@@ -8,6 +8,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <string.h>
+#include <unistd.h>
 
 ssize_t send(int sockfd, const void *buf, size_t len, int flags) {
    if (!fd_is_valid(sockfd)) {
@@ -26,6 +27,8 @@ ssize_t send(int sockfd, const void *buf, size_t len, int flags) {
          to_copy = sizeof(peer->buf) - peer->buflen;
       memcpy(peer->buf + peer->buflen, buf, to_copy);
       peer->buflen += to_copy;
+      if (!to_copy)
+         switchtask;
       return to_copy;
    }
    errno = EAFNOSUPPORT;
