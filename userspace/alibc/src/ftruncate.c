@@ -16,7 +16,10 @@ int ftruncate(int f, off_t length)
    FILE* stream = afds[f];
    if (stream->type & F_NAMEDMEM)
    {
-      ((amemfile*)stream)->membuf = asyscall(SYS_SHARED, "memfd", stream->file, "", &outsize, 0, 0);
+      if ((errno = (int)asyscall(SYS_SHARED, &((amemfile*)stream)->membuf, "memfd", stream->file, "", &outsize, 0)))
+      {
+          return -1;   
+      }
       stream->size = (stream->size < outsize)? outsize : stream->size;
       return 0;
    }

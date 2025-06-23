@@ -59,9 +59,14 @@ endif
 ifeq ($(CONFIG_WAYLANDPROTOCOLS), y)
 	cd scripts; ./wayland-protocols.sh
 endif
-ifeq ($(CONFIG_MESA), y)
-	cd scripts; ./mesa.sh
+ifeq ($(CONFIG_LIBGLVND), y)
+	cd scripts; ./libglvnd.sh
 endif
+ifeq ($(CONFIG_LIBDRM), y)
+	cd scripts; ./libdrm.sh
+endif
+	mv $(DESTDIR)$(PREFIX)/include/* $(DESTDIR)$(PREFIX)/usr/include/ || true
+	rm -rf $(DESTDIR)$(PREFIX)/include/ || true
 ifeq ($(CONFIG_EUDEV), y)
 	cd scripts; ./eudev.sh
 endif

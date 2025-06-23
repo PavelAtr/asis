@@ -90,7 +90,11 @@ INIT_afds
    {
       case F_NAMEDMEM:
          size_t outsize = 0;
-         ((amemfile*)stream)->membuf = asyscall(SYS_SHARED, "memfd", stream->file, "", &outsize, 0, 0);
+         if (asyscall(SYS_SHARED, &((amemfile*)stream)->membuf, "memfd", stream->file, "", &outsize, 0))
+	{
+	    stream->flags |= FILE_ERROR;
+	    return 0;
+	}
          stream->size = outsize;
          ret = fmemread(ptr, size,  nmemb, (amemfile*)stream);
          stream->pos += ret;

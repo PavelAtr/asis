@@ -9,6 +9,7 @@
 #include <errno.h>
 #include <string.h>
 #include <stdlib.h>
+#include <errno.h>
 
 ssize_t pipewrite(apipe *f, const void *buf, size_t count)
 {
@@ -43,7 +44,11 @@ size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream)
    {
    case F_NAMEDMEM:
       size_t outsize = stream->pos + size * nmemb;
-      ((amemfile *)stream)->membuf = asyscall(SYS_SHARED, "memfd", stream->file, "", &outsize, 0, 0);
+      if (asyscall(SYS_SHARED, &((amemfile *)stream)->membuf,"memfd", stream->file, "", &outsize, 0))
+      {
+	stream->flags |= FILE_ERROR;
+	return 0;
+      }
       stream->size = outsize;
       ret = fmemwrite(ptr, size, nmemb, (amemfile *)stream);
       stream->pos += ret;

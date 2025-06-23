@@ -1,10 +1,9 @@
 #ifndef _ASSERT_H
 #define _ASSERT_H
 
-static inline void aassert(int e)
-{
-}
+void aassert(int e);
 
 #define assert(e) aasert((int)(e))
+#define static_assert(e, msg) aasert((int)(e))
 
 #endif

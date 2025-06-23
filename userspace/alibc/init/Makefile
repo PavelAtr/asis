@@ -1,5 +1,5 @@
 all: 
-	$(CC) $(CFLAGS) -c crt.c
+	$(CC) $(CFLAGS) $(SYSROOT) -c crt.c
 clean:
 	rm -f *.o *.a
 

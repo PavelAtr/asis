@@ -76,6 +76,8 @@ unsigned long long strtoull(const char* nptr, char** endptr, int base);
 #define MB_CUR_MAX 2
 
 long random(void);
+#define rand() random()
+
 void srandom(unsigned long seed);
 char *initstate(unsigned long seed, char* state, long n);
 char *setstate(char *state);
@@ -103,5 +105,8 @@ size_t mbstowcs(wchar_t dest[], const char* src, size_t n);
 size_t wcstombs(char dest[], const wchar_t* src, size_t n);
 
 int posix_memalign(void **memptr, size_t alignment, size_t size);
+char *realpath(const char *path,
+                      char *resolved_path);
+
 
 #endif

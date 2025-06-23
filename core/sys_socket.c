@@ -23,35 +23,31 @@ int get_free_socket()
     return -1;
 }
 
-int socket_checkperm(const char* path)
+errno_t socket_checkperm(const char* path)
 {
    mountpoint* mount = sys_get_mountpoint(path);
    if (!mount) {
-      current_errno = ENOENT;
-      return -1;
+      return ENOENT;
    }
    const char* file = sys_calcpath(mount, path);
    if (!mount->mount_can_read(mount->sbfs, file, current->uid, current->gid)) {
-      current_errno = EPERM;
-      return -1;
+      return EPERM;
    }
    if (!mount->mount_can_write(mount->sbfs, file, current->uid, current->gid)) {
-      current_errno = EPERM;
-      return -1;
+      return EPERM;
    }
       struct stat st;
    if (mount->mount_stat(mount->sbfs, file, &st)) {
-      current_errno = ENOENT;
-      return -1;
+      return ENOENT;
    }
    return 0;
 }
 
-int sys_listen(void* socket)
+errno_t sys_listen(void* socket)
 {
     int i = get_free_socket();
     if (i == -1)
-        return -1;
+        return ENOMEM;
     asocket* server = socket;    
     sockets[i] = socket;
     if (server->domain == AF_UNIX && server->socktype == SOCK_STREAM) {
@@ -59,10 +55,10 @@ int sys_listen(void* socket)
         sys_printf("sys_mknod(%s)\n", server->path);
         return 0;
     }
-    return -1;   
+    return ENOTSUP;   
 }
 
-int sys_connect(void* socket, void* saddr)
+errno_t sys_connect(void* socket, void* saddr)
 {
     asocket* client = socket;
     const struct sockaddr *addr = saddr;
@@ -79,10 +75,11 @@ int sys_connect(void* socket, void* saddr)
 			        server = (asocket*)sockets[i];
 	    }
 	    if (!server) {
-	        return -1;
+	        return ENOENT;
 	    }
-        if (socket_checkperm(server->path)) {
-            return -1;
+        errno_t err;
+        if ((err = socket_checkperm(server->path))) {
+            return err;
         }
         if (server->listening && server->num_pending < server->backlog) {
             server->pending[server->num_pending++] = client;
@@ -92,5 +89,5 @@ int sys_connect(void* socket, void* saddr)
         }         
 	    return 0;
     }
-    return -1;
+    return ENOTSUP;
 }

@@ -64,7 +64,7 @@ int apthread_join(pthread_t* thread, void **retval);
 #define pthread_join(t, r) apthread_join(&t, r)
 
 typedef char pthread_once_t;
-#define PTHREAD_ONCE_INIT 0;
+#define PTHREAD_ONCE_INIT 0
 int pthread_once(pthread_once_t *once_control, void (*init_routine)(void));
 
 pthread_t* pthread_self();

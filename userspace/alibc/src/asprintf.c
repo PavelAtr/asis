@@ -10,9 +10,9 @@ int vasprintf(char ** strp, const char * fmt, va_list ap)
 {
    va_list copy;
    va_copy(copy, ap);
-   size_t size = vsprintf(NULL, format, ap);
+   size_t size = vsprintf(NULL, fmt, ap);
    char* str = malloc(size);
-   size = vsprintf(str, format, copy);
+   size = vsprintf(str, fmt, copy);
    *strp = str;
    return size;
 }

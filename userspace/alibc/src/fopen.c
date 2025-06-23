@@ -36,7 +36,11 @@ FILE* fopen(const char* path, const char* mode)
    }
    if (st.st_mode & S_IFIFO ) {
       size_t objsize = -1;
-      ((anamedpipe*)ret)->pbuf = asyscall(SYS_SHARED, "fifo", ret->file, mode, &objsize, 0, 0);
+      if ((errno = (int)asyscall(SYS_SHARED, &((anamedpipe*)ret)->pbuf,"fifo", ret->file, mode, &objsize, 0)))
+	{
+	    freefile(ret);
+	    return NULL;
+	}
       ((anamedpipe*)ret)->pbuf->refcount++;
    }
    return ret;

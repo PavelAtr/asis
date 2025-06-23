@@ -1,3 +1,7 @@
+/******************************************************
+*  Author: Pavel V Samsonov 2025
+*******************************************************/
+
 #include <asis.h>
 #include <sys/capability.h>
 #include <errno.h>
@@ -25,22 +29,20 @@ secmodel default_security = {
 
 secmodel* security = &default_security;
 
-int_t sys_setuid(uid_t uid)
+errno_t sys_setuid(uid_t uid)
 {
    if (security->capable(CAP_SETUID)) {
       current->uid = uid;
       return 0;
    }
-   current_errno = EPERM;
-   return -1;
+   return EPERM;
 }
 
-int_t sys_setgid(gid_t gid)
+errno_t sys_setgid(gid_t gid)
 {
    if (security->in_group(gid) || security->capable(CAP_SETUID)) {
       current->gid = gid;
       return 0;
    }
-   current_errno = EPERM;
-   return -1;
+   return EPERM;
 }

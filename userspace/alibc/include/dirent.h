@@ -1,6 +1,11 @@
+/******************************************************
+*  Author: Pavel V Samsonov 2025
+*******************************************************/
+
 #ifndef _DIRENT_H
 #define _DIRENT_H
 #include <stddef.h>
+#include <stdio.h>
 
 #define MAX_PATH_PART 256
 
@@ -35,7 +40,8 @@ struct dirent {
 #define dirent64 dirent
 
 typedef struct {
-    const char* dir;
+    FD_ESSENTIAL
+    FILE_ESSENTIAL
     int ndx;
 } DIR;
 
@@ -45,5 +51,13 @@ struct dirent* readdir(DIR *dirp);
 DIR *fdopendir(int fd);
 int closedir(DIR *dirp);
 void rewinddir(DIR *dirp);
+int dirfd(DIR *dirp);
+int scandir(const char * dirp,
+           struct dirent *** namelist,
+           int (*filter)(const struct dirent *),
+           int (*compar)(const struct dirent **,
+                         const struct dirent **));
+
+
 
 #endif

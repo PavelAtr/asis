@@ -58,6 +58,7 @@ char* errors[60] = {
 "Protocol error",
 "Connection refused",
 "The socket is not connected",
+"No such device",
 };
 
 char* strerror(int errnum)

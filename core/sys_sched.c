@@ -1,3 +1,7 @@
+/******************************************************
+*  Author: Pavel V Samsonov 2025
+*******************************************************/
+
 #include <asis.h>
 #include <string.h>
 #include <errno.h>
@@ -32,12 +36,18 @@ void switch_task()
       if (!cpu[curpid]) {
          continue;
       }
-      if (!(cpu[curpid]->flags & PROC_RUNNING)) {
+      if (cpu[curpid]->flags & PROC_ENDED) {
          if (curpid == 1) {
             sys_printf(SYS_ERROR "Task 1 ended!\n");
             curpid = 0;
             break;
          }
+      }
+      if (cpu[curpid]->flags & PROC_ENDED)
+      {
+         sys_printf("SCHED FREE %d\n", curpid);
+         freeproc(curpid);
+         cpu[curpid] = NULL;
          continue;
       }
       break;
@@ -62,7 +72,7 @@ void switch_task()
    sp = current->ctx.sp;
 }
 
-int_t sys_setjmp(long_t* env)
+errno_t sys_setjmp(long_t* env)
 {
    env[JMP_SP] = (long_t)sp;
    env[JMP_DEPTH] = current->ctx.stack + MAXSTACK - sp;
@@ -72,7 +82,7 @@ int_t sys_setjmp(long_t* env)
    return 0;
 }
 
-int_t sys_longjmp(long_t* env)
+errno_t sys_longjmp(long_t* env)
 {
    if (!env[JMP_STACK])	return 1;
    sys_printf(SYS_DEBUG "longjmp env=%p newsp=%p\n", env, env[JMP_SP]);

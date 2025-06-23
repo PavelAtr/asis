@@ -60,6 +60,8 @@ typedef short __s16;
 typedef char __s8;
 typedef long64_t __s64;
 typedef ulong64_t __u64;
+typedef size_t __kernel_size_t;
+
 
 #undef SIZE_MAX
 #define SIZE_MAX (size_t)-1

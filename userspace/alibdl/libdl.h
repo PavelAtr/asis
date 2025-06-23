@@ -7,6 +7,8 @@
 
 extern char * ld_library_path;
 
+#define LD_LIBRARY_PATH "/lib:/usr/lib"
+
 typedef struct {
    Elf_Shdr* head;
    Elf_Rela* relas;

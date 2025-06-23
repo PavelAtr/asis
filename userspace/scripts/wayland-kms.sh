@@ -5,27 +5,26 @@ set -e
 cd ../wlroots
 CWD=$(pwd)
 
+export PREFIX=/
+export DESTDIR=/home/PavelAtr/asis/root
+export CC=cc-asis
+export CXX=c++-asis
+export SYSROOT="--sysroot=${DESTDIR}"
+
 export CFLAGS="${CFLAGS} ${SYSROOT}"
 export LDFLAGS="${LDFLAGS} ${SYSROOT}"
 export PKG_CONFIG_LIBDIR="${DESTDIR}${PREFIX}/lib/pkgconfig/"
 
-echo "Building wlroot ... "
+echo "Building wayland-kms ... "
 
 
 mkdir -p build
 
 meson setup --cross-file ../scripts/x86_64_asis_meson.txt ./build/ \
 --prefix /
--Dlogind=disabled \
--Dlibseat=disabled \
--Dxcb-errors=disabled \
--Dxcb-icccm=disabled \
--Dxwayland=disabled \
--Dx11-backend=disabled \
--Dfbdev-backend=enabled \
--Dexamples=disabled \
 
 ninja -C build/ install
+
 
 
 

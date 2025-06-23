@@ -5,7 +5,8 @@
 
 int execve(const char* path, char** iargv, char** envp)
 {
-   return (int)asyscall(SYS_EXECVE, path, iargv, envp, 0, 0, 0);
+   int err = (int)asyscall(SYS_EXECVE, path, iargv, envp, 0, 0, 0);
+   return err;
 }
 
 int execv(const char *pathname, char** iargv)

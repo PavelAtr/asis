@@ -1,3 +1,7 @@
+/******************************************************
+*  Author: Pavel V Samsonov 2025
+*******************************************************/
+
 #include "../config.h"
 #include <asis.h>
 #include "../config.h"
@@ -72,9 +76,7 @@ void* sys_syscall(int number, void* arg1, void* arg2, void* arg3, void* arg4, vo
    case SYS_REALLOC:
       return sys_realloc((void*)arg1, (size_t)arg2);
    case SYS_IOCTL:
-      current_errno = sys_ioctl((const char*)arg1, (ulong_t)arg2, (void*)arg3, (void*)arg4, (void*)arg5, (void*)arg6);
-      if (current_errno) return (void*)-1;
-      else return (void*) 0;
+      return (void*) sys_ioctl((const char*)arg1, (ulong_t)arg2, (void*)arg3, (void*)arg4, (void*)arg5, (void*)arg6);
    case SYS_GETPID:
       return (void*)current->pid;
    case SYS_GETPPID:
@@ -90,7 +92,7 @@ void* sys_syscall(int number, void* arg1, void* arg2, void* arg3, void* arg4, vo
    case SYS_GETRLIMIT:
       return (void*)sys_getrlimit((int)arg1, (void*)arg2);
    case SYS_SHARED:
-      return sys_shared((const char*)arg1, (const char*)arg2, (const char*)arg3, (size_t*)arg4);
+      return (void*)sys_shared((void**)arg1, (const char*)arg2, (const char*)arg3, (const char*)arg4, (size_t*)arg5);
    case SYS_FREESHARED:
       sys_delshared((const char*)arg1, (const char*)arg2);
       return NULL;

@@ -1,3 +1,7 @@
+/******************************************************
+*  Author: Pavel V Samsonov 2025
+*******************************************************/
+
 #include <dirent.h>
 #include <fcntl.h>
 #include <stdlib.h>
@@ -18,7 +22,8 @@ DIR *opendir(const char *dirname)
       return NULL;
    }
    DIR* d = malloc(sizeof(DIR));
-   d->dir = name;
+   initfile((FILE*)d);
+   d->file = name;
    d->ndx = 0;
    return d;
 }

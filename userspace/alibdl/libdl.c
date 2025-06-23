@@ -16,6 +16,7 @@
 #else
 #include <stdlib.h>
 char* main_chroot = "";
+char* ld_library_path = LD_LIBRARY_PATH;
 #endif
 
 void elf_free(elf *e)
@@ -463,3 +464,13 @@ void elf_relocate_tls(Elf_Shdr* rela, Elf_Rela* relatab, dl* s, Elf_Sym* (*resol
    }
 }
 
+int dladdr(const void *addr, Dl_info *info)
+{
+   /* STUB USED NEEDED*/
+   return 0;
+}
+
+char *dlerror(void)
+{
+   return "dlerror not realized";
+}

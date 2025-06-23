@@ -88,11 +88,17 @@ config WAYLANDPROTOCOLS
       help
         wayland-protocols package.
 
-config MESA
-      bool "mesa"
+config LIBGLVND
+      bool "libglvnd"
       default y
       help
-        mesa package.
+        libglvnd package.
+
+config LIBDRM
+      bool "libdrm"
+      default y
+      help
+        libdrm package.
 
 config EUDEV
       bool "eudev"

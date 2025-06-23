@@ -3,17 +3,18 @@
 *******************************************************/
 
 #include <dirent.h>
-#include <stdlib.h>
 #include <errno.h>
+#include <stdio.h>
+#include <fcntl.h>
 
-int closedir(DIR *dirp)
+int dirfd(DIR *dirp)
 {
-   if (!dirp) {
-      errno = ENOENT;
+   int fd = get_free_fd();
+   if (fd == -1) {
+      errno = ENOMEM;
       return -1;
    }
-   if (dirp->fd != -1)
-      return 0;
-   freefile((FILE*)dirp);
-   return 0;
+   afds[fd] = (FILE*) dirp;
+   dirp->fd = fd;
+   return fd;
 }

@@ -18,9 +18,7 @@ static inline int unshare(int flags)
 #define CLONE_NEWUTS 10
 #define CLONE_SYSVSEM 11
 
-#include <unistd.h>
-
-#define  sched_yield() switchtask
+int sched_yield(void);
 
 
 #endif

@@ -7,6 +7,7 @@
 
 #include "sys/types.h"
 #include <stdarg.h>
+#include "start.h"
 
 #define S_ISUID  04000
 #define S_ISGID  02000
@@ -28,7 +29,7 @@
     *pp = NULL; \
     }
 
-int_t sys_exec(char* file, char** argv, char** envp);
+errno_t sys_exec(char* file, char** inargv, char** envp);
 int_t sys_runinit();
 
 int_t sys_stat(const char* pathname, void* statbuf);
@@ -106,7 +107,7 @@ typedef struct {
   char* sp;
 } context;
 
-typedef __attribute__((sysv_abi)) int (*startfunction) (int argc, int* cerrno, char*** cargv, char*** cenvp, void*** cfds, void* syscall_func, void* retexit_func, char*** cdtv);
+typedef __attribute__((sysv_abi)) int (*startfunction) (startarg* arg);
 extern void** current_fds;
 extern char** current_dtv;
 extern errno_t current_errno;
@@ -132,8 +133,8 @@ typedef struct {
   pid_t pgid;
   char** dtv;
   startfunction start;
-  __attribute__((sysv_abi)) void (*__tls_init)(char** dtv_ptr);
-} proc;
+  int cpunum;
+  }  proc;
 
 #define PROC_RUNNING 0x01
 #define PROC_NEW 0x02
@@ -157,8 +158,8 @@ typedef struct {
 
 extern secmodel* security;
 #define SETUIDPROC "/bin/shell"
-int_t sys_setuid(uid_t uid);
-int_t sys_setgid(gid_t gid);
+errno_t sys_setuid(uid_t uid);
+errno_t sys_setgid(gid_t gid);
 
 #define COREMAXFD 20
 #define COREMAXENV 20
@@ -204,11 +205,11 @@ void* sys_realloc(void* ptr, size_t size);
 
 errno_t sys_ioctl(const char* path, ulong_t request, void* arg1, void* arg2,  void* arg3, void* arg4);
 
-int_t sys_setpgid(pid_t pid, pid_t pgid);
+errno_t sys_setpgid(pid_t pid, pid_t pgid);
 int_t sys_getpgid(pid_t pid);
 
-int_t sys_setjmp(long_t* env);
-int_t sys_longjmp(long_t* env);
+errno_t sys_setjmp(long_t* env);
+errno_t sys_longjmp(long_t* env);
 #define JMP_STACK 0
 #define JMP_SP 1
 #define JMP_DEPTH 2
@@ -237,16 +238,20 @@ typedef struct {
 
 extern sharedobj* sharedobjs[MAXSHAREDOBJ];
 int_t sys_mkfifo(const char* path, const char* mode);
-void* sys_shared(const char* type, const char* path, const char* mode, size_t* out_size);
+errno_t sys_shared(void** ret, const char* type, const char* path, const char* mode, size_t* out_size);
 void sys_delshared(const char* type, const char* path);
 void sys_threadend();
 extern char* main_chroot;
 
 #define MAXSOCKETS 32
 extern void* sockets[MAXSOCKETS];
-int sys_listen(void* socket);
-int sys_connect(void* socket, void* addr);
+errno_t sys_listen(void* socket);
+errno_t sys_connect(void* socket, void* addr);
 void* sys_calloc(size_t nmemb, size_t size);
+
+int sys_runoncpu(startfunction start, startarg* arg, proc* task, int cpunum);
+void init_cpus();
+int sys_getcpu();
 
 extern void* LOG;
 

@@ -60,7 +60,7 @@ F_FILE,
 FILE_INFINITY,
 };
 
-int sys_dlnlink = 1;
+int sys_dlnlink = 10;
 char* sys_env[4] = {
    "PATH=/usr/bin:/bin",
    "CWD=/",
@@ -184,7 +184,7 @@ void freefds(proc* task)
 }
 
 
-int_t sys_setpgid(pid_t pid, pid_t pgid)
+errno_t sys_setpgid(pid_t pid, pid_t pgid)
 {
    pid_t newpgid = (pgid == 0)? current->pid : pgid;
    if (pid == 0) {
@@ -195,8 +195,7 @@ int_t sys_setpgid(pid_t pid, pid_t pgid)
       cpu[pid]->pgid = newpgid;
       return 0;
    } else {
-      current_errno = EBADR;
-      return -1;
+      return EBADR;
    } 
 }
 int_t sys_getpgid(pid_t pid)
@@ -207,7 +206,6 @@ int_t sys_getpgid(pid_t pid)
    if (cpu[pid]) {
       return cpu[pid]->pgid;
    } else {
-      current_errno = EBADR;
       return -1;
    } 
 }

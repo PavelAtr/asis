@@ -4,6 +4,7 @@
 #include <string.h>
 #include <stdio.h>
 #include "../../userspace/alibdl/libdl.h"
+#include <start.h>
 
 #undef fds
 
@@ -44,28 +45,25 @@ int_t* new_dlnlink(void* dlhandle)
    return ret;
 }
 
-int_t sys_exec(char* file, char** inargv, char** envp)
+errno_t sys_exec(char* file, char** inargv, char** envp)
 {
    sys_printf(SYS_DEBUG "EXEC %s\n", file);
    int argc;
    for (argc = 0; inargv[argc]; argc++);
    mountpoint* mount = sys_get_mountpoint(file);
    if (!mount) {
-      current_errno = ENOENT;
       current->dlhndl = NULL;
-      return -1;
+      return ENOENT;
    }
    const char* path = sys_calcpath(mount, file);
    if (!mount->mount_can_execute(mount->sbfs, path, current->uid, current->gid)) {
-      current_errno = EPERM;
       current->dlhndl = NULL;
-      return -1;
+      return EPERM;
    }
    struct stat st;
    if (sys_stat(file, &st) == -1) {
-      current_errno = ENOENT;
       current->dlhndl = NULL;
-      return -1;
+      return ENOENT;
    }
    if (st.st_mode & S_ISUID) {
       current->uid = st.st_uid;
@@ -86,9 +84,8 @@ int_t sys_exec(char* file, char** inargv, char** envp)
    deinit_tls(current);
    current->dlhndl = sys_dlopen(file, 0);
    if (!current->dlhndl) {
-	  sys_printf(SYS_ERROR "EXEC dlopen %s FAILED\n", file);
-      current_errno = ENOENT;
-      return -1;
+	   sys_printf(SYS_ERROR "EXEC dlopen %s FAILED\n", file);
+      return ENOENT;
    }
    if (current->flags & PROC_CLONED) {
       current->dlnlink = new_dlnlink(current->dlhndl);
@@ -116,10 +113,18 @@ int_t sys_exec(char* file, char** inargv, char** envp)
    current_dtv = current->dtv;
    current_environ = current->envp;
    current_argv = current->argv;
+   startarg arg;
+   arg.argc = argc;
+   arg.cerrno = &current_errno;
+   arg.cargv = &current_argv;
+   arg.cenvp =  &current_environ;
+   arg.cfds = &current_fds;
+   arg.syscall_func = &sys_syscall;
+   arg.retexit_func = &sys_atexit;
+   arg.cdtv = &current_dtv;
    printf("EXEC START %s argv=%p envp=%p fds=%p syscall=%p retexit=%p dtv=%p\n", 
       file, current->argv, current->envp, current->fds, &sys_syscall, &sys_atexit, current->dtv);
-   int ret = current->start(argc, &current_errno, &current_argv, &current_environ, &current_fds, &sys_syscall, &sys_atexit, &current_dtv);
-   switch_context;
+   int ret = sys_runoncpu(current->start, &arg, current, sys_getcpu());
    /* Never reach here */
    sys_printf(SYS_DEBUG "EXEC END (NOTREACHEBLE)\n");
    return  ret;
@@ -133,7 +138,6 @@ pid_t newproc()
          cpu[i] = sys_calloc(1, sizeof(proc));
          return i;
       }
-   current_errno = ENOMEM;
    return -1;
 }
 
@@ -156,7 +160,7 @@ void freeproc(pid_t pid)
       freeenv(cpu[pid]->envp);
       freefds(cpu[pid]);
    }
-/*   free_stack(cpu[pid]->ctx.stack, MAXSTACK); BUG NEED SOLVE*/
+   free_stack(cpu[pid]->ctx.stack, MAXSTACK);
    sys_free(cpu[pid]);
    cpu[pid] = NULL;
 }
@@ -181,7 +185,6 @@ pid_t sys_clone(void)
    if (!cpu[ret]->ctx.stack || !cpu[ret]->fds) {
       sys_printf(SYS_ERROR "CLONE alloc stack or fds failed\n");
       freeproc(ret);
-      current_errno = ENOMEM;
       return -1;
    }
    sys_printf(SYS_DEBUG "CLONE newpid=%d in %d(%s), nlink %p=%d\n", ret, current->pid, current->argv[0], cpu[ret]->dlnlink, *cpu[ret]->dlnlink);
@@ -243,8 +246,9 @@ pid_t sys_waitpid(pid_t pid, int* wstatus, int options)
 end:
    sys_printf(SYS_DEBUG "WAITPID END pid=%d prog=%s child=%s(%d), nlink %p=%d\n", current->pid, current->argv[0], cpu[child]->argv[0], child, cpu[child]->dlnlink, *cpu[child]->dlnlink);
    *wstatus = cpu[child]->ret;
-   freeproc(child);
-   cpu[child] = NULL;
+   cpu[child]->flags &= ~PROC_RUNNING;
+   cpu[child]->flags |= PROC_ENDED;
+   switch_context;
    return child;
 }
 
@@ -254,8 +258,6 @@ void sys_threadend()
    pid_t pid = current->pid;
    current->flags &= ~PROC_RUNNING;
    current->flags |= PROC_ENDED;
-   freeproc(pid);
-   cpu[pid] = NULL;
    switch_context;
 }
 

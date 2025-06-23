@@ -23,7 +23,8 @@ sys_dl.c \
 sys_trap.c \
 sys_tls.c \
 sys_shared.c \
-sys_socket.c
+sys_socket.c \
+sys_smp.c
 
 
 EXTLIBS = \

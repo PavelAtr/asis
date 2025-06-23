@@ -3,7 +3,7 @@ PREFIX?=/asis
 LDLAGS=-Wl,-fno-undefined -nostdlib 
 CFLAGS?=-fPIC -DSTANDALONE
 
-all: 
+all: install_headers
 	mkdir -p build
 	cd build; $(CC) $(SYSROOT) $(CFLAGS) -c ../$(ARCH)/*.c ../*.c
 	cd build; $(CCLD) $(SYSROOT) $(LDFLAGS) -shared *.o -o libdl.so

@@ -12,6 +12,10 @@ double fmod(double a, double b);
 
 
 
+double modf(double x, double *iptr);
+float modff(float x, float *iptr);
+long double modfl(long double x, long double *iptr);
+
 double round(double x);
 float roundf(float x);
 long double roundl(long double x);

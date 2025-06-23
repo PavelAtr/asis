@@ -7,6 +7,8 @@
 intmax_t strtoimax(const char* nptr, char** endptr, int base);
 uintmax_t strtoumax(const char* nptr, char** endptr, int base);
 
+#define __WORDSIZE 64
+
 # if __WORDSIZE == 64
 #  define __PRI64_PREFIX	"l"
 #  define __PRIPTR_PREFIX	"l"

@@ -5,6 +5,7 @@
 #include <string.h>
 #include <syscall.h>
 #include <stdio.h>
+#include <dirent.h>
 #ifndef UEFI
 #include <stdlib.h>
 #endif
@@ -21,7 +22,7 @@ void initfile(FILE* src)
    *src->lock = 0;
    src->fd_refcount = 1;
    if (src->type == F_FILE || src->type == F_PIPE || src->type == F_NAMEDPIPE
-       || src->type == F_MEM || src->type == F_NAMEDMEM) {
+       || src->type == F_MEM || src->type == F_NAMEDMEM || src->type == F_DIR) {
        src->file = NULL;
        src->mode = NULL;
        src->flags = 0;
@@ -56,6 +57,8 @@ void copyfile(FILE** dst, FILE* src)
          memcpy(*dst, src, sizeof(amemfile));
          break;
       case F_DIR:
+         *dst = calloc(1, sizeof(DIR));
+         memcpy(*dst, src, sizeof(DIR));
          break;
       case F_SOCKET:
          *dst = calloc(1, sizeof(asocket));
@@ -77,7 +80,7 @@ void copyfile(FILE** dst, FILE* src)
    }
    (*dst)->fd_refcount++;
    if (src->type == F_FILE || src->type == F_PIPE || src->type == F_NAMEDPIPE
-       || src->type == F_MEM || src->type == F_NAMEDMEM) {
+       || src->type == F_MEM || src->type == F_NAMEDMEM  || src->type == F_DIR) {
       if (src->file)
          (*dst)->file = strdup(src->file); // Copy the file name
       if (src->mode)
@@ -136,7 +139,7 @@ void freefile(FILE* dst)
          break;
    } 
    if (dst->type == F_FILE || dst->type == F_PIPE || dst->type == F_NAMEDPIPE
-       || dst->type == F_MEM || dst->type == F_NAMEDMEM) {
+       || dst->type == F_MEM || dst->type == F_NAMEDMEM  || dst->type == F_DIR) {
       if (dst->file) {
          free(dst->file);
          dst->file = NULL;

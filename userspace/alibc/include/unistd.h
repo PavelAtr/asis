@@ -66,6 +66,9 @@ long sysconf(int name);
 #define _SC_CLK_TCK 2
 #define _SC_NGROUPS_MAX 3
 #define _SC_PAGESIZE 4
+#define _SC_GETPW_R_SIZE_MAX 5
+#define _SC_PHYS_PAGES 6
+#define _SC_PAGE_SIZE 7
 
 ssize_t readlinkat(int dirfd, const char* pathname, char* buf, size_t bufsiz);
 ssize_t readlink(const char* pathname, char* buf, size_t bufsiz);
@@ -104,6 +107,7 @@ char *ttyname(int fd);
 int ttyname_r(int fd, char buf[], size_t buflen);
 
 unsigned int sleep(unsigned int seconds);
+int getpagesize(void);
 
 #define MAXPATHLEN 4096
 

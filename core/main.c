@@ -40,11 +40,14 @@ void* LOG = NULL;
 
 char* main_chroot = "";
 
+
 int main(int argc, char** argv)
 {
    if (argc > 1) {
       main_chroot = argv[1];
    }
+
+   init_cpus();
 
    LOG = (void*) fopen("asis.log", "w+");
    if (!LOG) printf("Unable to open LOG\n");
@@ -127,11 +130,11 @@ sys_mknod("/dev/fb0", S_IFCHR | 0660);
 #endif
 /* ENDGARBAGE */
    sys_printf(SYS_INFO "End init\n");
-   mainsp = sp;
-
-   int ret = sys_runinit();
    
+   mainsp = sp;
+   int ret = sys_runinit();
    sp = mainsp;
+
    sys_printf(SYS_INFO "End runinit ret=%d\n", ret);
    sys_printf("Sjared objects still:\n");
    for (int i = 0; i < MAXSHAREDOBJ; i++)

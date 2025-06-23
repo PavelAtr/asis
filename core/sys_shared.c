@@ -36,13 +36,13 @@ int_t findshared(const char* type, const char* path)
     return -1; // Not found
 }
 
-void* sys_shared(const char* type, const char* path, const char* mode, size_t* out_size)
+errno_t sys_shared(void** ret, const char* type, const char* path, const char* mode, size_t* out_size)
 {
    if ((strcmp(type,"fifo") == 0 ||
        strcmp(type,"sock") == 0) && 
        !(strcmp(mode, "r") == 0 || strcmp(mode, "w") == 0)) {
-      current_errno = EPERM;
-      return NULL; // Invalid type
+      *ret = NULL;
+      return EPERM; // Invalid type
    }
    if (mode[0] == '\0') {
     // If mode is empty, we assume no checks are needed
@@ -50,22 +50,22 @@ void* sys_shared(const char* type, const char* path, const char* mode, size_t* o
    }
    mountpoint* mount = sys_get_mountpoint(path);
    if (!mount) {
-      current_errno = ENOENT;
-      return 0;
+      *ret = NULL;
+      return ENOENT;
    }
    const char* file = sys_calcpath(mount, path);
    if (strlen(mode) >= 1) {
         if (mode[0] == 'r' && !mount->mount_can_read(mount->sbfs, file,
                              current->uid, current->gid)) {
-            current_errno = EPERM;
-            return NULL;
+            *ret = NULL;
+            return EPERM;
         }
     }
    if (strlen(mode) >= 1) {
         if (mode[0] == 'w' && !mount->mount_can_write(mount->sbfs, file,
                             current->uid, current->gid)) {
-            current_errno = EPERM;
-            return NULL;
+            *ret = NULL;
+            return EPERM;
         }
     }
 nocheckfs:    
@@ -73,13 +73,13 @@ nocheckfs:
    if (index == -1) {
         index = newshared();
         if (index == -1) {
-            current_errno = ENOMEM;
-            return NULL; // No available slot
+            *ret = NULL;
+            return ENOMEM; // No available slot
         }
         sharedobjs[index] = malloc(sizeof(sharedobj));
         if (!sharedobjs[index]) {
-            current_errno = ENOMEM;
-            return NULL; // Memory allocation failed
+            *ret = NULL;
+            return ENOMEM; // Memory allocation failed
         }
         sharedobjs[index]->refcount = 1;
         sharedobjs[index]->type = strdup(type);
@@ -101,8 +101,8 @@ nocheckfs:
             // Resize the memory file if the requested size is larger
             void* new_mem = realloc(sharedobjs[index]->obj, *out_size);
             if (!new_mem) {
-                current_errno = ENOMEM;
-                return NULL; // Memory allocation failed
+                *ret = NULL;
+                return ENOMEM; // Memory allocation failed
             }
             sharedobjs[index]->obj = new_mem;
             sharedobjs[index]->size = *out_size;
@@ -112,8 +112,8 @@ nocheckfs:
         }
         *out_size = sharedobjs[index]->size;
     }
- 
-   return sharedobjs[index] ? sharedobjs[index]->obj : NULL;
+    *ret = sharedobjs[index] ? sharedobjs[index]->obj : NULL;
+    return 0;
 }
 
 void sys_delshared(const char* type, const char* path)
