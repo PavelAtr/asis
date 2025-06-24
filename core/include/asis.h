@@ -32,15 +32,15 @@
 errno_t sys_exec(char* file, char** inargv, char** envp);
 int_t sys_runinit();
 
-int_t sys_stat(const char* pathname, void* statbuf);
+errno_t sys_stat(const char* pathname, void* statbuf);
 len_t sys_afread(const char* path, void* ptr, len_t size, len_t off);
 len_t sys_afwrite(const char* path, const void* ptr, len_t size, len_t off);
 void* sys_readdir(char* pathname, int_t ndx);
-int_t sys_mknod(const char* pathname, mode_t mode);
-int_t sys_modnod(const char* pathname, uid_t uid, gid_t gid, mode_t mode);
-int_t sys_unlink(const char *pathname);
-int_t sys_truncate(const char *pathname, size_t length);
-int_t sys_link(const char *oldpath, const char *newpath, bool_t move);
+errno_t sys_mknod(const char* pathname, mode_t mode);
+errno_t sys_modnod(const char* pathname, uid_t uid, gid_t gid, mode_t mode);
+errno_t sys_unlink(const char *pathname);
+errno_t sys_truncate(const char *pathname, size_t length);
+errno_t sys_link(const char *oldpath, const char *newpath, bool_t move);
 
 #define MEMSIZE	10000000
 
@@ -48,9 +48,9 @@ void* sys_mmap(void* addr, size_t length, int prot, int flags, int f, off_t offs
 int sys_munmap(void* addr, size_t length);
 void* sys_malloc(size_t size);
 void* sys_calloc(size_t nmemb, size_t size);
-extern int curmem;
 void sys_free(void *ptr);
 void sys_prog_free(void *ptr);
+
 void* sys_syscall(int number, void* arg1, void* arg2, void* arg3, void* arg4, void* arg5, void* arg6);
 int sys_usleep(long_t usecs);
 
@@ -94,8 +94,8 @@ extern mountpoint mountpoints[MAXMOUNT];
 
 mountpoint* sys_get_mountpoint(const char* file);
 const char* sys_calcpath(mountpoint* mount, const char* file);
-int sys_mount(const char* blk, const char* mount, const char* fstype, const char* options);
-int sys_umount(const char* dir);
+errno_t sys_mount(const char* blk, const char* mount, const char* fstype, const char* options);
+errno_t sys_umount(const char* dir);
 
 int sys_printf(const char* format, ...);
 #define SYS_DEBUG "debug:\t"
@@ -108,11 +108,6 @@ typedef struct {
 } context;
 
 typedef __attribute__((sysv_abi)) int (*startfunction) (startarg* arg);
-extern void** current_fds;
-extern char** current_dtv;
-extern errno_t current_errno;
-extern char** current_environ;
-extern char** current_argv;
 
 typedef struct {
   int argc;
@@ -220,7 +215,6 @@ int sys_dlclose(void *handle);
 void* sys_dlsym(void * handle, const char * symbol);
 int sys_getrlimit(int resource, void* r);
 
-errno_t sys_geterrno();
 void* alloc_stack(size_t size);
 void free_stack(void* stackbase, size_t size);
 
@@ -262,6 +256,11 @@ extern void* LOG;
 
 typedef struct {
   pid_t startcycle;
+  char** dtv;
+  void** fds;
+  char** environ;
+  char** argv;
+  errno_t syserrno;
 } core;
 
 extern core** cpus;

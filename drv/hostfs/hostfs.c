@@ -57,15 +57,14 @@ typedef struct {
 
 FILE* fmeta = NULL;
 
-char* calc_path(void* sbfs, const char* path)
+char* calc_path(char* fullpath, void* sbfs, const char* path)
 {
    hostfs_sbfs* hsbfs = (hostfs_sbfs*)sbfs;
-   static char fullpath[1024];
    if (hsbfs->chroot && hsbfs->chroot[0] != '\0') {
-      snprintf(fullpath, sizeof(fullpath), "%s%s", hsbfs->chroot, path);
+      sprintf(fullpath, "%s%s", hsbfs->chroot, path);
       return fullpath;
    }
-   snprintf(fullpath, sizeof(fullpath), "%s", path);
+   sprintf(fullpath, "%s", path);
    #ifdef CONFIG_UEFI
    int i;
    for (i = 0; fullpath[i] != '\0'; i++)
@@ -136,7 +135,8 @@ errno_t hostfs_mknod(void* sbfs, const char *pathname, uid_t uid, gid_t gid,
    mode_t mode)
 {
    mode_t devtype = mode & S_IFMT;
-   const char* path = calc_path(sbfs, pathname);
+   char fullpath[1024];
+   const char* path = calc_path(fullpath, sbfs, pathname);
    printf("hostfs_mknod: %s, mode: %o\n", path, mode);
    hostfs_set_meta(pathname, uid, gid, mode);
    if (mode & S_IFDIR)
@@ -161,17 +161,18 @@ errno_t hostfs_modnod(void* sbfs, const char* pathname, uid_t uid, gid_t gid,
 errno_t hostfs_rmnod(void* sbfs, const char *pathname, uid_t curuid,
    gid_t curgid)
 {
-   const char* path = calc_path(sbfs, pathname);
+   char fullpath[1024];
+   const char* path = calc_path(fullpath, sbfs, pathname);
    if (unlink(path) < 0) {
-      current_errno = EIO;
-      return -1; // I/O error
+      return EIO; // I/O error
    }
    return 0;
 }
 
 errno_t hostfs_truncate(void* sb, const char *pathname, len_t len)
 {
-   const char* path = calc_path(sb, pathname);
+   char fullpath[1024];
+   const char* path = calc_path(fullpath, sb, pathname);
    #ifdef CONFIG_LINUX
       return truncate(path, len);
    #endif
@@ -209,7 +210,8 @@ void cachefile(const char* path, const char* mode)
 len_t hostfs_fread(void* sbfs, const char* path, void* ptr, len_t size,
    len_t off)
 {
-   char* file = calc_path(sbfs, path);
+   char fullpath[1024];
+   char* file = calc_path(fullpath, sbfs, path);
    cachefile(file, "r");
    if (!f) {
       return 0;
@@ -221,7 +223,8 @@ len_t hostfs_fread(void* sbfs, const char* path, void* ptr, len_t size,
 len_t hostfs_fwrite(void* sbfs, const char* path, const void* ptr, len_t size,
    len_t off)
 {
-   char* file = calc_path(sbfs, path);
+   char fullpath[1024];
+   char* file = calc_path(fullpath, sbfs, path);
    cachefile(file, "r+");
    if (!f) {
       return 0;
@@ -235,11 +238,11 @@ errno_t hostfs_stat(void* sbfs, const char* path, void* statbuf)
    meta_t meta;
    struct stat st;
    struct astat* tst = statbuf;
-   char* pathname = calc_path(sbfs, path);
+   char fullpath[1024];
+   char* pathname = calc_path(fullpath, sbfs, path);
    errno_t ret = stat(pathname, &st);
    if (ret == -1) {
-      current_errno = errno;
-      return -1; // Error occurred
+      return ENOENT; // Error occurred
    }
    tst->st_mode = st.st_mode;
    tst->st_size = st.st_size;
@@ -260,7 +263,8 @@ errno_t hostfs_stat(void* sbfs, const char* path, void* statbuf)
 struct tinydirent tinydent;
 void* hostfs_readdir(void* sbfs, const char* path, int ndx)
 {
-   char* file = calc_path(sbfs, path);
+   char fullpath[1024];
+   char* file = calc_path(fullpath, sbfs, path);
    DIR* dir = opendir(file);
    if (!dir) {
       return NULL;

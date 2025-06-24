@@ -25,25 +25,27 @@ void elf_free(elf *e)
    {
       return;
    }
-      freenull(&e->hdr);
-      freenull(&e->phdrs);
-       freenull(&e->shdrs);
-      freenull(&e->shstr);
+   freenull(&e->hdr);
+   freenull(&e->phdrs);
+   freenull(&e->shdrs);
+   freenull(&e->shstr);
    int ndx;
-   for (ndx = 0; e->rela[ndx]; ndx++)
-   {
-      if (e->rela[ndx])
+   if (e->rela) {
+      for (ndx = 0; e->rela[ndx]; ndx++)
       {
-         if (e->rela[ndx]->relas)
+         if (e->rela[ndx])
          {
-            freenull(&e->rela[ndx]->relas);
+            if (e->rela[ndx]->relas)
+            {
+               freenull(&e->rela[ndx]->relas);
+            }
+            freenull(&e->rela[ndx]);
          }
-         freenull(&e->rela[ndx]);
       }
    }
-      freenull(&e->rela);
-      freenull(&e->dyntab);
-      freenull(&e->dynstr);
+   freenull(&e->rela);
+   freenull(&e->dyntab);
+   freenull(&e->dynstr);
    if (e->exec)
       munmap(e->exec, e->exec_size);
    e->exec = NULL;

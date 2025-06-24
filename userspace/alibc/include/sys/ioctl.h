@@ -8,7 +8,7 @@ int aioctl(int fd, unsigned long request, void* arg1, void* arg2, void* arg3, vo
 #define TIOCSWINSZ   3
 #define FICLONE	     4
 
-#define ioctl(f, r, p) aioctl(f, r, p, 0, 0, 0)
+#define ioctl(f, r, p) aioctl(f, r, (void*)p, 0, 0, 0)
 
 
 #endif

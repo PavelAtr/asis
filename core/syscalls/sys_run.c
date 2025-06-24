@@ -110,22 +110,25 @@ errno_t sys_exec(char* file, char** inargv, char** envp)
    }
    current->fds = cloexecfds(current->fds);
    current->flags &= ~PROC_CLONED;
-   current_fds = current->fds;
-   current_dtv = current->dtv;
-   current_environ = current->envp;
-   current_argv = current->argv;
+   int_t cpunum = sys_getcpu();
+   cpus[cpunum]->fds = current->fds;
+   cpus[cpunum]->dtv = current->dtv;
+   cpus[cpunum]->environ = current->envp;
+   cpus[cpunum]->argv = current->argv;
    startarg arg;
    arg.argc = argc;
-   arg.cerrno = &current_errno;
-   arg.cargv = &current_argv;
-   arg.cenvp =  &current_environ;
-   arg.cfds = &current_fds;
+   arg.cerrno = &cpus[cpunum]->syserrno;
+   arg.cargv = &cpus[cpunum]->argv;
+   arg.cenvp = &cpus[cpunum]->environ;
+   arg.cfds = &cpus[cpunum]->fds;
+   arg.cdtv = &cpus[cpunum]->dtv;
    arg.syscall_func = &sys_syscall;
    arg.retexit_func = &sys_atexit;
-   arg.cdtv = &current_dtv;
+
+   
    printf("EXEC START %s argv=%p envp=%p fds=%p syscall=%p retexit=%p dtv=%p\n", 
       file, current->argv, current->envp, current->fds, &sys_syscall, &sys_atexit, current->dtv);
-   int ret = sys_runoncpu(current->start, &arg, current, sys_getcpu());
+   int ret = sys_runoncpu(current->start, &arg, current, cpunum);
    /* Never reach here */
    sys_printf(SYS_DEBUG "EXEC END (NOTREACHEBLE)\n");
    return  ret;
@@ -181,8 +184,8 @@ pid_t sys_clone(void)
    (*current->dlnlink)++;
    cpu[ret]->ctx.stack = alloc_stack(MAXSTACK);
    init_tls(cpu[ret]);
-   current_fds = current->fds;
-   current_dtv = current->dtv;
+   cpus[current->cpunum]->fds = current->fds;
+   cpus[current->cpunum]->dtv = current->dtv;
    if (!cpu[ret]->ctx.stack || !cpu[ret]->fds) {
       sys_printf(SYS_ERROR "CLONE alloc stack or fds failed\n");
       freeproc(ret);

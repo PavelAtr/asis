@@ -1,3 +1,7 @@
+/******************************************************
+*  Author: Pavel V Samsonov 2025
+*******************************************************/
+
 #include <asis.h>
 #include "../../config.h"
 
@@ -52,7 +56,7 @@ mountpoint* _get_free_mountpoint()
    return NULL;
 }
 
-int  _sys_mount(device* dev, mountpoint* mount, const char* fstype,
+errno_t  _sys_mount(device* dev, mountpoint* mount, const char* fstype,
    const char* options)
 {
 #ifdef CONFIG_HOSTFS
@@ -66,44 +70,37 @@ int  _sys_mount(device* dev, mountpoint* mount, const char* fstype,
       return uefifs_mount(dev, mount, options);
    }
 #endif
-
-/*   if (strcmp(fstype, "weekfs") == 0) {
-      return weekfs_mount(dev, mount, options);
-   } GARBAGE*/
-   current_errno = ENOTSUP;
-   return -1;
+   return ENOTSUP;
 }
 
-int sys_mount(const char* blk, const char* dir, const char* fstype,
+errno_t sys_mount(const char* blk, const char* dir, const char* fstype,
    const char* options)
 {
    sys_printf(SYS_INFO "Mounting %s on %s type %s\n", blk, dir, fstype);
    mountpoint* mount = _get_free_mountpoint();
    device* dev = sys_get_device_byname(blk, S_IFBLK);
    if (!mount || !dev) {
-      current_errno = ENOENT;
-      return -1;
+      return ENOENT;
    }
    if (strcmp(dir, "/") == 0) {
       goto mount;
    }
    struct stat st;
-   if (sys_stat(dir, &st)) {
-      current_errno = ENOENT;
-      return -1;
+   errno_t err;
+   if ((err = sys_stat(dir, &st))) {
+      return err;
    }
    if (!(st.st_mode & S_IFDIR)) {
-      current_errno = ENOTDIR;
-      return -1;
+      return ENOTDIR;
    }
 mount:
-   int ret = _sys_mount(dev, mount, fstype, options);
+   errno_t ret = _sys_mount(dev, mount, fstype, options);
    if (!ret) mount->path = dir;
 
    return ret;
 }
 
-int sys_umount(const char* dir)
+errno_t sys_umount(const char* dir)
 {
    mountpoint* mount = sys_get_mountpoint(dir);
    mount->mount_umount(mount->sbfs);

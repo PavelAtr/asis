@@ -103,14 +103,9 @@ int main(int argc, char** argv)
 #endif
 
 #ifdef CONFIG_HOSTFS
-   if (sys_mount("/dev/sda", "/", "hostfs", "")) {
-      sys_printf(SYS_ERROR "Error mount / %d!\n", current_errno);
-   }
-#endif
-
-#ifdef CONFIG_UEFIFS
-   if (sys_mount("/dev/sda", "/", "uefifs", "")) {
-      sys_printf(SYS_ERROR "Error mount /\n");
+   errno_t err;
+   if ((err = sys_mount("/dev/sda", "/", "hostfs", ""))) {
+      sys_printf(SYS_ERROR "Error mount / %d!\n", err);
    }
 #endif
 

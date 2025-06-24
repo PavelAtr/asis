@@ -68,7 +68,7 @@ int runcommand(char* cmd)
    pid_t child = fork();
    if (child == 0) {
       execve(myargv[0], myargv, NULL);
-      exit(-1);
+      _exit(-1);
    } else if(child == -1) {
       puts(strerror(errno));
       puts("\n");
@@ -81,11 +81,6 @@ int runcommand(char* cmd)
 
 int main(int argc, char** argv)
 {
-   printenv();
-   printf("%s\n", getenv("PATH"));
-   printf("afds=%p\n", afds);
-   printf("environ=%p\n", environ);
-   printf("argv=%p\n", argv);
    while (1) {
       printf("%s", "> ");
       char* cmd = getcommand();

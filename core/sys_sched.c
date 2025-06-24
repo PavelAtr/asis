@@ -12,13 +12,8 @@
 #undef fds
 
 proc* cpu[MAXPROC];
-int_t curpid = 0;
+pid_t curpid = 0;
 proc* current;
-char** current_dtv;
-void** current_fds;
-errno_t current_errno;
-char** current_environ;
-char** current_argv;
 
 pid_t sys_getnextpid(pid_t prevpid, int cpunum)
 {
@@ -65,20 +60,25 @@ void switch_task()
    }
    pid_t prevpid = curpid;
    if (curpid != 0 && current) {
-	   current->envp = current_environ;
+	   current->envp = cpus[current->cpunum]->environ;
    }
    if (prevpid == 0) {
       curpid = 1;
       goto skip;
    }
-   if (!cpus[current->cpunum]->startcycle)
-      find_startcycle(current->cpunum);
+oncemore:
    curpid = sys_getnextpid(current->pid, current->cpunum);
 skip:
    sys_printf(SYS_DEBUG "SWITCH_TASK at %d to %d=%s flags=%b\n",
       prevpid, curpid, cpu[curpid]->argv[0], cpu[curpid]->flags);
    
    current = cpu[curpid];
+   if (!current) {
+      goto oncemore;
+   }
+   if (current->flags & PROC_ENDED) {
+      goto oncemore;
+   }
 
    if (current->flags & PROC_NEW) {
       current->flags &= ~PROC_NEW;
@@ -89,10 +89,10 @@ skip:
       sys_printf(SYS_DEBUG "initcontext %d newstack=%p newsp=%p depth=%ld\n",
          curpid, current->ctx.stack, current->ctx.sp, current->ctx.sp - current->ctx.stack);
    }
-   current_dtv = current->dtv;
-   current_fds = current->fds;
-   current_environ = current->envp;
-   current_argv = current->argv;
+   cpus[current->cpunum]->dtv = current->dtv;
+   cpus[current->cpunum]->fds = current->fds;
+   cpus[current->cpunum]->environ = current->envp;
+   cpus[current->cpunum]->argv = current->argv;
    sp = current->ctx.sp;
 }
 
@@ -115,9 +115,4 @@ errno_t sys_longjmp(long_t* env)
    sys_free((void*)env[JMP_STACK]);
    env[JMP_STACK] = 0;
    return 0;
-}
-
-errno_t sys_geterrno()
-{
-	return current_errno;
 }

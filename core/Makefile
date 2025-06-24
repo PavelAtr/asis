@@ -6,6 +6,7 @@ PREFIX?=/asis
 HYPERV_LINK = \
 syscalls/sys_memory.c \
 main.c \
+sys_trap.c \
 sys_printf.c
 
 ASIS_LINK = \
@@ -20,7 +21,6 @@ syscalls/sys_mount.c \
 syscalls/sys_usleep.c \
 syscalls/sys_rlimit.c \
 sys_dl.c \
-sys_trap.c \
 sys_tls.c \
 sys_shared.c \
 sys_socket.c \

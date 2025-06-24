@@ -10,7 +10,7 @@
 #include <math.h>
 
 
-int buf[4000000];
+int* buf;
 
 int main(int argc, char** argv)
 {
@@ -18,6 +18,9 @@ int main(int argc, char** argv)
       puts("Usage: walpaper <file.raw>\n");
       return -1;
    }
+   size_t ret;
+   buf = malloc(2100000* sizeof(int));
+   if (!buf) error(ENOMEM, ENOMEM, "failed allocate buffer\n");
    int fbgop = open("/dev/fb0", O_RDWR);
    if (fbgop == -1) error(errno, errno, "Failed open framebuffer.");
    int width, height;
@@ -27,10 +30,8 @@ int main(int argc, char** argv)
 
    FILE* pic = fopen(argv[1], "r");
    if (!pic) {
-      puts("Error open wallpaper: ");
-      puts(strerror(errno));
-      puts("\n");
-      return -1;
+      free(buf);
+      error(errno, errno, "Error open wallpaper\n");
    }
    fseek(pic, 0, SEEK_END);
    int size = ftell(pic);
@@ -60,7 +61,11 @@ int main(int argc, char** argv)
       puts("Error open fb: ");
       puts(strerror(errno));
       puts("\n");
-      return -1;
+      ret = -1;
+      goto end;
    }
-   return fwrite(buf, 1, size, fb);
+   ret = fwrite(buf, 1, size, fb);
+end:
+   free(buf);
+   return ret;
 }

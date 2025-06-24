@@ -90,7 +90,6 @@ void init_proc()
    current->uid = 0;
    current->gid = 0;
    current->flags = PROC_RUNNING | PROC_NEW;
-   current_errno = 0;
    current->dlhndl = NULL;
    current->dlnlink = &sys_dlnlink;
    current->parent = &sys;
