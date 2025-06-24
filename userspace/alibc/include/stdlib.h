@@ -31,7 +31,6 @@ static inline void exit(int status)
 {
     _exit(status);
 }
-extern void (*retexit)(int ret);
 
 double strtod(const char* nptr, char** endptr);
 

@@ -1,0 +1,3 @@
+void aassert(int e)
+{
+}

@@ -3,9 +3,11 @@
 *******************************************************/
 
 #include <asis.h>
+#undef printf
 #include <string.h>
 #include <errno.h>
 #include <stdio.h>
+#include "../config.h"
 
 #undef fds
 
@@ -18,7 +20,44 @@ errno_t current_errno;
 char** current_environ;
 char** current_argv;
 
+pid_t sys_getnextpid(pid_t prevpid, int cpunum)
+{
+   pid_t newpid = prevpid;
+   while (1)
+   {
+      newpid++;
+      if (newpid >= MAXPROC) {
+         newpid = 1;
+      }
+      if (!cpu[newpid]) {
+         continue;
+      }
+      if (cpu[newpid]->flags & PROC_DESTROYED && cpu[newpid] != current) {
+         freeproc(newpid);
+         cpu[newpid] = NULL;
+      }
+      if (!cpu[newpid]) {
+         continue;
+      }
+      if (cpus[cpunum]->startcycle == newpid) {
+         return sys_endcycle(cpunum);
+      }
+      if (newpid == prevpid) {
+         return sys_endcycle(cpunum);
+      }
+      if (!(cpu[newpid]->flags & PROC_RUNNING)) {
+         continue;
+      }
+      if (cpu[newpid]->cpunum != cpunum) {
+         continue;
+      }
+      break;
+   }
+   sys_printf("GET NEXTPID prev=%d, cpu=%d newpid=%d\n", prevpid, cpunum, newpid);
+   return newpid;
+}
 
+int nextcpu;
 void switch_task()
 {
    if (current) {
@@ -28,32 +67,17 @@ void switch_task()
    if (curpid != 0 && current) {
 	   current->envp = current_environ;
    }
-   while(1) {
-      curpid++;
-      if (curpid == MAXPROC) {
-         curpid = 1;
-      }
-      if (!cpu[curpid]) {
-         continue;
-      }
-      if (cpu[curpid]->flags & PROC_ENDED) {
-         if (curpid == 1) {
-            sys_printf(SYS_ERROR "Task 1 ended!\n");
-            curpid = 0;
-            break;
-         }
-      }
-      if (cpu[curpid]->flags & PROC_ENDED)
-      {
-         sys_printf("SCHED FREE %d\n", curpid);
-         freeproc(curpid);
-         cpu[curpid] = NULL;
-         continue;
-      }
-      break;
+   if (prevpid == 0) {
+      curpid = 1;
+      goto skip;
    }
+   if (!cpus[current->cpunum]->startcycle)
+      find_startcycle(current->cpunum);
+   curpid = sys_getnextpid(current->pid, current->cpunum);
+skip:
    sys_printf(SYS_DEBUG "SWITCH_TASK at %d to %d=%s flags=%b\n",
       prevpid, curpid, cpu[curpid]->argv[0], cpu[curpid]->flags);
+   
    current = cpu[curpid];
 
    if (current->flags & PROC_NEW) {

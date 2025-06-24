@@ -10,6 +10,9 @@ int atexit(void (*function)(void))
    return 0;
 }
 
+#ifdef UEFI_KERNEL
+__attribute__((ms_abi)) 
+#endif
 void (*retexit)(int ret);
 
 void _exit(int status)

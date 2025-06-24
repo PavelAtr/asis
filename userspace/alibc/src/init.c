@@ -16,6 +16,12 @@ __attribute__((ms_abi))
 #endif
 void* (*syscall)(int number, void* arg1, void* arg2, void* arg3, void* arg4, void* arg5, void* arg6);
 
+#ifdef UEFI_KERNEL
+__attribute__((ms_abi)) 
+#endif
+extern void (*retexit)(int ret);
+
+
 void libtinyc_init(int* cerrno, char*** cargv, char*** cenviron, FILE*** cfds, void* csyscall, void* cretexit, char*** cdtv)
 {
    quiet = 1; // Disable debug output by default

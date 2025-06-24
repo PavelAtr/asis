@@ -9,7 +9,6 @@
 #endif
 
 typedef __WINT_TYPE__ wint_t;
-typedef int wchar_t;
 
 /* Conversion state information.  */
 typedef struct

@@ -140,6 +140,7 @@ typedef struct {
 #define PROC_NEW 0x02
 #define PROC_CLONED 0x04
 #define PROC_ENDED 0x08
+#define PROC_DESTROYED 0x10
 
 extern proc* current;
 extern proc* systask;
@@ -167,7 +168,7 @@ errno_t sys_setgid(gid_t gid);
 void** copyfds(void** infds);
 void freefds(proc* task);
 void** cloexecfds(void** infds);
-__attribute__((sysv_abi)) void sys_atexit(int ret);
+void sys_atexit(int ret);
 
 #define MAXPROC 20
 extern proc* cpu[MAXPROC];
@@ -249,10 +250,20 @@ errno_t sys_listen(void* socket);
 errno_t sys_connect(void* socket, void* addr);
 void* sys_calloc(size_t nmemb, size_t size);
 
+extern int maxcpu;
 int sys_runoncpu(startfunction start, startarg* arg, proc* task, int cpunum);
 void init_cpus();
 int sys_getcpu();
+void sys_cpuidle(int cpu);
+pid_t sys_endcycle(int cpu);
+void find_startcycle(int cpu);
 
 extern void* LOG;
+
+typedef struct {
+  pid_t startcycle;
+} core;
+
+extern core** cpus;
 
 #endif

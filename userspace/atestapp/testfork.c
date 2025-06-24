@@ -18,7 +18,7 @@ int main(int argc, char** argv)
          a = 1;
          usleep(1);
       }
-      return 0;
+      return 5;
    } else {
       pid_t child2 = fork();
       if (child2 == 0) {
@@ -28,10 +28,10 @@ int main(int argc, char** argv)
             a = 2;
             usleep(1);
          }
-         return 0;
+         return 10;
       }
    }
    int ret;
-   while (wait(&ret) != -1);
+   while (wait(&ret) != -1) printf("ret=%d\n", ret);
    return 0;
 }

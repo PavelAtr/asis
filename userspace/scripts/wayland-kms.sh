@@ -5,12 +5,6 @@ set -e
 cd ../wlroots
 CWD=$(pwd)
 
-export PREFIX=/
-export DESTDIR=/home/PavelAtr/asis/root
-export CC=cc-asis
-export CXX=c++-asis
-export SYSROOT="--sysroot=${DESTDIR}"
-
 export CFLAGS="${CFLAGS} ${SYSROOT}"
 export LDFLAGS="${LDFLAGS} ${SYSROOT}"
 export PKG_CONFIG_LIBDIR="${DESTDIR}${PREFIX}/lib/pkgconfig/"

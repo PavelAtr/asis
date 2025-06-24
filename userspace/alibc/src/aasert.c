@@ -1,3 +1,0 @@
-void aasert(int e)
-{
-}

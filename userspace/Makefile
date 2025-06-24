@@ -67,8 +67,17 @@ ifeq ($(CONFIG_LIBDRM), y)
 endif
 	mv $(DESTDIR)$(PREFIX)/include/* $(DESTDIR)$(PREFIX)/usr/include/ || true
 	rm -rf $(DESTDIR)$(PREFIX)/include/ || true
+ifeq ($(CONFIG_LIBKMS), y)
+	cd scripts; ./libkms.sh
+endif
+ifeq ($(CONFIG_LIBGBM), y)
+	cd scripts; ./libgbm.sh
+endif
 ifeq ($(CONFIG_EUDEV), y)
 	cd scripts; ./eudev.sh
+endif
+ifeq ($(CONFIG_WAYLANDKMS), y)
+	cd scripts; ./wayland-kms.sh
 endif
 ifeq ($(CONFIG_LIBINPUT), y)
 	cd scripts; ./libinput.sh

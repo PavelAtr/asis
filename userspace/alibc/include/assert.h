@@ -3,7 +3,7 @@
 
 void aassert(int e);
 
-#define assert(e) aasert((int)(e))
-#define static_assert(e, msg) aasert((int)(e))
+#define assert(e) aassert((int)(e))
+#define static_assert(e, msg) aassert((int)(e))
 
 #endif

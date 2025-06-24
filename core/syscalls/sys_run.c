@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include "../../userspace/alibdl/libdl.h"
 #include <start.h>
+#include <unistd.h>
 
 #undef fds
 
@@ -187,7 +188,7 @@ pid_t sys_clone(void)
       freeproc(ret);
       return -1;
    }
-   sys_printf(SYS_DEBUG "CLONE newpid=%d in %d(%s), nlink %p=%d\n", ret, current->pid, current->argv[0], cpu[ret]->dlnlink, *cpu[ret]->dlnlink);
+   sys_printf(SYS_DEBUG "CLONE newpid=%d in %d(%s), nlink %p=%d flags=%p\n", ret, current->pid, current->argv[0], cpu[ret]->dlnlink, *cpu[ret]->dlnlink, cpu[ret]->flags);
    return ret;
 }
 
@@ -223,17 +224,20 @@ pid_t sys_waitpid(pid_t pid, int* wstatus, int options)
             if (!cpu[i]) {
                continue;
             }
+            if (cpu[i]->flags & PROC_DESTROYED) {
+               continue;
+            }
             if (cpu[i]->parentpid == curpid) {
-			   found = 1;	
-			   if(!(cpu[i]->flags & PROC_RUNNING)) {
+			      found = 1;	
+			      if(cpu[i]->flags & PROC_ENDED) {
                   child = i;
                   goto end;
-		       }
+		         }
             }
          }
       } else {
          found = 1; 
-         if (!(cpu[pid]->flags & PROC_RUNNING)) {
+         if (cpu[pid]->flags & PROC_ENDED) {
             child = pid;
             goto end;
          }
@@ -248,7 +252,7 @@ end:
    *wstatus = cpu[child]->ret;
    cpu[child]->flags &= ~PROC_RUNNING;
    cpu[child]->flags |= PROC_ENDED;
-   switch_context;
+   cpu[child]->flags |= PROC_DESTROYED;
    return child;
 }
 
@@ -258,10 +262,10 @@ void sys_threadend()
    pid_t pid = current->pid;
    current->flags &= ~PROC_RUNNING;
    current->flags |= PROC_ENDED;
+   current->flags |= PROC_DESTROYED;
    switch_context;
 }
 
-__attribute__((sysv_abi)) 
 void sys_atexit(int ret)
 {
    sys_printf(SYS_DEBUG "ATEXIT=%d pid=%d prog=%s\n", ret, current->pid, current->argv[0]);

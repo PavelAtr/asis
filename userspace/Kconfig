@@ -100,11 +100,29 @@ config LIBDRM
       help
         libdrm package.
 
+config LIBKMS
+      bool "libkms"
+      default y
+      help
+        libkms package.
+
+config LIBGBM
+      bool "libgbm"
+      default y
+      help
+        libgbm package.
+
 config EUDEV
       bool "eudev"
       default y
       help
         eudev library.
+
+config WAYLANDKMS
+      bool "wayland-kms"
+      default y
+      help
+        wayland-kms package.
 
 config LIBINPUT
       bool "libinput"
