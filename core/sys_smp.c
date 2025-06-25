@@ -20,6 +20,7 @@ void init_cpus()
     for (i = 0; i < maxcpu; i++) {
         cpus[i] = calloc(1, sizeof(core));
         cpus[i]->startcycle = 1;
+        cpus[i]->currentpid = 0;
     }
     printf("Init cpus\n");
 }
@@ -63,13 +64,17 @@ void sys_cpuidle(int cpu) {
     printf("CPU IDLE\n");
 }
 
+#ifdef CONFIG_LINUX
+int newcpu;
+#endif
+
 pid_t sys_endcycle(int cpunum) {
     find_startcycle(cpunum);
     #ifdef CONFIG_UEFI
     return cpus[cpu]->startcycle;
     #endif
     #ifdef CONFIG_LINUX
-    int newcpu = cpunum;
+    newcpu = cpunum;
     printf("SYS_ENDCYCLE START\n");
     while (1)
     {
@@ -101,4 +106,12 @@ pid_t sys_endcycle(int cpunum) {
     printf("SYS_ENDCYCLE\n");
     return 0;
     #endif
+}
+
+int sys_current_cpu()
+{
+#ifdef CONFIG_LINUX
+    return newcpu;
+#endif
+    return 0;
 }

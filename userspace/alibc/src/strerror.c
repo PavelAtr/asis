@@ -30,7 +30,7 @@ char* errors[60] = {
 "Argument list too long",
 "Too many open files",
 "Exec format error",
-"Operation would block",
+"The named attribute does not exist, or the process has no access to this attribute",
 "Bad file descriptor",
 "Invalid request descriptor",
 "Operation not supported on socket",
@@ -59,6 +59,9 @@ char* errors[60] = {
 "Connection refused",
 "The socket is not connected",
 "No such device",
+"No such device or address",
+"Not a socket",
+"Bad message"
 };
 
 char* strerror(int errnum)

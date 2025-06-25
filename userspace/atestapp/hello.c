@@ -21,5 +21,8 @@ int main(int argc, char** argv)
          1.0156, strlen("12345"));
    printenv();
    atexit(&_atexit);
+    printf("sizeof(float)=%d\n", sizeof(float));
+    printf("sizeof(double)=%d\n", sizeof(double));
+    printf("sizeof(long double)=%d\n", sizeof(long double));
    return size;
 }

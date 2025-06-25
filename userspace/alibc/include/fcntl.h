@@ -74,5 +74,19 @@ struct flock
 # define POSIX_FADV_DONTNEED    4 /* Don't need these pages.  */
 # define POSIX_FADV_NOREUSE     5 /* Data will be accessed once.  */
 
+struct file_handle
+{
+  unsigned int handle_bytes;
+  int handle_type;
+  /* File identifier.  */
+  unsigned char f_handle[0];
+};
+
+int name_to_handle_at(int dirfd, const char *pathname,
+                 struct file_handle *handle,
+                 int *mount_id, int flags);
+
+int open_by_handle_at(int mount_fd, struct file_handle *handle,
+                 int flags);
 
 #endif

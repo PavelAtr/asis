@@ -13,3 +13,7 @@ int epoll_create(int size) {
     }
     return -1;
 }
+
+int epoll_create1(int flags) {
+    return epoll_create(0);
+}

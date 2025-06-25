@@ -379,5 +379,7 @@ ssize_t recv(int sockfd, void* buf, size_t len, int flags);
                 int flags, struct sockaddr* src_addr,
                 socklen_t* addrlen);*/
 ssize_t recvmsg(int sockfd, struct msghdr *msg, int flags);
+int getsockname(int sockfd, struct sockaddr * addr,
+                       socklen_t *restrict addrlen);
 
 #endif

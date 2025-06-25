@@ -37,6 +37,8 @@ char *strpbrk(const char *s, const char *accept);
 int strcoll(const char *s1, const char *s2);
 char *strncat(char * dst, const char src[], size_t sz);
 size_t strxfrm(char dest[], const char src[], size_t n);
+#define index(s, c) strchr(s, c)
+#define rindex(s, c) strrchr(s, c)
 
 extern char* sys_siglist[35];
 char *strsignal(int sig);

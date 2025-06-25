@@ -58,6 +58,8 @@ int scandir(const char * dirp,
            int (*compar)(const struct dirent **,
                          const struct dirent **));
 
+int alphasort(const struct dirent **a, const struct dirent **b);
+int versionsort(const struct dirent **a, const struct dirent **b);
 
 
 #endif

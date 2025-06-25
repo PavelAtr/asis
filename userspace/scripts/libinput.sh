@@ -6,27 +6,24 @@ cd ../libinput-1.22.1
 CWD=$(pwd)
 
 
-export CFLAGS="${CFLAGS} ${SYSROOT}"
-export LDFLAGS="${LDFLAGS} ${SYSROOT}"
+export CFLAGS="${CFLAGS} ${SYSROOT} -D__BITS_PER_LONG=64"
+export LDFLAGS="${LDFLAGS} ${SYSROOT} -lpwd"
 export PKG_CONFIG_LIBDIR="/asis/lib/pkgconfig/"
 
 echo "Building libinput ... "
 
-pkg-config --modversion libudev
-
-
+rm -rf build
 mkdir -p build
 
 meson setup --cross-file ../scripts/x86_64_asis_meson.txt ./build/ \
---prefix /asis \
+--prefix / \
 -Dlibwacom=false \
 -Ddebug-gui=false \
 -Dtests=false \
 -Dinstall-tests=false \
--Depoll-dir=/etc/epoll
+-Depoll-dir=${DESTDIR}${PREFIX}/usr
 
-#make 
-#make install
+ninja -C build/ install
 
 
 

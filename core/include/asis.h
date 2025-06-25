@@ -137,7 +137,6 @@ typedef struct {
 #define PROC_ENDED 0x08
 #define PROC_DESTROYED 0x10
 
-extern proc* current;
 extern proc* systask;
 
 void init_proc();
@@ -256,6 +255,7 @@ extern void* LOG;
 
 typedef struct {
   pid_t startcycle;
+  pid_t currentpid;
   char** dtv;
   void** fds;
   char** environ;
@@ -264,5 +264,11 @@ typedef struct {
 } core;
 
 extern core** cpus;
+
+int sys_current_cpu();
+
+#define curpid cpus[sys_current_cpu()]->currentpid
+#define current cpu[curpid]
+
 
 #endif

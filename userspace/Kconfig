@@ -118,17 +118,29 @@ config EUDEV
       help
         eudev library.
 
-config WAYLANDKMS
-      bool "wayland-kms"
+config MTDEV
+      bool "mtdev"
       default y
       help
-        wayland-kms package.
+        mtdev package.
+
+config LIBEVDEV
+      bool "libevdev"
+      default y
+      help
+        libevdev library.
 
 config LIBINPUT
       bool "libinput"
       default y
       help
         libinput library.
+
+config WAYLANDKMS
+      bool "wayland-kms"
+      default y
+      help
+        wayland-kms package.
 
 config WLROOTS
       bool "wlroots"

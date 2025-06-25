@@ -8,12 +8,11 @@
 #include <errno.h>
 #include <stdio.h>
 #include "../config.h"
+#undef environ
 
 #undef fds
 
 proc* cpu[MAXPROC];
-pid_t curpid = 0;
-proc* current;
 
 pid_t sys_getnextpid(pid_t prevpid, int cpunum)
 {
@@ -52,7 +51,6 @@ pid_t sys_getnextpid(pid_t prevpid, int cpunum)
    return newpid;
 }
 
-int nextcpu;
 void switch_task()
 {
    if (current) {

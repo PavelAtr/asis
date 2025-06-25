@@ -73,7 +73,6 @@ int fstatat(int dirfd, const char* pathname,
 int mkdirat(int dirfd, const char *pathname, mode_t mode);
 int fchmodat(int dirfd, const char *pathname, mode_t mode, int flags);
 int fchmod(int fd, mode_t mode);
-int fchown(int fd, uid_t owner, gid_t group);
 
 #define fstat64 fstat
 #define lstat64 lstat
@@ -81,5 +80,9 @@ int fchown(int fd, uid_t owner, gid_t group);
 
 int mkfifo(const char *pathname, mode_t mode);
 int mkfifoat(int dirfd, const char *pathname, mode_t mode);
+
+int utimensat(int dirfd, const char *pathname,
+                     const struct timespec times[], int flags);
+int futimens(int fd, const struct timespec times[]);
 
 #endif

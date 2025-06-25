@@ -27,5 +27,6 @@ install:
 install_headers:
 	mkdir -p $(DESTDIR)$(PREFIX)/usr
 	cp -r include $(DESTDIR)$(PREFIX)/usr/
+	cp -r include_compat $(DESTDIR)$(PREFIX)/usr/
 	cp -r include_stub/* $(DESTDIR)$(PREFIX)/usr/include/
 	cp -r alien/include $(DESTDIR)$(PREFIX)/usr/

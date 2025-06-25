@@ -8,6 +8,7 @@
 #include <unistd.h>
 
 #undef fds
+#undef environ
 
 char* initargv[2];
 char* mainsp;

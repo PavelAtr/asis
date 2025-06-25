@@ -139,7 +139,7 @@ errno_t hostfs_mknod(void* sbfs, const char *pathname, uid_t uid, gid_t gid,
    const char* path = calc_path(fullpath, sbfs, pathname);
    printf("hostfs_mknod: %s, mode: %o\n", path, mode);
    hostfs_set_meta(pathname, uid, gid, mode);
-   if (mode & S_IFDIR)
+   if (devtype == S_IFDIR)
    {
        mkdir(path, 0770);
        return 0;

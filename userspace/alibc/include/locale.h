@@ -72,6 +72,6 @@ char *setlocale(int category, const char *locale);
 locale_t uselocale(locale_t newloc);
 locale_t newlocale(int category_mask, const char *locale,
               locale_t base);
-
+void freelocale(locale_t locobj);
 
 #endif

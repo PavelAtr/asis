@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 
-int execlp(const char *file, /*const char *arg,*/ ...
+int execlp(const char *file, const char *arg, ...
                        /*, (char *) NULL */)
 {
    va_list vl, vl2;

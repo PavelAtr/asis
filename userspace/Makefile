@@ -76,11 +76,17 @@ endif
 ifeq ($(CONFIG_EUDEV), y)
 	cd scripts; ./eudev.sh
 endif
-ifeq ($(CONFIG_WAYLANDKMS), y)
-	cd scripts; ./wayland-kms.sh
+ifeq ($(CONFIG_MTDEV), y)
+	cd scripts; ./mtdev.sh
+endif
+ifeq ($(CONFIG_LIBEVDEV), y)
+	cd scripts; ./libevdev.sh
 endif
 ifeq ($(CONFIG_LIBINPUT), y)
 	cd scripts; ./libinput.sh
+endif
+ifeq ($(CONFIG_WAYLANDKMS), y)
+	cd scripts; ./wayland-kms.sh
 endif
 ifeq ($(CONFIG_WLROOTS), y)
 	cd scripts; ./wlroots.sh
