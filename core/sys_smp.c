@@ -8,7 +8,7 @@
 #define MAXCPU 4;
 
 int maxcpu;
-int curcpu = 0;
+int newcpu = 0;
 core** cpus;
 
 
@@ -52,10 +52,10 @@ int sys_runoncpu(startfunction start, startarg* arg, proc* task, int cpunum)
 
 int sys_getcpu()
 {
-    int ret = curcpu;
-    curcpu++;
-    if (curcpu >= maxcpu)
-        curcpu = 0;
+    int ret = newcpu;
+    newcpu++;
+    if (newcpu >= maxcpu)
+        newcpu = 0;
     printf("SYS_GETCPU CPU=%d\n", ret);
     return ret;    
 }
@@ -65,7 +65,7 @@ void sys_cpuidle(int cpu) {
 }
 
 #ifdef CONFIG_LINUX
-int newcpu;
+int schedcpu;
 #endif
 
 pid_t sys_endcycle(int cpunum) {
@@ -74,21 +74,21 @@ pid_t sys_endcycle(int cpunum) {
     return cpus[cpu]->startcycle;
     #endif
     #ifdef CONFIG_LINUX
-    newcpu = cpunum;
+    schedcpu = cpunum;
     printf("SYS_ENDCYCLE START\n");
     while (1)
     {
-        newcpu++;
-        if (newcpu >= maxcpu) {
-            newcpu = 0;
+        schedcpu++;
+        if (schedcpu >= maxcpu) {
+            schedcpu = 0;
         }
-        sys_printf("NEWCPU=%d\n", newcpu);
-        if (newcpu == cpunum) {
+        sys_printf("NEWCPU=%d\n", schedcpu);
+        if (schedcpu == cpunum) {
             return 0;
         }
-        find_startcycle(newcpu);
+        find_startcycle(schedcpu);
         pid_t newpid;
-        for (newpid = cpus[newcpu]->startcycle; newpid < MAXPROC; newpid++)
+        for (newpid = cpus[schedcpu]->startcycle; newpid < MAXPROC; newpid++)
         {
             if (!cpu[newpid]) {
                 continue;
@@ -96,7 +96,7 @@ pid_t sys_endcycle(int cpunum) {
             if (!(cpu[newpid]->flags & PROC_RUNNING)) {
                 continue;
             }
-            if (cpu[newpid]->cpunum != newcpu) {
+            if (cpu[newpid]->cpunum != schedcpu) {
                 continue;
             }
             sys_printf("NEW PID = %d\n", newpid);
@@ -111,7 +111,7 @@ pid_t sys_endcycle(int cpunum) {
 int sys_current_cpu()
 {
 #ifdef CONFIG_LINUX
-    return newcpu;
+    return schedcpu;
 #endif
     return 0;
 }
