@@ -55,6 +55,81 @@ typedef struct {
    mode_t mode;
 } meta_t;
 
+typedef struct {
+   FILE* file;
+   char* path;
+   char* mode;
+   char lock;
+} cache_file;
+
+#define MAXCACHE 20
+int cache_index = -1;
+cache_file cache[MAXCACHE];
+
+FILE* get_cache(const char* path, const char* mode)
+{
+   int start = cache_index;
+   int i;
+   for (i = 0; i < MAXCACHE; i++)
+   {
+      if (cache[i].path && cache[i].mode) {
+         if (strcmp(cache[i].mode, mode) == 0
+            && strcmp(cache[i].path, path) == 0
+            && !cache[i].lock)
+         {
+            cache[i].lock = 1;
+            return cache[i].file;
+         }
+      }
+   }
+   while (1) {
+      cache_index++;
+      if (cache_index >= MAXCACHE)
+         cache_index = -1;
+      if (cache_index == start)
+         return NULL;
+      if (cache[cache_index].lock)
+         continue;
+      break;
+   }
+   printf("hostfs: cache_index = %d\n", cache_index);
+   if (cache[cache_index].file) {
+      fclose(cache[cache_index].file);
+      free(cache[cache_index].path);
+      free(cache[cache_index].mode);
+   }
+   cache[cache_index].file = fopen(path, mode);
+   cache[cache_index].path = strdup(path);
+   cache[cache_index].mode = strdup(mode);
+   cache[cache_index].lock = 1;
+   return cache[cache_index].file;
+}
+
+void end_cache(FILE* stream) {
+   int i;
+   for (i = 0; i < MAXCACHE; i++)
+   {
+      if (cache[i].file == stream)
+      {
+         cache[i].lock = 0;
+         return;
+      }
+   }
+}
+
+void close_cache() {
+   int i;
+   for (i = 0; i < MAXCACHE; i++)
+   {
+      if (cache[i].file)
+      {
+         fclose(cache[i].file);
+         free(cache[i].path);
+         free(cache[i].mode);
+      }
+   }
+}
+
 FILE* fmeta = NULL;
 
 char* calc_path(char* fullpath, void* sbfs, const char* path)
@@ -187,37 +262,20 @@ errno_t hostfs_link(void* sb, const char* src, const char* dst, bool_t move,
    return 0;
 }
 
-FILE* f = NULL;
-char cachepath[1024];
-const char* cachemode = "";
-
-void cachefile(const char* path, const char* mode)
-{
-   if (strcmp(path, cachepath) == 0 && strcmp(mode, cachemode) == 0 && f) {
-      return; // already cached
-   }
-   if (f) {
-      fclose(f);
-      f = NULL;
-      strcpy((char*)cachepath, ""); // Clear cache path
-      cachemode = "";
-   }
-   strncpy(cachepath, path, sizeof(cachepath) - 1);
-   cachemode = mode;
-   f = fopen(path, mode);
-}
 
 len_t hostfs_fread(void* sbfs, const char* path, void* ptr, len_t size,
    len_t off)
 {
    char fullpath[1024];
    char* file = calc_path(fullpath, sbfs, path);
-   cachefile(file, "r");
+   FILE* f = get_cache(file, "r");
    if (!f) {
       return 0;
    }
    fseek(f, off, SEEK_SET);
-   return fread(ptr, 1, size, f);
+   size_t ret = fread(ptr, 1, size, f);
+   end_cache(f);
+   return ret;
 }
 
 len_t hostfs_fwrite(void* sbfs, const char* path, const void* ptr, len_t size,
@@ -225,12 +283,14 @@ len_t hostfs_fwrite(void* sbfs, const char* path, const void* ptr, len_t size,
 {
    char fullpath[1024];
    char* file = calc_path(fullpath, sbfs, path);
-   cachefile(file, "r+");
+   FILE* f = get_cache(file, "r+");
    if (!f) {
       return 0;
    }
    fseek(f, off, SEEK_SET);
-   return fwrite(ptr, 1, size, f);
+   size_t ret = fwrite(ptr, 1, size, f);
+   end_cache(f);
+   return ret;
 }
 
 errno_t hostfs_stat(void* sbfs, const char* path, void* statbuf)
@@ -332,4 +392,5 @@ errno_t hostfs_umount(void* sbfs)
       fclose(fmeta);
       fmeta = NULL;
    }
+   close_cache();
 }

@@ -102,6 +102,7 @@ mount:
 
 errno_t sys_umount(const char* dir)
 {
+   sys_printf(SYS_INFO "Umounting %s\n", dir);
    mountpoint* mount = sys_get_mountpoint(dir);
    mount->mount_umount(mount->sbfs);
    sys_free(mount->sbfs);
