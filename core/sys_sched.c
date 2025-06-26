@@ -65,12 +65,12 @@ void switch_task()
       goto skip;
    }
 oncemore:
-   curpid = sys_getnextpid(current->pid, current->cpunum);
+   pid_t tmp = sys_getnextpid(current->pid, current->cpunum);
+   curpid = tmp;
 skip:
-   sys_printf(SYS_DEBUG "SWITCH_TASK at %d to %d=%s flags=%b\n",
-      prevpid, curpid, cpu[curpid]->argv[0], cpu[curpid]->flags);
+   sys_printf(SYS_DEBUG "SWITCH_TASK at %d to %d\n",
+      prevpid, curpid);
    
-   current = cpu[curpid];
    if (!current) {
       goto oncemore;
    }

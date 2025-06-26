@@ -1,8 +1,6 @@
 #ifndef _ERRNO_H
 #define _ERRNO_H
 
-#include <stdlib.h>
-
 #define program_invocation_name (*core_argv[0])
 #define program_invocation_short_name basename(*core_argv[0])
 

@@ -14,5 +14,6 @@ int close(int fd)
    afds[fd]->fd = -1;
    fclose(afds[fd]);
    afds[fd] = NULL;
+printf("CLOSE %d\n", fd);
    return 0;
 }

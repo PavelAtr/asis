@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <errno.h>
+#include <unistd.h>
 
 FILE *freopen(const char* path, const char* mode,
      FILE* stream)

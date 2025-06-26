@@ -97,7 +97,7 @@ nocheckfs:
    } else {
         if ((strcmp(type, "memfd") == 0)
                 && *out_size > sharedobjs[index]->size
-                && *out_size != -1) {
+                && *out_size != (size_t)-1) {
             // Resize the memory file if the requested size is larger
             void* new_mem = realloc(sharedobjs[index]->obj, *out_size);
             if (!new_mem) {

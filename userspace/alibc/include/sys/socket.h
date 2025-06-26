@@ -380,6 +380,6 @@ ssize_t recv(int sockfd, void* buf, size_t len, int flags);
                 socklen_t* addrlen);*/
 ssize_t recvmsg(int sockfd, struct msghdr *msg, int flags);
 int getsockname(int sockfd, struct sockaddr * addr,
-                       socklen_t *restrict addrlen);
+                       socklen_t* addrlen);
 
 #endif

@@ -1517,7 +1517,7 @@ xtcsetpgrp(int fd, pid_t pgrp)
 	sigclearmask();
 
 	if (err)
-		sh_error("Cannot set tty process group (%s)", strerror(errno));
+		sh_error("Cannot set tty process group fd=%d (%s)", fd, strerror(errno));
 }
 #endif
 

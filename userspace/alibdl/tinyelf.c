@@ -9,6 +9,7 @@
 #include <asis.h>
 #else
 #include <stdlib.h>
+#include <unistd.h>
 
 size_t afread(const char* path, void* ptr, size_t size, size_t off)
 {

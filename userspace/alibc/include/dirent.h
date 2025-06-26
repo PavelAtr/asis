@@ -35,6 +35,7 @@ enum
 struct dirent {
   char           d_name[MAX_PATH_PART];
   int d_type;
+  long d_ino;
 };
 
 #define dirent64 dirent

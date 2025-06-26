@@ -15,9 +15,9 @@ int dup2(int oldfd, int newfd)
    if (afds[newfd]) {
       close(newfd);
    }
-   afds[newfd] = malloc(sizeof(FILE));
    copyfile(&afds[newfd], afds[oldfd]);
    afds[newfd]->fd = newfd;
+printf("DUP %d->%d\n", oldfd, newfd);
    return newfd;
 }
 

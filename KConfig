@@ -20,6 +20,12 @@ config OTHER_ARCH
     bool "Other architectures (not supported)"
 endchoice
 
+config UEFISMP
+    depends on UEFI
+    default y
+    bool "UEFI simmetric multiprocessoring"
+
+
 endmenu
 
 

@@ -1,9 +1,17 @@
 #include <asis.h>
 #undef printf
+#include "../config.h"
+
+#ifdef CONFIG_LINUX
 #include <stdio.h>
 #include <start.h>
 #include <stdlib.h>
-#include "../config.h"
+#endif
+
+#ifdef CONFIG_UEFI
+#include "uefi/uefi.h"
+#endif
+
 
 #define MAXCPU 4;
 
@@ -64,16 +72,15 @@ void sys_cpuidle(int cpu) {
     printf("CPU IDLE\n");
 }
 
-#ifdef CONFIG_LINUX
+#ifndef CONFIG_UEFISMP
 int schedcpu;
 #endif
 
 pid_t sys_endcycle(int cpunum) {
     find_startcycle(cpunum);
-    #ifdef CONFIG_UEFI
+#ifdef CONFIG_UEFISMP
     return cpus[cpu]->startcycle;
-    #endif
-    #ifdef CONFIG_LINUX
+#else
     schedcpu = cpunum;
     printf("SYS_ENDCYCLE START\n");
     while (1)
@@ -84,6 +91,7 @@ pid_t sys_endcycle(int cpunum) {
         }
         sys_printf("NEWCPU=%d\n", schedcpu);
         if (schedcpu == cpunum) {
+            sys_printf("NEW PID = 0\n");
             return 0;
         }
         find_startcycle(schedcpu);
@@ -104,14 +112,16 @@ pid_t sys_endcycle(int cpunum) {
         }
     }
     printf("SYS_ENDCYCLE\n");
+    sys_printf("NEW PID = 0\n");
     return 0;
-    #endif
+#endif
 }
 
 int sys_current_cpu()
 {
-#ifdef CONFIG_LINUX
+#ifdef CONFIG_UEFISMP
+    return 0;
+#else
     return schedcpu;
 #endif
-    return 0;
 }

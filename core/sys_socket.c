@@ -15,7 +15,8 @@ void* sockets[MAXSOCKETS];
 
 int get_free_socket()
 {
-    for (int i = 0; i < MAXSOCKETS; i++)
+    int i;
+    for (i = 0; i < MAXSOCKETS; i++)
     {
         if (!sockets[i])
             return i;
@@ -65,7 +66,8 @@ errno_t sys_connect(void* socket, void* saddr)
     const struct sockaddr_un *un = (const struct sockaddr_un *)addr;
     if (client->domain == AF_UNIX && client->socktype == SOCK_STREAM) {
         asocket* server = NULL;
-        for (int i = 0; i < MAXSOCKETS; ++i) {
+        int i;
+        for (i = 0; i < MAXSOCKETS; ++i) {
             if (!sockets[i])
                 continue;
             if (((asocket*)sockets[i])->domain == AF_UNIX &&

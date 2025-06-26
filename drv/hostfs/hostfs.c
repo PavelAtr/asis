@@ -393,4 +393,5 @@ errno_t hostfs_umount(void* sbfs)
       fmeta = NULL;
    }
    close_cache();
+   return 0;
 }

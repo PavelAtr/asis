@@ -132,7 +132,8 @@ sys_mknod("/dev/fb0", S_IFCHR | 0660);
 
    sys_printf(SYS_INFO "End runinit ret=%d\n", ret);
    sys_printf("Sjared objects still:\n");
-   for (int i = 0; i < MAXSHAREDOBJ; i++)
+   int i;
+   for (i = 0; i < MAXSHAREDOBJ; i++)
    {
       if (!sharedobjs[i])
          continue;
