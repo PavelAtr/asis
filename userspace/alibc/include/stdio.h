@@ -108,12 +108,11 @@ typedef struct {
 
 typedef FILE AFILE;
 
-extern FILE*** core_fds;
-#define afds (*core_fds)
+extern __thread FILE** afds;
 #define stdin afds[0]
 #define stdout afds[1]
 #define stderr afds[2]
-#define INIT_afds ;
+#define INIT_afds
 void initfile(FILE* src);
 void copyfile(FILE** dst, FILE* src);
 void freefile(FILE* dst);

@@ -57,9 +57,6 @@ void switch_task()
       current->ctx.sp = sp;
    }
    pid_t prevpid = curpid;
-   if (curpid != 0 && current) {
-	   current->envp = cpus[current->cpunum]->environ;
-   }
    if (prevpid == 0) {
       curpid = 1;
       goto skip;
@@ -68,16 +65,14 @@ oncemore:
    pid_t tmp = sys_getnextpid(current->pid, current->cpunum);
    curpid = tmp;
 skip:
-   sys_printf(SYS_DEBUG "SWITCH_TASK at %d to %d\n",
-      prevpid, curpid);
-   
    if (!current) {
       goto oncemore;
    }
    if (current->flags & PROC_ENDED) {
       goto oncemore;
    }
-
+   sys_printf(SYS_DEBUG "SWITCH_TASK at %s(%d) to %s(%d)\n",
+      cpu[prevpid]->argv[0], prevpid, cpu[curpid]->argv[0], curpid);
    if (current->flags & PROC_NEW) {
       current->flags &= ~PROC_NEW;
       size_t stackoff = ((proc*)current->parent)->ctx.stack
@@ -87,10 +82,7 @@ skip:
       sys_printf(SYS_DEBUG "initcontext %d newstack=%p newsp=%p depth=%ld\n",
          curpid, current->ctx.stack, current->ctx.sp, current->ctx.sp - current->ctx.stack);
    }
-   cpus[current->cpunum]->dtv = current->dtv;
-   cpus[current->cpunum]->fds = current->fds;
-   cpus[current->cpunum]->environ = current->envp;
-   cpus[current->cpunum]->argv = current->argv;
+   sys_printf("SCHED cpu=%d fds=%p\n", current->cpunum, current->fds);
    sp = current->ctx.sp;
 }
 

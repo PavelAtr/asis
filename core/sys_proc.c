@@ -138,6 +138,7 @@ void** copyfds(void** infds)
 		 if (!infds[i]) {
 		    continue;
 	     }
+        
 		 copyfile(&ret[i], fds[i]);
       }
    }

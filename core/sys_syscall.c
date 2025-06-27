@@ -103,6 +103,8 @@ void* sys_syscall(int number, void* arg1, void* arg2, void* arg3, void* arg4, vo
       return (void*) sys_listen(arg1);
    case SYS_CONNECT:
       return (void*) sys_connect(arg1, arg2);
+   case SYS_TLS:
+      return sys_tls_get_addr ((unsigned long)arg1, (unsigned long)arg2);
    default:
       sys_printf(SYS_INFO "Unsupported syscall %d\n", number);
       break;

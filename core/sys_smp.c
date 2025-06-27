@@ -12,6 +12,7 @@
 #include "uefi/uefi.h"
 #endif
 
+#undef environ
 
 #define MAXCPU 4;
 
@@ -19,6 +20,10 @@ int maxcpu;
 int newcpu = 0;
 core** cpus;
 
+
+#ifndef CONFIG_UEFISMP
+int schedcpu;
+#endif
 
 void init_cpus()
 {
@@ -49,11 +54,24 @@ void find_startcycle(int cpunum)
     }
 }
 
-int sys_runoncpu(startfunction start, startarg* arg, proc* task, int cpunum)
+int sys_runoncpu(startfunction start, proc* task, int cpunum)
 {
+    startarg arg;
+    arg.argc = task->argc;
+    arg.cargv = task->argv;
+    arg.cenvp = task->envp;
+    arg.cfds = task->fds;
+    arg.syscall_func = &sys_syscall;
+    arg.retexit_func = &sys_atexit;
+
     task->cpunum = cpunum;
     find_startcycle(cpunum);
-    int ret = start(arg);
+    cpus[cpunum]->currentpid = task->pid;
+
+#ifndef CONFIG_UEFISMP
+    schedcpu = cpunum;
+    int ret = start(&arg);
+#endif
     switch_context;
     return ret;
 }
@@ -71,10 +89,6 @@ int sys_getcpu()
 void sys_cpuidle(int cpu) {
     printf("CPU IDLE\n");
 }
-
-#ifndef CONFIG_UEFISMP
-int schedcpu;
-#endif
 
 pid_t sys_endcycle(int cpunum) {
     find_startcycle(cpunum);

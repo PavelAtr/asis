@@ -5,12 +5,10 @@
 
 char quiet = 0;
 
-int errno;
-FILE*** core_fds;
-char*** core_dtv;
-char*** core_environ;
-char*** core_argv;
-int* core_errno;
+__thread FILE** afds;
+__thread char** environ;
+__thread char** aargv;
+__thread int errno;
 #ifdef UEFI_KERNEL
 __attribute__((ms_abi)) 
 #endif
@@ -22,16 +20,15 @@ __attribute__((ms_abi))
 extern void (*retexit)(int ret);
 
 
-void libtinyc_init(int* cerrno, char*** cargv, char*** cenviron, FILE*** cfds, void* csyscall, void* cretexit, char*** cdtv)
+void libtinyc_init(char** cargv, char** cenviron, void** cfds, void* csyscall, void* cretexit)
 {
+
    quiet = 1; // Disable debug output by default
-   core_dtv = cdtv;
    syscall = csyscall;
    retexit = cretexit;
-   core_fds = cfds;
-   core_environ = cenviron;
-   core_argv = cargv;
-   core_errno = cerrno;
+   afds = (FILE**)cfds;
+   environ = cenviron;
+   aargv = cargv;
    quiet = 0; // Enable debug output
 }
 

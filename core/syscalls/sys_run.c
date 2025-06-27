@@ -111,25 +111,9 @@ errno_t sys_exec(char* file, char** inargv, char** envp)
    }
    current->fds = cloexecfds(current->fds);
    current->flags &= ~PROC_CLONED;
-   int_t cpunum = sys_getcpu();
-   cpus[cpunum]->fds = current->fds;
-   cpus[cpunum]->dtv = current->dtv;
-   cpus[cpunum]->environ = current->envp;
-   cpus[cpunum]->argv = current->argv;
-   startarg arg;
-   arg.argc = argc;
-   arg.cerrno = &cpus[cpunum]->syserrno;
-   arg.cargv = &cpus[cpunum]->argv;
-   arg.cenvp = &cpus[cpunum]->environ;
-   arg.cfds = &cpus[cpunum]->fds;
-   arg.cdtv = &cpus[cpunum]->dtv;
-   arg.syscall_func = &sys_syscall;
-   arg.retexit_func = &sys_atexit;
-
-   
-   printf("EXEC START %s argv=%p envp=%p fds=%p syscall=%p retexit=%p dtv=%p\n", 
-      file, current->argv, current->envp, current->fds, &sys_syscall, &sys_atexit, current->dtv);
-   int ret = sys_runoncpu(current->start, &arg, current, cpunum);
+   printf("EXEC START %s argv=%p envp=%p fds=%p syscall=%p retexit=%p\n", 
+      file, current->argv, current->envp, current->fds, &sys_syscall, &sys_atexit);
+   int ret = sys_runoncpu(current->start, current, sys_getcpu());
    /* Never reach here */
    sys_printf(SYS_DEBUG "EXEC END (NOTREACHEBLE)\n");
    return  ret;
@@ -185,8 +169,6 @@ pid_t sys_clone(void)
    (*current->dlnlink)++;
    cpu[ret]->ctx.stack = alloc_stack(MAXSTACK);
    init_tls(cpu[ret]);
-   cpus[current->cpunum]->fds = current->fds;
-   cpus[current->cpunum]->dtv = current->dtv;
    if (!cpu[ret]->ctx.stack || !cpu[ret]->fds) {
       sys_printf(SYS_ERROR "CLONE alloc stack or fds failed\n");
       freeproc(ret);
@@ -200,7 +182,20 @@ pid_t sys_fork()
 {
    current->forkret = sys_clone();
    cpu[current->forkret]->fds = copyfds(current->fds);
-   sys_printf(SYS_DEBUG "FORK in %s child=%d\n", current->argv[0], current->forkret);
+   sys_printf(SYS_DEBUG "FORK in %s child=%d fds=%p\n", current->argv[0], current->forkret, cpu[current->forkret]->fds);
+   if (current->forkret == -1) {
+      return -1;
+   }
+   cpu[current->forkret]->forkret = 0;
+   cpu[current->forkret]->ret = -1;
+   switch_context;
+   return current->forkret;
+}
+
+pid_t sys_vfork()
+{
+   current->forkret = sys_clone();
+   sys_printf(SYS_DEBUG "VFORK in %s child=%d fds=%p\n", current->argv[0], current->forkret, cpu[current->forkret]->fds);
    if (current->forkret == -1) {
       return -1;
    }

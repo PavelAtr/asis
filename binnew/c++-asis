@@ -1,0 +1,23 @@
+#!/bin/sh
+
+is_lib=0
+is_obj=0
+prepare=0
+
+for arg in "$@"; do
+    [ "$prepare" -eq 1 ] && echo "$arg" | grep "\.so" >/dev/null 2>&1 && is_lib=1
+    prepare=0
+    [ "$arg" = "-c" ] && is_obj=1
+    [ "$arg" = "-o" ] && prepare=1
+done
+
+if [ "$is_obj" -eq 1 ]; then
+    exec cc  $@ 
+fi
+
+if [ "$is_lib" -eq 1 ]; then
+    exec cc  $@ -nostdlib -shared
+fi
+
+exec cc ${LDCRT} $@ -nostdlib -shared
+

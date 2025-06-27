@@ -36,7 +36,6 @@ void copyfile(FILE** dst, FILE* src)
    if (!dst || !src) {
            return;
    }
-   printf("COPY FILE type=%d\n", src->type);
    switch(src->type) {
       case F_FILE:
          *dst = calloc(1, sizeof(FILE));

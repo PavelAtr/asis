@@ -3,13 +3,14 @@
 
 typedef struct {
     int argc;
-    int* cerrno;
-    char*** cargv;
-    char*** cenvp;
-    void*** cfds;
+    char** cargv;
+    char** cenvp;
+    void** cfds;
     void* syscall_func;
     void* retexit_func;
-    char*** cdtv;
 } startarg;
+
+int main(int argc, char** argv);
+void libtinyc_init(char** cargv, char** cenviron, void** cfds, void* csyscall, void* cretexit);
 
 #endif

@@ -32,6 +32,7 @@ size_t fmemwrite(const void *ptr, size_t size, size_t nmemb, amemfile *stream)
    return ret;
 }
 
+
 size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream)
 {
    INIT_afds
@@ -40,8 +41,7 @@ size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream)
    {
       switchtask;
    }
-   switch (stream->type)
-   {
+   switch (stream->type) {
    case F_NAMEDMEM:
       size_t outsize = stream->pos + size * nmemb;
       if (asyscall(SYS_SHARED, &((amemfile *)stream)->membuf,"memfd", stream->file, "", &outsize, 0))

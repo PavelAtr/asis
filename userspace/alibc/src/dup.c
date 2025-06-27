@@ -17,7 +17,6 @@ int dup2(int oldfd, int newfd)
    }
    copyfile(&afds[newfd], afds[oldfd]);
    afds[newfd]->fd = newfd;
-printf("DUP %d->%d\n", oldfd, newfd);
    return newfd;
 }
 

@@ -66,3 +66,9 @@ int deinit_tls(proc* task) {
     task->dtv = NULL;
     return 0;
 }
+
+void* sys_tls_get_addr (unsigned long ti_module, unsigned long ti_offset)
+{
+   void* ret = current->dtv[ti_module] + ti_offset;
+   return ret;
+}

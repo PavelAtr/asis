@@ -176,6 +176,7 @@ extern proc* current;
 
 pid_t sys_clone(void);
 pid_t sys_fork(void);
+pid_t sys_vfork(void);
 pid_t sys_waitpid(pid_t pid, int* wstatus, int options);
 
 
@@ -244,7 +245,7 @@ errno_t sys_connect(void* socket, void* addr);
 void* sys_calloc(size_t nmemb, size_t size);
 
 extern int maxcpu;
-int sys_runoncpu(startfunction start, startarg* arg, proc* task, int cpunum);
+int sys_runoncpu(startfunction start, proc* task, int cpunum);
 void init_cpus();
 int sys_getcpu();
 void sys_cpuidle(int cpu);
@@ -256,11 +257,6 @@ extern void* LOG;
 typedef struct {
   pid_t startcycle;
   pid_t currentpid;
-  char** dtv;
-  void** fds;
-  char** environ;
-  char** argv;
-  errno_t syserrno;
 } core;
 
 extern core** cpus;
@@ -270,5 +266,6 @@ int sys_current_cpu();
 #define curpid cpus[sys_current_cpu()]->currentpid
 #define current cpu[curpid]
 
+void* sys_tls_get_addr (unsigned long ti_module, unsigned long ti_offset);
 
 #endif

@@ -35,6 +35,7 @@
 #include <fcntl.h>
 #include <signal.h>
 #include <unistd.h>
+#include <stdio.h>
 #include <stdlib.h>
 #ifdef HAVE_PATHS_H
 #include <paths.h>
@@ -1515,7 +1516,7 @@ xtcsetpgrp(int fd, pid_t pgrp)
 	sigblockall(NULL);
 	err = tcsetpgrp(fd, pgrp);
 	sigclearmask();
-
+	printf("AFDS=%p\n", afds);
 	if (err)
 		sh_error("Cannot set tty process group fd=%d (%s)", fd, strerror(errno));
 }
