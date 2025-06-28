@@ -115,7 +115,7 @@ typedef struct {
   char** envp;
   void* dlhndl;
   int_t* dlnlink;	
-  int_t flags;
+  short flags;
   void** fds;
   void* parent;
   pid_t pid;
@@ -131,18 +131,20 @@ typedef struct {
   int cpunum;
   }  proc;
 
-#define PROC_RUNNING 0x01
-#define PROC_NEW 0x02
-#define PROC_CLONED 0x04
-#define PROC_ENDED 0x08
-#define PROC_DESTROYED 0x10
 
-extern proc* systask;
+#define PROC_NEW 0x01
+#define PROC_CLONED 0x02
+#define PROC_VFORKED 0x04
+#define PROC_FORKED 0x08
+#define PROC_EXECED 0x10
+#define PROC_RUNNING 0x20
+#define PROC_ENDED 0x40
+#define PROC_DESTROYED 0x80
 
+extern proc sys;
 void init_proc();
 
-char** copyenv(char** e);
-void freeenv(char** envp);
+void freeenv(char** e);
 
 #define MAX_PATH_PART 256
 
@@ -157,11 +159,8 @@ errno_t sys_setuid(uid_t uid);
 errno_t sys_setgid(gid_t gid);
 
 #define COREMAXFD 20
-#define COREMAXENV 20
 
-void** copyfds(void** infds);
 void freefds(proc* task);
-void** cloexecfds(void** infds);
 void sys_atexit(int ret);
 
 #define MAXPROC 20
@@ -175,11 +174,8 @@ extern proc* current;
 
 
 pid_t sys_clone(void);
-pid_t sys_fork(void);
-pid_t sys_vfork(void);
+pid_t sys_fork(bool_t vfork);
 pid_t sys_waitpid(pid_t pid, int* wstatus, int options);
-
-
 
 #define MAXSTACK (1024 * 128)
 

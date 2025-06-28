@@ -12,6 +12,7 @@
 #include <time.h>
 
 #define MAXPIPE 512
+#define PIPE_BUF MAXPIPE
 
 typedef struct {
    char buf[MAXPIPE];

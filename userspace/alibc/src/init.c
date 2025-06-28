@@ -27,7 +27,9 @@ void libtinyc_init(char** cargv, char** cenviron, void** cfds, void* csyscall, v
    syscall = csyscall;
    retexit = cretexit;
    afds = (FILE**)cfds;
-   environ = cenviron;
+   if (cenviron) {
+      environ = cenviron;
+   }
    aargv = cargv;
    quiet = 0; // Enable debug output
 }

@@ -32,8 +32,8 @@ ifeq ($(CONFIG_TESTAPP), y)
 	make -C atestapp
 	make -C atestapp install
 endif
-ifeq ($(CONFIG_DASH), y)
-	cd scripts; ./dash.sh
+ifeq ($(CONFIG_MRSH), y)
+	cd scripts; ./mrsh.sh
 endif
 ifeq ($(CONFIG_COREUTILS), y)
 	cd scripts; ./coreutils.sh

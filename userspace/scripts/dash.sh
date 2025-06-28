@@ -4,26 +4,11 @@ set -e
 cd ../dash-0.5.12
 CWD=$(pwd)
 
-export OLDCC=${CC}
-export CC=cc
-export OLDCCLD=${CCLD}
-export CCLD=cc
-export OLDLD=${LD}
-export LD=cc
-export OLDLDFALGS=${LDFLAGS}
+
+export CC_FOR_BUILD=cc
+export CFLAGS="-fPIC -g -fomit-frame-pointer -ftls-model=global-dynamic ${SYSROOT} "
 export LDFLAGS=""
-
-
-./configure
-cd src
-make mkinit mksyntax mknodes mksignames
-cd ../
-
-export CC=${OLDCC}
-export CCLD=${OLDCCLD}
-export LD=${OLDLD}
-export CFLAGS="${CFLAGS} ${SYSROOT} -D_Nullable= "
-export LDFLAGS="${OLDLDFALGS} ${SYSROOT} -lpwd"
+export LIBS="-L${DESTDIR}${PREFIX}/lib -lac"
 
 echo "Building dash ... "
 

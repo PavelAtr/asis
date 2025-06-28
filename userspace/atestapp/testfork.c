@@ -32,6 +32,10 @@ int main(int argc, char** argv)
       }
    }
    int ret;
-   while (wait(&ret) != -1) printf("ret=%d\n", ret);
+   pid_t child;
+   while ((child = wait(&ret)) != -1) {
+      printf("child = %d ret=%d\n", child, WEXITSTATUS(ret));
+   }
+   
    return 0;
 }

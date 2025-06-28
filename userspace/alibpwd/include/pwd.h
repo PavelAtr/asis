@@ -5,6 +5,7 @@
 #include <stdio.h>
 
 #define MAXPWDLINE 1024
+#define _PW_BUF_LEN 1024
 #define PASSWD_FILE "/etc/passwd"
 
 struct passwd {

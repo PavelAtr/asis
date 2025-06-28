@@ -70,7 +70,9 @@ void* sys_syscall(int number, void* arg1, void* arg2, void* arg3, void* arg4, vo
    case SYS_CLONE:
       return (void*)sys_clone();
    case SYS_FORK:
-      return (void*)sys_fork();
+      return (void*)sys_fork(0);
+   case SYS_VFORK:
+      return (void*)sys_fork(1);
    case SYS_WAITPID:
       return (void*)sys_waitpid((pid_t)arg1, (int*)arg2, (int)arg3);
    case SYS_REALLOC:
@@ -105,6 +107,14 @@ void* sys_syscall(int number, void* arg1, void* arg2, void* arg3, void* arg4, vo
       return (void*) sys_connect(arg1, arg2);
    case SYS_TLS:
       return sys_tls_get_addr ((unsigned long)arg1, (unsigned long)arg2);
+   case SYS_SETENVIRON:
+      current->envp = arg1;
+      sys_printf(SYS_DEBUG "SETENVIRON %p->%p in %s\n", arg2, current->envp, current->argv[0]);
+      return NULL;
+   case SYS_SETFDS:
+      current->fds = arg1;
+      sys_printf(SYS_DEBUG "SETFDS %p in %s\n", current->fds, current->argv[0]);
+      return NULL;
    default:
       sys_printf(SYS_INFO "Unsupported syscall %d\n", number);
       break;

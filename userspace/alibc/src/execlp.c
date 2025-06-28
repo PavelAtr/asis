@@ -3,6 +3,7 @@
 #include <errno.h>
 #include <stdio.h>
 #include <stdarg.h>
+#include <unistd.h>
 
 int execlp(const char *file, const char *arg, ...
                        /*, (char *) NULL */)
@@ -17,8 +18,7 @@ int execlp(const char *file, const char *arg, ...
    for (i = 0; (a = va_arg(vl2, char*)); i++);
 	argv[i] = a;
    argv[i] = NULL;
-
-   return (int)asyscall(SYS_EXECVE, file, argv, NULL, 0, 0, 0);
+    return execve(file, argv, NULL);
 }
 
 int execl(const char *pathname, const char *arg, ... /*, (char *) NULL */) __attribute__((alias("execlp")));

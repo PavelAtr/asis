@@ -111,5 +111,15 @@ int getpagesize(void);
 int fchown(int fd, uid_t owner, gid_t group);
 
 #define MAXPATHLEN 4096
+#define PATH "/bin"
+
+size_t confstr(int name, char* buf, size_t size);
+
+#define _CS_GNU_LIBC_VERSION 1
+#define _CS_GNU_LIBPTHREAD_VERSION 2
+#define _CS_PATH 3
+
+#define getsid(pid) pid
+#define issetugid() 0
 
 #endif

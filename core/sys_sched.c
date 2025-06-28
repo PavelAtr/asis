@@ -47,7 +47,7 @@ pid_t sys_getnextpid(pid_t prevpid, int cpunum)
       }
       break;
    }
-   sys_printf("GET NEXTPID prev=%d, cpu=%d newpid=%d\n", prevpid, cpunum, newpid);
+//   sys_printf("GET NEXTPID prev=%d, cpu=%d newpid=%d\n", prevpid, cpunum, newpid);
    return newpid;
 }
 

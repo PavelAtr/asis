@@ -14,6 +14,6 @@ int unsetenv(const char *name)
       errno = ENOENT;
       return -1;
    }
-   environ[i] = "";
+   environ[i] = strdup("");
    return 0;
 }

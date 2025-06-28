@@ -102,6 +102,8 @@ typedef uint32_t      uint_fast32_t;
 typedef uint64_t      uintmax_t;
 typedef int64_t       intmax_t;
 
+typedef unsigned short u_short;
+
 /* Keep the kernel from trying to define these types... */
 #define __BIT_TYPES_DEFINED__
 

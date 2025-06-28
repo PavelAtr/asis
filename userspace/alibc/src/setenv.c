@@ -19,6 +19,7 @@ char** realloc_environment(char** old_env, size_t old_count, size_t new_count) {
 int setenv(const char *name, const char *value, int overwrite)
 {
    INIT_ENVIRON
+   char** oldenviron = environ;
    int i = envid(name);
    if (i != -1) {
       if (!overwrite) {
@@ -33,6 +34,7 @@ int setenv(const char *name, const char *value, int overwrite)
       int i;
       for (i = 0; environ[i]; i++);
       environ = realloc_environment(environ, i, i + 1);
+      asyscall(SYS_SETENVIRON, environ, oldenviron, 0, 0, 0, 0);
       if (!environ) {
          return -1; // Memory allocation failed
       }

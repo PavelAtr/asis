@@ -20,7 +20,7 @@ int pthread_create(pthread_t* thread,
         thread->attr = 0; // Default attributes if none provided    
     }
     thread->state = 0; // Initialize state to 0 (not terminated)
-    pid_t pid = fork(); // Create a new process for the thread
+    pid_t pid = vfork(); // Create a new process for the thread
     if (pid < 0) {
         return -1; // Fork failed
     }

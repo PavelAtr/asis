@@ -9,6 +9,7 @@ void printenv()
       return;
    }
    int i;
+   printf("Environ=%p\n", environ);
    for (i = 0; environ[i]; i++) {
          printf("%s\n", environ[i]);
    }

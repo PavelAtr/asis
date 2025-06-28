@@ -4,6 +4,7 @@
 #include <sys/types.h>
 #include <limits.h>
 #include <stdio.h>
+#define COREMAXFD 20
 
 #define O_CLOEXEC 0x0001
 #define O_RDONLY 0x0002

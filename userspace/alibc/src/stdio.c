@@ -6,6 +6,7 @@
 #include <syscall.h>
 #include <stdio.h>
 #include <dirent.h>
+#include <fcntl.h>
 #ifndef UEFI
 #include <stdlib.h>
 #endif
@@ -148,3 +149,66 @@ void freefile(FILE* dst)
    dst->fd_refcount--;
    free(dst);
 };
+
+char** dupnullable(char** inargv)
+{
+   if (!inargv)
+   {
+      char** ret = calloc(1, sizeof(char*));
+      ret[0] = NULL;
+      return ret;
+   }
+	int argc;
+	for (argc = 0; inargv[argc]; argc++);
+	char** ret = calloc(argc + 1, sizeof(char*));
+	for (argc = 0; inargv[argc]; argc++)
+	{
+		ret[argc] = strdup(inargv[argc]);
+//      printf("strdup(%s)\n", inargv[argc]);
+   }
+   ret[argc] = NULL;
+	return ret;
+}
+
+char** copyenv(char** e)
+{
+   char** copy = dupnullable(e);
+   return copy;
+}
+
+FILE** copyfds(FILE** fds)
+{
+   FILE** ret = calloc(1, sizeof(FILE*) * COREMAXFD);
+   int_t i;
+//   printf("copyfile %p\n", ret);
+   if (fds) {
+      for (i = 0; i < COREMAXFD; i++) {
+		 if (!fds[i]) {
+		    continue;
+	     }
+        
+		 copyfile(&ret[i], fds[i]);
+//       printf("copyfile %s->%s %d (%p)\n", fds[i]->file, ret[i]->file, i, ret[i]);
+      }
+   }
+   return ret;
+} 
+
+
+FILE** cloexecfds(FILE** fds)
+{
+   int_t i;
+   if (fds) {
+      for (i = 0; i < COREMAXFD; i++) {
+		 if (!fds[i]) {
+		    continue;
+	     }
+         if (fds[i]->flags & O_CLOEXEC) {
+
+             freefile(fds[i]);
+			 fds[i] = NULL;
+         }
+      }
+   }
+   return fds;
+}

@@ -61,12 +61,7 @@ FILE_INFINITY,
 };
 
 int sys_dlnlink = 10;
-char* sys_env[4] = {
-   "PATH=/usr/bin:/bin",
-   "CWD=/",
-   "UMASK=0027",
-   NULL,
-};
+char* sys_env[10];
 
 AFILE* sys_fds[COREMAXFD] = {
 &sys_stdin,
@@ -76,6 +71,12 @@ AFILE* sys_fds[COREMAXFD] = {
 
 void init_proc()
 {
+   sys_env[0] = strdup("PATH=/bin:/usr/bin");
+   sys_env[1] = strdup("CWD=/");
+   sys_env[2] = strdup("UMASK=0027");
+   sys_env[3] = strdup("PS1=\\$ ");
+   sys_env[4] = strdup("PS2=> ");
+   sys_env[5] = NULL;
    sys.argv = sys_argv;
    sys.envp = sys_env;
    sys.fds = (void**) sys_fds;
@@ -96,24 +97,6 @@ void init_proc()
    current->start = NULL;
 }
 
-char** dupnullable(char** inargv)
-{
-	int argc;
-	for (argc = 0; inargv[argc]; argc++);
-	char** ret = sys_calloc(1, sizeof(char*) * (argc + 1));
-	for (argc = 0; inargv[argc]; argc++)
-	{
-		ret[argc] = strdup(inargv[argc]);
-   }
-   ret[argc] = NULL;
-	return ret;
-}
-
-char** copyenv(char** e)
-{
-   char** copy = dupnullable(e);
-   return copy;
-}
 void freeenv(char** e)
 {
    if (!e) {
@@ -127,47 +110,6 @@ void freeenv(char** e)
    }
    sys_free((void*)e);
 }
-
-void** copyfds(void** infds)
-{
-   AFILE** fds = (AFILE**)infds;
-   AFILE** ret = sys_calloc(1, sizeof(AFILE*) * COREMAXFD);
-   int_t i;
-   if (infds) {
-      for (i = 0; i < COREMAXFD; i++) {
-		 if (!infds[i]) {
-		    continue;
-	     }
-        
-		 copyfile(&ret[i], fds[i]);
-      }
-   }
-   return (void**)ret;
-} 
-
-void** cloexecfds(void** infds)
-{
-   AFILE** fds = (AFILE**)infds;
-   int_t i;
-   if (infds) {
-      for (i = 0; i < COREMAXFD; i++) {
-		 if (!fds[i]) {
-		    continue;
-	     }
-/*	AFILE* dst = fds[i];
-	 if (dst) {
-	    sys_printf("infofile=%p file=%p=%s strbuf=%p pipbuf=%p fd=%d\n", dst, dst->file, dst->file, dst->strbuf, dst->pipbuf, dst->fd);
-         } GARBAGE */
-
-         if (fds[i]->flags & O_CLOEXEC) {
-
-             freefile(fds[i]);
-			 fds[i] = NULL;
-         }
-      }
-   }
-   return infds;
-} 
 
 void freefds(proc* task)
 {

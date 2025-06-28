@@ -48,7 +48,7 @@ void find_startcycle(int cpunum)
         if (cpu[i]->cpunum == cpunum && !(cpu[i]->flags & PROC_ENDED))
         {
             cpus[cpunum]->startcycle = i;
-            printf("FIND_STARTCYCLE CPU=%d PID=%d\n", cpunum, i);
+//            printf("FIND_STARTCYCLE CPU=%d PID=%d\n", cpunum, i);
             break;
         }
     }
@@ -82,12 +82,12 @@ int sys_getcpu()
     newcpu++;
     if (newcpu >= maxcpu)
         newcpu = 0;
-    printf("SYS_GETCPU CPU=%d\n", ret);
+//    printf("SYS_GETCPU CPU=%d\n", ret);
     return ret;    
 }
 
 void sys_cpuidle(int cpu) {
-    printf("CPU IDLE\n");
+//    printf("CPU IDLE\n");
 }
 
 pid_t sys_endcycle(int cpunum) {
@@ -96,14 +96,14 @@ pid_t sys_endcycle(int cpunum) {
     return cpus[cpu]->startcycle;
 #else
     schedcpu = cpunum;
-    printf("SYS_ENDCYCLE START\n");
+//    printf("SYS_ENDCYCLE START\n");
     while (1)
     {
         schedcpu++;
         if (schedcpu >= maxcpu) {
             schedcpu = 0;
         }
-        sys_printf("NEWCPU=%d\n", schedcpu);
+//        sys_printf("NEWCPU=%d\n", schedcpu);
         if (schedcpu == cpunum) {
             sys_printf("NEW PID = 0\n");
             return 0;
@@ -121,12 +121,12 @@ pid_t sys_endcycle(int cpunum) {
             if (cpu[newpid]->cpunum != schedcpu) {
                 continue;
             }
-            sys_printf("NEW PID = %d\n", newpid);
+//            sys_printf("NEW PID = %d\n", newpid);
             return newpid;
         }
     }
-    printf("SYS_ENDCYCLE\n");
-    sys_printf("NEW PID = 0\n");
+//    printf("SYS_ENDCYCLE\n");
+//    sys_printf("NEW PID = 0\n");
     return 0;
 #endif
 }

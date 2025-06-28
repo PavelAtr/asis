@@ -19,6 +19,13 @@ int do_mycat(int argc, char** argv)
       stdin = fdopen(0, "r");
       if (!stdin) error(errno, errno, "Error fdopen stdin\n");
    }
+   int i;
+   for (i = 0; i < 10; i++)
+   {
+      if (!afds[i]) continue;
+
+      printf("fd=%d, name=%s\n", i, afds[i]->file);
+   }
    char buf[CHUNK];
    while (1)
    {

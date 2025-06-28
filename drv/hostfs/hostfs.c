@@ -56,6 +56,7 @@ typedef struct {
 } meta_t;
 
 typedef struct {
+   unsigned int csum;
    FILE* file;
    char* path;
    char* mode;
@@ -66,19 +67,29 @@ typedef struct {
 int cache_index = -1;
 cache_file cache[MAXCACHE];
 
-FILE* get_cache(const char* path, const char* mode)
+unsigned int csum(const char* str)
+{
+   unsigned int ret = 0;
+   while(*str++) ret += *str;
+   return ret;
+}
+
+FILE* get_cache(const char* path, const char* mode, unsigned int cs)
 {
    int start = cache_index;
    int i;
    for (i = 0; i < MAXCACHE; i++)
    {
       if (cache[i].path && cache[i].mode) {
-         if (strcmp(cache[i].mode, mode) == 0
-            && strcmp(cache[i].path, path) == 0
-            && !cache[i].lock)
-         {
-            cache[i].lock = 1;
-            return cache[i].file;
+         if (cache[i].lock) {
+            continue;
+         }
+         if (cs == cache[i].csum) {
+            if (strcmp(cache[i].mode, mode) == 0
+                  && strcmp(cache[i].path, path) == 0) {
+               cache[i].lock = 1;
+               return cache[i].file;
+            }
          }
       }
    }
@@ -101,6 +112,7 @@ FILE* get_cache(const char* path, const char* mode)
    cache[cache_index].file = fopen(path, mode);
    cache[cache_index].path = strdup(path);
    cache[cache_index].mode = strdup(mode);
+   cache[cache_index].csum = cs;
    cache[cache_index].lock = 1;
    return cache[cache_index].file;
 }
@@ -268,7 +280,7 @@ len_t hostfs_fread(void* sbfs, const char* path, void* ptr, len_t size,
 {
    char fullpath[1024];
    char* file = calc_path(fullpath, sbfs, path);
-   FILE* f = get_cache(file, "r");
+   FILE* f = get_cache(file, "r", csum(file));
    if (!f) {
       return 0;
    }
@@ -283,7 +295,7 @@ len_t hostfs_fwrite(void* sbfs, const char* path, const void* ptr, len_t size,
 {
    char fullpath[1024];
    char* file = calc_path(fullpath, sbfs, path);
-   FILE* f = get_cache(file, "r+");
+   FILE* f = get_cache(file, "r+", csum(file));
    if (!f) {
       return 0;
    }

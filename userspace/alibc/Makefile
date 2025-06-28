@@ -6,8 +6,8 @@ all:
 	make -C init/
 	mkdir -p build
 	
-	cd build; $(CC) $(SYSROOT) $(CFLAGS) -Wno-pointer-to-int-cast -c ../alien/*.c ../alien/ctype/*.c ../alien/string/*.c
-	cd build; $(CC) $(SYSROOT) $(CFLAGS) -Wno-pointer-to-int-cast -c ../alien/regex/*.c ../alien/multibyte/*.c 
+	cd build; $(CC) $(SYSROOT) $(CFLAGS) -D__BSD_VISIBLE -Wno-pointer-to-int-cast -c ../alien/*.c ../alien/ctype/*.c ../alien/string/*.c
+	cd build; $(CC) $(SYSROOT) $(CFLAGS) -D__BSD_VISIBLE -Wno-pointer-to-int-cast -c ../alien/regex/*.c ../alien/multibyte/*.c 
 	cd build; $(CC) $(SYSROOT) $(CFLAGS) -Wno-pointer-to-int-cast -c ../src/*.c
 	cd build; $(LD) $(SYSROOT) -shared -nostdlib *.o -o libac.so
 	cd build; ar rcs libac.a *.o ../init/*.o

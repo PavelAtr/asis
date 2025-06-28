@@ -34,11 +34,11 @@ config TESTAPP
       help
         ASIS own simple binaries.
 
-config DASH
-      bool "dash"
+config MRSH
+      bool "mrsh"
       default y
       help
-        Dash shell.
+        Mrsh shell.
 
 config COREUTILS
       bool "coreutils"

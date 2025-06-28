@@ -43,6 +43,9 @@
 #define SYS_CONNECT 37
 #define SYS_LISTEN 38
 #define SYS_TLS 39
+#define SYS_VFORK 40
+#define SYS_SETENVIRON 41
+#define SYS_SETFDS 42
 
 #ifdef UEFI_KERNEL
 __attribute__((ms_abi)) 

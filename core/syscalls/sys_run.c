@@ -6,13 +6,13 @@
 #include "../../userspace/alibdl/libdl.h"
 #include <start.h>
 #include <unistd.h>
+#include <sys/wait.h>
 
 #undef fds
 #undef environ
 
 char* initargv[2];
 char* mainsp;
-extern char* sys_env[COREMAXENV];
 
 int_t sys_runinit()
 {
@@ -20,9 +20,9 @@ int_t sys_runinit()
    sys_printf("sys_runinit: stack=%p sp=%p\n", current->ctx.stack, sp);
    initargv[0] = INIT;
    initargv[1] = NULL;
-   pid_t init = sys_fork();
+   pid_t init = sys_fork(0);
    if (init == 0) {
-      sys_exec(initargv[0], initargv, NULL);
+      sys_exec(initargv[0], initargv, sys.envp);
       return -1;
    } else {
       int_t ret;
@@ -51,21 +51,39 @@ errno_t sys_exec(char* file, char** inargv, char** envp)
 {
    sys_printf(SYS_DEBUG "EXEC %s\n", file);
    int argc;
+   int ret;
    for (argc = 0; inargv[argc]; argc++);
+   //deinit_tls(current);
+   current->dtv = NULL;
+   if (envp && curpid != 1) {
+      freeenv(current->envp);
+		current->envp = envp;
+   } 
+   (*current->dlnlink)--;
+   if (!(current->flags & PROC_EXECED)) {
+      current->dlnlink = new_dlnlink(current->dlhndl);
+   } else {
+      if ((*current->dlnlink) <= 0) {
+		   sys_dlclose(current->dlhndl);
+      }
+   }
    mountpoint* mount = sys_get_mountpoint(file);
    if (!mount) {
       current->dlhndl = NULL;
-      return ENOENT;
+      ret = ENOENT;
+      goto fail;
    }
    const char* path = sys_calcpath(mount, file);
    if (!mount->mount_can_execute(mount->sbfs, path, current->uid, current->gid)) {
       current->dlhndl = NULL;
-      return EPERM;
+      ret = EPERM;
+      goto fail;
    }
    struct stat st;
    if (sys_stat(file, &st) == -1) {
       current->dlhndl = NULL;
-      return ENOENT;
+      ret = ENOENT;
+      goto fail;
    }
    if (st.st_mode & S_ISUID) {
       current->uid = st.st_uid;
@@ -77,46 +95,33 @@ errno_t sys_exec(char* file, char** inargv, char** envp)
    } else {
       current->gid = current->gid;
    }
-   (*current->dlnlink)--;
    
    current->argc = argc;
    current->argv = inargv;
    /* dupnullable(inargv); GARBAGE */
 
-   deinit_tls(current);
    current->dlhndl = sys_dlopen(file, 0);
    if (!current->dlhndl) {
 	   sys_printf(SYS_ERROR "EXEC dlopen %s FAILED\n", file);
-      return ENOENT;
-   }
-   if (current->flags & PROC_CLONED) {
-      current->dlnlink = new_dlnlink(current->dlhndl);
-   } else
-   {
-	   if ((*current->dlnlink) <= 0) {
-		   sys_dlclose(current->dlhndl);
-      }
+      ret = ENOENT;
+      goto fail;
    }
    (*current->dlnlink)++;
    sys_printf("EXEC dlnlink %p=%d\n", current->dlnlink, *current->dlnlink);
    init_tls(current);
    current->start = (void*)(((dlhandle*)current->dlhndl)->obj->dl_elf->hdr->e_entry + 
       ((dlhandle*)current->dlhndl)->obj->dl_elf->exec);
-   if (current->flags & PROC_CLONED) {
-      if (envp) {
-		   current->envp = copyenv(envp);
-      } else {
-		   current->envp = copyenv(((proc*)current->parent)->envp);
-      }
-   }
-   current->fds = cloexecfds(current->fds);
-   current->flags &= ~PROC_CLONED;
+   current->flags |= PROC_EXECED;
    printf("EXEC START %s argv=%p envp=%p fds=%p syscall=%p retexit=%p\n", 
       file, current->argv, current->envp, current->fds, &sys_syscall, &sys_atexit);
-   int ret = sys_runoncpu(current->start, current, sys_getcpu());
+   ret = sys_runoncpu(current->start, current, sys_getcpu());
    /* Never reach here */
    sys_printf(SYS_DEBUG "EXEC END (NOTREACHEBLE)\n");
    return  ret;
+fail:
+      current->flags = PROC_ENDED | PROC_DESTROYED;
+      current->forkret = -1;
+      switch_context;
 }
 
 pid_t newproc()
@@ -144,9 +149,8 @@ void freeproc(pid_t pid)
    if (*cpu[pid]->dlnlink <= 0) {
       sys_dlclose(cpu[pid]->dlhndl);
       sys_free(cpu[pid]->dlnlink);
-   }
-   if (!(cpu[pid]->flags & PROC_CLONED)) {
-      freeenv(cpu[pid]->envp);
+   }   
+   if (cpu[pid]->flags & PROC_FORKED || cpu[pid]->flags & PROC_EXECED) {
       freefds(cpu[pid]);
    }
    free_stack(cpu[pid]->ctx.stack, MAXSTACK);
@@ -178,27 +182,20 @@ pid_t sys_clone(void)
    return ret;
 }
 
-pid_t sys_fork()
+pid_t sys_fork(bool_t vfork)
 {
    current->forkret = sys_clone();
-   cpu[current->forkret]->fds = copyfds(current->fds);
-   sys_printf(SYS_DEBUG "FORK in %s child=%d fds=%p\n", current->argv[0], current->forkret, cpu[current->forkret]->fds);
+   sys_printf(SYS_DEBUG "FORK(%d) in %s child=%d fds=%p\n", vfork, current->argv[0], current->forkret, cpu[current->forkret]->fds);
    if (current->forkret == -1) {
       return -1;
    }
-   cpu[current->forkret]->forkret = 0;
-   cpu[current->forkret]->ret = -1;
-   switch_context;
-   return current->forkret;
-}
-
-pid_t sys_vfork()
-{
-   current->forkret = sys_clone();
-   sys_printf(SYS_DEBUG "VFORK in %s child=%d fds=%p\n", current->argv[0], current->forkret, cpu[current->forkret]->fds);
-   if (current->forkret == -1) {
-      return -1;
+   if (!vfork) {
+      cpu[current->forkret]->flags |= PROC_FORKED;
+   } else
+   {
+      cpu[current->forkret]->flags |= PROC_VFORKED;
    }
+   cpu[current->forkret]->flags &= ~PROC_CLONED;
    cpu[current->forkret]->forkret = 0;
    cpu[current->forkret]->ret = -1;
    switch_context;
@@ -210,11 +207,11 @@ pid_t sys_waitpid(pid_t pid, int* wstatus, int options)
    sys_printf(SYS_DEBUG "WAITPID in %s child=%d\n", current->argv[0], pid);
    if (pid != -1) {
       if (!pid_is_valid(pid) || !cpu[pid]) {
-         return -1;
+         return -2;
       }
    }   
-   *wstatus = -1;
-   pid_t child = -1;
+   *wstatus = 0;
+   pid_t child = 0;
    bool_t found = 0;
    while(1) {
       if (pid == -1) {
@@ -235,20 +232,26 @@ pid_t sys_waitpid(pid_t pid, int* wstatus, int options)
             }
          }
       } else {
-         found = 1; 
+         if (cpu[pid]->flags & PROC_DESTROYED) {
+            return -2;
+         }
+         found = 1;
          if (cpu[pid]->flags & PROC_ENDED) {
             child = pid;
             goto end;
          }
       }
       if (!found) {
-	     return -1;
-	  }
+	      return -2;
+	   }
+      if (options & WNOHANG) {
+         return 0; // No child process has exited
+      }
       switch_context;
    }
 end:
-   sys_printf(SYS_DEBUG "WAITPID END pid=%d prog=%s child=%s(%d), nlink %p=%d\n", current->pid, current->argv[0], cpu[child]->argv[0], child, cpu[child]->dlnlink, *cpu[child]->dlnlink);
-   *wstatus = cpu[child]->ret;
+   sys_printf(SYS_DEBUG "WAITPID END pid=%d prog=%s child=%s(%d), flags=%b\n", current->pid, current->argv[0], cpu[child]->argv[0], child, cpu[child]->flags);
+   *wstatus = W_EXITCODE(cpu[child]->ret, 0);
    cpu[child]->flags &= ~PROC_RUNNING;
    cpu[child]->flags |= PROC_ENDED;
    cpu[child]->flags |= PROC_DESTROYED;
