@@ -7,22 +7,26 @@
 
 int chdir(const char *path)
 {
-   const char* ret;
-   char* newcwd;
+   char* cwd = get_current_dir_name();
+   char* newcwd = alloca(strlen(cwd) + strlen(path) + 2);
    if (path[0] == '/') {
-      ret = path;
+      if (path[1] == '\0') {
+         // If the path is just "/", we can just change to root
+         strcpy(newcwd, "/");
+         goto end;
+      }
+      // If the path is absolute, we can just copy it
+      strcpy(newcwd, path);
+      strcpy(newcwd + strlen(path), "/");
       goto end;
    }
-   char* cwd = getenv("CWD");
-   newcwd = alloca(strlen(cwd) + strlen(path) + 1);
    strcpy(newcwd, cwd);
    strcpy(newcwd + strlen(cwd), path);
-   ret = newcwd;
+   strcpy(newcwd + strlen(cwd) + strlen(path), "/");
 end:
-   if ((errno = (int)asyscall(SYS_CHDIR, ret, 0, 0, 0, 0, 0))) {
+   if ((errno = (int)asyscall(SYS_CHDIR, newcwd, 0, 0, 0, 0, 0))) {
       return -1; // Error occurred
    }   
-   setenv("CWD", ret, 0);
    return 0;
 }
 
@@ -55,6 +59,7 @@ char *getcwd(char* buf, size_t size)
    }
    memset(ret, 0x0, bufsize);
    strncpy(ret, cwd, cwdsize);
+   free(cwd);
 
    return ret;
 }

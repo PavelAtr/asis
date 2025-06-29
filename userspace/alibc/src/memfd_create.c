@@ -24,7 +24,7 @@ int memfd_create(const char *name, unsigned int flags)
    if (flags & MFD_CLOEXEC) {
       afds[fd]->fdflags |= O_CLOEXEC;
    }
-   if ((errno = (int)asyscall(SYS_SHARED, &((amemfile*)afds[fd])->membuf,"memfd", afds[fd]->file, "", &afds[fd]->size, 0)))
+   if ((errno = (int)asyscall(SYS_SHARED, &((amemfile*)afds[fd])->membuf, strdup("memfd"), afds[fd]->file, strdup(""), &afds[fd]->size, 0)))
     {
 	freefile(afds[fd]);
 	return -1;

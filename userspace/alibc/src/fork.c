@@ -25,7 +25,6 @@ pid_t fork(void)
          asyscall(SYS_SETFDS, afds, 0, 0, 0, 0, 0);
          environ =  copyenv(proc_environ);
 	      asyscall(SYS_SETENVIRON, environ, proc_environ, 0, 0, 0, 0);
-         printenv();
          aargv = proc_argv;
          need_copy_fds = 0;
     }

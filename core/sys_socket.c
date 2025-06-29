@@ -30,15 +30,14 @@ errno_t socket_checkperm(const char* path)
    if (!mount) {
       return ENOENT;
    }
-   const char* file = sys_calcpath(mount, path);
-   if (!mount->mount_can_read(mount->sbfs, file, current->uid, current->gid)) {
+   if (!mount->mount_can_read(mount->sbfs, path, current->uid, current->gid)) {
       return EPERM;
    }
-   if (!mount->mount_can_write(mount->sbfs, file, current->uid, current->gid)) {
+   if (!mount->mount_can_write(mount->sbfs, path, current->uid, current->gid)) {
       return EPERM;
    }
       struct stat st;
-   if (mount->mount_stat(mount->sbfs, file, &st)) {
+   if (mount->mount_stat(mount->sbfs, path, &st)) {
       return ENOENT;
    }
    return 0;

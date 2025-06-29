@@ -48,12 +48,13 @@ errno_t sys_shared(void** ret, const char* type, const char* path, const char* m
     // If mode is empty, we assume no checks are needed
       goto nocheckfs;
    }
-   mountpoint* mount = sys_get_mountpoint(path);
+   mountpoint* mount;
+   const char* file = sys_calcpath(&mount, path);
    if (!mount) {
       *ret = NULL;
       return ENOENT;
    }
-   const char* file = sys_calcpath(mount, path);
+   
    if (strlen(mode) >= 1) {
         if (mode[0] == 'r' && !mount->mount_can_read(mount->sbfs, file,
                              current->uid, current->gid)) {

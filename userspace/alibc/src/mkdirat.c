@@ -13,5 +13,5 @@ int mkdirat(int f, const char *pathname, mode_t mode)
       return -1;
    }
    char* dir = afds[f]->file;
-   return mkdir(fullpath(dir, pathname), mode);
+   return mkdir(pathname, mode); /* BUG NOT REALIZED */
 }

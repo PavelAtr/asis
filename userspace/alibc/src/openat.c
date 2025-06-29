@@ -13,5 +13,5 @@ int openat(int f, const char *pathname, int flags, ...)
       return -1;
    }
    char* dir = afds[f]->file;
-   return open(fullpath(dir, pathname), flags);
+   return open(pathname, flags); /* BUG NOT REALIZED */
 }

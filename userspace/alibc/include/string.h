@@ -43,4 +43,11 @@ size_t strxfrm(char dest[], const char src[], size_t n);
 extern char* sys_siglist[35];
 char *strsignal(int sig);
 
+#define splitpath(path, dir, file) \
+path = malloc(strlen(dir) + strlen(file) + 2); \
+strcpy(path, dir); \
+strcat(path, "/"); \
+strcat(path, file); \
+path[strlen(dir) + strlen(file) + 1] = '\0';
+
 #endif

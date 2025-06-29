@@ -14,7 +14,6 @@ int execl(const char *pathname, const char *arg, ... /*, (char *) NULL */);
 int chdir(const char *path);
 char *get_current_dir_name(void);
 char *getcwd(char* buf, size_t size);
-char* fullpath(const char* dir, const char* path);
 char* execpath(const char* path, const char* file);
 
 #define SEEK_SET 0

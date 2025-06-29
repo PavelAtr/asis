@@ -40,9 +40,45 @@ mountpoint* sys_get_mountpoint(const char* file)
    return ret;
 }
 
-const char* sys_calcpath(mountpoint* mount, const char* file)
+char ret[1024];
+
+char* fullpath(const char* dir, const char* path)
 {
-   const char* mnt = (strcmp(mount->path, "/") == 0)? "" : mount->path;
+   if (!dir || !path) {
+      return NULL;
+   }
+   if (path[0] == '/') {
+      if (strstr(path, "/dev/") == path) {
+         strcpy(ret, path);
+         ret[strlen(path)] = '\0';
+         goto end;
+      }
+      path++; // Skip the leading slash
+   }
+   size_t cwdlen = strlen(dir);
+   size_t pathlen = strlen(path);
+   strcpy(ret, dir);
+   if (path == NULL || path[0] == '\0') {
+      ret[cwdlen] = '\0';
+      goto end;
+   }
+	   strcpy(ret + cwdlen, path);
+      ret[cwdlen + pathlen] = '\0';
+end:
+   sys_printf(SYS_DEBUG "Fullpath: %s\n", ret);
+   return ret;
+}
+
+const char* sys_calcpath(mountpoint** mount, const char* path)
+{
+   char* file = fullpath(current->cwd, path);
+   if (!file) {
+      *mount = NULL;
+      return NULL;
+   }  
+   *mount = sys_get_mountpoint(file);
+   const char* mnt = (strcmp((*mount)->path, "/") == 0)? "" : (*mount)->path;
+   
    return &file[strlen(mnt)];
 }
 

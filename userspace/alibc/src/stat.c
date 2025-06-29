@@ -7,13 +7,14 @@
 
 int stat(const char* path, struct stat* statbuf)
 {
-   errno = (int)asyscall(SYS_FSTAT, fullpath(get_current_dir_name(), path), statbuf, 0, 0, 0, 0);
-   if (errno)
-	return -1;
+   errno = (int)asyscall(SYS_FSTAT, path, statbuf, 0, 0, 0, 0);
+   if (errno) {
+	   return -1;
+   }
    return 0;
 }
 
 int lstat(const char* pathname, struct stat* statbuf)
 {
-   return stat(fullpath(get_current_dir_name(), pathname), statbuf);
+   return stat(pathname, statbuf);
 }

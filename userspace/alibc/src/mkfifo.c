@@ -6,5 +6,5 @@
 
 int mkfifo(const char *pathname, mode_t mode)
 {
-    return (int)asyscall(SYS_MKNOD, fullpath(get_current_dir_name(), pathname), S_IFIFO | mode & mask(), 0, 0, 0, 0);
+    return (int)asyscall(SYS_MKNOD, pathname, S_IFIFO | mode & mask(), 0, 0, 0, 0);
 }

@@ -93,7 +93,7 @@ typedef struct {
 extern mountpoint mountpoints[MAXMOUNT];
 
 mountpoint* sys_get_mountpoint(const char* file);
-const char* sys_calcpath(mountpoint* mount, const char* file);
+const char* sys_calcpath(mountpoint** mount, const char* path);
 errno_t sys_mount(const char* blk, const char* mount, const char* fstype, const char* options);
 errno_t sys_umount(const char* dir);
 

@@ -11,11 +11,12 @@
 
 len_t sys_afread(const char* path, void* ptr, len_t size, len_t off)
 {
-   mountpoint* mount = sys_get_mountpoint(path);
+   mountpoint* mount;
+   const char* file = sys_calcpath(&mount, path);
    if (!mount) {
       return 0;
    }
-   const char* file = sys_calcpath(mount, path);
+   
    if (!mount->mount_can_read(mount->sbfs, file, current->uid, current->gid)) {
       return 0;
    }
@@ -53,11 +54,12 @@ len_t sys_afread(const char* path, void* ptr, len_t size, len_t off)
 
 len_t sys_afwrite(const char* path, const void* ptr, len_t size, len_t off)
 {
-   mountpoint* mount = sys_get_mountpoint(path);
+   mountpoint* mount;
+   const char* file = sys_calcpath(&mount, path);
    if (!mount) {
       return 0;
    }
-   const char* file = sys_calcpath(mount, path);
+   
    if (!mount->mount_can_write(mount->sbfs, file, current->uid, current->gid)) {
       return 0;
    }
@@ -94,11 +96,12 @@ len_t sys_afwrite(const char* path, const void* ptr, len_t size, len_t off)
 
 errno_t sys_ioctl(const char* path, ulong_t request, void* arg1, void* arg2,  void* arg3, void* arg4)
 {
-   mountpoint* mount = sys_get_mountpoint(path);
+   mountpoint* mount;
+   const char* file = sys_calcpath(&mount, path);
    if (!mount) {
       return ENOENT;
    }
-   const char* file = sys_calcpath(mount, path);
+   
    if (!mount->mount_can_write(mount->sbfs, file, current->uid, current->gid)) {
       return EPERM;
    }
@@ -138,13 +141,13 @@ errno_t sys_ioctl(const char* path, ulong_t request, void* arg1, void* arg2,  vo
 
 errno_t sys_stat(const char* pathname, void* statbuf)
 {
-   mountpoint* mount= sys_get_mountpoint(pathname);
+   mountpoint* mount;
+   const char* path = sys_calcpath(&mount, pathname);
    if (!mount) {
       return ENOENT;
    }
    int_t err;
-   if ((err = mount->mount_stat(mount->sbfs, sys_calcpath(mount, pathname),
-         statbuf))) {
+   if ((err = mount->mount_stat(mount->sbfs, path, statbuf))) {
       return err;
    }
    return 0;
@@ -152,13 +155,13 @@ errno_t sys_stat(const char* pathname, void* statbuf)
 
 errno_t sys_mknod(const char* pathname, mode_t mode)
 {
-   mountpoint* mount= sys_get_mountpoint(pathname);
+   mountpoint* mount;
+   const char* path = sys_calcpath(&mount, pathname);
    if (!mount) {
       return ENOENT;
    }
    errno_t err;
-   if ((err = mount->mount_mknod(mount->sbfs, sys_calcpath(mount, pathname),
-         current->uid, current->gid, mode))) {
+   if ((err = mount->mount_mknod(mount->sbfs, path, current->uid, current->gid, mode))) {
       return err;
    }
    return 0;
@@ -168,11 +171,12 @@ errno_t sys_mknod(const char* pathname, mode_t mode)
 
 errno_t sys_modnod(const char* pathname, uid_t uid, gid_t gid, mode_t mode)
 {
-   mountpoint* mount= sys_get_mountpoint(pathname);
+   mountpoint* mount;
+   const char* path = sys_calcpath(&mount, pathname);
    if (!mount) {
       return ENOENT;
    }
-   const char* path = sys_calcpath(mount, pathname);
+   
    struct stat st;
    if (mount->mount_stat(mount->sbfs, path, &st)) {
       return ENOENT;
@@ -212,13 +216,13 @@ errno_t sys_modnod(const char* pathname, uid_t uid, gid_t gid, mode_t mode)
 
 errno_t sys_unlink(const char *pathname)
 {
-   mountpoint* mount= sys_get_mountpoint(pathname);
+   mountpoint* mount;
+   const char* path = sys_calcpath(&mount, pathname);
    if (!mount) {
       return ENOENT;
    }
    errno_t err ;
-   if ((err = mount->mount_rmnod(mount->sbfs, sys_calcpath(mount, pathname),
-         current->uid, current->gid))) {
+   if ((err = mount->mount_rmnod(mount->sbfs, path, current->uid, current->gid))) {
       return err;
    }
    return 0;
@@ -226,14 +230,16 @@ errno_t sys_unlink(const char *pathname)
 
 errno_t sys_link(const char *oldpath, const char *newpath, bool_t move)
 {
-   mountpoint* mount1= sys_get_mountpoint(oldpath);
-   mountpoint* mount2= sys_get_mountpoint(newpath);
+   mountpoint* mount1;
+   const char* oldpath_calc = sys_calcpath(&mount1, oldpath);
+   mountpoint* mount2;
+   const char* newpath_calc = sys_calcpath(&mount2, newpath);
    if (mount1 != mount2) {
       return ENOTSUP;
    }
    errno_t err;
-   if ((err = mount1->mount_link(mount1->sbfs, sys_calcpath(mount1, oldpath),
-         sys_calcpath(mount2, newpath), move, current->uid, current->gid))) {
+   if ((err = mount1->mount_link(mount1->sbfs, oldpath_calc, newpath_calc,
+         move, current->uid, current->gid))) {
       return err;
    }
    return 0;
@@ -241,11 +247,12 @@ errno_t sys_link(const char *oldpath, const char *newpath, bool_t move)
 
 void* sys_readdir(char* pathname, int_t ndx)
 {
-   mountpoint* mount= sys_get_mountpoint(pathname);
+   mountpoint* mount;
+   const char* file = sys_calcpath(&mount, pathname);
    if (!mount) {
       return NULL;
    }
-   const char* file = sys_calcpath(mount, pathname);
+   
    if (!mount->mount_can_read(mount->sbfs, file, current->uid, current->gid)) {
       return 0;
    }
@@ -254,13 +261,13 @@ void* sys_readdir(char* pathname, int_t ndx)
 
 errno_t sys_truncate(const char *pathname, size_t length)
 {
-   mountpoint* mount= sys_get_mountpoint(pathname);
+   mountpoint* mount;
+   const char* path = sys_calcpath(&mount, pathname);
    if (!mount) {
       return ENOENT;
    }
    errno_t err;
-   if ((err = mount->mount_truncate(mount->sbfs, sys_calcpath(mount, pathname),
-         length))) {
+   if ((err = mount->mount_truncate(mount->sbfs, path, length))) {
       return err;
    }
    return 0;
@@ -274,6 +281,6 @@ errno_t sys_chdir(char* path) {
 
 char* get_current_dir_name(void)
 {
-   return current->cwd;
+   return strdup(current->cwd);
 }
 

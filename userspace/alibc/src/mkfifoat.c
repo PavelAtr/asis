@@ -13,5 +13,5 @@ int mkfifoat(int dirfd, const char *pathname, mode_t mode)
       return -1;
    }
    char* dir = afds[dirfd]->file;
-   return mkfifo(fullpath(dir, pathname), mode);
+   return mkfifo(pathname, mode); /* BUG NOT REALIZED */
 }

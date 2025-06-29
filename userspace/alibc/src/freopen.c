@@ -3,6 +3,7 @@
 #include <sys/stat.h>
 #include <errno.h>
 #include <unistd.h>
+#include <string.h>
 
 FILE *freopen(const char* path, const char* mode,
      FILE* stream)
@@ -16,7 +17,7 @@ INIT_afds
       errno = ENOENT;
       return NULL;
    }
-   stream->file = fullpath(get_current_dir_name(), path);
+   stream->file = strdup(path);
    stream->size = st.st_size;
    stream->pos = 0;
    stream->flags = 0;

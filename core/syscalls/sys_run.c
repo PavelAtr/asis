@@ -67,13 +67,13 @@ errno_t sys_exec(char* file, char** inargv, char** envp)
 		   sys_dlclose(current->dlhndl);
       }
    }
-   mountpoint* mount = sys_get_mountpoint(file);
+   mountpoint* mount;
+   const char* path = sys_calcpath(&mount, file);
    if (!mount) {
       current->dlhndl = NULL;
       ret = ENOENT;
       goto fail;
    }
-   const char* path = sys_calcpath(mount, file);
    if (!mount->mount_can_execute(mount->sbfs, path, current->uid, current->gid)) {
       current->dlhndl = NULL;
       ret = EPERM;
@@ -98,8 +98,7 @@ errno_t sys_exec(char* file, char** inargv, char** envp)
    
    current->argc = argc;
    current->argv = inargv;
-   /* dupnullable(inargv); GARBAGE */
-
+   current->cwd = strdup("/");
    current->dlhndl = sys_dlopen(file, 0);
    if (!current->dlhndl) {
 	   sys_printf(SYS_ERROR "EXEC dlopen %s FAILED\n", file);
@@ -153,6 +152,7 @@ void freeproc(pid_t pid)
    if (cpu[pid]->flags & PROC_FORKED || cpu[pid]->flags & PROC_EXECED) {
       freefds(cpu[pid]);
    }
+   sys_free(cpu[pid]->cwd);
    freeenv(cpu[pid]->envp);
    free_stack(cpu[pid]->ctx.stack, MAXSTACK);
    sys_free(cpu[pid]);

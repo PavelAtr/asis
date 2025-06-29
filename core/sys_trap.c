@@ -32,7 +32,7 @@ void trap_segfault()
 void trap_sigquit()
 {
    char str[64];
-   size_t size = sprintf(str, SYS_ERROR "SIGQUIT at pid=%d\n", curpid);
+   size_t size = sprintf(str, SYS_INFO "SIGQUIT at pid=%d\n", curpid);
 #ifdef CONFIG_LINUX
    fwrite(str, 1, size, stderr);
 #endif
@@ -49,7 +49,7 @@ void trap_sigquit()
 void trap_sigstop()
 {
    char str[64];
-   size_t size = sprintf(str, SYS_ERROR "SIGSTOP at pid=%d\n", curpid);
+   size_t size = sprintf(str, SYS_INFO "SIGSTOP at pid=%d\n", curpid);
 #ifdef CONFIG_LINUX
    fwrite(str, 1, size, stderr);
 #endif
@@ -66,7 +66,7 @@ void trap_sigstop()
 void trap_sigcont()
 {
    char str[64];
-   size_t size = sprintf(str, SYS_ERROR "SIGCONT at pid=%d\n", curpid);
+   size_t size = sprintf(str, SYS_INFO "SIGCONT at pid=%d\n", curpid);
 #ifdef CONFIG_LINUX
    fwrite(str, 1, size, stderr);
 #endif

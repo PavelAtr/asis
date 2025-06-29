@@ -82,7 +82,6 @@ skip:
       sys_printf(SYS_DEBUG "initcontext %d newstack=%p newsp=%p depth=%ld\n",
          curpid, current->ctx.stack, current->ctx.sp, current->ctx.sp - current->ctx.stack);
    }
-   sys_printf("SCHED cpu=%d fds=%p\n", current->cpunum, current->fds);
    sp = current->ctx.sp;
 }
 

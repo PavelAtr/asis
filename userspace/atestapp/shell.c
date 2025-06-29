@@ -34,8 +34,11 @@ int runcommand(char* cmd)
    }
    const char * cmd3 = "cd ";
    if (strstr(cmd, cmd3) == cmd) {
+      puts(cmd3);
       char* param = &cmd[strlen(cmd3)];
-      return chdir(param);
+      int r = chdir(param);
+      setenv("CWD", param, 0);
+      return 0;
    }
    const char * cmd4 = "umask=";
    if (strstr(cmd, cmd4) == cmd) {
@@ -68,7 +71,6 @@ int runcommand(char* cmd)
    }
    char* myargv[5];
    int myargc = calcargv(cmd, myargv);
-   myargv[0] = execpath(getenv("PATH"), myargv[0]);
    pid_t child = fork();
    if (child == 0) {
       execve(myargv[0], myargv, NULL);

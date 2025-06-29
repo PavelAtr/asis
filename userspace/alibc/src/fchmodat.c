@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <string.h>
 
 int fchmodat(int f, const char *pathname, mode_t mode, int flags)
 {
@@ -14,17 +15,17 @@ int fchmodat(int f, const char *pathname, mode_t mode, int flags)
       return -1;
    }
    char* dir = afds[f]->file;
-   const char* file = pathname;
+   char* file = strdup(pathname);
    if (pathname == NULL || flags & AT_EMPTY_PATH)
    {
-      file = NULL;
+      file = strdup("");
    }
    if (flags & AT_FDCWD)
    {
       dir = get_current_dir_name();
    }
    struct stat st;
-   char* path = fullpath(dir, file);
+   char* path = file; /* BUG NOT REALIZED */
    if (stat(path, &st) == -1) {
       errno = ENOENT;
       return -1;

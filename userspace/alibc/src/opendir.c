@@ -8,10 +8,11 @@
 #include <sys/stat.h>
 #include <errno.h>
 #include <unistd.h>
+#include <string.h>
 
 DIR *opendir(const char *dirname)
 {
-   char* name = fullpath(get_current_dir_name(), dirname);
+   char* name = strdup(dirname);
    struct stat st;
    if (stat(name, &st)) {
       errno = ENOENT;
@@ -22,6 +23,7 @@ DIR *opendir(const char *dirname)
       return NULL;
    }
    DIR* d = malloc(sizeof(DIR));
+   d->type = F_DIR;
    initfile((FILE*)d);
    d->file = name;
    d->ndx = 0;

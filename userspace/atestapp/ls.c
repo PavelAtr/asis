@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
+#include <error.h>
 
 int main(int argc, char** argv)
 {
@@ -16,18 +17,17 @@ int main(int argc, char** argv)
    } else {
       path = argv[1];
    }
+   chdir(getenv("CWD"));
    char* dirname = path;
    DIR* dir = opendir(dirname);
    if (!dir) {
-      printf("%s", strerror(errno));
-      printf("%s", "\n");
-      return -1;
+      error(errno, errno, "error open dir\n", dirname);
    }
    struct dirent* dent;
    struct stat st;
-   chdir(dirname);
+   int dfd = dirfd(dir);
    while((dent = readdir(dir)) != NULL) {
-      stat(fullpath(get_current_dir_name(), dent->d_name), &st);
+      fstatat(dfd, dent->d_name, &st, 0);
       switch (st.st_mode & S_IFMT) {
       case S_IFBLK:
          printf("%s", "<BLK>");

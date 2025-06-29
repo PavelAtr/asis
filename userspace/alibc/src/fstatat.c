@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <string.h>
 
 int fstatat(int f, const char* pathname,
                 struct stat* statbuf, int flags)
@@ -14,15 +15,21 @@ int fstatat(int f, const char* pathname,
       errno = EBADFD;
       return -1;
    }
-   char* dir = afds[f]->file;
-   const char* file = pathname;
    if (pathname == NULL || flags & AT_EMPTY_PATH)
    {
-      file = NULL;
+      pathname = "";
    }
+   char* dir = afds[f]->file;
    if (flags & AT_FDCWD)
    {
       dir = get_current_dir_name();
    }
-   return (int)asyscall(SYS_FSTAT, fullpath(dir, file), statbuf, 0, 0, 0, 0);
+   char* file;
+   splitpath(file, dir, pathname);
+   int ret = (int)asyscall(SYS_FSTAT, file, statbuf, 0, 0, 0, 0);
+   if (flags & AT_FDCWD)
+   {
+      free(dir);
+   }
+   return  ret;
 }
