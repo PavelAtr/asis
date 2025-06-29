@@ -37,6 +37,10 @@ int runcommand(char* cmd)
       puts(cmd3);
       char* param = &cmd[strlen(cmd3)];
       int r = chdir(param);
+      if (r == -1) {
+         printf("chdir error: %s\n", strerror(errno));
+         return r;
+      }
       setenv("CWD", param, 0);
       return 0;
    }

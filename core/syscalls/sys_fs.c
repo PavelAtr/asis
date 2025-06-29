@@ -153,6 +153,7 @@ errno_t sys_stat(const char* pathname, void* statbuf)
    return 0;
 }
 
+
 errno_t sys_mknod(const char* pathname, mode_t mode)
 {
    mountpoint* mount;
@@ -273,10 +274,36 @@ errno_t sys_truncate(const char *pathname, size_t length)
    return 0;
 }
 
-errno_t sys_chdir(char* path) {
+errno_t sys_chdir(char* pathname) {
+   struct stat st;
+   mountpoint* mount = sys_get_mountpoint(pathname);
+   if (!mount) {
+      return ENOENT;
+   }
+   const char* mnt = (strcmp(mount->path, "/") == 0)? "" : mount->path;
+   const char* path = &pathname[strlen(mnt)];
+   errno_t err;
+   if ((err = mount->mount_stat(mount->sbfs, path, &st))) {
+      sys_printf(SYS_ERROR "sys_chdir: mount_stat failed for %s\n", path);
+      goto fail;
+   }
+   if (!S_ISDIR(st.st_mode)) {
+      sys_printf(SYS_ERROR "sys_chdir: %s is not a directory\n", path);
+      err = ENOTDIR;
+      goto fail;
+   }
+   if (!mount->mount_can_execute(mount->sbfs, path, current->uid, current->gid)
+      && !security->capable(CAP_DAC_READ_SEARCH)) {
+         sys_printf(SYS_ERROR "sys_chdir: permission denied for %s\n", path);
+         err = EACCES;
+         goto fail;
+   }
+end:
    sys_free(current->cwd);
    current->cwd = strdup(path);
-   return 0;
+   err = 0;
+fail:
+   return err;
 }
 
 char* get_current_dir_name(void)

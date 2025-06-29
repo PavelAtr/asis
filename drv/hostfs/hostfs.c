@@ -8,7 +8,7 @@
 #ifdef CONFIG_LINUX
 #include <stdio.h>
 #include <string.h>
-#include <errno.h>
+#include "../../userspace/alibc/include/errno.h"
 #include <unistd.h>
 #include <dirent.h>
 #endif

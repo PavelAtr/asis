@@ -24,7 +24,7 @@ void trap_segfault()
    sys_printf(str);
    current->flags &= ~PROC_RUNNING;
    current->flags |= PROC_ENDED;
-   current->flags |= PROC_DESTROYED;
+//   current->flags |= PROC_DESTROYED;
    switch_context;
 }
 
