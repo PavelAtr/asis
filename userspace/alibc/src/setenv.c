@@ -22,9 +22,6 @@ int setenv(const char *name, const char *value, int overwrite)
    char** oldenviron = environ;
    int i = envid(name);
    if (i != -1) {
-      if (!overwrite) {
-         return 0; // Variable already exists and overwrite is false
-      }
       free(environ[i]);
       environ[i] = malloc(strlen(name) + strlen(value) + 2);
       strcpy(environ[i], name);

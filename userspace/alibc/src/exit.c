@@ -15,20 +15,6 @@ __attribute__((ms_abi))
 #endif
 void (*retexit)(int ret);
 
-void freeenv(char** e)
-{
-   if (!e) {
-      return;
-   }
-   int argc;
-	for (argc = 0; e[argc]; argc++){
-      if (e[argc]) {
-         free(e[argc]);
-      }
-   }
-   free((void*)e);
-}
-
 void _exit(int status)
 {
     if (atexit_func == (void*)0x1) {
@@ -37,7 +23,6 @@ void _exit(int status)
     if (atexit_func) {
          atexit_func();
     }
-    freeenv(environ);
     retexit(status);
     while (1); // Гарантирует, что функция не вернёт управление
 }

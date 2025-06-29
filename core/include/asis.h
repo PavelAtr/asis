@@ -129,6 +129,7 @@ typedef struct {
   char** dtv;
   startfunction start;
   int cpunum;
+  char* cwd;
   }  proc;
 
 
@@ -190,6 +191,9 @@ void switch_task();
 /* #define switch_context switch_task(); */
 
 void trap_segfault();
+void trap_sigquit();
+void trap_sigstop();
+void trap_sigcont();
 
 void init_memory(void* base, size_t size);
 size_t free_memory(void);
@@ -263,5 +267,8 @@ int sys_current_cpu();
 #define current cpu[curpid]
 
 void* sys_tls_get_addr (unsigned long ti_module, unsigned long ti_offset);
+errno_t sys_chdir(char* path);
+char* get_current_dir_name(void);
+
 
 #endif

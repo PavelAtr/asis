@@ -153,6 +153,7 @@ void freeproc(pid_t pid)
    if (cpu[pid]->flags & PROC_FORKED || cpu[pid]->flags & PROC_EXECED) {
       freefds(cpu[pid]);
    }
+   freeenv(cpu[pid]->envp);
    free_stack(cpu[pid]->ctx.stack, MAXSTACK);
    sys_free(cpu[pid]);
    cpu[pid] = NULL;
@@ -170,6 +171,7 @@ pid_t sys_clone(void)
    cpu[ret]->parent = current;
    cpu[ret]->pid = ret;
    cpu[ret]->parentpid = curpid;
+   cpu[ret]->cwd = strdup(current->cwd);
    (*current->dlnlink)++;
    cpu[ret]->ctx.stack = alloc_stack(MAXSTACK);
    init_tls(cpu[ret]);

@@ -46,6 +46,8 @@
 #define SYS_VFORK 40
 #define SYS_SETENVIRON 41
 #define SYS_SETFDS 42
+#define SYS_CHDIR 43
+#define SYS_GETCWD 44
 
 #ifdef UEFI_KERNEL
 __attribute__((ms_abi)) 

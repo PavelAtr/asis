@@ -21,9 +21,62 @@ void trap_segfault()
 #ifdef CONFIG_UEFI
    printf(str);
 #endif
-   sys_printf(SYS_DEBUG "SEGFAULT stack=%p sp=%p depth=%ld\n", current->ctx.stack, sp, sp - current->ctx.stack);
+   sys_printf(str);
    current->flags &= ~PROC_RUNNING;
    current->flags |= PROC_ENDED;
    current->flags |= PROC_DESTROYED;
+   switch_context;
+}
+
+
+void trap_sigquit()
+{
+   char str[64];
+   size_t size = sprintf(str, SYS_ERROR "SIGQUIT at pid=%d\n", curpid);
+#ifdef CONFIG_LINUX
+   fwrite(str, 1, size, stderr);
+#endif
+#ifdef CONFIG_UEFI
+   printf(str);
+#endif
+   sys_printf(str);
+   current->flags &= ~PROC_RUNNING;
+   current->flags |= PROC_ENDED;
+//   current->flags |= PROC_DESTROYED;
+   switch_context;
+}
+
+void trap_sigstop()
+{
+   char str[64];
+   size_t size = sprintf(str, SYS_ERROR "SIGSTOP at pid=%d\n", curpid);
+#ifdef CONFIG_LINUX
+   fwrite(str, 1, size, stderr);
+#endif
+#ifdef CONFIG_UEFI
+   printf(str);
+#endif
+   sys_printf(str);
+   current->flags &= ~PROC_RUNNING;
+//   current->flags |= PROC_ENDED;
+//   current->flags |= PROC_DESTROYED;
+   switch_context;
+}
+
+void trap_sigcont()
+{
+   char str[64];
+   size_t size = sprintf(str, SYS_ERROR "SIGCONT at pid=%d\n", curpid);
+#ifdef CONFIG_LINUX
+   fwrite(str, 1, size, stderr);
+#endif
+#ifdef CONFIG_UEFI
+   printf(str);
+#endif
+   sys_printf(str);
+   if (!(current->flags &PROC_ENDED))
+      current->flags |= PROC_RUNNING;
+//   current->flags |= PROC_ENDED;
+//   current->flags |= PROC_DESTROYED;
    switch_context;
 }

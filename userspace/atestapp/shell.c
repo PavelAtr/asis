@@ -30,10 +30,9 @@ int runcommand(char* cmd)
    const char * cmd2 = "pwd";
    if (strstr(cmd, cmd2) == cmd) {
       puts(get_current_dir_name());
-      puts("\n");
       return 0;
    }
-   const char * cmd3 = "cwd ";
+   const char * cmd3 = "cd ";
    if (strstr(cmd, cmd3) == cmd) {
       char* param = &cmd[strlen(cmd3)];
       return chdir(param);
@@ -60,6 +59,11 @@ int runcommand(char* cmd)
          puts(strerror(errno));
          puts("\n");
       }
+      return 0;
+   }
+   const char * cmd7 = "env";
+   if (strstr(cmd, cmd7) == cmd) {
+      printenv();
       return 0;
    }
    char* myargv[5];

@@ -105,7 +105,7 @@ pid_t sys_endcycle(int cpunum) {
         }
 //        sys_printf("NEWCPU=%d\n", schedcpu);
         if (schedcpu == cpunum) {
-            sys_printf("NEW PID = 0\n");
+//            sys_printf("NEW PID = 0\n");
             return 0;
         }
         find_startcycle(schedcpu);

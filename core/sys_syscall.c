@@ -109,15 +109,18 @@ void* sys_syscall(int number, void* arg1, void* arg2, void* arg3, void* arg4, vo
       return sys_tls_get_addr ((unsigned long)arg1, (unsigned long)arg2);
    case SYS_SETENVIRON:
       current->envp = arg1;
-      sys_printf(SYS_DEBUG "SETENVIRON %p->%p in %s\n", arg2, current->envp, current->argv[0]);
       return NULL;
    case SYS_SETFDS:
       current->fds = arg1;
-      sys_printf(SYS_DEBUG "SETFDS %p in %s\n", current->fds, current->argv[0]);
       return NULL;
+   case SYS_CHDIR:
+      return (void*)sys_chdir((char*)arg1);
+   case SYS_GETCWD:
+      return (void*)get_current_dir_name();   
    default:
       sys_printf(SYS_INFO "Unsupported syscall %d\n", number);
       break;
    }
    return NULL;
 }
+

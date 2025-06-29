@@ -87,6 +87,10 @@ void init_proc()
    current = cpu[0];
    current->pid = 0;
    current->parentpid = 0;
+   current->cwd = strdup("/");
+   current->cpunum = 0;
+   current->ret = 0;
+   current->forkret = 0;
    current->pgid = 0;
    current->uid = 0;
    current->gid = 0;

@@ -17,7 +17,29 @@ void segfault_handler (int signum)
    trap_segfault();
 }
 
+void sigquit_handler (int signum)
+{
+   resetsignals();
+   trap_sigquit();
+}
+
+void sigstop_handler (int signum)
+{
+   resetsignals();
+   trap_sigstop();
+}
+
+void sigcont_handler (int signum)
+{
+   resetsignals();
+   trap_sigcont();
+}
+
+
 void init_hosttrap()
 {
    signal(SIGSEGV, segfault_handler);
+   signal(SIGQUIT, sigquit_handler);
+   signal(SIGSTOP, sigstop_handler);
+   signal(SIGCONT, sigcont_handler);
 }

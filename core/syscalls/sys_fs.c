@@ -266,5 +266,14 @@ errno_t sys_truncate(const char *pathname, size_t length)
    return 0;
 }
 
+errno_t sys_chdir(char* path) {
+   sys_free(current->cwd);
+   current->cwd = strdup(path);
+   return 0;
+}
 
+char* get_current_dir_name(void)
+{
+   return current->cwd;
+}
 
