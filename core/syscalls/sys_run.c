@@ -62,6 +62,7 @@ errno_t sys_exec(char* file, char** inargv, char** envp)
    (*current->dlnlink)--;
    if (!(current->flags & PROC_EXECED)) {
       current->dlnlink = new_dlnlink(current->dlhndl);
+      current->memregs = calloc(MAXMEMREG, sizeof(memreg));
    } else {
       if ((*current->dlnlink) <= 0) {
 		   sys_dlclose(current->dlhndl);
@@ -148,6 +149,7 @@ void freeproc(pid_t pid)
    if (*cpu[pid]->dlnlink <= 0) {
       sys_dlclose(cpu[pid]->dlhndl);
       sys_free(cpu[pid]->dlnlink);
+      sys_free(cpu[pid]->memregs);
    }   
    if (cpu[pid]->flags & PROC_FORKED || cpu[pid]->flags & PROC_EXECED) {
       freefds(cpu[pid]);

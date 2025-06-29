@@ -65,7 +65,6 @@ char* fullpath(const char* dir, const char* path)
 	   strcpy(ret + cwdlen, path);
       ret[cwdlen + pathlen] = '\0';
 end:
-   sys_printf(SYS_DEBUG "Fullpath: %s\n", ret);
    return ret;
 }
 

@@ -110,6 +110,13 @@ typedef struct {
 typedef __attribute__((sysv_abi)) int (*startfunction) (startarg* arg);
 
 typedef struct {
+  void* addr;
+  size_t size;
+ } memreg;
+
+#define MAXMEMREG 100
+
+typedef struct {
   int argc;
   char**  argv;
   char** envp;
@@ -130,6 +137,7 @@ typedef struct {
   startfunction start;
   int cpunum;
   char* cwd;
+  memreg** memregs;
   }  proc;
 
 
@@ -269,6 +277,5 @@ int sys_current_cpu();
 void* sys_tls_get_addr (unsigned long ti_module, unsigned long ti_offset);
 errno_t sys_chdir(char* path);
 char* get_current_dir_name(void);
-
 
 #endif

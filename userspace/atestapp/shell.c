@@ -34,7 +34,6 @@ int runcommand(char* cmd)
    }
    const char * cmd3 = "cd ";
    if (strstr(cmd, cmd3) == cmd) {
-      puts(cmd3);
       char* param = &cmd[strlen(cmd3)];
       int r = chdir(param);
       if (r == -1) {

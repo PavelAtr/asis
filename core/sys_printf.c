@@ -22,8 +22,8 @@ int sys_printf(const char* format, ...)
    va_start(vl, format);
    int ret = vsnprintf(tinylog, MAXLOG, format, vl);
    if (LOG) {
-      //fwrite(tinylog, 1, ret, (FILE*)LOG);
-      fwrite(tinylog, 1, ret, stderr);
+      fwrite(tinylog, 1, ret, (FILE*)LOG);
+//      fwrite(tinylog, 1, ret, stderr);
       fflush((FILE*)LOG);
    }
    return ret;
