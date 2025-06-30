@@ -5,7 +5,6 @@
 #ifdef CONFIG_LINUX
 #include <stdio.h>
 #include <start.h>
-#include <stdlib.h>
 #endif
 
 #ifdef CONFIG_UEFI

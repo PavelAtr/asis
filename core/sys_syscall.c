@@ -16,7 +16,7 @@ void* sys_syscall(int number, void* arg1, void* arg2, void* arg3, void* arg4, vo
       return sys_malloc((size_t) arg1);
       break;
    case SYS_FREE:
-      sys_free((void*) arg1);
+      sys_free(arg1);
       break;
    case SYS_MMAP:
       return sys_mmap((void*)arg1, (size_t)arg2, (int_t)arg3, (int_t)arg4, (int_t)arg5, (off_t)arg6);

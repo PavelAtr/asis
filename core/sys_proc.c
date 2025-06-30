@@ -8,7 +8,7 @@
 #include <stddef.h>
 #include <string.h>
 #include <errno.h>
-#include <stdlib.h>
+
 
 
 proc sys;
@@ -121,7 +121,7 @@ void freeenv(char** e)
          sys_free(e[argc]);
       }
    }
-   sys_free((void*)e);
+   sys_free(e);
 }
 
 void freefds(proc* task)

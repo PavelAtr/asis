@@ -16,18 +16,15 @@
 #define INIT "/bin/shell"
 
 #define malloc(s) sys_malloc(s)
-#define free(p) sys_free(p)
+#define sys_free(p) sys_freenull((void**)&(p))
+#define free(p) sys_freenull((void**)&(p))
 #define realloc(p, s) sys_realloc(p, s)
 #define calloc(n, s) sys_calloc(n, s)
 #define printf(fmt, ...) sys_printf(fmt, __VA_ARGS__)
 #define mmap(addr, length, prot, flags, fd, offset) sys_mmap(addr, length, prot, flags, fd, offset)
 #define munmap(addr, length) sys_munmap(addr, length)
 #define afread(pth, p, s, o) sys_afread(pth, p, s, o)
-#define freenull(pp) \
-    if (*pp) { \
-    free((void*)*pp); \
-    *pp = NULL; \
-    }
+
 
 errno_t sys_exec(char* file, char** inargv, char** envp);
 int_t sys_runinit();
@@ -50,7 +47,7 @@ void* sys_malloc(size_t size);
 void* sys_calloc(size_t nmemb, size_t size);
 void* hyperv_malloc(size_t size);
 void* hyperv_calloc(size_t nmemb, size_t size);
-void sys_free(void *ptr);
+void sys_freenull(void **ptr);
 void sys_prog_free(void *ptr);
 
 void* sys_syscall(int number, void* arg1, void* arg2, void* arg3, void* arg4, void* arg5, void* arg6);

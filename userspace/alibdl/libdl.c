@@ -25,10 +25,10 @@ void elf_free(elf *e)
    {
       return;
    }
-   freenull(&e->hdr);
-   freenull(&e->phdrs);
-   freenull(&e->shdrs);
-   freenull(&e->shstr);
+   free(e->hdr);
+   free(e->phdrs);
+   free(e->shdrs);
+   free(e->shstr);
    int ndx;
    if (e->rela) {
       for (ndx = 0; e->rela[ndx]; ndx++)
@@ -37,15 +37,15 @@ void elf_free(elf *e)
          {
             if (e->rela[ndx]->relas)
             {
-               freenull(&e->rela[ndx]->relas);
+               free(e->rela[ndx]->relas);
             }
-            freenull(&e->rela[ndx]);
+            free(e->rela[ndx]);
          }
       }
    }
-   freenull(&e->rela);
-   freenull(&e->dyntab);
-   freenull(&e->dynstr);
+   free(e->rela);
+   free(e->dyntab);
+   free(e->dynstr);
    if (e->exec)
       munmap(e->exec, e->exec_size);
    e->exec = NULL;
@@ -385,8 +385,8 @@ int dlclose(void *hndl)
 	 copy = (dlhandle*) list_rm((list*) copy, s);
          elf_fini(s->dl_elf->exec, s->dl_elf->dyns, s->dl_elf->dyntab);
          elf_free(s->dl_elf);
-         freenull(&s->dl_elf);
-         freenull(&s);
+         free(s->dl_elf);
+         free(s);
       }
       j = next;
    }

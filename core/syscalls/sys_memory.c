@@ -153,10 +153,14 @@ void* sys_realloc(void* ptr, size_t new_size) {
    return ret;
 }
 
-void sys_free(void *ptr)
+void sys_freenull(void **ptr)
 {
-   free_memreg(get_memreg(ptr));
-   free(ptr);
+   if (!*ptr) {
+      return; // Nothing to free
+   }
+   free_memreg(get_memreg(*ptr));
+   free(*ptr);
+   *ptr = NULL; // Set pointer to NULL after freeing  
 }
 
 size_t free_memory(void)

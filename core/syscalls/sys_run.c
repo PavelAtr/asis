@@ -51,7 +51,7 @@ errno_t sys_exec(char* file, char** inargv, char** envp)
    int ret;
    (*current->dlnlink)--;
    if (!(current->flags & PROC_EXECED)) {
-      current->memregs = hyperv_calloc(MAXMEMREG, sizeof(memreg));
+      current->memregs = sys_calloc(MAXMEMREG, sizeof(memreg));
       current->dlnlink = new_dlnlink(current->dlhndl);
    } else {
       if ((*current->dlnlink) <= 0) {
