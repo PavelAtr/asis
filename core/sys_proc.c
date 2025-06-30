@@ -8,8 +8,8 @@
 #include <stddef.h>
 #include <string.h>
 #include <errno.h>
+#include <stdlib.h>
 
-#undef fds
 
 proc sys;
 char* sys_argv[1] = {"system"};
@@ -71,6 +71,17 @@ AFILE* sys_fds[COREMAXFD] = {
 
 void init_proc()
 {
+   cpu[0] = &sys;
+   maxcpu = MAXCPU;
+   sys.memregs = hyperv_calloc(MAXMEMREG, sizeof(memreg));  
+   cpus = hyperv_malloc(sizeof(core*) * maxcpu);
+   int i;
+   for (i = 0; i < maxcpu; i++) {
+      cpus[i] = hyperv_calloc(1, sizeof(core));
+      cpus[i]->startcycle = 1;
+      cpus[i]->currentpid = 0;
+   }
+
    sys_env[0] = strdup("PATH=/bin:/usr/bin");
    sys_env[1] = strdup("CWD=/");
    sys_env[2] = strdup("UMASK=0027");
@@ -83,8 +94,6 @@ void init_proc()
    *sys_stdin.lock = 0;
    *sys_stdout.lock = 0;
    *sys_stderr.lock = 0;
-   cpu[0] = &sys;
-   current = cpu[0];
    current->pid = 0;
    current->parentpid = 0;
    current->cwd = strdup("/");

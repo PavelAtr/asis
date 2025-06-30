@@ -1,3 +1,7 @@
+/******************************************************
+*  Author: GitHub Copilot 2025
+*******************************************************/
+
 int isnan(double x) {
     unsigned short status;
     __asm__ __volatile__ (

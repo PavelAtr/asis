@@ -2,12 +2,10 @@
 *  Author: GitHub Copilot 2025
 *******************************************************/
 
-double sin(double x) {
-    double res;
-    __asm__ __volatile__ (
-        "fsin"
-        : "=t"(res)
-        : "0"(x)
-    );
-    return res;
+#include <stdint.h>
+#include <math.h>
+
+// hypot: sqrt(x*x + y*y)
+double hypot(double x, double y) {
+    return sqrt(x*x + y*y);
 }

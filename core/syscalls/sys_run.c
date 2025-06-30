@@ -8,9 +8,6 @@
 #include <unistd.h>
 #include <sys/wait.h>
 
-#undef fds
-#undef environ
-
 char* initargv[2];
 char* mainsp;
 
@@ -42,7 +39,7 @@ int_t* new_dlnlink(void* dlhandle)
             return cpu[i]->dlnlink;
          }
       }   
-   int_t* ret = sys_calloc(1, sizeof(int_t));
+   int_t* ret = hyperv_calloc(1, sizeof(int_t));
    *ret = 0;
    return ret;
 }
@@ -52,6 +49,15 @@ errno_t sys_exec(char* file, char** inargv, char** envp)
    sys_printf(SYS_DEBUG "EXEC %s\n", file);
    int argc;
    int ret;
+   (*current->dlnlink)--;
+   if (!(current->flags & PROC_EXECED)) {
+      current->memregs = hyperv_calloc(MAXMEMREG, sizeof(memreg));
+      current->dlnlink = new_dlnlink(current->dlhndl);
+   } else {
+      if ((*current->dlnlink) <= 0) {
+		   sys_dlclose(current->dlhndl);
+      }
+   }
    for (argc = 0; inargv[argc]; argc++);
    //deinit_tls(current);
    current->dtv = NULL;
@@ -59,15 +65,6 @@ errno_t sys_exec(char* file, char** inargv, char** envp)
       freeenv(current->envp);
 		current->envp = envp;
    } 
-   (*current->dlnlink)--;
-   if (!(current->flags & PROC_EXECED)) {
-      current->dlnlink = new_dlnlink(current->dlhndl);
-      current->memregs = calloc(MAXMEMREG, sizeof(memreg));
-   } else {
-      if ((*current->dlnlink) <= 0) {
-		   sys_dlclose(current->dlhndl);
-      }
-   }
    mountpoint* mount;
    const char* path = sys_calcpath(&mount, file);
    if (!mount) {
@@ -129,6 +126,7 @@ pid_t newproc()
    int_t i;
    for (i = 0; i < MAXPROC; i++)
       if (cpu[i] == NULL) {
+         cpu[i] = (proc*)0x01; // Mark as allocated
          cpu[i] = sys_calloc(1, sizeof(proc));
          return i;
       }

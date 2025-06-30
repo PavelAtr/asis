@@ -17,6 +17,7 @@ int_t newshared()
     int i;
     for (i = 0; i < MAXSHAREDOBJ; i++) {
         if (!sharedobjs[i]) {
+            sharedobjs[i] = (sharedobj*)0x01; // Mark as busy
             return i;
         }
     }

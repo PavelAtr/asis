@@ -48,6 +48,8 @@ void* sys_mmap(void* addr, size_t length, int prot, int flags, int f, off_t offs
 int sys_munmap(void* addr, size_t length);
 void* sys_malloc(size_t size);
 void* sys_calloc(size_t nmemb, size_t size);
+void* hyperv_malloc(size_t size);
+void* hyperv_calloc(size_t nmemb, size_t size);
 void sys_free(void *ptr);
 void sys_prog_free(void *ptr);
 
@@ -137,7 +139,7 @@ typedef struct {
   startfunction start;
   int cpunum;
   char* cwd;
-  memreg** memregs;
+  memreg(*memregs)[];
   }  proc;
 
 
@@ -273,6 +275,9 @@ int sys_current_cpu();
 
 #define curpid cpus[sys_current_cpu()]->currentpid
 #define current cpu[curpid]
+
+#define MAXCPU 4
+extern int_t maxcpu;
 
 void* sys_tls_get_addr (unsigned long ti_module, unsigned long ti_offset);
 errno_t sys_chdir(char* path);

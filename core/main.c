@@ -47,8 +47,6 @@ int main(int argc, char** argv)
       main_chroot = argv[1];
    }
 
-   init_cpus();
-
    LOG = (void*) fopen("asis.log", "w+");
    if (!LOG) printf("Unable to open LOG\n");
    fseek((FILE*)LOG, 0, SEEK_SET);

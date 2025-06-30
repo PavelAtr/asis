@@ -1,4 +1,18 @@
+/******************************************************
+*  Author: Pavel V Samsonov 2025
+*  Author: GitHub Copilot 2025
+*******************************************************/
+
 #include "../../config.h"
+#include "../include/asis.h"
+
+#undef malloc
+#undef calloc
+#undef realloc
+#undef mmap
+#undef munmap
+#undef free
+
 
 #ifdef CONFIG_LINUX
 #include <sys/mman.h>
@@ -17,6 +31,46 @@ void init_memory(void* base, size_t size)
 {
 }
 
+int_t empty_memreg()
+{
+   int i;
+   for (i = 0; i < MAXMEMREG; i++) {
+      if ((*current->memregs)[i].addr == NULL) {
+         (*current->memregs)[i].addr = (void*) 0x01;
+         return i;
+      }
+   }
+   return -1;
+}
+
+int_t get_memreg(void* addr)
+{
+   int i;
+   for (i = 0; i < MAXMEMREG; i++) {
+      if ((*current->memregs)[i].addr == addr) {
+         return i;
+      }
+   }
+   return -1;
+}
+
+void free_memreg(int_t index)
+{
+   if (index < 0 || index >= MAXMEMREG) {
+      return; // Invalid index
+   }
+   (*current->memregs)[index].addr = NULL;
+   (*current->memregs)[index].size = 0;
+}
+
+void set_memreg(int_t index, void* addr, size_t size)
+{
+   if (index < 0 || index >= MAXMEMREG) {
+      return; // Invalid index
+   }
+   (*current->memregs)[index].addr = addr;
+   (*current->memregs)[index].size = size;
+}
 
 #ifdef CONFIG_LINUX
 void *sys_mmap(void* addr, size_t size, int prot, int flags, int f,
@@ -47,20 +101,61 @@ int sys_munmap(void* addr, size_t length)
 
 void* sys_malloc(size_t size)
 {
-   return malloc(size);
+   void* ret = malloc(size);
+   if (current->memregs) {
+      int i = empty_memreg();
+      set_memreg(i, ret, size);
+   }
+   return ret;
 }
 
 void* sys_calloc(size_t nmemb, size_t size)
+{
+   void* ret = calloc(nmemb, size);
+   if (current->memregs) {
+      int i = empty_memreg();
+      set_memreg(i, ret, nmemb * size);
+   }
+   return ret;
+}
+
+void* hyperv_malloc(size_t size)
+{
+   return malloc(size);
+}
+
+void* hyperv_calloc(size_t nmemb, size_t size)
 {
    return calloc(nmemb, size);
 }
 
 void* sys_realloc(void* ptr, size_t new_size) {
-    return realloc(ptr, new_size);
+   if (new_size == 0) {
+      free_memreg(get_memreg(ptr));
+      sys_free(ptr);
+      return NULL;
+   }
+   void* ret = malloc(new_size);
+   if (ptr) {
+      int_t index = get_memreg(ptr);
+      if (index >= 0) {
+         size_t old_size = (*current->memregs)[index].size;
+         memcpy(ret, ptr, old_size < new_size ? old_size : new_size);
+         sys_free(ptr);
+      } else {
+         // If the memory region was not found, we just copy the data
+         // from the old pointer to the new one, but we won't free it.
+         // This is a fallback case, not ideal but necessary for safety.
+         memcpy(ret, ptr, new_size);
+      }
+   }
+   set_memreg(empty_memreg(), ret, new_size);
+   return ret;
 }
 
 void sys_free(void *ptr)
 {
+   free_memreg(get_memreg(ptr));
    free(ptr);
 }
 

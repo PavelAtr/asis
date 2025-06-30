@@ -12,31 +12,14 @@
 #include "uefi/uefi.h"
 #endif
 
-#undef environ
-
-#define MAXCPU 4;
-
-int maxcpu;
-int newcpu = 0;
+int_t maxcpu;
+int_t newcpu = 0;
 core** cpus;
 
 
 #ifndef CONFIG_UEFISMP
-int schedcpu;
+int schedcpu = 0;
 #endif
-
-void init_cpus()
-{
-    maxcpu = MAXCPU;
-    cpus = malloc(sizeof(core*) * maxcpu);
-    int i;
-    for (i = 0; i < maxcpu; i++) {
-        cpus[i] = calloc(1, sizeof(core));
-        cpus[i]->startcycle = 1;
-        cpus[i]->currentpid = 0;
-    }
-    printf("Init cpus\n");
-}
 
 void find_startcycle(int cpunum)
 {
