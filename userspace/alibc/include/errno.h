@@ -1,8 +1,8 @@
 #ifndef _ERRNO_H
 #define _ERRNO_H
 
-#define program_invocation_name (*core_argv[0])
-#define program_invocation_short_name basename(*core_argv[0])
+#define program_invocation_name (aargv[0])
+#define program_invocation_short_name basename(aargv[0])
 
 extern __thread int errno;
 

@@ -3,7 +3,6 @@
 
 #include <stddef.h>
 #include <alloca.h>
-#include <unistd.h>
 #include <locale.h>
 #include <wchar.h>
 
@@ -16,21 +15,16 @@ char *getenv(const char *name);
 int setenv(const char *name, const char *value, int overwrite);
 int unsetenv(const char *name);
 
-extern char*** core_environ;
-#define environ (*core_environ)
+extern __thread char** environ;
 #define INIT_ENVIRON
-extern  char*** core_argv;
-#define aargv (*core_argv)
+extern __thread char** aargv;
 
 long long atoll(const char *str);
 long atol(const char *str);
 int atoi(const char *str);
 
 #define Exit(s) _exit(s)
-static inline void exit(int status)
-{
-    _exit(status);
-}
+#define exit(s) _exit(s)
 
 double strtod(const char* nptr, char** endptr);
 
@@ -87,16 +81,10 @@ void *bsearch(const void *key, const void *base, size_t num, size_t width, int (
 int atexit(void (*function)(void));
 
 long double strtold(const char* nptr, char** endptr);
-
-static inline double strtod_l(const char* __s, char** __end_ptr, locale_t __l) {
-  return strtod(__s, __end_ptr);
-}
+#define strtod_l(s, p, l) strtold(s, p)
 
 float strtof(const char* nptr, char** endptr);
-
-static inline float strtof_l(const char* __s, char** __end_ptr, locale_t __l) {
-  return strtof(__s, __end_ptr);
-}
+#define strtof_l(s, p, l) strtof(s, p)
 
 int mbtowc(wchar_t *pwc, const char s[], size_t n);
 #define mbtowc_with_lock(pwc, s, n)  mbtowc(pwc, s, n) 

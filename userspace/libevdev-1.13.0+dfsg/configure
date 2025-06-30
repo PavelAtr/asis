@@ -13157,8 +13157,8 @@ printf "%s\n" "no" >&6; }
 fi
 
 pkg_failed=no
-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for CHECK" >&5
-printf %s "checking for CHECK... " >&6; }
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for check >= 0.9.9" >&5
+printf %s "checking for check >= 0.9.9... " >&6; }
 
 if test -n "$CHECK_CFLAGS"; then
     pkg_cv_CHECK_CFLAGS="$CHECK_CFLAGS"
@@ -13198,7 +13198,7 @@ fi
 
 
 if test $pkg_failed = yes; then
-   	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
 
 if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
@@ -13207,24 +13207,24 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        CHECK_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "check >= 0.9.9" 2>&1`
+                CHECK_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "check >= 0.9.9" 2>&1`
         else
-	        CHECK_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "check >= 0.9.9" 2>&1`
+                CHECK_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "check >= 0.9.9" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$CHECK_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$CHECK_PKG_ERRORS" >&5
 
-	HAVE_CHECK="no"
+        HAVE_CHECK="no"
 elif test $pkg_failed = untried; then
-     	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	HAVE_CHECK="no"
+        HAVE_CHECK="no"
 else
-	CHECK_CFLAGS=$pkg_cv_CHECK_CFLAGS
-	CHECK_LIBS=$pkg_cv_CHECK_LIBS
+        CHECK_CFLAGS=$pkg_cv_CHECK_CFLAGS
+        CHECK_LIBS=$pkg_cv_CHECK_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
-	HAVE_CHECK="yes"
+        HAVE_CHECK="yes"
 fi
 if test "x$HAVE_CHECK" = "xyes"; then
 	# Extract the first word of "valgrind", so it can be a program name with args.
@@ -13526,7 +13526,7 @@ then :
   printf %s "(cached) " >&6
 else $as_nop
 
-	for am_cv_pathless_PYTHON in python python2 python3  python3.9 python3.8 python3.7 python3.6 python3.5 python3.4 python3.3  python3.2 python3.1 python3.0  python2.7 python2.6 python2.5 python2.4 python2.3 python2.2 python2.1  python2.0 none; do
+	for am_cv_pathless_PYTHON in python python2 python3  python3.11 python3.10  python3.9 python3.8 python3.7 python3.6 python3.5 python3.4 python3.3  python3.2 python3.1 python3.0  python2.7 python2.6 python2.5 python2.4 python2.3 python2.2 python2.1  python2.0 none; do
 	  test "$am_cv_pathless_PYTHON" = none && break
 	  prog="import sys
 # split strings by '.' and convert to numeric.  Append some zeros
@@ -13804,7 +13804,14 @@ else $as_nop
    am_cv_python_pythondir=`$PYTHON -c "
 $am_python_setup_sysconfig
 if can_use_sysconfig:
-  sitedir = sysconfig.get_path('purelib', vars={'base':'$am_py_prefix'})
+  if hasattr(sysconfig, 'get_default_scheme'):
+    scheme = sysconfig.get_default_scheme()
+  else:
+    scheme = sysconfig._get_default_scheme()
+  if scheme == 'posix_local':
+    # Debian's default scheme installs to /usr/local/ but we want to find headers in /usr/
+    scheme = 'posix_prefix'
+  sitedir = sysconfig.get_path('purelib', scheme, vars={'base':'$am_py_prefix'})
 else:
   from distutils import sysconfig
   sitedir = sysconfig.get_python_lib(0, 0, prefix='$am_py_prefix')
@@ -13847,7 +13854,14 @@ else $as_nop
    am_cv_python_pyexecdir=`$PYTHON -c "
 $am_python_setup_sysconfig
 if can_use_sysconfig:
-  sitedir = sysconfig.get_path('platlib', vars={'platbase':'$am_py_exec_prefix'})
+  if hasattr(sysconfig, 'get_default_scheme'):
+    scheme = sysconfig.get_default_scheme()
+  else:
+    scheme = sysconfig._get_default_scheme()
+  if scheme == 'posix_local':
+    # Debian's default scheme installs to /usr/local/ but we want to find headers in /usr/
+    scheme = 'posix_prefix'
+  sitedir = sysconfig.get_path('platlib', scheme, vars={'platbase':'$am_py_exec_prefix'})
 else:
   from distutils import sysconfig
   sitedir = sysconfig.get_python_lib(1, 0, prefix='$am_py_exec_prefix')

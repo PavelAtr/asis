@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/un.h>
+#include <sys/uio.h>
 
 
 int socket(int domain, int type, int protocol) {
@@ -49,11 +50,16 @@ int bind(int sockfd, const struct sockaddr *addr, socklen_t addrlen) {
     }
     errno = EAFNOSUPPORT;
     return -1;
-  }
+}
 
-/* STUB USED */
-struct cmsghdr *__cmsg_nxthdr (struct msghdr *__mhdr,
-                                      struct cmsghdr *__cmsg)
-{
-  return __cmsg;
+// Реализация __cmsg_nxthdr
+struct cmsghdr *__cmsg_nxthdr(struct msghdr *__mhdr, struct cmsghdr *__cmsg) {
+    unsigned char *ptr = (unsigned char *)__cmsg;
+    size_t next = CMSG_ALIGN(__cmsg->cmsg_len);
+    unsigned char *end = (unsigned char *)__mhdr->msg_control + __mhdr->msg_controllen;
+    struct cmsghdr *next_cmsg = (struct cmsghdr *)(ptr + next);
+    if ((unsigned char *)(next_cmsg + 1) > end) {
+        return NULL;
+    }
+    return next_cmsg;
 }

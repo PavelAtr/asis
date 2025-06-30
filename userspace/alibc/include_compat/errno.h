@@ -1,13 +1,10 @@
 #ifndef _ERRNO_H
 #define _ERRNO_H
 
-#include <stdlib.h>
+#define program_invocation_name (aargv[0])
+#define program_invocation_short_name basename(aargv[0])
 
-#define program_invocation_name (*core_argv[0])
-#define program_invocation_short_name basename(*core_argv[0])
-
-extern int* core_errno;
-#define errno (*core_errno)
+extern __thread int errno;
 
 #define ESUCCESS 0
 #define EPERM 1

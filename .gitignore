@@ -11,5 +11,6 @@ userspace/alibc/build
 userspace/testapp/build/
 posix-uefi/
 userspace/dash-0.5.12/
+userspace/libevdev-1.13.0+dfsg/
 root/
 meta
