@@ -294,7 +294,6 @@ errno_t sys_chdir(char* pathname) {
          err = EACCES;
          goto fail;
    }
-end:
    sys_free(current->cwd);
    current->cwd = strdup(path);
    err = 0;

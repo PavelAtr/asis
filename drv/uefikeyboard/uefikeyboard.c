@@ -2,7 +2,6 @@
 #include "../../core/uefi/uefi.h"
 #include "uefikeyboard.h"
 #include "linux/input.h"
-#include "../../userspace/alibc/include/errno.h"
 
 #ifndef BOOLEAN
 #define BOOLEAN unsigned char
@@ -164,5 +163,5 @@ void uefikbd_seek(void* devsb, len_t offset)
 
 errno_t uefikbd_ioctl(void* devsb, ulong_t request, void* arg1, void* arg2, void* arg3, void* arg4)
 {
-   return ENOTSUP;
+   return 7;
 }

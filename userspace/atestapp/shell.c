@@ -98,5 +98,5 @@ int main(int argc, char** argv)
       }
       runcommand(cmd);
    }
-   return 0;
+   return -1;
 }

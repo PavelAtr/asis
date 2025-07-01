@@ -16,8 +16,8 @@ if [ "$is_obj" -eq 1 ]; then
 fi
 
 if [ "$is_lib" -eq 1 ]; then
-    exec cc  $@ -nostdlib -shared
+    exec cc -nostdlib -shared -Wl,--no-undefined $@
 fi
 
-exec cc ${LDCRT} $@ -nostdlib -shared
+exec cc ${LDCRT} -nostdlib -shared -Wl,--no-undefined $@
 

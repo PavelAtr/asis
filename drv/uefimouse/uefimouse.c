@@ -2,7 +2,6 @@
 #include "../../core/uefi/uefi.h"
 #include "uefimouse.h"
 #include "linux/input.h"
-#include "../../userspace/alibc/include/errno.h"
 
 static  efi_simple_pointer_protocol_t *mouse_proto = NULL;
 
@@ -71,5 +70,5 @@ void uefimouse_seek(void* devsb, len_t offset)
 
 errno_t uefimouse_ioctl(void* devsb, ulong_t request, void* arg1, void* arg2, void* arg3, void* arg4)
 {
-   return ENOTSUP;
+   return 7;
 }

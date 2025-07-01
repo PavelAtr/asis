@@ -24,7 +24,7 @@ int_t sys_runinit()
    } else {
       int_t ret;
       sys_waitpid(init, &ret, 0);
-      return  WEXITSTATUS(ret);
+      return  (int_t)WEXITSTATUS(ret);
    }
    return 0;
 }
@@ -119,6 +119,7 @@ fail:
       current->flags = PROC_ENDED | PROC_DESTROYED;
       current->forkret = -1;
       switch_context;
+      return ret;
 }
 
 pid_t newproc()

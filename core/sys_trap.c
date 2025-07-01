@@ -1,6 +1,7 @@
 #include "include/asis.h"
 #include "../config.h"
 #undef printf
+#undef free
 
 #ifdef CONFIG_LINUX
 #include <stddef.h>

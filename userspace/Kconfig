@@ -28,6 +28,12 @@ config AMATH
       help
         ASIS math library for libm.
 
+config ALIBGLOB
+      bool "ASIS libglob library"
+      default y
+      help
+        ASIS glob library.
+
 config TESTAPP
       bool "ASIS own simple binaries"
       default y

@@ -7,6 +7,7 @@ all:
 	make -C alibpwd install_headers
 	make -C athreads install_headers
 	make -C amath install_headers
+	make -C alibglob install_headers
 
 ifeq ($(CONFIG_ALIBC), y)
 	make -C alibc
@@ -27,6 +28,10 @@ endif
 ifeq ($(CONFIG_AMATH), y)
 	make -C amath
 	make -C amath install
+endif
+ifeq ($(CONFIG_ALIBGLOB), y)
+	make -C alibglob
+	make -C alibglob install
 endif
 ifeq ($(CONFIG_TESTAPP), y)
 	make -C atestapp

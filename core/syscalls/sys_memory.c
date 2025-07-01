@@ -72,6 +72,21 @@ void set_memreg(int_t index, void* addr, size_t size)
    (*current->memregs)[index].size = size;
 }
 
+size_t sys_malloc_usable_size(void *ptr)
+{
+   if (!ptr) {
+      return 0; // If the pointer is NULL, return 0
+   }
+   int_t index = get_memreg(ptr);
+   if (index >= 0) {
+      return (*current->memregs)[index].size; // Return the size from the memory registry
+   }
+   // If the memory region was not found, we can assume it's a standard malloc allocation
+   // and return a default size (this is implementation-specific).
+   // In practice, you might want to use platform-specific functions to get the size.
+   return 0; // Default case, size unknown
+}
+
 #ifdef CONFIG_LINUX
 void *sys_mmap(void* addr, size_t size, int prot, int flags, int f,
    off_t offset)

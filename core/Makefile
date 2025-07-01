@@ -5,6 +5,7 @@ PREFIX?=/asis
 
 HYPERV_LINK = \
 syscalls/sys_memory.c \
+syscalls/sys_time.c \
 main.c \
 sys_trap.c \
 sys_printf.c
@@ -50,7 +51,7 @@ objs: clean
 	make -C ../drv -f Makefile
 
 	for src in $(HYPERV_LINK) ; do \
-	    $(CC_CORE) -c $(CFLAGS_CORE) -DUSE_SYMBOLFILE  $$src -o ../build/$$src.o; \
+	    $(CC_CORE) -c $(CFLAGS_CORE) -Wno-macro-redefined -Wno-unused-variable -DUSE_SYMBOLFILE  $$src -o ../build/$$src.o; \
 	done
 
 	for src in $(ASIS_LINK) ; do \

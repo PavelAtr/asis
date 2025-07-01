@@ -1,7 +1,7 @@
 #ifndef _SYS_IOCTL_H
 #define _SYS_IOCTL_H
 
-#include <asm/ioctl.h>
+#include <asm-generic/ioctl.h>
 
 int aioctl(int fd, unsigned long request, void* arg1, void* arg2, void* arg3, void* arg4);
 

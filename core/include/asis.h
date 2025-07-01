@@ -280,4 +280,6 @@ void* sys_tls_get_addr (unsigned long ti_module, unsigned long ti_offset);
 errno_t sys_chdir(char* path);
 char* get_current_dir_name(void);
 
+size_t sys_malloc_usable_size(void *ptr);
+
 #endif

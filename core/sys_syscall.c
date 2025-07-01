@@ -116,7 +116,9 @@ void* sys_syscall(int number, void* arg1, void* arg2, void* arg3, void* arg4, vo
    case SYS_CHDIR:
       return (void*)sys_chdir((char*)arg1);
    case SYS_GETCWD:
-      return (void*)get_current_dir_name();   
+      return (void*)get_current_dir_name();
+   case SYS_MALLOCUSABLE:
+      return (void*)sys_malloc_usable_size(arg1); 
    default:
       sys_printf(SYS_INFO "Unsupported syscall %d\n", number);
       break;

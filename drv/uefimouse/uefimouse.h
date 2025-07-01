@@ -1,5 +1,6 @@
 #ifndef _TTY_H
 #define _TTY_H
+
 #include "../../core/include/sys/types.h"
 
 len_t uefimouse_read(void* devsb, void* ptr, len_t size);

@@ -5,7 +5,7 @@ cd ../eudev
 CWD=$(pwd)
 
 export CFLAGS="${CFLAGS} -I${DESTDIR}${PREFIX}/usr/include_compat"
-export LDFLAGS="${LDFLAGS} ${SYSROOT} -L${DESTDIR}${PREFIX}/lib"
+export LDFLAGS="${LDFLAGS} ${SYSROOT} -L${DESTDIR}${PREFIX}/lib -lpwd"
 
 
 echo "Building eudev ... "

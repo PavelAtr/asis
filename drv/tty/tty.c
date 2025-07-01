@@ -11,7 +11,6 @@
 #include "tty.h"
 #include "../../userspace/alibc/include/termios.h"
 #include "../../userspace/alibc/include/sys/ioctl.h"
-#include "../../userspace/alibc/include/errno.h"
 
 
 len_t tty_read(void* devsb, void* ptr, len_t size)
@@ -75,6 +74,5 @@ errno_t tty_ioctl(void* devsb, ulong_t request, void* arg1, void* arg2, void* ar
       default:
          break;
    }
-   
-   return ENOTSUP;
+   return 7; /* ENOTSUP */
 }

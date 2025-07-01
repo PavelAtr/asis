@@ -10,8 +10,8 @@ for arg in "$@"; do
 done
 
 if [ "$is_lib" -eq 1 ]; then
-    exec ld  $@ -nostdlib -shared
+    exec ld  -nostdlib -shared --no-undefined $@
 fi
 
-exec ld ${LDCRT} $@ -nostdlib -shared
+exec ld ${LDCRT} -nostdlib -shared --no-undefined $@
 

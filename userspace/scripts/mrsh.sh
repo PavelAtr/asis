@@ -6,7 +6,7 @@ cd ../mrsh
 CWD=$(pwd)
 
 export CFLAGS="${CFLAGS} ${SYSROOT} -Ufds"
-export LDFLAGS="${LDFLAGS} ${SYSROOT} -lpwd"
+export LDFLAGS="${LDFLAGS} ${SYSROOT} -lpwd -lglob"
 export PKG_CONFIG_LIBDIR="${DESTDIR}/lib/pkgconfig/"
 
 echo "Building mrsh ... "

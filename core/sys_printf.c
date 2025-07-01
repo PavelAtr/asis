@@ -1,6 +1,7 @@
 #include "../config.h"
 #include "./include/asis.h"
 
+#undef free
 #undef printf
 
 #ifdef CONFIG_UEFI
