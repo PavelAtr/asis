@@ -4,7 +4,7 @@
 *******************************************************/
 
 #include "../../config.h"
-#include "sys/types.h"
+#include "../../core/include/sys/types.h"
 
 #ifdef CONFIG_LINUX
 #include <sys/time.h>

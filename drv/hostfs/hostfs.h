@@ -1,7 +1,6 @@
 #ifndef _HOSTFS_H
 #define _HOSTFS_H
 #include "../../core/include/asis.h"
-#undef free
 
 typedef struct {
     char* chroot;

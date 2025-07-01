@@ -2,6 +2,7 @@
 #include "hostfs.h"
 
 #ifdef CONFIG_UEFI
+#undef free
 #include "../../core/uefi/uefi.h"
 #endif
 
