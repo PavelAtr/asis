@@ -5,7 +5,7 @@ LDFLAGS?=
 all: 
 	mkdir -p build
 	cd build; $(CC) $(SYSROOT) $(CFLAGS) -D__BSD_VISIBLE -fPIC -c ../src/*.c
-	cd build; $(CCLD) $(SYSROOT) -fPIC $(LDFLAGS) -shared *.o -o libglob.so
+	cd build; $(CCLD) $(SYSROOT) -fPIC -shared *.o $(LDFLAGS) -lpwd -o libglob.so
 	cd build; ar rcs libglob.a *.o
 	
 clean:

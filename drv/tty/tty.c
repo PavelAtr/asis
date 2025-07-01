@@ -1,4 +1,6 @@
 #include "../../config.h"
+#include "../../userspace/alibc/include/errno.h"
+#undef errno
 
 #ifdef CONFIG_UEFI
 #include "../../core/uefi/uefi.h"
@@ -74,5 +76,5 @@ errno_t tty_ioctl(void* devsb, ulong_t request, void* arg1, void* arg2, void* ar
       default:
          break;
    }
-   return 7; /* ENOTSUP */
+   return ENOTSUP;
 }

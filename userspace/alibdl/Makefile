@@ -6,7 +6,7 @@ CFLAGS?=-fPIC -DSTANDALONE
 all: install_headers
 	mkdir -p build
 	cd build; $(CC) $(SYSROOT) $(CFLAGS) -c ../$(ARCH)/*.c ../*.c
-	cd build; $(CCLD) $(SYSROOT) $(LDFLAGS) -shared *.o -o libdl.so
+	cd build; $(CCLD) $(SYSROOT) -shared *.o $(LDFLAGS) -o libdl.so
 	cd build; ar rcs libdl.a *.o
 	
 clean:

@@ -8,7 +8,7 @@ char quiet = 0;
 __thread FILE** afds;
 __thread char** environ;
 __thread char** aargv;
-__thread int errno;
+__thread int aerrno;
 #ifdef UEFI_KERNEL
 __attribute__((ms_abi)) 
 #endif

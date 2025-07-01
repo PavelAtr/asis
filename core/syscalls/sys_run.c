@@ -111,7 +111,7 @@ errno_t sys_exec(char* file, char** inargv, char** envp)
    current->flags |= PROC_EXECED;
    printf("EXEC START %s argv=%p envp=%p fds=%p syscall=%p retexit=%p\n", 
       file, current->argv, current->envp, current->fds, &sys_syscall, &sys_atexit);
-   ret = sys_runoncpu(current->start, current, sys_getcpu());
+   ret = sys_runtask(current->start, current, sys_getcpu());
    /* Never reach here */
    sys_printf(SYS_DEBUG "EXEC END (NOTREACHEBLE)\n");
    return  ret;
@@ -172,6 +172,7 @@ pid_t sys_clone(void)
    cpu[ret]->parent = current;
    cpu[ret]->pid = ret;
    cpu[ret]->parentpid = curpid;
+   cpu[ret]->cpunum = current->cpunum;
    cpu[ret]->cwd = strdup(current->cwd);
    (*current->dlnlink)++;
    cpu[ret]->ctx.stack = alloc_stack(MAXSTACK);

@@ -1,6 +1,9 @@
 #include "../../config.h"
 #include "hostfs.h"
 
+#include "../../userspace/alibc/include/errno.h"
+#undef errno
+
 #ifdef CONFIG_UEFI
 #undef free
 #include "../../core/uefi/uefi.h"

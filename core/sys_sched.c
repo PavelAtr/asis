@@ -14,7 +14,7 @@
 
 proc* cpu[MAXPROC];
 
-pid_t sys_getnextpid(pid_t prevpid, int cpunum)
+pid_t sys_getnextpid(pid_t prevpid)
 {
    pid_t newpid = prevpid;
    while (1)
@@ -33,16 +33,17 @@ pid_t sys_getnextpid(pid_t prevpid, int cpunum)
       if (!cpu[newpid]) {
          continue;
       }
-      if (cpus[cpunum]->startcycle == newpid) {
-         return sys_endcycle(cpunum);
+
+      if (cpus[sys_current_cpu()]->startcycle == newpid) {
+         return sys_endcycle(sys_current_cpu());
       }
       if (newpid == prevpid) {
-         return sys_endcycle(cpunum);
+         return sys_endcycle(sys_current_cpu());
       }
       if (!(cpu[newpid]->flags & PROC_RUNNING)) {
          continue;
       }
-      if (cpu[newpid]->cpunum != cpunum) {
+      if (cpu[newpid]->cpunum != sys_current_cpu()) {
          continue;
       }
       break;
@@ -62,7 +63,7 @@ void switch_task()
       goto skip;
    }
 oncemore:
-   pid_t tmp = sys_getnextpid(current->pid, current->cpunum);
+   pid_t tmp = sys_getnextpid(current->pid);
    curpid = tmp;
 skip:
    if (!current) {

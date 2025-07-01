@@ -137,6 +137,7 @@ typedef struct {
   int cpunum;
   char* cwd;
   memreg(*memregs)[];
+  startarg* startarg;
   }  proc;
 
 
@@ -148,6 +149,7 @@ typedef struct {
 #define PROC_RUNNING 0x20
 #define PROC_ENDED 0x40
 #define PROC_DESTROYED 0x80
+#define PROC_CPUWAIT 0x100
 
 extern proc sys;
 void init_proc();
@@ -252,8 +254,7 @@ errno_t sys_connect(void* socket, void* addr);
 void* sys_calloc(size_t nmemb, size_t size);
 
 extern int maxcpu;
-int sys_runoncpu(startfunction start, proc* task, int cpunum);
-void init_cpus();
+int sys_runtask(startfunction start, proc* task, int cpunum);
 int sys_getcpu();
 void sys_cpuidle(int cpu);
 pid_t sys_endcycle(int cpu);
@@ -262,6 +263,7 @@ void find_startcycle(int cpu);
 extern void* LOG;
 
 typedef struct {
+  int_t cpuid;
   pid_t startcycle;
   pid_t currentpid;
 } core;

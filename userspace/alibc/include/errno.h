@@ -4,7 +4,8 @@
 #define program_invocation_name (aargv[0])
 #define program_invocation_short_name basename(aargv[0])
 
-extern __thread int errno;
+extern __thread int aerrno;
+#define errno aerrno
 
 #define ESUCCESS 0
 #define EPERM 1

@@ -37,7 +37,7 @@ void find_startcycle(int cpunum)
     }
 }
 
-int sys_runoncpu(startfunction start, proc* task, int cpunum)
+int sys_runtask(startfunction start, proc* task, int cpunum)
 {
     startarg arg;
     arg.argc = task->argc;
@@ -46,15 +46,11 @@ int sys_runoncpu(startfunction start, proc* task, int cpunum)
     arg.cfds = task->fds;
     arg.syscall_func = &sys_syscall;
     arg.retexit_func = &sys_atexit;
-
     task->cpunum = cpunum;
     find_startcycle(cpunum);
     cpus[cpunum]->currentpid = task->pid;
-
-#ifndef CONFIG_UEFISMP
-    schedcpu = cpunum;
+    switch_context;
     int ret = start(&arg);
-#endif
     switch_context;
     return ret;
 }
@@ -74,6 +70,7 @@ void sys_cpuidle(int cpu) {
 }
 
 pid_t sys_endcycle(int cpunum) {
+    sys_printf(SYS_DEBUG "ENDCYCLE CPU=%d PID=%d\n", cpunum, cpus[cpunum]->startcycle);    
     find_startcycle(cpunum);
 #ifdef CONFIG_UEFISMP
     return cpus[cpu]->startcycle;

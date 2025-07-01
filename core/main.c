@@ -1,5 +1,7 @@
 #include "./include/asis.h"
 #undef printf
+#undef free
+
 #include "../config.h"
 
 #ifdef CONFIG_TTY
