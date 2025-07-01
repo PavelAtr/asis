@@ -14,7 +14,7 @@
 #include <asis.h>
 #endif
 
-char lock = 0;
+/*char lock = 0;*/
 
 void initfile(FILE* src)
 {

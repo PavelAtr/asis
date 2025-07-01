@@ -29,7 +29,8 @@ start:
       goto start;
    }
 #endif
-   *((int*)ptr) = ch;
+   char c = ch;
+   *((char*)ptr) = c;
    return 1;
 }
 

@@ -24,7 +24,7 @@ int_t sys_runinit()
    } else {
       int_t ret;
       sys_waitpid(init, &ret, 0);
-      return ret;
+      return  WEXITSTATUS(ret);
    }
    return 0;
 }

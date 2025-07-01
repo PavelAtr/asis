@@ -44,6 +44,7 @@ char ret[1024];
 
 char* fullpath(const char* dir, const char* path)
 {
+   sys_printf(SYS_DEBUG "fullpath dir=%s path=%s\n", dir, path);
    if (!dir || !path) {
       return NULL;
    }

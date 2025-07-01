@@ -45,6 +45,7 @@ const char* mode;\
 size_t size;\
 size_t pos;\
 char flags;
+
 #define FILE_ERROR 0x01
 #define FILE_INFINITY 0x02
 #define FILE_RESIZEBLE 0x03

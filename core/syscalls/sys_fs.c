@@ -30,7 +30,7 @@ len_t sys_afread(const char* path, void* ptr, len_t size, len_t off)
    switch (devtype) {
    case S_IFBLK:
    case S_IFCHR:
-      if ((dev = sys_get_device_byname(path, devtype))) {
+      if ((dev = sys_get_device_byname(file, devtype))) {
          dev->dev_seek(dev->devparams, off);
          return dev->dev_read(dev->devparams, ptr, size);
       }
@@ -72,7 +72,7 @@ len_t sys_afwrite(const char* path, const void* ptr, len_t size, len_t off)
    switch (devtype) {
    case S_IFBLK:
    case S_IFCHR:
-      if ((dev = sys_get_device_byname(path, devtype))) {
+      if ((dev = sys_get_device_byname(file, devtype))) {
          dev->dev_seek(dev->devparams, off);
          return dev->dev_write(dev->devparams, ptr, size);
       }
@@ -113,12 +113,8 @@ errno_t sys_ioctl(const char* path, ulong_t request, void* arg1, void* arg2,  vo
    mode_t devtype = st.st_mode & S_IFMT;
    switch (devtype) {
    case S_IFBLK:
-      if ((dev = sys_get_device_byname(path, devtype))) {
-         return dev->dev_ioctl(dev->devparams, request, arg1, arg2, arg3, arg4);
-      }
-      break;
    case S_IFCHR:
-      if ((dev = sys_get_device_byname(path, devtype))) {
+      if ((dev = sys_get_device_byname(file, devtype))) {
          return dev->dev_ioctl(dev->devparams, request, arg1, arg2, arg3, arg4);
       }
       break;

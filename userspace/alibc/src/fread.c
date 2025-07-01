@@ -83,9 +83,9 @@ size_t fread(void* ptr, size_t size, size_t nmemb, FILE* stream)
 {
 INIT_afds
    size_t ret;
-   while (*stream->lock) {
+/*   while (*stream->lock) {
       switchtask;
-   }
+   } BUG*/
    switch(stream->type)
    {
       case F_NAMEDMEM:
