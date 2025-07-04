@@ -9,10 +9,13 @@
 int chmod(const char *pathname, mode_t mode)
 {
    struct stat st;
-   const char* file =  strdup(pathname);
-   if (stat(file, &st) == -1) {
+   if (stat(pathname, &st) == -1) {
       errno = ENOENT;
       return -1;
    }
-   return (int)asyscall(SYS_MODNOD, file, st.st_uid, st.st_gid, mode, 0, 0);
+   mode_t fmt = st.st_mode & S_IFMT;
+   if ((errno = (int)asyscall(SYS_MODNOD, pathname, st.st_uid, st.st_gid, fmt | mode, 0, 0))) {
+      return -1;
+   }
+   return 0;
 }

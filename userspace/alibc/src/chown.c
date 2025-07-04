@@ -2,12 +2,16 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include <stddef.h>
+#include <errno.h>
 
 int chown(const char *pathname, uid_t owner, gid_t group)
 {
    struct stat st;
    stat(pathname, &st);
-   return (int)asyscall(SYS_MODNOD, pathname, NULL, owner, group, st.st_mode, 0);
+   if ((errno = (int)asyscall(SYS_MODNOD, pathname, owner, group, st.st_mode, 0, 0))) {
+      return -1;
+   }
+   return 0;
 }
 
 

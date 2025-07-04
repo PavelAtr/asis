@@ -1,14 +1,21 @@
 #include <syscall.h>
 #include <sys/types.h>
+#include <errno.h>
 
 int setuid(uid_t uid)
 {
-   return (int)asyscall(SYS_SETUID, uid, 0, 0, 0, 0, 0);
+   if ((errno = (int)asyscall(SYS_SETUID, uid, 0, 0, 0, 0, 0))) {
+      return -1;
+   }
+   return 0;
 }
 
 int setgid(gid_t gid)
 {
-   return (int)asyscall(SYS_SETGID, gid, 0, 0, 0, 0, 0);
+   if ((errno = (int)asyscall(SYS_SETGID, gid, 0, 0, 0, 0, 0))) {
+      return -1;
+   }
+   return 0;
 }
 
 uid_t getuid(void)

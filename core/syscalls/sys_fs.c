@@ -12,7 +12,8 @@
 len_t sys_afread(const char* path, void* ptr, len_t size, len_t off)
 {
    mountpoint* mount;
-   const char* file = sys_calcpath(&mount, path);
+   char buf[PATH_MAX];
+   const char* file = sys_calcpath(buf, &mount, path);
    if (!mount) {
       return 0;
    }
@@ -55,7 +56,8 @@ len_t sys_afread(const char* path, void* ptr, len_t size, len_t off)
 len_t sys_afwrite(const char* path, const void* ptr, len_t size, len_t off)
 {
    mountpoint* mount;
-   const char* file = sys_calcpath(&mount, path);
+   char buf[PATH_MAX];
+   const char* file = sys_calcpath(buf, &mount, path);
    if (!mount) {
       return 0;
    }
@@ -97,7 +99,8 @@ len_t sys_afwrite(const char* path, const void* ptr, len_t size, len_t off)
 errno_t sys_ioctl(const char* path, ulong_t request, void* arg1, void* arg2,  void* arg3, void* arg4)
 {
    mountpoint* mount;
-   const char* file = sys_calcpath(&mount, path);
+   char buf[PATH_MAX];
+   const char* file = sys_calcpath(buf, &mount, path);
    if (!mount) {
       return ENOENT;
    }
@@ -138,7 +141,8 @@ errno_t sys_ioctl(const char* path, ulong_t request, void* arg1, void* arg2,  vo
 errno_t sys_stat(const char* pathname, void* statbuf)
 {
    mountpoint* mount;
-   const char* path = sys_calcpath(&mount, pathname);
+   char buf[PATH_MAX];
+   const char* path = sys_calcpath(buf, &mount, pathname);
    if (!mount) {
       return ENOENT;
    }
@@ -153,7 +157,8 @@ errno_t sys_stat(const char* pathname, void* statbuf)
 errno_t sys_mknod(const char* pathname, mode_t mode)
 {
    mountpoint* mount;
-   const char* path = sys_calcpath(&mount, pathname);
+   char buf[PATH_MAX];
+   const char* path = sys_calcpath(buf, &mount, pathname);
    if (!mount) {
       return ENOENT;
    }
@@ -164,12 +169,14 @@ errno_t sys_mknod(const char* pathname, mode_t mode)
    return 0;
 }
 
-#define is_owner_or_capable(cap) (security->capable(cap) || st.st_uid == current->uid)
+#define is_owner_or_capable(cap, stat) (security->capable(cap) || stat.st_uid == current->uid)
+#define is_capable(cap) (security->capable(cap))
 
 errno_t sys_modnod(const char* pathname, uid_t uid, gid_t gid, mode_t mode)
 {
    mountpoint* mount;
-   const char* path = sys_calcpath(&mount, pathname);
+   char buf[PATH_MAX];
+   const char* path = sys_calcpath(buf, &mount, pathname);
    if (!mount) {
       return ENOENT;
    }
@@ -180,27 +187,27 @@ errno_t sys_modnod(const char* pathname, uid_t uid, gid_t gid, mode_t mode)
    }
    mode_t newmode = (st.st_mode & S_IFMT) | mode;
    if (!(st.st_mode == newmode)) {
-      if (!is_owner_or_capable(CAP_FOWNER)) {
+      if (!is_owner_or_capable(CAP_FOWNER, st)) {
          return EPERM;
       }
-      if (!is_owner_or_capable(CAP_FSETID)) {
+      if (!is_owner_or_capable(CAP_FSETID, st)) {
          newmode &= ~S_ISUID;
          newmode &= ~S_ISGID;
       }
    }
    if (!(st.st_uid == uid)) {
-      if (!is_owner_or_capable(CAP_CHOWN)) {
+      if (!is_capable(CAP_CHOWN)) {
          return EPERM;
       }
-      if (!is_owner_or_capable(CAP_FSETID)) {
+      if (!is_capable(CAP_FSETID)) {
          mode &= ~S_ISUID;
       }
    }
    if (!(st.st_gid == gid)) {
-      if (!is_owner_or_capable(CAP_CHOWN)) {
+      if (!is_capable(CAP_CHOWN)) {
          return EPERM;
       }
-      if (!is_owner_or_capable(CAP_FSETID)) {
+      if (!is_capable(CAP_FSETID)) {
          mode &= ~S_ISGID;
       }
    }
@@ -214,7 +221,8 @@ errno_t sys_modnod(const char* pathname, uid_t uid, gid_t gid, mode_t mode)
 errno_t sys_unlink(const char *pathname)
 {
    mountpoint* mount;
-   const char* path = sys_calcpath(&mount, pathname);
+   char buf[PATH_MAX];
+   const char* path = sys_calcpath(buf, &mount, pathname);
    if (!mount) {
       return ENOENT;
    }
@@ -228,9 +236,11 @@ errno_t sys_unlink(const char *pathname)
 errno_t sys_link(const char *oldpath, const char *newpath, bool_t move)
 {
    mountpoint* mount1;
-   const char* oldpath_calc = sys_calcpath(&mount1, oldpath);
+   char buf1[PATH_MAX];
+   char buf2[PATH_MAX];
+   const char* oldpath_calc = sys_calcpath(buf1, &mount1, oldpath);
    mountpoint* mount2;
-   const char* newpath_calc = sys_calcpath(&mount2, newpath);
+   const char* newpath_calc = sys_calcpath(buf2, &mount2, newpath);
    if (mount1 != mount2) {
       return ENOTSUP;
    }
@@ -245,7 +255,8 @@ errno_t sys_link(const char *oldpath, const char *newpath, bool_t move)
 void* sys_readdir(char* pathname, int_t ndx)
 {
    mountpoint* mount;
-   const char* file = sys_calcpath(&mount, pathname);
+   char buf[PATH_MAX];
+   const char* file = sys_calcpath(buf, &mount, pathname);
    if (!mount) {
       return NULL;
    }
@@ -259,7 +270,8 @@ void* sys_readdir(char* pathname, int_t ndx)
 errno_t sys_truncate(const char *pathname, size_t length)
 {
    mountpoint* mount;
-   const char* path = sys_calcpath(&mount, pathname);
+   char buf[PATH_MAX];
+   const char* path = sys_calcpath(buf, &mount, path);
    if (!mount) {
       return ENOENT;
    }

@@ -35,7 +35,8 @@ long long atoll(const char* str)
       str++;
       base = 16;
    }
-   if (str[0] == '0') {
+   if (str[0] == '0' && str[1] != 'x') {
+      // octal
       str++;
       base = 8;
    }

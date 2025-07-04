@@ -50,7 +50,8 @@ errno_t sys_shared(void** ret, const char* type, const char* path, const char* m
       goto nocheckfs;
    }
    mountpoint* mount;
-   const char* file = sys_calcpath(&mount, path);
+   char buf[PATH_MAX];
+   const char* file = sys_calcpath(buf, &mount, path);
    if (!mount) {
       *ret = NULL;
       return ENOENT;

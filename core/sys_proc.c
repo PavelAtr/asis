@@ -72,7 +72,7 @@ AFILE* sys_fds[COREMAXFD] = {
 void init_proc()
 {
    cpu[0] = &sys;
-   maxcpu = MAXCPU;
+   init_cores();
    sys.memregs = hyperv_calloc(MAXMEMREG, sizeof(memreg));  
    cpus = hyperv_malloc(sizeof(core*) * maxcpu);
    int i;
@@ -83,7 +83,7 @@ void init_proc()
    }
 
    sys_env[0] = strdup("PATH=/bin:/usr/bin");
-   sys_env[1] = strdup("CWD=/");
+   sys_env[1] = strdup("PWD=/");
    sys_env[2] = strdup("UMASK=0027");
    sys_env[3] = strdup("PS1=\\$ ");
    sys_env[4] = strdup("PS2=> ");

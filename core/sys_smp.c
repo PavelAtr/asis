@@ -10,16 +10,36 @@
 
 #ifdef CONFIG_UEFI
 #include "uefi/uefi.h"
+#include "uefi_smp.h"
 #endif
 
 int_t maxcpu;
 int_t newcpu = 0;
 core** cpus;
 
-
-#ifndef CONFIG_UEFISMP
-int schedcpu = 0;
+#ifdef CONFIG_UEFISMP
+    efi_mp_services_t *MpServices;
+    efi_guid_t gEfiMpServiceProtocolGuid = EFI_MP_SERVICES_PROTOCOL_GUID;
+#else
+    int schedcpu = 0;
 #endif
+
+void init_cores(void)
+{
+#ifdef CONFIG_UEFISMP
+    efi_status_t Status = BS->LocateProtocol(&gEfiMpServiceProtocolGuid, NULL, (void**)&MpServices);
+    unsigned long NumberOfProcessors, NumberOfEnabledProcessors = 0;
+    if (!EFI_ERROR(Status)) {
+        MpServices->GetNumberOfProcessors(MpServices, &NumberOfProcessors, &NumberOfEnabledProcessors);
+    } else {
+        sys_printf(SYS_ERROR "Error detecting cores %p\n", Status);
+    }
+    maxcpu = (int_t)NumberOfEnabledProcessors;
+#else
+    maxcpu = MAXCPU;
+#endif
+    sys_printf(SYS_INFO "Init cores: %d enabled core\n", maxcpu);
+}
 
 void find_startcycle(int cpunum)
 {
@@ -73,7 +93,7 @@ pid_t sys_endcycle(int cpunum) {
     sys_printf(SYS_DEBUG "ENDCYCLE CPU=%d PID=%d\n", cpunum, cpus[cpunum]->startcycle);    
     find_startcycle(cpunum);
 #ifdef CONFIG_UEFISMP
-    return cpus[cpu]->startcycle;
+    return cpus[cpunum]->startcycle;
 #else
     schedcpu = cpunum;
 //    printf("SYS_ENDCYCLE START\n");

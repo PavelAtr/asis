@@ -92,7 +92,7 @@ typedef struct {
 extern mountpoint mountpoints[MAXMOUNT];
 
 mountpoint* sys_get_mountpoint(const char* file);
-const char* sys_calcpath(mountpoint** mount, const char* path);
+const char* sys_calcpath(char* buf, mountpoint** mount, const char* path);
 errno_t sys_mount(const char* blk, const char* mount, const char* fstype, const char* options);
 errno_t sys_umount(const char* dir);
 
@@ -157,6 +157,7 @@ void init_proc();
 void freeenv(char** e);
 
 #define MAX_PATH_PART 256
+#define PATH_MAX 1024
 
 typedef struct {
   bool_t (*capable)(int_t cap);
@@ -254,6 +255,8 @@ errno_t sys_connect(void* socket, void* addr);
 void* sys_calloc(size_t nmemb, size_t size);
 
 extern int maxcpu;
+
+void init_cores(void);
 int sys_runtask(startfunction start, proc* task, int cpunum);
 int sys_getcpu();
 void sys_cpuidle(int cpu);
@@ -283,5 +286,6 @@ errno_t sys_chdir(char* path);
 char* get_current_dir_name(void);
 
 size_t sys_malloc_usable_size(void *ptr);
+char* fullpath(char* ret, const char* dir, const char* path);
 
 #endif

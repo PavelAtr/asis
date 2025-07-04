@@ -5,13 +5,6 @@
 
 int main(int argc, char** argv)
 {
-   char tmp[10];
-   puts("uid=");
-   itoa(getuid(), 10, tmp);
-   puts(tmp);
-   puts(" gid=");
-   itoa(getgid(), 10, tmp);
-   puts(tmp);
-   puts("\n");
+   printf("uid=%d, gid=%d\n", getuid(), getgid());
    return 0;
 }

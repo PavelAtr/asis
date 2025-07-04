@@ -11,10 +11,9 @@ int main(int argc, char** argv)
       puts("Usage: chmod <mode> <path>\n");
       return -1;
    }
-   mode_t mode = atoi(argv[1]);
+   mode_t mode = atoll(argv[1]);
    if (chmod(argv[2], mode)) {
       puts(strerror(errno));
-      puts("\n");
       return -1;
    }
    return 0;

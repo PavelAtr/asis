@@ -17,7 +17,7 @@ int main(int argc, char** argv)
    } else {
       path = argv[1];
    }
-   chdir(getenv("CWD"));
+   chdir(getenv("PWD"));
    char* dirname = path;
    DIR* dir = opendir(dirname);
    if (!dir) {

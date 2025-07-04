@@ -40,7 +40,7 @@ int runcommand(char* cmd)
          printf("chdir error: %s\n", strerror(errno));
          return r;
       }
-      setenv("CWD", param, 0);
+      setenv("PWD", param, 0);
       return 0;
    }
    const char * cmd4 = "umask=";
@@ -54,7 +54,6 @@ int runcommand(char* cmd)
       char* param = &cmd[strlen(cmd5)];
       if (setuid(atoi(param)) == -1) {
          puts(strerror(errno));
-         puts("\n");
       }
       return 0;
    }
@@ -63,7 +62,6 @@ int runcommand(char* cmd)
       char* param = &cmd[strlen(cmd6)];
       if (setgid(atoi(param)) == -1) {
          puts(strerror(errno));
-         puts("\n");
       }
       return 0;
    }

@@ -66,7 +66,8 @@ errno_t sys_exec(char* file, char** inargv, char** envp)
 		current->envp = envp;
    } 
    mountpoint* mount;
-   const char* path = sys_calcpath(&mount, file);
+   char buf[PATH_MAX];
+   const char* path = sys_calcpath(buf, &mount, file);
    if (!mount) {
       current->dlhndl = NULL;
       ret = ENOENT;

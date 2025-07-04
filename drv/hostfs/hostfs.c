@@ -246,6 +246,10 @@ errno_t hostfs_mknod(void* sbfs, const char *pathname, uid_t uid, gid_t gid,
 errno_t hostfs_modnod(void* sbfs, const char* pathname, uid_t uid, gid_t gid,
    mode_t mode)
 {
+   char fullpath[1024];
+   const char* path = calc_path(fullpath, sbfs, pathname);
+   printf("hostfs_modnod: %s, mode: %o\n", path, mode);
+   hostfs_set_meta(pathname, uid, gid, mode);
    return 0;
 }
 

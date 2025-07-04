@@ -28,7 +28,7 @@ errno_t sys_clock_gettime(struct timespec *tp) {
 #endif
 
 #ifdef CONFIG_UEFI
-errno_t sys_clock_gettime(struct timespec *tp) {
+errno_t sys_clock_gettime(int_t clockid, struct timespec *tp) {
     efi_time_t EfiTime;
     efi_status_t Status = ST->RuntimeServices->GetTime(&EfiTime, NULL);
     if (EFI_ERROR(Status))
@@ -49,7 +49,7 @@ errno_t sys_clock_gettime(struct timespec *tp) {
 
 #ifdef CONFIG_LINUX
 
-errno_t sys_clock_settime(const struct timespec *tp) {
+errno_t sys_clock_settime(int_t clockid, const struct timespec *tp) {
     // На Linux используем системный вызов
     return clock_settime(CLOCK_REALTIME, tp);
 }

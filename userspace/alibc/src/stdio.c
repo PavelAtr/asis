@@ -212,3 +212,30 @@ FILE** cloexecfds(FILE** fds)
    }
    return fds;
 }
+
+char* fullpath(char* ret, const char* dir, const char* path)
+{
+   printf("fullpath dir=%s path=%s\n", dir, path);
+   if (!dir || !path) {
+      return NULL;
+   }
+   if (path[0] == '/') {
+      if (strstr(path, "/dev/") == path) {
+         strcpy(ret, path);
+         ret[strlen(path)] = '\0';
+         goto end;
+      }
+      path++; // Skip the leading slash
+   }
+   size_t cwdlen = strlen(dir);
+   size_t pathlen = strlen(path);
+   strcpy(ret, dir);
+   if (path == NULL || path[0] == '\0') {
+      ret[cwdlen] = '\0';
+      goto end;
+   }
+	   strcpy(ret + cwdlen, path);
+      ret[cwdlen + pathlen] = '\0';
+end:
+   return ret;
+}

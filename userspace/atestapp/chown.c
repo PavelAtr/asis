@@ -14,7 +14,6 @@ int main(int argc, char** argv)
    uid_t group = atoi(argv[2]);
    if (chown(argv[3], owner, group)) {
       puts(strerror(errno));
-      puts("\n");
       return -1;
    }
    return 0;
