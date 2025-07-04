@@ -185,7 +185,7 @@ errno_t sys_modnod(const char* pathname, uid_t uid, gid_t gid, mode_t mode)
    if (mount->mount_stat(mount->sbfs, path, &st)) {
       return ENOENT;
    }
-   mode_t newmode = (st.st_mode & S_IFMT) | mode;
+   mode_t newmode = (st.st_mode & S_IFMT) | (mode & ~S_IFMT);
    if (!(st.st_mode == newmode)) {
       if (!is_owner_or_capable(CAP_FOWNER, st)) {
          return EPERM;
@@ -204,7 +204,10 @@ errno_t sys_modnod(const char* pathname, uid_t uid, gid_t gid, mode_t mode)
       }
    }
    if (!(st.st_gid == gid)) {
-      if (!is_capable(CAP_CHOWN)) {
+      if (!is_owner_or_capable(CAP_CHOWN, st)) {
+         return EPERM;
+      }
+      if (!security->in_group(gid)) {
          return EPERM;
       }
       if (!is_capable(CAP_FSETID)) {
