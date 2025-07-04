@@ -1,4 +1,5 @@
 #include <string.h>
+#include <ctype.h>
 
 char* digits = "0123456789abcdef";
 
@@ -16,7 +17,7 @@ short c2i(char digit)
 {
    short i;
    for (i = 0; i < 16; i++)
-      if (digits[i] == digit) {
+      if (digits[i] == (char)tolower(digit)) {
          return i;
       }
    return 0;
