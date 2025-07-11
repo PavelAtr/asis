@@ -1,0 +1,3 @@
+#git=https://github.com/xkbcommon/libxkbcommon.git
+version=3
+http://xkbcommon.org/download/libxkbcommon-(.*)\.tar\.xz
