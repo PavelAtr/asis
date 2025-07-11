@@ -12,7 +12,10 @@
 
 DIR *opendir(const char *dirname)
 {
-   char* name = strdup(dirname);
+   char temp[PATHMAX];
+   char* pwd = get_current_dir_name();
+   char* name = strdup(fullpath(temp, pwd, dirname));
+   free(pwd);
    struct stat st;
    if (stat(name, &st)) {
       errno = ENOENT;

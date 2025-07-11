@@ -2,13 +2,13 @@
 #define _UNISTD_H
 #include <sys/types.h>
 
-#define PATHMAX 256
+#define PATHMAX 4096
 
 int usleep(unsigned long usec);
 #define switchtask usleep(1)
-int execve(const char* file, char** iargv,  char** envp);
-int execv(const char *pathname, char** iargv);
-int execvp(const char *file, char** iargv);
+int execve(const char* file, char * const* iargv,  char * const* envp);
+int execv(const char *pathname, char * const* iargv);
+int execvp(const char *file, char * const* iargv);
 int execlp(const char *file, const char *arg, ... /*, (char *) NULL */);
 int execl(const char *pathname, const char *arg, ... /*, (char *) NULL */);
 int chdir(const char *path);
@@ -120,5 +120,7 @@ size_t confstr(int name, char* buf, size_t size);
 
 #define getsid(pid) pid
 #define issetugid() 0
+
+char* fullpath(char* ret, const char* dir, const char* path);
 
 #endif

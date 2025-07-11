@@ -30,6 +30,18 @@ void initfile(FILE* src)
        src->pos = 0;
        src->size = 0;
    }
+   if (src->type == F_SOCKET) {
+      ((asocket*)src)->bound = 0;
+      ((asocket*)src)->connected = 0;
+      ((asocket*)src)->listening = 0;
+      ((asocket*)src)->peer = NULL;
+      ((asocket*)src)->sbuf = calloc(1, sizeof(socketbuf));
+      ((asocket*)src)->sbuf->refcount = 1;
+      ((asocket*)src)->sbuf->buflen = 0;
+      ((asocket*)src)->backlog = UNIX_LISTEN_BACKLOG;
+      ((asocket*)src)->pending = (void**)malloc(sizeof(void*) * UNIX_LISTEN_BACKLOG);
+      ((asocket*)src)->num_pending = 0;
+   }
 }
 
 void copyfile(FILE** dst, FILE* src)
@@ -67,6 +79,7 @@ void copyfile(FILE** dst, FILE* src)
          ((asocket*)*dst)->pending = (void**)malloc(sizeof(void*) * UNIX_LISTEN_BACKLOG);
          memcpy(((asocket*)*dst)->pending,
             ((asocket*)src)->pending, sizeof(void*) * UNIX_LISTEN_BACKLOG);
+         ((asocket*)*dst)->sbuf->refcount++;
          break;
       case F_EVENTFD:
          *dst = calloc(1, sizeof(aeventfd));
@@ -129,6 +142,10 @@ void freefile(FILE* dst)
       case F_SOCKET:
          if (((asocket*)dst)->pending) {
             free(((asocket*)dst)->pending);
+         }
+         ((asocket*)dst)->sbuf->refcount--;
+         if (((asocket*)dst)->sbuf && ((asocket*)dst)->sbuf->refcount <= 0) {
+            free(((asocket*)dst)->sbuf); // Free the socket buffer
          }
          break;
       case F_EVENTFD:
@@ -215,17 +232,13 @@ FILE** cloexecfds(FILE** fds)
 
 char* fullpath(char* ret, const char* dir, const char* path)
 {
-   printf("fullpath dir=%s path=%s\n", dir, path);
    if (!dir || !path) {
       return NULL;
    }
    if (path[0] == '/') {
-      if (strstr(path, "/dev/") == path) {
-         strcpy(ret, path);
-         ret[strlen(path)] = '\0';
-         goto end;
-      }
-      path++; // Skip the leading slash
+     strcpy(ret, path);
+     ret[strlen(path)] = '\0';
+     goto end;
    }
    size_t cwdlen = strlen(dir);
    size_t pathlen = strlen(path);
@@ -234,8 +247,9 @@ char* fullpath(char* ret, const char* dir, const char* path)
       ret[cwdlen] = '\0';
       goto end;
    }
-	   strcpy(ret + cwdlen, path);
-      ret[cwdlen + pathlen] = '\0';
+   strcpy(ret + cwdlen, path);
+   ret[cwdlen + pathlen] = '\0';
 end:
+   printf("fullpath=%s dir=%s path=%s\n", ret, dir, path);
    return ret;
 }

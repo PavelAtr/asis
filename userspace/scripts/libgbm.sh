@@ -6,7 +6,7 @@ CWD=$(pwd)
 
 export SYSROOT="--sysroot=${DESTDIR}"
 export CFLAGS="${CFLAGS} ${SYSROOT} -I${DESTDIR}${PREFIX}/usr/include/libdrm -I${DESTDIR}${PREFIX}/usr/include/libkms -I../wayland-kms/src "
-export LDFLAGS="${LDFLAGS} ${SYSROOT} -L${DESTDIR}${PREFIX}/lib -ldl"
+export LDFLAGS="${LDFLAGS} ${SYSROOT} -L${DESTDIR}${PREFIX}/lib -ldl -lkms -ldrm -lwayland-kms"
 
 echo "Building libgbm ..."
 

@@ -385,4 +385,6 @@ ssize_t sendmsg(int sockfd, const struct msghdr *msg, int flags);
 struct cmsghdr *__cmsg_nxthdr (struct msghdr *__mhdr,
                                       struct cmsghdr *__cmsg);
 
+int socketpair(int domain, int type, int protocol, int sv[2]);
+
 #endif

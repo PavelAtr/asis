@@ -27,7 +27,10 @@ FILE* fopen(const char* path, const char* mode)
       ret->type = F_FILE;
    }
    initfile(ret);
-   ret->file = strdup(path);
+   char temp[PATHMAX];
+   char* pwd = get_current_dir_name();
+   ret->file = strdup(fullpath(temp, pwd, path));
+   free(pwd);
    ret->size = st.st_size;
    ret->mode = mode;
    if (st.st_mode & S_IFCHR) {

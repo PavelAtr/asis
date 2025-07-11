@@ -7,3 +7,7 @@ locale_t newlocale(int category_mask, const char *locale,
 {
    return base;
 }
+
+void freelocale(locale_t locobj)
+{
+}

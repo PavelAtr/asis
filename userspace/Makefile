@@ -8,6 +8,7 @@ all:
 	make -C athreads install_headers
 	make -C amath install_headers
 	make -C alibglob install_headers
+	cd $(DESTDIR); ln -s usr/include include || true
 
 ifeq ($(CONFIG_ALIBC), y)
 	make -C alibc
@@ -70,16 +71,17 @@ endif
 ifeq ($(CONFIG_LIBDRM), y)
 	cd scripts; ./libdrm.sh
 endif
-	mv $(DESTDIR)$(PREFIX)/include/* $(DESTDIR)$(PREFIX)/usr/include/ || true
-	rm -rf $(DESTDIR)$(PREFIX)/include/ || true
+ifeq ($(CONFIG_EUDEV), y)
+	cd scripts; ./eudev.sh
+endif
 ifeq ($(CONFIG_LIBKMS), y)
 	cd scripts; ./libkms.sh
 endif
+ifeq ($(CONFIG_WAYLANDKMS), y)
+	cd scripts; ./wayland-kms.sh
+endif
 ifeq ($(CONFIG_LIBGBM), y)
 	cd scripts; ./libgbm.sh
-endif
-ifeq ($(CONFIG_EUDEV), y)
-	cd scripts; ./eudev.sh
 endif
 ifeq ($(CONFIG_MTDEV), y)
 	cd scripts; ./mtdev.sh
@@ -90,8 +92,11 @@ endif
 ifeq ($(CONFIG_LIBINPUT), y)
 	cd scripts; ./libinput.sh
 endif
-ifeq ($(CONFIG_WAYLANDKMS), y)
-	cd scripts; ./wayland-kms.sh
+ifeq ($(CONFIG_LIBXKBCOMMON), y)
+	cd scripts; ./libxkbcommon.sh
+endif
+ifeq ($(CONFIG_PIXMAN), y)
+	cd scripts; ./pixman.sh
 endif
 ifeq ($(CONFIG_WLROOTS), y)
 	cd scripts; ./wlroots.sh

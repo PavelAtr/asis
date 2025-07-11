@@ -7,8 +7,8 @@
 #define pipe_can_write(idx) (((apipe*)afds[idx])->pbuf->writepos < MAXPIPE || afds[idx]->type & F_NAMEDMEM)
 
 #define is_socket(idx) (afds[idx]->type == F_SOCKET)
-#define socket_has_data(idx) (((asocket*)afds[idx])->buflen > 0)
-#define socket_can_write(idx) (((asocket*)afds[idx])->buflen < sizeof(((asocket*)afds[idx])->buf))
+#define socket_has_data(idx) (((asocket*)afds[idx])->sbuf->buflen > 0)
+#define socket_can_write(idx) (((asocket*)afds[idx])->sbuf->buflen < sizeof(((asocket*)afds[idx])->sbuf->buf))
 
 
 

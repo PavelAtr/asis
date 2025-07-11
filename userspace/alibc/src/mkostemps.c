@@ -3,10 +3,11 @@
 #include <string.h>
 #include <stdlib.h>
 #include <sys/stat.h>
+#include <alloca.h>
 
 int mkostemps(char *template, int suffixlen, int flags)
 {
-   char* temp = malloc(strlen(template) + 8);
+   char* temp = alloca(strlen(template) + 8);
    char* suffix = &template[strlen(template) - suffixlen];
    int i;
    struct stat st;
@@ -20,7 +21,6 @@ int mkostemps(char *template, int suffixlen, int flags)
          break;
       }
    }
-   free(temp);
    return fd;
 }
 

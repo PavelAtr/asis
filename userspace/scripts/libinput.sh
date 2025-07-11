@@ -6,9 +6,11 @@ cd ../libinput-1.22.1
 CWD=$(pwd)
 
 
-export CFLAGS="${CFLAGS} ${SYSROOT} -D__BITS_PER_LONG=64"
-export LDFLAGS="${LDFLAGS} ${SYSROOT} -lpwd"
-export PKG_CONFIG_LIBDIR="/asis/lib/pkgconfig/"
+export CXX="c++-asis"
+export CFLAGS="${CFLAGS} -I${DESTDIR}${PREFIX}/usr/include_compat -Wno-unused-parameter -D__BITS_PER_LONG=64 -DUINT_MAX=4294967295U -Wno-error"
+export CXXFLAGS=${CFLAGS}
+export LDFLAGS="${LDFLAGS} ${SYSROOT} -L${DESTDIR}${PREFIX}/lib -lpwd -lam -lac -nostdlib"
+export PKG_CONFIG_LIBDIR="${DESTDIR}${PREFIX}/lib/pkgconfig/"
 
 echo "Building libinput ... "
 

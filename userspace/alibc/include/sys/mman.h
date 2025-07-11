@@ -30,5 +30,7 @@ int msync(void* addr, size_t length, int flags);
 #define MS_SYNC 0x02
 #define MS_INVALIDATE 0x04
 
+int shm_open(const char *name, int oflag, mode_t mode);
+int shm_unlink(const char *name);
 
 #endif

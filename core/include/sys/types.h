@@ -50,8 +50,15 @@ typedef int errno_t;
 
 typedef unsigned char bool_t;
 typedef unsigned int u_int32_t;
+
+#ifndef __cplusplus
 typedef short  char16_t;
+#endif
+
+#ifndef __cplusplus
 typedef int  char32_t;
+#endif
+
 typedef unsigned int __u32;
 typedef unsigned short __u16;
 typedef unsigned char __u8;
@@ -61,9 +68,5 @@ typedef char __s8;
 typedef long64_t __s64;
 typedef ulong64_t __u64;
 typedef size_t __kernel_size_t;
-
-
-#undef SIZE_MAX
-#define SIZE_MAX (size_t)-1
 
 #endif

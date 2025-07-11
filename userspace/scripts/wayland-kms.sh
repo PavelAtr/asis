@@ -2,10 +2,10 @@
 set -e
 
 
-cd ../wlroots
+cd ../wayland-kms
 CWD=$(pwd)
 
-export CFLAGS="${CFLAGS} ${SYSROOT}"
+export CFLAGS="${CFLAGS} ${SYSROOT} -I${DESTDIR}${PREFIX}/usr/include/libdrm"
 export LDFLAGS="${LDFLAGS} ${SYSROOT}"
 export PKG_CONFIG_LIBDIR="${DESTDIR}${PREFIX}/lib/pkgconfig/"
 

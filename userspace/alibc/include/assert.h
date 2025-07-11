@@ -4,6 +4,6 @@
 void aassert(int e);
 
 #define assert(e) aassert((int)(e))
-#define static_assert(e, msg) aassert((int)(e))
+#define static_assert(e, msg)
 
 #endif

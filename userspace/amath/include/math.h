@@ -64,16 +64,38 @@ double atan2(double y, double x);
 #define atan2f (float) atan2((double) y, (double) x)
 #define atan2l (long double) atan2((double) y, (double) x)
 
+double log2(double x);
+#define log2f(x) log2((double) x);
+#define log2l(x) log2((double) x);
+
+double exp(double x);
+float expf(float x);
+long double expl(long double x);
+
+double fmin(double x, double y);
+float fminf(float x, float y);
+long double fminl(long double x, long double y);
+
+double fmax(double x, double y);
+float fmaxf(float x, float y);
+long double fmaxl(long double x, long double y);
+
+double copysign(double x, double y);
+float copysignf(float x, float y);
+long double copysignl(long double x, long double y);
+
+
+
 double log10(double x);
 double floor(double x);
 double ceil(double x);
 
 int isnan(double x);
-int signbit(x);
-int fpclassify(x);
-int isfinite(x);
-int isnormal(x);
-int isinf(x);
+int signbit(double x);
+int fpclassify(double x);
+int isfinite(double x);
+int isnormal(double x);
+int isinf(double x);
 
 
 #endif

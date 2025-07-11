@@ -13,6 +13,8 @@ clean:
 	
 install:
 	mkdir -p $(DESTDIR)$(PREFIX)/lib
+	install build/libam.so $(DESTDIR)$(PREFIX)/lib/libm.so
+	install build/libam.a $(DESTDIR)$(PREFIX)/lib/libm.a
 	install build/libam.so $(DESTDIR)$(PREFIX)/lib/libam.so
 	install build/libam.a $(DESTDIR)$(PREFIX)/lib/libam.a
 	cp src/libm.pc $(DESTDIR)$(PREFIX)/lib/pkgconfig/

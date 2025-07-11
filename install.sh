@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 ROOT=qemu/root
 
 umask 000
@@ -8,7 +10,7 @@ CWD=`pwd`
 
 mkdir -p $ROOT/dev
 mkdir -p $ROOT/etc
-install build/asis.uefi $ROOT/asis.uefi
+install build/asis.efi $ROOT/asis.efi
 
 #cp -ar ./root/* $ROOT/
 

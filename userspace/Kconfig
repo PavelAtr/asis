@@ -106,11 +106,24 @@ config LIBDRM
       help
         libdrm package.
 
+config EUDEV
+      bool "eudev"
+      default y
+      help
+        eudev library.
+
 config LIBKMS
       bool "libkms"
       default y
       help
         libkms package.
+
+config WAYLANDKMS
+      bool "wayland-kms"
+      default y
+      help
+        wayland-kms package.
+
 
 config LIBGBM
       bool "libgbm"
@@ -118,11 +131,6 @@ config LIBGBM
       help
         libgbm package.
 
-config EUDEV
-      bool "eudev"
-      default y
-      help
-        eudev library.
 
 config MTDEV
       bool "mtdev"
@@ -142,11 +150,18 @@ config LIBINPUT
       help
         libinput library.
 
-config WAYLANDKMS
-      bool "wayland-kms"
+config LIBXKBCOMMON
+      bool "libxkbcommon"
       default y
       help
-        wayland-kms package.
+        libxkbcommon library.
+
+config PIXMAN
+      bool "pixman"
+      default y
+      help
+        pixman package.
+
 
 config WLROOTS
       bool "wlroots"

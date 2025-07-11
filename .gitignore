@@ -12,5 +12,9 @@ userspace/testapp/build/
 posix-uefi/
 userspace/dash-0.5.12/
 userspace/libevdev-1.13.0+dfsg/
+userspace/xz-utils-5.4.1/
+userspace/zlib-1.2.13.dfsg/
+userspace/libxml2-2.9.14+dfsg/
+userspace/libffi-3.4.4/
 root/
 meta

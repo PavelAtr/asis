@@ -37,6 +37,7 @@ int fcntl(int fd, int cmd, ... /* arg */ );
 #define F_SEAL_SHRINK 8
 #define F_SEAL_SEAL 9
 #define F_GET_SEALS 10
+#define F_DUPFD_CLOEXEC 11
 
 #define FD_CLOEXEC 1
 

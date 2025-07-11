@@ -11,7 +11,7 @@ void free(void *ptr);
 
 void printenv(void);
 char *getenv(const char *name);
-#define secure_getenv(name) getenv(name)
+char *secure_getenv(const char *name);
 int setenv(const char *name, const char *value, int overwrite);
 int unsetenv(const char *name);
 
@@ -24,6 +24,7 @@ long atol(const char *str);
 int atoi(const char *str);
 
 #define Exit(s) _exit(s)
+#define _Exit(s) _exit(s)
 #define exit(s) _exit(s)
 
 double strtod(const char* nptr, char** endptr);
@@ -32,10 +33,10 @@ double strtod(const char* nptr, char** endptr);
 #define EXIT_SUCCESS    0       /* Successful exit status.  */
 void *calloc(size_t nmemb, size_t size);
 
-int mkostemps(char *template, int suffixlen, int flags);
-int mkstemp(char *template);
-int mkostemp(char *template, int flags);
-int mkstemps(char *template, int suffixlen);
+int mkostemps(char *templ, int suffixlen, int flags);
+int mkstemp(char *templ);
+int mkostemp(char *templ, int flags);
+int mkstemps(char *templ, int suffixlen);
 
 void abort(void);
 
@@ -97,5 +98,7 @@ char *realpath(const char *path,
 
 #define srand(seed) srandom(seed)
 #define rand() random()
+char *mkdtemp(char *templ);
+#define RAND_MAX        2147483647
 
 #endif

@@ -31,9 +31,14 @@ int fcntl(int fd, int cmd, ... /* arg */ )
          /* NOT REALIZED */
          return 0;
       case F_DUPFD:
+      case F_DUPFD_CLOEXEC:
          int newfd = va_arg(vl, int);
          va_end(vl);
-         return dup2(fd, newfd);
+         int ret = dup2(fd, newfd);
+         if (cmd == F_DUPFD_CLOEXEC && ret != -1) {
+            afds[ret]->flags |= FD_CLOEXEC;
+         }
+         return ret;
       default:
          break;
    }

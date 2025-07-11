@@ -11,6 +11,10 @@
 #include <stdint.h>
 #include <time.h>
 
+#define SEEK_SET 0
+#define SEEK_CUR 1
+#define SEEK_END 2
+
 #define MAXPIPE 512
 
 typedef struct {
@@ -77,6 +81,14 @@ typedef struct {
    } amemfile;
 
 #define UNIX_LISTEN_BACKLOG 8
+#define MAX_PACKET_SIZE 8192
+
+typedef struct {
+   size_t buflen;
+   unsigned short refcount;
+   char buf[MAX_PACKET_SIZE + 8];
+} socketbuf;
+
 typedef struct {
    FD_ESSENTIAL
    SOCKET_ESSENTIAL
@@ -85,8 +97,7 @@ typedef struct {
    char connected;
    char listening;
    void* peer;
-   char buf[4096];
-   size_t buflen;
+   socketbuf* sbuf;
    // Для listen/accept:
    int backlog;
    void** pending;
@@ -195,6 +206,7 @@ FILE *open_memstream(char **ptr, size_t *sizeloc);
 
 int asprintf(char ** strp, const char * fmt, ...);
 int vasprintf(char ** strp, const char * fmt, va_list ap);
+FILE *tmpfile(void);
 
 #define FILENAME_MAX 4096
 

@@ -50,4 +50,8 @@ strcat(path, "/"); \
 strcat(path, file); \
 path[strlen(dir) + strlen(file) + 1] = '\0';
 
+int ffsl(long i);
+int ffsll(long long i);
+char *strtok_r(char * str, const char * delim, char ** saveptr);
+
 #endif

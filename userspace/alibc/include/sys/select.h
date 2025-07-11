@@ -4,22 +4,37 @@
 #include <signal.h>
 #include <time.h>
 
-typedef unsigned long fd_mask;
+#ifndef FD_SETSIZE
 #define FD_SETSIZE 1024
-#define NFDBITS (8 * sizeof(fd_mask))
+#endif
+
 typedef struct {
-  fd_mask fds_bits[FD_SETSIZE/NFDBITS];
+    unsigned long fds_bits[(FD_SETSIZE + (8 * sizeof(unsigned long) - 1)) / (8 * sizeof(unsigned long))];
 } fd_set;
+
+typedef unsigned long fd_mask;
 
 int select(int nfds, fd_set *  readfds,
           fd_set *  writefds,
           fd_set *  exceptfds,
           struct timeval *  timeout);
 
-void FD_CLR(int fd, fd_set *set);
-int  FD_ISSET(int fd, fd_set *set);
-void FD_SET(int fd, fd_set *set);
-void FD_ZERO(fd_set *set);
+
+#define FD_ZERO(set) \
+    do { \
+        size_t __i; \
+        for (__i = 0; __i < sizeof(fd_set)/sizeof(unsigned long); ++__i) \
+            (set)->fds_bits[__i] = 0; \
+    } while (0)
+
+#define FD_SET(fd, set) \
+    ((set)->fds_bits[(fd) / (8 * sizeof(unsigned long))] |= (1UL << ((fd) % (8 * sizeof(unsigned long)))))
+
+#define FD_CLR(fd, set) \
+    ((set)->fds_bits[(fd) / (8 * sizeof(unsigned long))] &= ~(1UL << ((fd) % (8 * sizeof(unsigned long)))))
+
+#define FD_ISSET(fd, set) \
+    (((set)->fds_bits[(fd) / (8 * sizeof(unsigned long))] & (1UL << ((fd) % (8 * sizeof(unsigned long))))) != 0)
 
 int pselect(int nfds, fd_set *  readfds,
      fd_set *  writefds,

@@ -6,7 +6,7 @@ CWD=$(pwd)
 
 export SYSROOT="--sysroot=${DESTDIR}"
 export CFLAGS="${CFLAGS} ${SYSROOT} -DPATH_MAX=4096 "
-export LDFLAGS="${LDFLAGS} ${SYSROOT} -L${DESTDIR}${PREFIX}/lib"
+export LDFLAGS="${LDFLAGS} ${SYSROOT} -L${DESTDIR}${PREFIX}/lib -lathread"
 
 echo "Building libffi ... "
 

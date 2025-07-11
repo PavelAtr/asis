@@ -51,6 +51,8 @@ extern epoll_object epoll_objects[MAX_EPOLL_OBJECTS];
 #define EPOLL_CTL_DEL 2
 #define EPOLL_CTL_MOD 3
 
+#define EPOLL_CLOEXEC 0x01
+
 int epoll_create(int size);
 int epoll_create1(int flags);
 int epoll_wait(int epfd, struct epoll_event *events, int maxevents, int timeout);

@@ -1,10 +1,12 @@
 #ifndef _STDDEF_H
 #define _STDDEF_H
 
+#ifndef __cplusplus
 #ifdef UEFI
 typedef unsigned short wchar_t;
 #else
 typedef int wchar_t;
+#endif
 #endif
 
 #define NULL ((void*)0)

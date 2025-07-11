@@ -24,11 +24,9 @@ int socket(int domain, int type, int protocol) {
       afds[fd]->type = F_SOCKET;
       initfile(afds[fd]);
       asocket* socket = (asocket*)afds[fd];
-      initfile(afds[fd]);
       socket->domain = domain;
       socket->socktype = type;
       socket->protocol = protocol;
-      socket->pending = malloc(sizeof(void*) * UNIX_LISTEN_BACKLOG);
       return fd;
     }
     errno = EAFNOSUPPORT;

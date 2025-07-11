@@ -15,3 +15,6 @@ char *getenv(const char *name)
    return (char*)&(environ[i])[strlen(name) + 1];
 }
 
+char *secure_getenv(const char *name) {
+    return getenv(name);
+}
